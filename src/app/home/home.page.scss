@@ -17,16 +17,17 @@
 }
 .button{
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  font-weight: bold;
-  margin: auto;
-  margin-top: 22px;
-  width: 125px;
-  color: black;
-  border: 2px solid;
-  outline: 5px black;
-  box-shadow: 3px 3px 3px 0px rgb(0 0 0 / 75%);
+    flex-direction: column;
+    justify-content: center;
+    font-weight: bold;
+    margin: auto;
+    margin-top: 28px;
+    width: 102px;
+    color: black;
+    border: 2px solid;
+    outline: 5px black;
+    box-shadow: 3px 3px 3px 0px rgb(0 0 0 / 75%);
+
 }
 .hr{
   margin: 0 10px;
@@ -37,8 +38,17 @@
 }
 .image-header{
   margin: 32px 0px;
-  height: 207px;
+  height: 150px;
   width: 100%;
   padding: 0 10px;
+}
+.img-URL{
+  width: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  justify-items: center;
+  margin: 0 auto;
 }
 
