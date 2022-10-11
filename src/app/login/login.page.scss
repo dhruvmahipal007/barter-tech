@@ -30,15 +30,15 @@
     margin: 16px auto;
     color: black;
     text-align: center;
-    font-size: 16px;
+    font-size: 15px;
     max-width: 375px;
     position: relative;
   }
   h3:before {
     content: "";
     display: block;
-    width: 110px;
-    height: 5px;
+    width: 85px;
+    height: 3px;
     background: black;
     left: 0;
     top: 41%;
@@ -47,10 +47,94 @@
   h3:after {
     content: "";
     display: block;
-    width: 110px;
-    height: 5px;
+    width: 85px;
+    height: 3px;
     background: black;
     right: 0;
     top: 41%;
     position: absolute;
+  }
+
+
+  // Piyush's css
+
+  #form{
+    margin: 26px 24px 26px 24px;
+    padding: 12px;
+  }
+
+  #form ion-input{
+    border: 2px solid #000;
+    margin: 0;
+    margin-top: 12px;
+    margin-bottom: 12px;
+    padding-left: 10px !important;
+  }
+
+  #forget {
+    float: right;
+    margin-bottom: 22px;
+  }
+
+  #forget a{
+    color: #000;
+  }
+
+  .button{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-weight: bold;
+    margin: auto;
+    width: 100%;
+    color: black;
+    border: 2px solid;
+    outline: 5px black;
+    box-shadow: 3px 3px 3px 0px rgb(0 0 0 / 75%);
+  }
+
+  #social_btn{
+    display: flex;
+    margin-top: 35px;
+  }
+
+  #social_btn .btn2{
+    flex-direction: column;
+    justify-content: center;
+    font-weight: bold;
+    margin: auto;
+    color: #fff;
+    border: none;
+    outline: none;
+    border-radius: 0;
+    background-color: #3880ff;
+    width: 90%;
+    margin-right: 22px;
+  }
+
+  #social_btn .btn3{
+    flex-direction: column;
+    justify-content: center;
+    font-weight: bold;
+    margin: auto;
+    color: #fff;
+    border: none;
+    outline: none;
+    border-radius: 0;
+    background-color: #eb445a;
+    width: 90%;
+  }
+
+  #create_acc{
+    position: absolute;
+    bottom: 5%;
+    margin: 0 auto;
+    width: 100%;
+    text-align: center;
+    left: 0;
+  }
+
+  #create_acc a{
+    color: #000;
+
   }
