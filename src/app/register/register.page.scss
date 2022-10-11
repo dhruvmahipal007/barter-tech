@@ -1,0 +1,27 @@
+.image-header{
+    margin: auto;
+    display: flex;
+    height: 143px;
+    width: auto;
+    padding: 0 10px;
+    margin-top: 52px;
+    margin-bottom: 10px;
+  }
+  .text-container{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    gap:5px;
+  }
+  .text-container h1{
+    font-size: x-large;
+    margin: 17px;
+    color: black;
+    font-weight: bold;
+  }
+  .text-container p{
+    margin: 0;
+    font-weight: 400;
+    color: black;
+  }
