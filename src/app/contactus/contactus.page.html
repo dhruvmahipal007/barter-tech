@@ -1,13 +1,11 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button>
+      <ion-button id="arrow">
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
-    <ion-title >
-   Contact Us
-    </ion-title>
+    <ion-title> Contact Us </ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -15,19 +13,19 @@
   <form id="form">
     <div>
       <ion-label>FIRST NAME</ion-label>
-        <ion-input placeholder="Enter Input"></ion-input>
+      <ion-input placeholder="Enter Input"></ion-input>
     </div>
     <div>
       <ion-label>LAST NAME</ion-label>
-        <ion-input placeholder="Enter Input"></ion-input>
+      <ion-input placeholder="Enter Input"></ion-input>
     </div>
     <div>
       <ion-label>MOBILE</ion-label>
-        <ion-input placeholder="Enter Input"></ion-input>
+      <ion-input placeholder="Enter Input"></ion-input>
     </div>
     <div>
       <ion-label>EMAIL</ion-label>
-        <ion-input placeholder="Enter Input"></ion-input>
+      <ion-input placeholder="Enter Input"></ion-input>
     </div>
     <div>
       <ion-label>DINING DATE</ion-label>
@@ -38,10 +36,15 @@
       <ion-input placeholder="Enter Input" type="time"></ion-input>
     </div>
     <div>
-      <ion-label position="floating">Description</ion-label>
-      <ion-textarea></ion-textarea>
+      <ion-label position="floating">DESCRIPTION</ion-label>
+      <ion-textarea rows="5"></ion-textarea>
     </div>
-    <hr class="hr">
-    <ion-button class="btn-send" expand="block" color="warning">SEND</ion-button>
-    </form>
+
+    <div id="bottom">
+      <hr class="hr" />
+      <ion-button class="btn-send" expand="block" color="warning"
+        >SEND</ion-button
+      >
+    </div>
+  </form>
 </ion-content>
