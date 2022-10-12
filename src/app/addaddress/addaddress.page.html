@@ -1,0 +1,38 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button id="arrow">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Add Address</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form id="form">
+    <div>
+      <ion-label>Tag</ion-label>
+      <ion-input placeholder="Enter Input"></ion-input>
+    </div>
+    <div>
+      <ion-label position="floating">Address</ion-label>
+      <ion-textarea rows="3"></ion-textarea>
+    </div>
+    <div>
+      <ion-label>Pincode</ion-label>
+      <ion-input type="number"placeholder="Enter Input"></ion-input>
+    </div>
+    <div>
+      <ion-label>Landmark</ion-label>
+      <ion-input placeholder="Enter Input"></ion-input>
+    </div>
+    <div>
+      <ion-label>Mobile</ion-label>
+      <ion-input type="number"placeholder="Enter Input"></ion-input>
+    </div>
+    <div >
+      <ion-button class="btn-add" expand="block" color="white">Add</ion-button>
+    </div>
+    </form>
+</ion-content>

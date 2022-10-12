@@ -1,9 +1,53 @@
-<ion-header>
+<ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>profile</ion-title>
+    <ion-buttons slot="start">
+      <ion-button id="arrow">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title >
+   Profile
+    </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <img src="assets/Stirling-Arms_Logo.png" class="image-header" />
 
+  <form id="form">
+    <div>
+      <ion-label>Name</ion-label>
+        <ion-input placeholder="Enter Input"></ion-input>
+    </div>
+    <div>
+      <ion-label>Email</ion-label>
+        <ion-input placeholder="Enter Input"></ion-input>
+    </div>
+    <div>
+      <ion-label>Mobile</ion-label>
+        <ion-input placeholder="Enter Input"></ion-input>
+    </div>
+    <div>
+      <ion-label>Gender</ion-label>
+      <ion-list>
+        <ion-item >
+          <ion-select interface="popover" placeholder="Male">
+            <ion-select-option value="male">Male</ion-select-option>
+            <ion-select-option value="female">Female</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+    </div>
+    <div>
+      <ion-label>Date of Birth</ion-label>
+      <ion-input placeholder="Enter Input" type="date"></ion-input>
+    </div>
+    <div>
+      <ion-label>Anniversary</ion-label>
+      <ion-input placeholder="Enter Input" type="date"></ion-input>
+    </div>
+    <div >
+      <ion-button class="btn-save" expand="block" color="white">SAVE</ion-button>
+    </div>
+    </form>
 </ion-content>

@@ -39,6 +39,14 @@ const routes: Routes = [
     path: 'profile',
     loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
   },
+  {
+    path: 'addaddress',
+    loadChildren: () => import('./addaddress/addaddress.module').then( m => m.AddaddressPageModule)
+  },
+  {
+    path: 'reservation',
+    loadChildren: () => import('./reservation/reservation.module').then( m => m.ReservationPageModule)
+  },
 ];
 
 @NgModule({
