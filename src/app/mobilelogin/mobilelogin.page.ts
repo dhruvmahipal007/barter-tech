@@ -12,4 +12,5 @@ export class MobileloginPage implements OnInit {
   ngOnInit() {
   }
 
+
 }

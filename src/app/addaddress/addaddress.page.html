@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button id="arrow">
+      <ion-button routerLink="/manageaddress" id="arrow">
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -12,10 +12,9 @@
 <ion-content>
   <form id="form">
     <div>
-      <ion-label>new</ion-label>
+      <ion-label id="tag">Tag</ion-label>
       <ion-item>
-        <div class="select-icon" role="presentation" part="icon"><div class="select-icon-inner"></div></div>
-      <ion-label>Tag</ion-label>
+
       <ion-select interface='actionsheet' id='test'>
         <ion-select-option value='accept'>Home</ion-select-option>
         <ion-select-option value='decline'>Office</ion-select-option>

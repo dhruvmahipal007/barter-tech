@@ -12,11 +12,7 @@
   <form id="form">
     <div>
       <ion-label>Mobile</ion-label>
-      <ion-input
-        type="number"
-        placeholder="Enter Number"
-        max-length="10"
-      ></ion-input>
+      <ion-input type="number" placeholder="Enter Number" required></ion-input>
     </div>
     <div>
       <ion-button class="button" expand="block" color="white"
@@ -25,7 +21,7 @@
     </div>
 
     <div id="create_acc">
-      <a>CREATE NEW ACCOUNT </a>
+      <a routerLink="/register">CREATE NEW ACCOUNT </a>
     </div>
   </form>
 </ion-content>

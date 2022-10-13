@@ -47,6 +47,22 @@ const routes: Routes = [
     path: 'reservation',
     loadChildren: () => import('./reservation/reservation.module').then( m => m.ReservationPageModule)
   },
+  {
+    path: 'payment',
+    loadChildren: () => import('./payment/payment.module').then( m => m.PaymentPageModule)
+  },
+  {
+    path: 'manageaddress',
+    loadChildren: () => import('./manageaddress/manageaddress.module').then( m => m.ManageaddressPageModule)
+  },  {
+    path: 'orders',
+    loadChildren: () => import('./orders/orders.module').then( m => m.OrdersPageModule)
+  },
+  {
+    path: 'applyvoucher',
+    loadChildren: () => import('./applyvoucher/applyvoucher.module').then( m => m.ApplyvoucherPageModule)
+  },
+
 ];
 
 @NgModule({
