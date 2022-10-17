@@ -12,15 +12,15 @@
 <ion-content>
   <form id="form">
     <div>
-      <ion-label id="tag">Tag</ion-label>
-      <ion-item>
-
-      <ion-select interface='actionsheet' id='test'>
-        <ion-select-option value='accept'>Home</ion-select-option>
-        <ion-select-option value='decline'>Office</ion-select-option>
-        <ion-select-option value='notSure'>Others</ion-select-option>
-      </ion-select>
-    </ion-item>
+      <ion-label>Tag</ion-label>
+      <ion-list class="tag">
+        <ion-item >
+          <ion-select interface="popover" placeholder="Home">
+            <ion-select-option value="home">Home</ion-select-option>
+            <ion-select-option value="office">Office</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
     </div>
     <div>
       <ion-label position="floating">Address</ion-label>
