@@ -5,9 +5,9 @@ import { SearchPage } from './search.page';
 
 const routes: Routes = [
   {
-    path: 'maindelivery/search',
-    component: SearchPage
-  }
+    path: '',
+    component: SearchPage,
+  },
 ];
 
 @NgModule({

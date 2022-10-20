@@ -1,66 +1,65 @@
-.top_tab{
+.top_tab {
   padding: 0;
   margin: 15px;
   height: 38px;
   box-shadow: 3px 3px 3px 0px rgb(0 0 0 / 75%);
 }
-.one{
+.one {
   background-color: #fff;
   border: 1px solid #000;
   color: #000;
 }
-.one:active{
+.one:active {
   background-color: skyblue;
 }
 
-
-ion-slides{
+ion-slides {
   margin-top: 100px;
 }
-ion-slide{
+ion-slide {
   width: 31% !important;
   margin-right: 10px !important;
 }
-.delivery{
+.delivery {
   background-color: skyblue;
 }
-#cat{
+#cat {
   background-color: #fff;
   text-align: left;
   font-size: 20px;
 }
-ion-toolbar{
+ion-toolbar {
   background-color: #fff;
 }
-.category{
+.category {
   padding: 12px;
 }
-#cat2{
+#cat2 {
   position: absolute;
   // top: 40%;
 }
-#child_cat2{
+#child_cat2 {
   margin: 12px;
   box-shadow: none;
   height: 80px;
   border-bottom: none !important;
 }
-#child_cat2 ion-tab-button{
+#child_cat2 ion-tab-button {
   border: none;
   background-color: #fff;
 }
-#child_cat2 ion-tab-button ion-label{
+#child_cat2 ion-tab-button ion-label {
   font-size: 11px;
 }
-#child_cat2 .box{
+#child_cat2 .box {
   width: 62px;
   height: 62px;
 }
-#child_cat2 .box img{
+#child_cat2 .box img {
   width: 100%;
   height: 90%;
 }
-ion-segment{
+ion-segment {
   height: 80px;
   border-radius: 0;
   background-color: #fff;
@@ -69,28 +68,32 @@ ion-segment{
   padding: 0 5px;
   justify-content: flex-start;
 }
-ion-segment-button{
+ion-segment-button {
   font-size: 11px;
   margin: 0;
 }
-#cat2 .tabs-inner{
+#cat2 .tabs-inner {
   max-height: 300px !important;
 }
-.animate__fast h5{
+.animate__fast h5 {
   margin: 18px;
   font-weight: 600;
 }
-ion-card-content{
+ion-card-content {
   display: flex;
   align-items: center;
   position: relative;
 }
-ion-card-content img{
+ion-card-content img {
   width: 22%;
   position: absolute;
   right: 4%;
   top: 22%;
 }
-.two{
+.two {
   padding: 6px;
+}
+.new {
+  height: 300px;
+  overflow-y: scroll;
 }

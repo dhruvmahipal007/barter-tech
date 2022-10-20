@@ -4,111 +4,190 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
+    loadChildren: () =>
+      import('./home/home.module').then((m) => m.HomePageModule),
   },
   {
     path: '',
     redirectTo: 'home',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'login',
-    loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
+    loadChildren: () =>
+      import('./login/login.module').then((m) => m.LoginPageModule),
   },
   {
     path: 'register',
-    loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
+    loadChildren: () =>
+      import('./register/register.module').then((m) => m.RegisterPageModule),
   },
   {
     path: 'forgetpassword',
-    loadChildren: () => import('./forgetpassword/forgetpassword.module').then( m => m.ForgetpasswordPageModule)
+    loadChildren: () =>
+      import('./forgetpassword/forgetpassword.module').then(
+        (m) => m.ForgetpasswordPageModule
+      ),
   },
   {
     path: 'mobilelogin',
-    loadChildren: () => import('./mobilelogin/mobilelogin.module').then( m => m.MobileloginPageModule)
+    loadChildren: () =>
+      import('./mobilelogin/mobilelogin.module').then(
+        (m) => m.MobileloginPageModule
+      ),
   },
   {
     path: 'mobileloginverify',
-    loadChildren: () => import('./mobileloginverify/mobileloginverify.module').then( m => m.MobileloginverifyPageModule)
+    loadChildren: () =>
+      import('./mobileloginverify/mobileloginverify.module').then(
+        (m) => m.MobileloginverifyPageModule
+      ),
   },
   {
     path: 'contactus',
-    loadChildren: () => import('./contactus/contactus.module').then( m => m.ContactusPageModule)
+    loadChildren: () =>
+      import('./contactus/contactus.module').then((m) => m.ContactusPageModule),
   },
   {
     path: 'profile',
-    loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule)
+    loadChildren: () =>
+      import('./profile/profile.module').then((m) => m.ProfilePageModule),
   },
   {
     path: 'addaddress',
-    loadChildren: () => import('./addaddress/addaddress.module').then( m => m.AddaddressPageModule)
-  },
-  {
-    path: 'reservation',
-    loadChildren: () => import('./maindelivery/tabs/reservation/reservation.module').then( m => m.ReservationPageModule)
+    loadChildren: () =>
+      import('./addaddress/addaddress.module').then(
+        (m) => m.AddaddressPageModule
+      ),
   },
   {
     path: 'delivery',
-    loadChildren: () => import('./maindelivery/tabs/delivery/delivery.module').then( m => m.DeliveryPageModule)
+    loadChildren: () =>
+      import('./maindelivery/tabs/delivery/delivery.module').then(
+        (m) => m.DeliveryPageModule
+      ),
   },
   {
     path: 'takeaway',
-    loadChildren: () => import('./maindelivery/tabs/takeaway/takeaway.module').then( m => m.TakeawayPageModule)
+    loadChildren: () =>
+      import('./maindelivery/tabs/takeaway/takeaway.module').then(
+        (m) => m.TakeawayPageModule
+      ),
   },
   {
     path: 'dinein',
-    loadChildren: () => import('./maindelivery/tabs/dinein/dinein.module').then( m => m.DineinPageModule)
+    loadChildren: () =>
+      import('./maindelivery/tabs/dinein/dinein.module').then(
+        (m) => m.DineinPageModule
+      ),
   },
   {
     path: 'payment',
-    loadChildren: () => import('./payment/payment.module').then( m => m.PaymentPageModule)
+    loadChildren: () =>
+      import('./payment/payment.module').then((m) => m.PaymentPageModule),
   },
   {
     path: 'manageaddress',
-    loadChildren: () => import('./manageaddress/manageaddress.module').then( m => m.ManageaddressPageModule)
+    loadChildren: () =>
+      import('./manageaddress/manageaddress.module').then(
+        (m) => m.ManageaddressPageModule
+      ),
   },
   {
     path: 'orders',
-    loadChildren: () => import('./orders/orders.module').then( m => m.OrdersPageModule)
+    loadChildren: () =>
+      import('./orders/orders.module').then((m) => m.OrdersPageModule),
   },
   {
     path: 'applyvoucher',
-    loadChildren: () => import('./applyvoucher/applyvoucher.module').then( m => m.ApplyvoucherPageModule)
+    loadChildren: () =>
+      import('./applyvoucher/applyvoucher.module').then(
+        (m) => m.ApplyvoucherPageModule
+      ),
   },
   {
     path: 'maindelivery',
-    loadChildren: () => import('./maindelivery/maindelivery.module').then( m => m.MaindeliveryPageModule)
+    loadChildren: () =>
+      import('./maindelivery/maindelivery.module').then(
+        (m) => m.MaindeliveryPageModule
+      ),
   },
   {
     path: 'salad',
-    loadChildren: () => import('./maindelivery/category/salad/salad.module').then( m =>  m.SaladPageModule)
+    loadChildren: () =>
+      import('./maindelivery/category/salad/salad.module').then(
+        (m) => m.SaladPageModule
+      ),
   },
   {
     path: 'category/side',
-    loadChildren: () => import('./maindelivery/category/side/side.module').then(m => m.SidePageModule)
+    loadChildren: () =>
+      import('./maindelivery/category/side/side.module').then(
+        (m) => m.SidePageModule
+      ),
   },
   {
     path: 'category/pizza',
-    loadChildren: () => import('./maindelivery/category/pizza/pizza.module').then(m => m.PizzaPageModule)
+    loadChildren: () =>
+      import('./maindelivery/category/pizza/pizza.module').then(
+        (m) => m.PizzaPageModule
+      ),
   },
   {
     path: 'category/burger',
-    loadChildren: () => import('./maindelivery/category/burger/burger.module').then(m => m.BurgerPageModule)
+    loadChildren: () =>
+      import('./maindelivery/category/burger/burger.module').then(
+        (m) => m.BurgerPageModule
+      ),
   },
   {
     path: 'category/dimatina',
-    loadChildren: () => import('./maindelivery/category/dimatina/dimatina.module').then(m => m.DimatinaPageModule)
+    loadChildren: () =>
+      import('./maindelivery/category/dimatina/dimatina.module').then(
+        (m) => m.DimatinaPageModule
+      ),
   },
   {
     path: 'category/dessert',
-    loadChildren: () => import('./maindelivery/category/dessert/dessert.module').then(m => m.DessertPageModule)
+    loadChildren: () =>
+      import('./maindelivery/category/dessert/dessert.module').then(
+        (m) => m.DessertPageModule
+      ),
+  },
+  {
+    path: 'orders',
+    loadChildren: () =>
+      import('./orders/orders.module').then((m) => m.OrdersPageModule),
+  },
+  {
+    path: 'applyvoucher',
+    loadChildren: () =>
+      import('./applyvoucher/applyvoucher.module').then(
+        (m) => m.ApplyvoucherPageModule
+      ),
+  },
+  {
+    path: 'account',
+    loadChildren: () =>
+      import('./account/account.module').then((m) => m.AccountPageModule),
+  },
+
+  {
+    path: 'cart',
+    loadChildren: () =>
+      import('./cart/cart.module').then((m) => m.CartPageModule),
+  },
+  {
+    path: 'aboutus',
+    loadChildren: () =>
+      import('./aboutus/aboutus.module').then((m) => m.AboutusPageModule),
   },
 ];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules })
+    RouterModule.forRoot(routes, { preloadingStrategy: PreloadAllModules }),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

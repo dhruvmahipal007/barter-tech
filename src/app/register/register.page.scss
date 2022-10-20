@@ -27,7 +27,7 @@
   }
 
 
-   // Piyush's css --------------------------------//@at-root
+  
 
    #form{
     margin: 26px 24px 26px 24px;
@@ -67,4 +67,9 @@
 
   #arrow ion-icon{
     color: #000;
+  }
+  ion-title{
+    text-align: left !important;
+    margin-left: -20px;
+    font-weight: bold;
   }

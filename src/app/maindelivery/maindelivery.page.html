@@ -1,19 +1,19 @@
 <ion-content>
   <ion-tabs>
     <ion-tab-bar slot="top" class="top_tab">
-      <ion-tab-button routerLink="/delivery" tab="delivery" class="delivery one">
+      <ion-tab-button tab="delivery" class="delivery one">
         <ion-label>Delivery</ion-label>
       </ion-tab-button>
 
-      <ion-tab-button routerLink="/takeaway" tab="takeaway" class="one">
+      <ion-tab-button tab="takeaway" class="one">
         <ion-label>TakeAway</ion-label>
       </ion-tab-button>
 
-      <ion-tab-button routerLink="/dinein" tab="dinein" class="one">
+      <ion-tab-button tab="dinein" class="one">
         <ion-label>Dinein</ion-label>
       </ion-tab-button>
 
-      <ion-tab-button routerLink="/reservation" tab="reservation" class="one">
+      <ion-tab-button tab="reservation" class="one">
         <ion-label>Reservation</ion-label>
       </ion-tab-button>
     </ion-tab-bar>
@@ -22,27 +22,27 @@
   <ion-slides [options]="slideOps">
     <ion-slide>
       <div class="box">
-        <img src="assets/img/burger2\.jpeg" alt="" />
+        <img src="assets/img/burger2.jpeg" alt="" />
       </div>
     </ion-slide>
     <ion-slide>
       <div class="box">
-        <img src="assets/img/burger2\.jpeg" alt="" />
+        <img src="assets/img/burger2.jpeg" alt="" />
       </div>
     </ion-slide>
     <ion-slide>
       <div class="box">
-        <img src="assets/img/burger2\.jpeg" alt="" />
+        <img src="assets/img/burger2.jpeg" alt="" />
       </div>
     </ion-slide>
     <ion-slide>
       <div class="box">
-        <img src="assets/img/burger2\.jpeg" alt="" />
+        <img src="assets/img/burger2.jpeg" alt="" />
       </div>
     </ion-slide>
     <ion-slide>
       <div class="box">
-        <img src="assets/img/burger2\.jpeg" alt="" />
+        <img src="assets/img/burger2.jpeg" alt="" />
       </div>
     </ion-slide>
   </ion-slides>
@@ -81,7 +81,7 @@
         </ion-segment>
       </div>
       <div
-        class="animate__animated animate__slideInUp animate__fast"
+        class="animate__animated animate__slideInUp animate__fast new"
         *ngIf="segment === 'salad'"
       >
         <h5>Menu</h5>
@@ -100,7 +100,7 @@
       </div>
 
       <div
-        class="animate__animated animate__slideInUp animate__fast"
+        class="animate__animated animate__slideInUp animate__fast new"
         *ngIf="segment === 'side'"
       >
         <h5>Menu</h5>
@@ -112,7 +112,7 @@
       </div>
 
       <div
-        class="animate__animated animate__slideInUp animate__fast"
+        class="animate__animated animate__slideInUp animate__fast new"
         *ngIf="segment === 'pizza'"
       >
         <h5>Menu</h5>
@@ -124,7 +124,7 @@
       </div>
 
       <div
-        class="animate__animated animate__slideInUp animate__fast"
+        class="animate__animated animate__slideInUp animate__fast new"
         *ngIf="segment === 'burger'"
       >
         <h5>Menu</h5>
@@ -136,7 +136,7 @@
       </div>
 
       <div
-        class="animate__animated animate__slideInUp animate__fast"
+        class="animate__animated animate__slideInUp animate__fast new"
         *ngIf="segment === 'dimatine'"
       >
         <h5>Menu</h5>
@@ -148,7 +148,7 @@
       </div>
 
       <div
-        class="animate__animated animate__slideInUp animate__fast"
+        class="animate__animated animate__slideInUp animate__fast new"
         *ngIf="segment === 'dessert'"
       >
         <ion-card *ngFor="let item of arr; let index = index">
@@ -159,9 +159,8 @@
       </div>
     </ion-content>
   </ion-tabs>
-
-  <!-- <ion-tabs>
-    <ion-tab-bar slot="bottom" >
+  <ion-tabs class="bottom_bar">
+    <ion-tab-bar slot="bottom">
       <ion-tab-button tab="home" class="two">
         <ion-icon name="home"></ion-icon>
         <ion-label>Home</ion-label>
@@ -182,6 +181,5 @@
         <ion-label>Account</ion-label>
       </ion-tab-button>
     </ion-tab-bar>
-  </ion-tabs> -->
-
+  </ion-tabs>
 </ion-content>
