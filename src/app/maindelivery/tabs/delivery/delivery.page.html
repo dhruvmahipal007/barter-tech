@@ -1,0 +1,63 @@
+<ion-header>
+  <!-- <ion-toolbar>
+    <ion-title>delivery</ion-title>
+  </ion-toolbar> -->
+</ion-header>
+
+<ion-content>
+
+  <ion-tabs>
+    <ion-tab-bar slot="top">
+      <ion-tab-button routerLink="/delivery" tab="delivery" class="delivery">
+        <!-- <ion-icon name="calendar"></ion-icon> -->
+        <ion-label>Delivery</ion-label>
+        <!-- <ion-badge>6</ion-badge> -->
+      </ion-tab-button>
+
+      <ion-tab-button routerLink="/takeaway" tab="takeaway">
+        <!-- <ion-icon name="person-circle"></ion-icon> -->
+        <ion-label>TakeAway</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button routerLink="/dinein" tab="dinein">
+        <!-- <ion-icon name="map"></ion-icon> -->
+        <ion-label>Dinein</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button routerLink="/reservation" tab="reservation">
+        <!-- <ion-icon name="information-circle"></ion-icon> -->
+        <ion-label >Reservation</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+
+
+  <ion-slides [options] = "slideOps">
+    <ion-slide>
+      <div class="box">
+        <img src="assets/img/burger2\.jpeg" alt="">
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="box">
+     <img src="assets/img/burger2\.jpeg" alt="">
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="box">
+     <img src="assets/img/burger2\.jpeg" alt="">
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="box">
+     <img src="assets/img/burger2\.jpeg" alt="">
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="box">
+     <img src="assets/img/burger2\.jpeg" alt="">
+      </div>
+    </ion-slide>
+  </ion-slides>
+
+</ion-content>

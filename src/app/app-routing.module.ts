@@ -45,7 +45,19 @@ const routes: Routes = [
   },
   {
     path: 'reservation',
-    loadChildren: () => import('./reservation/reservation.module').then( m => m.ReservationPageModule)
+    loadChildren: () => import('./maindelivery/tabs/reservation/reservation.module').then( m => m.ReservationPageModule)
+  },
+  {
+    path: 'delivery',
+    loadChildren: () => import('./maindelivery/tabs/delivery/delivery.module').then( m => m.DeliveryPageModule)
+  },
+  {
+    path: 'takeaway',
+    loadChildren: () => import('./maindelivery/tabs/takeaway/takeaway.module').then( m => m.TakeawayPageModule)
+  },
+  {
+    path: 'dinein',
+    loadChildren: () => import('./maindelivery/tabs/dinein/dinein.module').then( m => m.DineinPageModule)
   },
   {
     path: 'payment',
@@ -54,7 +66,8 @@ const routes: Routes = [
   {
     path: 'manageaddress',
     loadChildren: () => import('./manageaddress/manageaddress.module').then( m => m.ManageaddressPageModule)
-  },  {
+  },
+  {
     path: 'orders',
     loadChildren: () => import('./orders/orders.module').then( m => m.OrdersPageModule)
   },
@@ -62,7 +75,34 @@ const routes: Routes = [
     path: 'applyvoucher',
     loadChildren: () => import('./applyvoucher/applyvoucher.module').then( m => m.ApplyvoucherPageModule)
   },
-
+  {
+    path: 'maindelivery',
+    loadChildren: () => import('./maindelivery/maindelivery.module').then( m => m.MaindeliveryPageModule)
+  },
+  {
+    path: 'salad',
+    loadChildren: () => import('./maindelivery/category/salad/salad.module').then( m =>  m.SaladPageModule)
+  },
+  {
+    path: 'category/side',
+    loadChildren: () => import('./maindelivery/category/side/side.module').then(m => m.SidePageModule)
+  },
+  {
+    path: 'category/pizza',
+    loadChildren: () => import('./maindelivery/category/pizza/pizza.module').then(m => m.PizzaPageModule)
+  },
+  {
+    path: 'category/burger',
+    loadChildren: () => import('./maindelivery/category/burger/burger.module').then(m => m.BurgerPageModule)
+  },
+  {
+    path: 'category/dimatina',
+    loadChildren: () => import('./maindelivery/category/dimatina/dimatina.module').then(m => m.DimatinaPageModule)
+  },
+  {
+    path: 'category/dessert',
+    loadChildren: () => import('./maindelivery/category/dessert/dessert.module').then(m => m.DessertPageModule)
+  },
 ];
 
 @NgModule({

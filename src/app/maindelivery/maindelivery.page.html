@@ -1,0 +1,187 @@
+<ion-content>
+  <ion-tabs>
+    <ion-tab-bar slot="top" class="top_tab">
+      <ion-tab-button routerLink="/delivery" tab="delivery" class="delivery one">
+        <ion-label>Delivery</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button routerLink="/takeaway" tab="takeaway" class="one">
+        <ion-label>TakeAway</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button routerLink="/dinein" tab="dinein" class="one">
+        <ion-label>Dinein</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button routerLink="/reservation" tab="reservation" class="one">
+        <ion-label>Reservation</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs>
+
+  <ion-slides [options]="slideOps">
+    <ion-slide>
+      <div class="box">
+        <img src="assets/img/burger2\.jpeg" alt="" />
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="box">
+        <img src="assets/img/burger2\.jpeg" alt="" />
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="box">
+        <img src="assets/img/burger2\.jpeg" alt="" />
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="box">
+        <img src="assets/img/burger2\.jpeg" alt="" />
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="box">
+        <img src="assets/img/burger2\.jpeg" alt="" />
+      </div>
+    </ion-slide>
+  </ion-slides>
+
+  <ion-tabs id="cat2">
+    <div class="category">
+      <h3>Categories</h3>
+    </div>
+    <ion-content>
+      <div class="top_cat" style="max-width: 100%; overflow: hidden">
+        <ion-segment (ionChange)="segmentChanged($event)" value="salad">
+          <ion-segment-button value="salad">
+            <img src="assets/img/burger1.jpg" alt="" />
+            <ion-label> SALADS </ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="side">
+            <img src="assets/img/burger1.jpg" alt="" />
+            <ion-label> SIDES </ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="pizza">
+            <img src="assets/img/burger1.jpg" alt="" />
+            <ion-label> PIZZAS </ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="burger">
+            <img src="assets/img/burger1.jpg" alt="" />
+            <ion-label> BURGERS </ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="dimatine">
+            <img src="assets/img/burger1.jpg" alt="" />
+            <ion-label> DIMATINES </ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="dessert">
+            <img src="assets/img/burger1.jpg" alt="" />
+            <ion-label> DESSERTS </ion-label>
+          </ion-segment-button>
+        </ion-segment>
+      </div>
+      <div
+        class="animate__animated animate__slideInUp animate__fast"
+        *ngIf="segment === 'salad'"
+      >
+        <h5>Menu</h5>
+        <ion-card *ngFor="let item of arr; let index = index">
+          <ion-card-content>
+            <div>
+              <h2>Bread &amp; Dips</h2>
+              <span>$ 14.50</span>
+              <p>Charred ciabatta, chef’s dip selections</p>
+            </div>
+
+            <img src="assets/img/burger1.jpg" alt="" />
+            <!-- <h2>item {{ index + 1 }}</h2> -->
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+      <div
+        class="animate__animated animate__slideInUp animate__fast"
+        *ngIf="segment === 'side'"
+      >
+        <h5>Menu</h5>
+        <ion-card *ngFor="let item of arr; let index = index">
+          <ion-card-content>
+            <h2>Card {{ index + 1 }}</h2>
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+      <div
+        class="animate__animated animate__slideInUp animate__fast"
+        *ngIf="segment === 'pizza'"
+      >
+        <h5>Menu</h5>
+        <ion-card *ngFor="let item of arr; let index = index">
+          <ion-card-content>
+            <h2>New {{ index + 1 }}</h2>
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+      <div
+        class="animate__animated animate__slideInUp animate__fast"
+        *ngIf="segment === 'burger'"
+      >
+        <h5>Menu</h5>
+        <ion-card *ngFor="let item of arr; let index = index">
+          <ion-card-content>
+            <h2>Old {{ index + 1 }}</h2>
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+      <div
+        class="animate__animated animate__slideInUp animate__fast"
+        *ngIf="segment === 'dimatine'"
+      >
+        <h5>Menu</h5>
+        <ion-card *ngFor="let item of arr; let index = index">
+          <ion-card-content>
+            <h2>Diff {{ index + 1 }}</h2>
+          </ion-card-content>
+        </ion-card>
+      </div>
+
+      <div
+        class="animate__animated animate__slideInUp animate__fast"
+        *ngIf="segment === 'dessert'"
+      >
+        <ion-card *ngFor="let item of arr; let index = index">
+          <ion-card-content>
+            <h2>Iss {{ index + 1 }}</h2>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </ion-content>
+  </ion-tabs>
+
+  <!-- <ion-tabs>
+    <ion-tab-bar slot="bottom" >
+      <ion-tab-button tab="home" class="two">
+        <ion-icon name="home"></ion-icon>
+        <ion-label>Home</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="search" class="two">
+        <ion-icon name="search"></ion-icon>
+        <ion-label>Search</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="cart" class="two">
+        <ion-icon name="cart"></ion-icon>
+        <ion-label>Cart</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="account" class="two">
+        <ion-icon name="person-circle-outline"></ion-icon>
+        <ion-label>Account</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs> -->
+
+</ion-content>

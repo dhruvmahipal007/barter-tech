@@ -1,5 +1,5 @@
 #form{
-    margin: 26px 24px 26px 24px;
+    margin: 76px 24px 26px 24px;
     padding: 12px;
   }
 
@@ -41,5 +41,25 @@
     outline: 5px black;
     box-shadow: 3px 3px 3px 0px rgb(0 0 0 / 75%);
     margin-top: 28px;
-   
+
+  }
+
+
+  ion-tab-bar{
+    padding: 0;
+    margin: 15px;
+    height: 38px;
+    box-shadow: 3px 3px 3px 0px rgb(0 0 0 / 75%);
+  }
+  ion-tab-button{
+    background-color: #fff;
+    border: 1px solid #000;
+    color: #000;
+  }
+  ion-tab-button:active{
+    background-color: skyblue;
+  }
+
+  .reservation{
+    background-color: skyblue;
   }
