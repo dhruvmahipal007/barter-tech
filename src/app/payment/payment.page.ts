@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.page.html',
@@ -11,5 +12,8 @@ export class PaymentPage implements OnInit {
 
   ngOnInit() {
   }
-
+  presentAlert(){
+    var id=document.getElementById('modal')
+    id.style.display='flex';
+  }
 }

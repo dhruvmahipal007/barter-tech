@@ -5,15 +5,15 @@
         <ion-label>Delivery</ion-label>
       </ion-tab-button>
 
-      <ion-tab-button tab="takeaway"  class="one">
-        <ion-label>Takeaway</ion-label>
+      <ion-tab-button routerLink="/takeaway" tab="takeaway" class="one">
+        <ion-label>TakeAway</ion-label>
       </ion-tab-button>
 
-      <ion-tab-button  tab="dinein" class="one">
+      <ion-tab-button routerLink="/dinein" tab="dinein" class="one">
         <ion-label>Dinein</ion-label>
       </ion-tab-button>
 
-      <ion-tab-button  tab="reservation" class="one">
+      <ion-tab-button routerLink="/reservation" tab="reservation" class="one">
         <ion-label>Reservation</ion-label>
       </ion-tab-button>
     </ion-tab-bar>
@@ -153,27 +153,27 @@
   <ion-slides [options]="slideOps">
     <ion-slide>
       <div class="box">
-        <img src="assets/img/burger2.jpeg" alt="" />
+        <img src="assets/img/burger2\.jpeg" alt="" />
       </div>
     </ion-slide>
     <ion-slide>
       <div class="box">
-        <img src="assets/img/burger2.jpeg" alt="" />
+        <img src="assets/img/burger2\.jpeg" alt="" />
       </div>
     </ion-slide>
     <ion-slide>
       <div class="box">
-        <img src="assets/img/burger2.jpeg" alt="" />
+        <img src="assets/img/burger2\.jpeg" alt="" />
       </div>
     </ion-slide>
     <ion-slide>
       <div class="box">
-        <img src="assets/img/burger2.jpeg" alt="" />
+        <img src="assets/img/burger2\.jpeg" alt="" />
       </div>
     </ion-slide>
     <ion-slide>
       <div class="box">
-        <img src="assets/img/burger2.jpeg" alt="" />
+        <img src="assets/img/burger2\.jpeg" alt="" />
       </div>
     </ion-slide>
   </ion-slides>
@@ -212,7 +212,7 @@
         </ion-segment>
       </div>
       <div
-        class="animate__animated animate__slideInUp animate__fast"
+        class="animate__animated animate__slideInUp animate__fast new"
         *ngIf="segment === 'salad'"
       >
         <h5>Menu</h5>
@@ -230,7 +230,7 @@
       </div>
 
       <div
-        class="animate__animated animate__slideInUp animate__fast"
+        class="animate__animated animate__slideInUp animate__fast new"
         *ngIf="segment === 'side'"
       >
         <h5>Menu</h5>
@@ -242,7 +242,7 @@
       </div>
 
       <div
-        class="animate__animated animate__slideInUp animate__fast"
+        class="animate__animated animate__slideInUp animate__fast new"
         *ngIf="segment === 'pizza'"
       >
         <h5>Menu</h5>
@@ -254,7 +254,7 @@
       </div>
 
       <div
-        class="animate__animated animate__slideInUp animate__fast"
+        class="animate__animated animate__slideInUp animate__fast new"
         *ngIf="segment === 'burger'"
       >
         <h5>Menu</h5>
@@ -266,7 +266,7 @@
       </div>
 
       <div
-        class="animate__animated animate__slideInUp animate__fast"
+        class="animate__animated animate__slideInUp animate__fast new"
         *ngIf="segment === 'dimatine'"
       >
         <h5>Menu</h5>
@@ -278,7 +278,7 @@
       </div>
 
       <div
-        class="animate__animated animate__slideInUp animate__fast"
+        class="animate__animated animate__slideInUp animate__fast new"
         *ngIf="segment === 'dessert'"
       >
         <ion-card *ngFor="let item of arr; let index = index">
@@ -288,7 +288,30 @@
         </ion-card>
       </div>
     </ion-content>
-  </ion-tabs> -->
+  </ion-tabs>
 
+  <!-- <ion-tabs>
+    <ion-tab-bar slot="bottom" >
+      <ion-tab-button tab="home" class="two">
+        <ion-icon name="home"></ion-icon>
+        <ion-label>Home</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="search" class="two">
+        <ion-icon name="search"></ion-icon>
+        <ion-label>Search</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="cart" class="two">
+        <ion-icon name="cart"></ion-icon>
+        <ion-label>Cart</ion-label>
+      </ion-tab-button>
+
+      <ion-tab-button tab="account" class="two">
+        <ion-icon name="person-circle-outline"></ion-icon>
+        <ion-label>Account</ion-label>
+      </ion-tab-button>
+    </ion-tab-bar>
+  </ion-tabs> -->
 
 </ion-content>

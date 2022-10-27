@@ -31,6 +31,7 @@ const routes: Routes = [
     //   path: 'dessert',
     //   loadChildren: () => import('./category/dessert/dessert.module').then( m => m.DessertPageModule)
     // }]
+
 },
 {
   path: 'search',
@@ -52,6 +53,20 @@ const routes: Routes = [
   path: 'dinein',
   loadChildren: () => import('../maindelivery/tabs/dinein/dinein.module').then( m => m.DineinPageModule)
 },
+
+
+  {
+    path: 'search',
+    loadChildren: () =>
+      import('./footer/search/search.module').then((m) => m.SearchPageModule),
+  },
+  {
+    path: 'reservation',
+    loadChildren: () =>
+      import('./tabs/reservation/reservation.module').then(
+        (m) => m.ReservationPageModule
+      ),
+  },
 
 ];
 

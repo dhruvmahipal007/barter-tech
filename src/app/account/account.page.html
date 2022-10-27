@@ -1,0 +1,171 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Account</ion-title>
+    <ion-buttons class="btn" slot="end">
+      <ion-button (click)="qrbtn()">
+        <ion-icon
+          [class]="zipped ? 'icon':'icons'"
+          [name]="zipped ? 'qr-code-sharp' :'close'"
+        ></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="main">
+    <div *ngIf="isBarCodeVisible">
+      <ion-card class="ion-text-center">
+        <ion-card-content>
+          <qrcode
+            [qrdata]="qrCodeString"
+            [width]="256"
+            [errorCorrectionLevel]="'M'"
+          ></qrcode>
+        </ion-card-content>
+      </ion-card>
+      <!-- <ion-button expand="block" class="ion-margin" (click)="startScan()">Scan QR Code</ion-button>
+<ion-item *ngIf="scannedResults">
+  <ion-label class="ion-text-wrap">Scanned Result:{{scannedResults}}</ion-label>
+</ion-item> -->
+    </div>
+    <div>
+      <div class="card-middle">
+        <div><img src="assets/logoOriginal.png" class="image-header" /></div>
+        <div>
+          <ion-text> John Doe </ion-text>
+          <ion-text> johndoe@gmail.com </ion-text>
+          <div
+            style="
+              border: 1px solid;
+              height: 20px;
+              width: 100%;
+              position: relative;
+            "
+          >
+            <div style="height: 100%; width: 60%; background-color: gray"></div>
+            <div style="position: absolute; top: 0px">
+              <ion-text style="color: red; font-size: 11px; font-weight: bolder"
+                >Profile Completeness 60%</ion-text
+              >
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top: -36px">
+          <ion-button
+            class="button-transparent"
+            fill="clear"
+            routerLink="/profile"
+          >
+            <span class="bold">Edit</span>
+          </ion-button>
+        </div>
+      </div>
+      <div>
+        <ion-card class="ion-card">
+          <ion-card-content>
+            <div
+              class="row"
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 10px;
+              "
+            >
+              <div class="col">Gold Membership</div>
+              <div class="col">5000</div>
+            </div>
+            <div class="row" style="text-align: center; margin-bottom: 15px">
+              <div class="col">
+                Available Balance<br />
+                5600
+              </div>
+            </div>
+            <div
+              class="row"
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-around;
+                border-top: 1px solid;
+              "
+            >
+              <div
+                class="col"
+                style="padding: 5px 20px; border-right: 1px solid"
+              >
+                Statement
+              </div>
+              <div class="col" style="padding: 5px 20px">Manage</div>
+              <div
+                class="col"
+                style="padding: 5px 20px; border-left: 1px solid"
+              >
+                Services
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </div>
+    <hr class="hr" />
+    <div class="card-middle">
+      <h4>Manage Addresses</h4>
+      <ion-button class="button-arrow" fill="clear" routerLink="/manageaddress">
+        <span class="font-bold text-sm">></span>
+      </ion-button>
+    </div>
+    <hr class="hr" />
+    <div class="card-middle">
+      <h4>My Orders</h4>
+      <ion-button class="button-arrow" fill="clear" routerLink="/orders">
+        <span class="font-bold text-sm">></span>
+      </ion-button>
+    </div>
+    <hr class="hr" />
+    <div class="gray">
+      <h4 style="padding: 10px">HELP & SUPPORT</h4>
+    </div>
+    <div class="card-middle">
+      <h4>Legal,Terms & Conditions</h4>
+      <ion-button class="button-arrow" fill="clear">
+        <span
+          class="font-bold text-sm"
+          style="transform: rotate(90deg); font-size: 16px"
+          >></span
+        >
+      </ion-button>
+    </div>
+    <hr class="hr" />
+    <div class="card-middle">
+      <h4>FAQs</h4>
+      <ion-button class="button-arrow" fill="clear">
+        <span class="font-bold text-sm">></span>
+      </ion-button>
+    </div>
+    <hr class="hr" />
+    <div class="card-middle">
+      <h4>Contact Us</h4>
+      <ion-button class="button-arrow" fill="clear" routerLink="/contactus">
+        <span class="font-bold text-sm">></span>
+      </ion-button>
+    </div>
+    <hr class="hr" />
+    <div class="card-middle">
+      <h4>About</h4>
+      <ion-button class="button-arrow" fill="clear" routerLink="/aboutus">
+        <span class="font-bold text-sm">></span>
+      </ion-button>
+    </div>
+    <hr class="hr" />
+    <div id="logout">
+      <!-- <a>LOGOUT </a> -->
+      <ion-button class="button-bottom" fill="clear">
+        <span class="font-bold text-md">LOGOUT</span>
+      </ion-button>
+      <h6>Version:3.0.2</h6>
+    </div>
+  </div>
+</ion-content>
