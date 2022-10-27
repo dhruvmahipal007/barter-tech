@@ -6,10 +6,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./cart.page.scss'],
 })
 export class CartPage implements OnInit {
+  quantity: number = 1;
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
+  ngOnInit() {}
+  i = 1;
+  plus() {
+    this.i++;
+    this.quantity = this.i;
   }
-
+  minus() {
+    if (this.i != 1) {
+      this.i--;
+      this.quantity = this.i;
+    }
+  }
 }

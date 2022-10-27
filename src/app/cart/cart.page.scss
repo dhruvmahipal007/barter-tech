@@ -1,31 +1,103 @@
-#arrow{
-    border: none;
-    box-shadow: none;
-    outline: none;
-    color: #000;
-    margin-top: 18px;
-    margin-bottom: 18px;
-  }
-
-  #arrow ion-icon{
-    color: #000;
-  }
-
-  ion-title{
-    text-align: left !important;
-    margin-left: -20px;
-    font-weight: bold;
-  }
-  .middle{
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    margin: auto;
-    height: 100%;
+#arrow {
+  border: none;
+  box-shadow: none;
+  outline: none;
+  color: #000;
+  margin-top: 18px;
+  margin-bottom: 18px;
 }
-.h3{
+
+#arrow ion-icon {
+  color: #000;
+}
+
+ion-title {
+  text-align: left !important;
+  margin-left: -20px;
+  font-weight: bold;
+}
+.middle {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: auto;
+  height: 100%;
+}
+.h3 {
   font-size: 17px !important;
 }
-  
+.flex_row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-content: center;
+}
+.left_design {
+  display: flex;
+  align-content: center;
+}
+ion-textarea {
+  border: 2px solid #000;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  background-color: #fff;
+  padding-left: 10px;
+}
+.btn-send {
+  background: #ffc409;
+  color: black;
+  border: 2px solid;
+  outline: 5px black;
+  box-shadow: 3px 3px 3px 0px rgb(0 0 0 / 75%);
+}
+.flex_row{
+  padding: 15px !important;
+}
+#item_name{
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+#item_name h3{
+  margin-left: 8px;
+  color: #000;
+  font-size: 17px;
+  font-weight: 600;
+}
+#first p{
+  margin-left: 30px;
+  margin-top: -4px;
+}
+.left_design{
+  height: 26px;
+  border: 2px solid #000;
+  display: flex;
+  align-items: center;
+  width: 95%;
+}
+.left_design ion-button{
+  height: 20px;
+  color: #000;
+  font-size: 12px;
+}
+.left_design ion-input{
+  text-align: center;
+}
+#second p{
+  text-align: center;
+}
+#mid_grid{
+  background-color: rgb(217 198 198);
+}
+#last_grid p{
+  margin: 0 !important;
+}
+#last{
+  display: flex;
+  align-items: center;
+  margin: 0 !important;
+}
+#last h4{
+margin-left: -15px;}
