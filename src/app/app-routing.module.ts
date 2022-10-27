@@ -103,6 +103,10 @@ const routes: Routes = [
     path: 'category/dessert',
     loadChildren: () => import('./maindelivery/category/dessert/dessert.module').then(m => m.DessertPageModule)
   },
+  // {
+  //   path: 'search',
+  //   loadChildren: () => import('./maindelivery/footer/search/search.module').then(m => m.SearchPageModule)
+  // }
 ];
 
 @NgModule({

@@ -32,10 +32,27 @@ const routes: Routes = [
     //   loadChildren: () => import('./category/dessert/dessert.module').then( m => m.DessertPageModule)
     // }]
 },
-  {
-    path: 'search',
-    loadChildren: () => import('./footer/search/search.module').then( m => m.SearchPageModule)
-  }
+{
+  path: 'search',
+  loadChildren: () => import('./footer/search/search.module').then(m => m.SearchPageModule)
+},
+{
+  path: 'takeaway',
+  loadChildren: () => import('../maindelivery/tabs/takeaway/takeaway.module').then(m => m.TakeawayPageModule)
+},
+{
+  path: 'reservation',
+  loadChildren: () => import('../maindelivery/tabs/reservation/reservation.module').then( m => m.ReservationPageModule)
+},
+{
+  path: 'delivery',
+  loadChildren: () => import('../maindelivery/tabs/delivery/delivery.module').then( m => m.DeliveryPageModule)
+},
+{
+  path: 'dinein',
+  loadChildren: () => import('../maindelivery/tabs/dinein/dinein.module').then( m => m.DineinPageModule)
+},
+
 ];
 
 @NgModule({
