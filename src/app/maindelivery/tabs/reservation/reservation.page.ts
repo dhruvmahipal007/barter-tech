@@ -6,10 +6,19 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./reservation.page.scss'],
 })
 export class ReservationPage implements OnInit {
+  dining_event_date = 'DINING DATE';
+  dining_event_time = 'DINING TIME';
+  constructor() {}
 
-  constructor() { }
+  ngOnInit() {}
 
-  ngOnInit() {
+  tableReservation() {
+    this.dining_event_date = 'DINING DATE';
+    this.dining_event_time = 'DINING TIME';
   }
 
+  eventReservation() {
+    this.dining_event_date = 'EVENT DATE';
+    this.dining_event_time = 'EVENT TIME';
+  }
 }

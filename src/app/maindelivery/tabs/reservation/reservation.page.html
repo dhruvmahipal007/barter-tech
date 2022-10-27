@@ -1,37 +1,49 @@
 <ion-content>
-  <ion-tabs>
+  <!-- <ion-tabs>
     <ion-tab-bar slot="top">
-      <ion-tab-button routerLink="/delivery" tab="delivery">
-        <!-- <ion-icon name="calendar"></ion-icon> -->
-        <ion-label>Delivery</ion-label>
-        <!-- <ion-badge>6</ion-badge> -->
-      </ion-tab-button>
+      <ion-tab-button routerLink="/delivery" tab="delivery"> -->
+  <!-- <ion-icon name="calendar"></ion-icon> -->
+  <!-- <ion-label>Delivery</ion-label> -->
+  <!-- <ion-badge>6</ion-badge> -->
+  <!-- </ion-tab-button> -->
 
-      <ion-tab-button routerLink="/takeaway" tab="takeaway">
-        <!-- <ion-icon name="person-circle"></ion-icon> -->
-        <ion-label>TakeAway</ion-label>
-      </ion-tab-button>
+  <!-- <ion-tab-button routerLink="/takeaway" tab="takeaway"> -->
+  <!-- <ion-icon name="person-circle"></ion-icon> -->
+  <!-- <ion-label>TakeAway</ion-label>
+      </ion-tab-button> -->
 
-      <ion-tab-button routerLink="/dinein" tab="dinein">
-        <!-- <ion-icon name="map"></ion-icon> -->
-        <ion-label>Dinein</ion-label>
-      </ion-tab-button>
+  <!-- <ion-tab-button routerLink="/dinein" tab="dinein"> -->
+  <!-- <ion-icon name="map"></ion-icon> -->
+  <!-- <ion-label>Dinein</ion-label>
+      </ion-tab-button> -->
 
-      <ion-tab-button
+  <!-- <ion-tab-button
         routerLink="/reservation"
         tab="reservation"
         class="reservation"
-      >
-        <!-- <ion-icon name="information-circle"></ion-icon> -->
-        <ion-label>Reservation</ion-label>
+      > -->
+  <!-- <ion-icon name="information-circle"></ion-icon> -->
+  <!-- <ion-label>Reservation</ion-label>
       </ion-tab-button>
     </ion-tab-bar>
-  </ion-tabs>
+  </ion-tabs> -->
 
   <div class="head">
-    <h3 class="h3">TABLE RESERVATION</h3>
-    <h3 style="margin: 0">|</h3>
-    <h3 class="hr">EVENT RESERVATION</h3>
+    <ion-button
+      class="button-transparent"
+      fill="clear"
+      style="border-right: '2px solid'"
+      (click)="tableReservation()"
+    >
+      <span class="bold">TABLE RESERVATION</span>
+    </ion-button>
+    <ion-button
+      class="button-transparent"
+      fill="clear"
+      (click)="eventReservation()"
+    >
+      <span class="bold">EVENT RESERVATION</span>
+    </ion-button>
   </div>
   <form id="form">
     <div>
@@ -55,11 +67,11 @@
       <ion-input type="text" placeholder="Enter Email"></ion-input>
     </div>
     <div>
-      <ion-label>DINING DATE</ion-label>
+      <ion-label>{{dining_event_date}}</ion-label>
       <ion-input placeholder="Enter Input" type="date"></ion-input>
     </div>
     <div>
-      <ion-label>DINING TIME</ion-label>
+      <ion-label>{{dining_event_time}}</ion-label>
       <ion-input placeholder="Enter Input" type="time"></ion-input>
     </div>
     <div>
