@@ -1,36 +1,57 @@
-#arrow{
-    border: none;
-    box-shadow: none;
-    outline: none;
-    color: #000;
-    margin-top: 18px;
-    margin-bottom: 18px;
-  }
+#arrow {
+  border: none;
+  box-shadow: none;
+  outline: none;
+  color: #000;
+  margin-top: 18px;
+  margin-bottom: 18px;
+}
 
-  #arrow ion-icon{
-    color: #000;
-  }
+#arrow ion-icon {
+  color: #000;
+}
 
-  ion-title{
-    text-align: left !important;
-    margin-left: -20px;
-    font-weight: bold;
-  }
-  .btn-send{
-    background: #ffc409;
-    color: black;
-    border: 2px solid;
-    outline: 5px black;
-    box-shadow: 3px 3px 3px 0px rgb(0 0 0 / 75%);
-    position: absolute;
-    right: 0;
-    height: 36px;
-    margin-right: 10px;
-
-  }
-  .head{
-    display: flex;
-    align-items: center;
-    margin-right: 10px;
-    position: relative;
-  }
+ion-title {
+  text-align: left !important;
+  margin-left: -20px;
+  font-weight: bold;
+}
+.btn-send {
+  background: #ffc409;
+  color: black;
+  border: 2px solid;
+  outline: 5px black;
+  box-shadow: 3px 3px 3px 0px rgb(0 0 0 / 75%);
+  position: absolute;
+  right: 0;
+  height: 36px;
+  margin-right: 10px;
+}
+.head {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  position: relative;
+  background: #d7b8b8;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+#avail_voucher {
+  display: flex;
+  align-items: center;
+}
+#mid_sec h4 {
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+#mid_sec p {
+  margin-top: -2px;
+}
+.btn-apply {
+  background: #ffc409;
+  color: black;
+  border: 2px solid;
+  outline: 5px black;
+  box-shadow: 3px 3px 3px 0px rgb(0 0 0 / 75%);
+}

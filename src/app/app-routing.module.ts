@@ -181,7 +181,23 @@ const routes: Routes = [
     path: 'aboutus',
     loadChildren: () =>
       import('./aboutus/aboutus.module').then((m) => m.AboutusPageModule),
+  },  {
+    path: 'forgetpasswordverify',
+    loadChildren: () => import('./forgetpasswordverify/forgetpasswordverify.module').then( m => m.ForgetpasswordverifyPageModule)
   },
+  {
+    path: 'changepassword',
+    loadChildren: () => import('./changepassword/changepassword.module').then( m => m.ChangepasswordPageModule)
+  },
+  {
+    path: 'whatson',
+    loadChildren: () => import('./whatson/whatson.module').then( m => m.WhatsonPageModule)
+  },
+  {
+    path: 'legalcondition',
+    loadChildren: () => import('./legalcondition/legalcondition.module').then( m => m.LegalconditionPageModule)
+  },
+
   // {
   //   path: 'search',
   //   loadChildren: () => import('./maindelivery/footer/search/search.module').then(m => m.SearchPageModule)

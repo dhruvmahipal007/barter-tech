@@ -41,6 +41,8 @@
     </ion-row>
   </ion-grid>
 
+  <hr class="hr" />
+
   <!-- <div class="flex_row">
     <div>
 
@@ -48,16 +50,19 @@
 
   </div> -->
 
-   <!--============== SECOND GRID ===============-->
+  <!--============== SECOND GRID ===============-->
 
   <ion-grid id="mid_grid">
-    <ion-row style="padding: 5px;">
-      <ion-textarea rows="1" placeholder="Any Allergies? We will pass it to kitchen">
+    <ion-row style="padding: 5px">
+      <ion-textarea
+        rows="1"
+        placeholder="Any Allergies? We will pass it to kitchen"
+      >
       </ion-textarea>
     </ion-row>
   </ion-grid>
 
-   <!--============== THIRD GRID ===============-->
+  <!--============== THIRD GRID ===============-->
 
   <ion-grid id="last_grid">
     <ion-row>
@@ -68,18 +73,20 @@
 
     <ion-row id="last">
       <ion-col size="2">
-        <ion-badge style="margin-top: 8px;" color="warning">%</ion-badge>
+        <ion-badge style="margin-top: 8px" color="warning">%</ion-badge>
       </ion-col>
       <ion-col size="8">
         <h4>Apply Vouchers/Points</h4>
       </ion-col>
       <ion-col size="2">
         <ion-button class="button-arrow" fill="clear">
-          <span class="font-bold text-sm">></span>
+          <!-- <span class="font-bold text-sm">></span> -->
+          <ion-icon name="chevron-forward"></ion-icon>
         </ion-button>
       </ion-col>
     </ion-row>
   </ion-grid>
+  <hr class="hr" />
 
   <!-- <div>
     <p>Offers</p>
@@ -91,7 +98,84 @@
       </ion-button>
     </div>
   </div> -->
-  <div>
+  <ion-grid id="bottom_grid">
+    <ion-row style="margin: 0px !important">
+      <ion-col size="12">
+        <p>Bill Details</p>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="10">
+        <p>Item Total</p>
+      </ion-col>
+      <ion-col>
+        <p>$95</p>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="10">
+        <p>Delivery</p>
+      </ion-col>
+      <ion-col>
+        <p>$10</p>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="10">
+        <p>GST</p>
+      </ion-col>
+      <ion-col>
+        <p>$12</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <hr class="hr" />
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="10">
+        <p>To Pay</p>
+      </ion-col>
+      <ion-col>
+        <p>$117</p>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col size="8">
+        <p>Deliver To</p>
+      </ion-col>
+      <ion-col>
+        <div class="upperbottom_design">
+          <h4>Home</h4>
+          <p>355 Scarborough Beach Rd,0</p>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <hr class="hr" />
+
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6.5">
+        <div class="bottom_design">
+          <h4>$117</h4>
+          <p>VIEW DETAILED BILL</p>
+        </div>
+      </ion-col>
+
+      <ion-col size="5.5">
+        <ion-button class="btn-send" color="warning">MAKE PAYMENT</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- <div>
     <div>
       <p>Bill Details</p>
       <div>
@@ -126,5 +210,5 @@
         <ion-button class="btn-send" color="warning">MAKE PAYMENT</ion-button>
       </div>
     </div>
-  </div>
+  </div> -->
 </ion-content>
