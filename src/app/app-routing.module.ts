@@ -60,27 +60,27 @@ const routes: Routes = [
         (m) => m.AddaddressPageModule
       ),
   },
-  {
-    path: 'delivery',
-    loadChildren: () =>
-      import('./maindelivery/tabs/delivery/delivery.module').then(
-        (m) => m.DeliveryPageModule
-      ),
-  },
-  {
-    path: 'takeaway',
-    loadChildren: () =>
-      import('./maindelivery/tabs/takeaway/takeaway.module').then(
-        (m) => m.TakeawayPageModule
-      ),
-  },
-  {
-    path: 'dinein',
-    loadChildren: () =>
-      import('./maindelivery/tabs/dinein/dinein.module').then(
-        (m) => m.DineinPageModule
-      ),
-  },
+  // {
+  //   path: 'delivery',
+  //   loadChildren: () =>
+  //     import('./maindelivery/tabs/delivery/delivery.module').then(
+  //       (m) => m.DeliveryPageModule
+  //     ),
+  // },
+  // {
+  //   path: 'takeaway',
+  //   loadChildren: () =>
+  //     import('./maindelivery/tabs/takeaway/takeaway.module').then(
+  //       (m) => m.TakeawayPageModule
+  //     ),
+  // },
+  // {
+  //   path: 'dinein',
+  //   loadChildren: () =>
+  //     import('./maindelivery/tabs/dinein/dinein.module').then(
+  //       (m) => m.DineinPageModule
+  //     ),
+  // },
   {
     path: 'payment',
     loadChildren: () =>
@@ -166,36 +166,47 @@ const routes: Routes = [
         (m) => m.ApplyvoucherPageModule
       ),
   },
-  {
-    path: 'account',
-    loadChildren: () =>
-      import('./account/account.module').then((m) => m.AccountPageModule),
-  },
+  // {
+  //   path: 'account',
+  //   loadChildren: () =>
+  //     import('./maindelivery/footer/account/account.module').then((m) => m.AccountPageModule),
+  // },
 
-  {
-    path: 'cart',
-    loadChildren: () =>
-      import('./cart/cart.module').then((m) => m.CartPageModule),
-  },
+  // {
+  //   path: 'cart',
+  //   loadChildren: () =>
+  //     import('./maindelivery/footer/cart/cart.module').then((m) => m.CartPageModule),
+  // },
   {
     path: 'aboutus',
     loadChildren: () =>
       import('./aboutus/aboutus.module').then((m) => m.AboutusPageModule),
-  },  {
+  },
+  {
     path: 'forgetpasswordverify',
-    loadChildren: () => import('./forgetpasswordverify/forgetpasswordverify.module').then( m => m.ForgetpasswordverifyPageModule)
+    loadChildren: () =>
+      import('./forgetpasswordverify/forgetpasswordverify.module').then(
+        (m) => m.ForgetpasswordverifyPageModule
+      ),
   },
   {
     path: 'changepassword',
-    loadChildren: () => import('./changepassword/changepassword.module').then( m => m.ChangepasswordPageModule)
+    loadChildren: () =>
+      import('./changepassword/changepassword.module').then(
+        (m) => m.ChangepasswordPageModule
+      ),
   },
   {
     path: 'whatson',
-    loadChildren: () => import('./whatson/whatson.module').then( m => m.WhatsonPageModule)
+    loadChildren: () =>
+      import('./whatson/whatson.module').then((m) => m.WhatsonPageModule),
   },
   {
     path: 'legalcondition',
-    loadChildren: () => import('./legalcondition/legalcondition.module').then( m => m.LegalconditionPageModule)
+    loadChildren: () =>
+      import('./legalcondition/legalcondition.module').then(
+        (m) => m.LegalconditionPageModule
+      ),
   },
 
   // {
