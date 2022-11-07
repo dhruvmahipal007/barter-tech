@@ -6,8 +6,8 @@ import { ManageaddressPage } from './manageaddress.page';
 const routes: Routes = [
   {
     path: '',
-    component: ManageaddressPage
-  }
+    component: ManageaddressPage,
+  },
 ];
 
 @NgModule({

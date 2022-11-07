@@ -3,6 +3,13 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   {
+    path: 'cart',
+    loadChildren: () =>
+      import('./maindelivery/footer/cart/cart.module').then(
+        (m) => m.CartPageModule
+      ),
+  },
+  {
     path: 'home',
     loadChildren: () =>
       import('./home/home.module').then((m) => m.HomePageModule),
@@ -175,7 +182,9 @@ const routes: Routes = [
   // {
   //   path: 'cart',
   //   loadChildren: () =>
-  //     import('./maindelivery/footer/cart/cart.module').then((m) => m.CartPageModule),
+  //     import('./maindelivery/footer/cart/cart.module').then(
+  //       (m) => m.CartPageModule
+  //     ),
   // },
   {
     path: 'aboutus',
@@ -207,6 +216,18 @@ const routes: Routes = [
       import('./legalcondition/legalcondition.module').then(
         (m) => m.LegalconditionPageModule
       ),
+  },
+  {
+    path: 'orderfilled',
+    loadChildren: () =>
+      import('./orderfilled/orderfilled.module').then(
+        (m) => m.OrderfilledPageModule
+      ),
+  },
+  {
+    path: 'rate',
+    loadChildren: () =>
+      import('./rate/rate.module').then((m) => m.RatePageModule),
   },
 
   // {

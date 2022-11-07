@@ -21,7 +21,10 @@
       <h3>Categories</h3>
     </div>
     <ion-content>
-      <div class="top_cat" style="max-width: 100%; overflow: hidden">
+      <div
+        class="top_cat"
+        style="max-width: 100%; overflow: hidden; position: fixed; z-index: 1"
+      >
         <ion-segment (ionChange)="segmentChanged($event)" value="salad">
           <ion-segment-button value="salad">
             <img src="assets/img/burger1.jpg" alt="" />
@@ -172,7 +175,7 @@
     </ion-slide>
     <ion-slide>
       <div class="box">
-        <img src="assets/img/burger2\.jpeg" alt="" />
+        <img src="assets/img/burger2.jpeg" alt="" />
       </div>
     </ion-slide>
   </ion-slides>

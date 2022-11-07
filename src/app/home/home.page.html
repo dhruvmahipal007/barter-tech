@@ -1,47 +1,39 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title class="ion-text-center">
-    Welcome
-    </ion-title>
+<ion-header [translucent]="true" style="background-color: #000">
+  <ion-toolbar class="head_toolbar">
+    <ion-title class="ion-text-center"> Welcome </ion-title>
   </ion-toolbar>
 </ion-header>
 
-
 <ion-content [fullscreen]="true">
-
   <div class="img-URL">
-    <img src="assets/logoOriginal.png" class="image-header">
+    <img src="assets/logoOriginal.png" class="image-header" />
   </div>
 
+  <div class="text-container">
+    <ion-text color="medium">
+      <h1>Stirling Arms</h1>
+    </ion-text>
+    <ion-text color="medium">
+      <h1>Hotel</h1>
+    </ion-text>
+    <ion-text color="medium">
+      <h1>Customer</h1>
+    </ion-text>
+    <ion-text color="medium">
+      <h1>Mobile Apps</h1>
+    </ion-text>
+    <ion-text color="medium">
+      <h1>Wireframes</h1>
+    </ion-text>
+    <ion-text color="medium">
+      <p>Version:2</p>
+    </ion-text>
+  </div>
 
- <div class="text-container">
-  <ion-text color="medium">
-    <h1>Stirling Arms</h1>
-  </ion-text>
-  <ion-text color="medium">
-    <h1>Hotel</h1>
-  </ion-text>
-  <ion-text color="medium">
-    <h1>Customer</h1>
-  </ion-text>
-  <ion-text color="medium">
-    <h1>Mobile Apps</h1>
-  </ion-text>
-  <ion-text color="medium">
-    <h1>Wireframes</h1>
-  </ion-text>
-  <ion-text color="medium">
-    <p>Version:2</p>
-  </ion-text>
- </div>
-
-
- <div id="bottom">
-   <ion-button class="button" expand="block" color="white" routerLink="/login">Start</ion-button>
-   <hr class="hr">
-</div>
-
-
-
-
+  <div id="bottom">
+    <ion-button class="button" expand="block" color="white" routerLink="/login"
+      >Start</ion-button
+    >
+    <hr class="hr" />
+  </div>
 </ion-content>

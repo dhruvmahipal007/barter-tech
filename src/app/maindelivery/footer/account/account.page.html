@@ -24,10 +24,6 @@
           ></qrcode>
         </ion-card-content>
       </ion-card>
-      <!-- <ion-button expand="block" class="ion-margin" (click)="startScan()">Scan QR Code</ion-button>
-<ion-item *ngIf="scannedResults">
-  <ion-label class="ion-text-wrap">Scanned Result:{{scannedResults}}</ion-label>
-</ion-item> -->
     </div>
     <div>
       <div class="card-middle">
@@ -64,7 +60,7 @@
       </div>
       <div>
         <ion-card class="ion-card">
-          <ion-card-content>
+          <ion-card-content style="padding-bottom: 0px">
             <div
               class="row"
               style="
@@ -74,8 +70,10 @@
                 margin-bottom: 10px;
               "
             >
-              <div class="col">Gold Membership</div>
-              <div class="col">5000</div>
+              <div class="col" style="padding: 0; text-align: left">
+                Gold Membership
+              </div>
+              <div class="col" style="padding: 0; text-align: right">5000</div>
             </div>
             <div class="row" style="text-align: center; margin-bottom: 15px">
               <div class="col">
@@ -94,14 +92,16 @@
             >
               <div
                 class="col"
-                style="padding: 5px 20px; border-right: 1px solid"
+                style="padding: 5px 15px; border-right: 1px solid"
               >
                 Statement
               </div>
-              <div class="col" style="padding: 5px 20px">Manage</div>
+              <div class="col" style="padding: 5px 15px; text-align: center">
+                Manage
+              </div>
               <div
                 class="col"
-                style="padding: 5px 20px; border-left: 1px solid"
+                style="padding: 5px 15px; border-left: 1px solid"
               >
                 Services
               </div>
@@ -178,7 +178,8 @@
       <h6>Version:3.0.2</h6>
     </div>
   </div>
-  <ion-tabs>
+
+  <ion-tabs style="position: sticky; bottom: 0; height: 10%">
     <ion-tab-bar slot="bottom">
       <ion-tab-button tab="" class="two">
         <ion-icon name="home"></ion-icon>

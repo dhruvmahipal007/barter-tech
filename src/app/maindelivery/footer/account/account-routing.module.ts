@@ -6,8 +6,13 @@ import { AccountPage } from './account.page';
 const routes: Routes = [
   {
     path: '',
-    component: AccountPage
-  }
+    component: AccountPage,
+  },
+  {
+    path: 'cart',
+    loadChildren: () =>
+      import('../cart/cart.module').then((m) => m.CartPageModule),
+  },
 ];
 
 @NgModule({

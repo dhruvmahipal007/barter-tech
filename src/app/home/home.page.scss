@@ -1,51 +1,56 @@
-.text-container{
+.text-container {
   display: flex;
   flex-direction: column;
   text-align: center;
   justify-content: center;
-  gap:5px;
+  gap: 5px;
   height: auto;
   min-height: 50%;
 }
-.text-container h1{
+.text-container h1 {
   font-size: xx-large;
   margin: 0;
   color: black;
   font-weight: bold;
 }
-.text-container p{
+.text-container p {
   margin: 0;
   font-weight: 600;
   font-size: 20px;
   margin-top: 10px;
 }
-.button{
+.button {
   display: flex;
-    flex-direction: column;
-    justify-content: center;
-    font-weight: bold;
-    margin: auto;
-    width: 102px;
-    color: black;
-    border: 2px solid;
-    outline: 5px black;
-    box-shadow: 3px 3px 3px 0px rgb(0 0 0 / 75%);
-
+  flex-direction: column;
+  justify-content: center;
+  font-weight: bold;
+  margin: auto;
+  width: 110px;
+  background: black;
+  color: white;
+  border: 2px solid #000;
+  // outline: 5px black;
+  // box-shadow: 3px 3px 3px 0px;
 }
-.hr{
+.button:hover {
+  background-color: #bf923d;
+  border: 2px solid #bf923d;
+  color: #fff;
+}
+.hr {
   margin: 0 10px;
   margin-top: 25px;
   margin-bottom: 1rem;
   border: 0;
   border-top: 1px solid rgba(0, 0, 0, 0.1);
 }
-.image-header{
+.image-header {
   margin: 50px 0px 10px 0px;
   height: 150px;
   width: 100%;
   padding: 0 10px;
 }
-.img-URL{
+.img-URL {
   width: 90%;
   display: flex;
   justify-content: center;
@@ -55,10 +60,15 @@
   margin: 0 auto;
 }
 
-#bottom{
+#bottom {
   position: absolute;
   bottom: 5%;
   margin: 0 auto;
   left: 0;
   width: 100%;
+}
+.head_toolbar ion-title {
+  background: black;
+  color: white;
+  padding: 16px;
 }

@@ -33,6 +33,7 @@ ion-toolbar {
 }
 .category {
   padding: 12px;
+  margin-top: -58%;
 }
 #cat2 {
   position: absolute;
@@ -96,4 +97,11 @@ ion-card-content img {
 .new {
   height: 300px;
   overflow-y: scroll;
+}
+// .tabs-inner {
+//   max-height: 237px !important;
+// }
+.animate__animated {
+  z-index: -1;
+  margin-top: 12%;
 }

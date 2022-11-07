@@ -1,0 +1,55 @@
+<ion-header translucent="true">
+  <ion-toolbar>
+    <ion-title>RATE ORDER</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <p class="header">Food</p>
+  <div class="rating">
+    <input type="radio" id="star1" name="rating" value="1" /><label
+      for="star1"
+    ></label>
+    <input type="radio" id="star2" name="rating" value="2" /><label
+      for="star2"
+    ></label>
+    <input type="radio" id="star3" name="rating" value="3" /><label
+      for="star3"
+    ></label>
+    <input type="radio" id="star4" name="rating" value="4" /><label
+      for="star4"
+    ></label>
+    <input type="radio" id="star5" name="rating" value="5" /><label
+      for="star5"
+    ></label>
+    <br />
+  </div>
+  <p class="header">Delivery</p>
+  <div class="delivery">
+    <input type="radio" id="del1" name="delivery" value="1" /><label
+      for="del1"
+    ></label>
+    <input type="radio" id="del2" name="delivery" value="2" /><label
+      for="del2"
+    ></label>
+    <input type="radio" id="del3" name="delivery" value="3" /><label
+      for="del3"
+    ></label>
+    <input type="radio" id="del4" name="delivery" value="4" /><label
+      for="del4"
+    ></label>
+    <input type="radio" id="del5" name="delivery" value="5" /><label
+      for="del5"
+    ></label>
+    <br />
+  </div>
+
+  <div class="ion-btn">
+    <ion-button fill="outline" (click)="closeModal()">SUBMIT</ion-button>
+  </div>
+</ion-content>

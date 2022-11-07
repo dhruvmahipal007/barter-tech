@@ -1,0 +1,58 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button id="arrow" routerLink="/account">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title> Orders </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row id="first_row">
+      <ion-col size="9" id="first"><h5>Status</h5></ion-col>
+      <ion-col size="3"><h5>Ordered</h5></ion-col>
+      <ion-col size="12">
+        <h4>Address</h4>
+      </ion-col>
+      <ion-col size="12">
+        <p>355 Scarborough Beach Rd,Osborne Park WA 6017,Australia</p>
+      </ion-col>
+      <ion-col size="12"><p>BILL DETAILS</p></ion-col>
+    </ion-row>
+    <hr class="hr" />
+    <ion-row id="second_row">
+      <ion-col size="10"><p>Bread & Dips * 2</p></ion-col>
+      <ion-col size="2"><p>$29</p></ion-col>
+      <ion-col size="10"><p>Buffalo Chicken Wings * 1</p></ion-col>
+      <ion-col size="2"><p>$13</p></ion-col>
+      <ion-col size="10"><p>Crispy Buttermilk Chicken Tenders * 1</p></ion-col>
+      <ion-col size="2"><p>$16</p></ion-col>
+    </ion-row>
+    <hr class="hr" />
+    <ion-row id="third_row">
+      <ion-col size="10"><h4>Item total</h4></ion-col>
+      <ion-col size="2"><h4>$95</h4></ion-col>
+      <ion-col size="10"><h4>Delivery</h4></ion-col>
+      <ion-col size="2"><h4>$10</h4></ion-col>
+      <ion-col size="10"><h4>GST</h4></ion-col>
+      <ion-col size="2"><h4>$12</h4></ion-col>
+    </ion-row>
+    <hr class="hr" />
+    <ion-row id="fourth_row">
+      <ion-col size="10"><h4>Grand Total</h4></ion-col>
+      <ion-col size="2"><h4>$117</h4></ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <hr class="hrbottom" />
+  <div id="social_btn">
+    <ion-button color="warning" class="btn2">EMAIL INVOICE </ion-button>
+
+    <ion-button color="warning" class="btn2" (click)="presentAlert()"
+      >RATE ORDER</ion-button
+    >
+  </div>
+</ion-content>
