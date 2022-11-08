@@ -23,7 +23,13 @@
     <ion-content>
       <div
         class="top_cat"
-        style="max-width: 100%; overflow: hidden; position: fixed; z-index: 1"
+        style="
+          max-width: 100%;
+          overflow: hidden;
+          position: sticky;
+          z-index: 1;
+          top: 0;
+        "
       >
         <ion-segment (ionChange)="segmentChanged($event)" value="salad">
           <ion-segment-button value="salad">
@@ -122,6 +128,7 @@
         class="animate__animated animate__slideInUp animate__fast"
         *ngIf="segment === 'dessert'"
       >
+        <h5>Menu</h5>
         <ion-card *ngFor="let item of arr; let index = index">
           <ion-card-content>
             <h2>Iss {{ index + 1 }}</h2>
