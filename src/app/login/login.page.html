@@ -11,14 +11,22 @@
     </ion-text>
   </div>
 
-  <form id="form">
+  <form id="form" [formGroup]="validateForm">
     <div>
       <ion-label>Email</ion-label>
-      <ion-input type="text" placeholder="Enter Email"></ion-input>
+      <ion-input
+        type="text"
+        placeholder="Enter Email"
+        formControlName="email"
+      ></ion-input>
     </div>
     <div>
       <ion-label>Password</ion-label>
-      <ion-input type="password" placeholder="Enter Password"></ion-input>
+      <ion-input
+        type="password"
+        placeholder="Enter Password"
+        formControlName="password"
+      ></ion-input>
     </div>
     <div id="forget">
       <a routerLink="/forgetpassword">Forget Password</a>
@@ -28,7 +36,12 @@
     </div>
 
     <div id="login">
-      <ion-button class="button1" expand="block" color="white"
+      <ion-button
+        class="button1"
+        expand="block"
+        color="white"
+        (click)="submitForm()"
+        [disabled]="validateForm.invalid"
         >Login</ion-button
       >
     </div>
