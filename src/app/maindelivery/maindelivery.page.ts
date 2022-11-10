@@ -30,6 +30,8 @@ export class MaindeliveryPage implements OnInit {
     nested: true,
   };
 
+  isSelected = true;
+
   public segment = 'salad';
   public arr = new Array(4);
 

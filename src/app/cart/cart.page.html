@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button id="arrow">
+      <ion-button routerLink="/maindelivery/delivery" id="arrow">
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -79,7 +79,11 @@
         <h4>Apply Vouchers/Points</h4>
       </ion-col>
       <ion-col size="2">
-        <ion-button class="button-arrow" fill="clear">
+        <ion-button
+          class="button-arrow"
+          fill="clear"
+          routerLink="/applyvoucher"
+        >
           <!-- <span class="font-bold text-sm">></span> -->
           <ion-icon name="chevron-forward"></ion-icon>
         </ion-button>

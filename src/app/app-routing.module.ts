@@ -2,13 +2,13 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
-  {
-    path: 'cart',
-    loadChildren: () =>
-      import('./maindelivery/footer/cart/cart.module').then(
-        (m) => m.CartPageModule
-      ),
-  },
+  // {
+  //   path: 'cart',
+  //   loadChildren: () =>
+  //     import('./maindelivery/footer/cart/cart.module').then(
+  //       (m) => m.CartPageModule
+  //     ),
+  // },
   {
     path: 'home',
     loadChildren: () =>
@@ -101,6 +101,21 @@ const routes: Routes = [
       ),
   },
   {
+    path: 'search',
+    loadChildren: () =>
+      import('./search/search.module').then((m) => m.SearchPageModule),
+  },
+  {
+    path: 'cart',
+    loadChildren: () =>
+      import('./cart/cart.module').then((m) => m.CartPageModule),
+  },
+  {
+    path: 'account',
+    loadChildren: () =>
+      import('./account/account.module').then((m) => m.AccountPageModule),
+  },
+  {
     path: 'orders',
     loadChildren: () =>
       import('./orders/orders.module').then((m) => m.OrdersPageModule),
@@ -113,66 +128,74 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'maindelivery',
+    path: '',
     loadChildren: () =>
       import('./maindelivery/maindelivery.module').then(
         (m) => m.MaindeliveryPageModule
       ),
   },
-  {
-    path: 'salad',
-    loadChildren: () =>
-      import('./maindelivery/category/salad/salad.module').then(
-        (m) => m.SaladPageModule
-      ),
-  },
-  {
-    path: 'category/side',
-    loadChildren: () =>
-      import('./maindelivery/category/side/side.module').then(
-        (m) => m.SidePageModule
-      ),
-  },
-  {
-    path: 'category/pizza',
-    loadChildren: () =>
-      import('./maindelivery/category/pizza/pizza.module').then(
-        (m) => m.PizzaPageModule
-      ),
-  },
-  {
-    path: 'category/burger',
-    loadChildren: () =>
-      import('./maindelivery/category/burger/burger.module').then(
-        (m) => m.BurgerPageModule
-      ),
-  },
-  {
-    path: 'category/dimatina',
-    loadChildren: () =>
-      import('./maindelivery/category/dimatina/dimatina.module').then(
-        (m) => m.DimatinaPageModule
-      ),
-  },
-  {
-    path: 'category/dessert',
-    loadChildren: () =>
-      import('./maindelivery/category/dessert/dessert.module').then(
-        (m) => m.DessertPageModule
-      ),
-  },
-  {
-    path: 'orders',
-    loadChildren: () =>
-      import('./orders/orders.module').then((m) => m.OrdersPageModule),
-  },
-  {
-    path: 'applyvoucher',
-    loadChildren: () =>
-      import('./applyvoucher/applyvoucher.module').then(
-        (m) => m.ApplyvoucherPageModule
-      ),
-  },
+  // {
+  //   path: 'salad',
+  //   loadChildren: () =>
+  //     import('./maindelivery/category/salad/salad.module').then(
+  //       (m) => m.SaladPageModule
+  //     ),
+  // },
+  // {
+  //   path: 'category/side',
+  //   loadChildren: () =>
+  //     import('./maindelivery/category/side/side.module').then(
+  //       (m) => m.SidePageModule
+  //     ),
+  // },
+  // {
+  //   path: 'category/pizza',
+  //   loadChildren: () =>
+  //     import('./maindelivery/category/pizza/pizza.module').then(
+  //       (m) => m.PizzaPageModule
+  //     ),
+  // },
+  // {
+  //   path: 'category/burger',
+  //   loadChildren: () =>
+  //     import('./maindelivery/category/burger/burger.module').then(
+  //       (m) => m.BurgerPageModule
+  //     ),
+  // },
+  // {
+  //   path: 'category/dimatina',
+  //   loadChildren: () =>
+  //     import('./maindelivery/category/dimatina/dimatina.module').then(
+  //       (m) => m.DimatinaPageModule
+  //     ),
+  // },
+  // {
+  //   path: 'category/dessert',
+  //   loadChildren: () =>
+  //     import('./maindelivery/category/dessert/dessert.module').then(
+  //       (m) => m.DessertPageModule
+  //     ),
+  // },
+  // {
+  //   path: 'orders',
+  //   loadChildren: () =>
+  //     import('./orders/orders.module').then((m) => m.OrdersPageModule),
+  // },
+  // {
+  //   path: 'applyvoucher',
+  //   loadChildren: () =>
+  //     import('./applyvoucher/applyvoucher.module').then(
+  //       (m) => m.ApplyvoucherPageModule
+  //     ),
+  // },
+  // {
+  //   path: 'reservation',
+  //   loadChildren: () =>
+  //     import('./maindelivery/tabs/reservation/reservation.module').then(
+  //       (m) => m.ReservationPageModule
+  //     ),
+  // },
+
   // {
   //   path: 'account',
   //   loadChildren: () =>

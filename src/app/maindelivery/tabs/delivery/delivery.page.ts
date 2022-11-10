@@ -6,20 +6,28 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./delivery.page.scss'],
 })
 export class DeliveryPage implements OnInit {
-
   public slideOps = {
-    pager : true,
+    loop: true,
+    effect: 'slide',
+    freeMode: true,
+    freeModeSticky: false,
+    slidesPerView: 3,
+    spaceBetween: 1,
+    autoplay: true,
+    speed: 400,
+    pager: true,
     initialSlide: 0,
-    speed : 400,
-    spaceBetween: 100,
     nested: true,
-    effect: 'flip',
-    slidesPerView: 3
   };
 
-  constructor() { }
+  public segment = 'salad';
+  public arr = new Array(4);
 
-  ngOnInit() {
+  constructor() {}
+
+  ngOnInit() {}
+
+  segmentChanged(ev: any) {
+    this.segment = ev.detail.value;
   }
-
 }
