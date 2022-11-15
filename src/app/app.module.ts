@@ -9,6 +9,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthService } from './services/auth.service';
 import { TokenInterceptorService } from './token-interceptor.service';
+import { AuthGuard } from './auth.guard';
+import { ConfigGuard } from './config.guard';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -21,6 +23,8 @@ import { TokenInterceptorService } from './token-interceptor.service';
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     AuthService,
+    AuthGuard,
+    ConfigGuard,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,
