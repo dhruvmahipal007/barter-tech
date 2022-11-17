@@ -72,11 +72,25 @@
     </ion-segment>
   </div>
   <div
-    class="animate__animated animate__slideInUp animate__fast"
+    class="animate__animated animate__slideInUp animate__fast new"
     *ngIf="segment === 'salad'"
   >
-    <h5>Menu</h5>
-    <ion-card *ngFor="let item of arr; let index = index">
+    <ion-grid>
+      <ion-row style="display: flex; align-items: center">
+        <ion-col size="9" style="padding: 0">
+          <h5>Menu</h5>
+        </ion-col>
+        <ion-col size="3" style="padding: 0">
+          <ion-button class="button-transparent" fill="clear">
+            <span class="bold">RESET</span>
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-card
+      *ngFor="let item of arr; let index = index"
+      style="margin-top: -10px"
+    >
       <ion-card-content>
         <div>
           <h2>Bread &amp; Dips</h2>
@@ -90,7 +104,7 @@
   </div>
 
   <div
-    class="animate__animated animate__slideInUp animate__fast"
+    class="animate__animated animate__slideInUp animate__fast new"
     *ngIf="segment === 'side'"
   >
     <h5>Menu</h5>
@@ -102,7 +116,7 @@
   </div>
 
   <div
-    class="animate__animated animate__slideInUp animate__fast"
+    class="animate__animated animate__slideInUp animate__fast new"
     *ngIf="segment === 'pizza'"
   >
     <h5>Menu</h5>
@@ -114,7 +128,7 @@
   </div>
 
   <div
-    class="animate__animated animate__slideInUp animate__fast"
+    class="animate__animated animate__slideInUp animate__fast new"
     *ngIf="segment === 'burger'"
   >
     <h5>Menu</h5>
@@ -126,7 +140,7 @@
   </div>
 
   <div
-    class="animate__animated animate__slideInUp animate__fast"
+    class="animate__animated animate__slideInUp animate__fast new"
     *ngIf="segment === 'dimatine'"
   >
     <h5>Menu</h5>
@@ -138,7 +152,7 @@
   </div>
 
   <div
-    class="animate__animated animate__slideInUp animate__fast"
+    class="animate__animated animate__slideInUp animate__fast new"
     *ngIf="segment === 'dessert'"
   >
     <h5>Menu</h5>

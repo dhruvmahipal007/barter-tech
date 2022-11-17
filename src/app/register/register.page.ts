@@ -5,7 +5,8 @@ import {
   Validators,
   FormControl,
 } from '@angular/forms';
-import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
+
 import { AuthService } from '../services/auth.service';
 import { ToastService } from '../services/toast.service';
 @Component({
@@ -18,8 +19,8 @@ export class RegisterPage implements OnInit {
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
-    private alertController: AlertController,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private router: Router
   ) {
     this.validateForm = this.fb.group({
       firstName: [null, [Validators.required]],
@@ -48,10 +49,18 @@ export class RegisterPage implements OnInit {
     console.log('-----------------data signup-----------', data);
     this.authService.registerUser(data).subscribe(
       (res) => {
-        console.log(res);
+        if (res.status) {
+          localStorage.setItem('token', res.data[0].data.token);
+          localStorage.setItem('userDetails', res.data[0].data);
+          this.toastService.presentToast(res.message);
+          this.router.navigate(['/account']);
+        }
+        // else{
+        //   this.toastService.presentToast();
+        // }
       },
       (error) => {
-        console.log(error);
+        this.toastService.presentToast(error);
       }
     );
   }

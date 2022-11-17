@@ -20,6 +20,11 @@
         formControlName="email"
       ></ion-input>
     </div>
+    <div *ngIf="officialEmail.errors">
+      <div style="color: red" *ngIf="officialEmail.errors.pattern">
+        Email is not valid.
+      </div>
+    </div>
     <div>
       <ion-label>Password</ion-label>
       <ion-input
