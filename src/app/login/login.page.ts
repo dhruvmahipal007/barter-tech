@@ -58,6 +58,7 @@ export class LoginPage implements OnInit {
           localStorage.setItem('userDetails', data.data.UserData);
           this.toastService.presentToast(data.message);
           this.router.navigate(['/account']);
+          this.validateForm.reset();
         } else {
           this.toastService.presentToast('Incorrect username or password');
         }

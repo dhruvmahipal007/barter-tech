@@ -1,20 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
-
+import { Browser } from '@capacitor/browser';
 @Component({
   selector: 'app-account',
   templateUrl: './account.page.html',
   styleUrls: ['./account.page.scss'],
 })
 export class AccountPage implements OnInit {
-
-  qrCodeString='This is a secret qr code message';
+  qrCodeString = 'This is a secret qr code message';
   // scannedResults:any;
   // content_visibility='hidden';
   zipped: boolean = true;
   isBarCodeVisible: boolean = false;
- 
-  constructor() { }
+
+  constructor() {}
 
   // async checkPermission(){
   //   try{
@@ -63,24 +62,31 @@ export class AccountPage implements OnInit {
   //   this.content_visibility='';
   // }
 
-//  ngOnDestroy(): void {
-//    this.stopScan();
-//  }
-ngOnInit(): void {
-  
-   
-}
-qrbtn(){
-  this.zipped = !this.zipped;
-  if(this.zipped){
-    this.isBarCodeVisible = false
+  //  ngOnDestroy(): void {
+  //    this.stopScan();
+  //  }
+  ngOnInit(): void {}
+  qrbtn() {
+    this.zipped = !this.zipped;
+    if (this.zipped) {
+      this.isBarCodeVisible = false;
+    } else {
+      this.isBarCodeVisible = true;
+    }
   }
-  else{
-    this.isBarCodeVisible = true;
+  async openWhatson() {
+    await Browser.open({
+      url: 'https://thestirlingarms.com.au/whats-on/stirling-specials',
+    });
   }
-}
-
-
-
-
+  async openAboutUs() {
+    await Browser.open({
+      url: 'https://thestirlingarms.com.au/about-us/about-us',
+    });
+  }
+  async openLegal() {
+    await Browser.open({
+      url: 'https://thestirlingarms.com.au/stay/terms-conditions',
+    });
+  }
 }

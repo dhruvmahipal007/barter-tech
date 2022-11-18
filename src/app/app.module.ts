@@ -11,6 +11,7 @@ import { AuthService } from './services/auth.service';
 import { TokenInterceptorService } from './token-interceptor.service';
 import { AuthGuard } from './auth.guard';
 import { ConfigGuard } from './config.guard';
+import { IonicStorageModule } from '@ionic/storage-angular';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -19,11 +20,13 @@ import { ConfigGuard } from './config.guard';
     AppRoutingModule,
     IonicModule,
     HttpClientModule,
+    IonicStorageModule.forRoot(),
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     AuthService,
     AuthGuard,
+    Storage,
     ConfigGuard,
     {
       provide: HTTP_INTERCEPTORS,
