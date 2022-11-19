@@ -1,38 +1,62 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-searchbar
+      animated="true"
+      debounce="800"
+      #searchInput
+      (ionChange)="onSearchChange($event)"
+    ></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
 <ion-content>
-  <div class="head">
-    <ion-searchbar class="search" placeholder="search for food"></ion-searchbar>
+  <!-- <div class="head">
+    <ion-searchbar class="search" placeholder="search for food" ></ion-searchbar>
     <ion-button fill="clear" class="btn-send"
       ><ion-icon class="icon" name="funnel"></ion-icon>
     </ion-button>
-  </div>
+  </div> -->
   <!-- <h5>3 items found</h5> -->
-  <ion-row>
-    <ion-col>
-      <div>
-        <h5>3 items found</h5>
-      </div>
-    </ion-col>
-  </ion-row>
-
-  <ion-grid>
+  <!-- *ngIf="restaurants.length>0" ion list condition-->
+  <app-loading-reastaurant *ngIf="isLoading"></app-loading-reastaurant>
+  <app-empty-screen
+    *ngIf="!isLoading || query?.length==0"
+    [model]="model"
+  ></app-empty-screen>
+  <ion-list *ngIf="!isLoading">
+    <ion-list-header>
+      <ion-label>
+        <h3>Search results for "{{query}}"</h3>
+      </ion-label>
+    </ion-list-header>
     <ion-row>
-      <div id="head">
-        <ion-col size="8">
-          <div id="mid_sec">
-            <h4>Mini Apple Doughnuts</h4>
-            <p>$12</p>
-            <p>White chocolate ganache,ice-cream</p>
-          </div>
-        </ion-col>
-        <ion-col size="4">
-          <div id="bottom_sec">
-            <img src="assets/logoOriginal.png" />
-            <ion-button class="btn-apply" color="warning">ADD </ion-button>
-          </div>
-        </ion-col>
-      </div>
+      <ion-col>
+        <div>
+          <h5>3 items found</h5>
+        </div>
+      </ion-col>
     </ion-row>
-  </ion-grid>
+
+    <ion-grid>
+      <ion-row>
+        <div id="head">
+          <ion-col size="8">
+            <div id="mid_sec">
+              <h4>Mini Apple Doughnuts</h4>
+              <p>$12</p>
+              <p>White chocolate ganache,ice-cream</p>
+            </div>
+          </ion-col>
+          <ion-col size="4">
+            <div id="bottom_sec">
+              <img src="assets/logoOriginal.png" />
+              <ion-button class="btn-apply" color="warning">ADD </ion-button>
+            </div>
+          </ion-col>
+        </div>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
   <ion-tabs>
     <ion-tab-bar slot="bottom">
       <ion-tab-button routerLink="/maindelivery/delivery" class="two">

@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content>
-  <ion-slides [options]="slideOps">
+  <!-- <ion-slides [options]="slideOps">
     <ion-slide>
       <div class="box">
         <img src="assets/img/burger2.jpeg" alt="" />
@@ -31,7 +31,28 @@
         <img src="assets/img/burger2.jpeg" alt="" />
       </div>
     </ion-slide>
-  </ion-slides>
+  </ion-slides> -->
+  <swiper [slidesPerView]="3" [loop]="true" class="borderBottom">
+    <ng-template swiperSlide
+      ><div class="box">
+        <img src="assets/img/burger2.jpeg" alt="" />
+      </div>
+    </ng-template>
+    <ng-template swiperSlide
+      ><div class="box">
+        <img src="assets/img/burger2.jpeg" alt="" />
+      </div>
+    </ng-template>
+    <ng-template swiperSlide
+      ><div class="box">
+        <img src="assets/img/burger2.jpeg" alt="" />
+      </div>
+    </ng-template>
+    <ng-template swiperSlide
+      ><div class="box">
+        <img src="assets/img/burger2.jpeg" alt="" /></div
+    ></ng-template>
+  </swiper>
 
   <div
     class="top_cat"

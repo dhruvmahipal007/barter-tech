@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
+import { StorageService } from '../services/storage.service';
 import { ToastService } from '../services/toast.service';
 @Component({
   selector: 'app-login',
@@ -19,8 +20,9 @@ export class LoginPage implements OnInit {
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
+    private router: Router,
     private toastService: ToastService,
-    private router: Router
+    private storage: StorageService
   ) {
     this.validateForm = this.fb.group({
       email: [
@@ -31,7 +33,20 @@ export class LoginPage implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.isLoggedIn();
+  }
+  async isLoggedIn() {
+    try {
+      const token = await this.authService.getToken();
+      if (!!token) {
+        this.router.navigate(['/account']);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   submitForm(): void {
     for (const i in this.validateForm.controls) {
       this.validateForm.controls[i].markAsDirty();
@@ -51,11 +66,16 @@ export class LoginPage implements OnInit {
     this.authService.login(data).subscribe({
       next: (data) => {
         if (data.status) {
-          localStorage.setItem(
+          // localStorage.setItem(
+          //   'token',
+          //   data.data.userToken.original.access_token
+          // );
+          this.storage.store(
             'token',
             data.data.userToken.original.access_token
           );
-          localStorage.setItem('userDetails', data.data.UserData);
+          // localStorage.setItem('userDetails', data.data.UserData);
+          this.storage.store('userDetails', data.data.UserData);
           this.toastService.presentToast(data.message);
           this.router.navigate(['/account']);
           this.validateForm.reset();

@@ -1,6 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 import { Browser } from '@capacitor/browser';
+import { NavController } from '@ionic/angular';
+import { AuthService } from '../services/auth.service';
+import { GlobalService } from '../services/global.service';
+import { ToastService } from '../services/toast.service';
 @Component({
   selector: 'app-account',
   templateUrl: './account.page.html',
@@ -13,7 +17,12 @@ export class AccountPage implements OnInit {
   zipped: boolean = true;
   isBarCodeVisible: boolean = false;
 
-  constructor() {}
+  constructor(
+    private authService: AuthService,
+    private navCtrl: NavController,
+    private toastService: ToastService,
+    private global: GlobalService
+  ) {}
 
   // async checkPermission(){
   //   try{
@@ -88,5 +97,21 @@ export class AccountPage implements OnInit {
     await Browser.open({
       url: 'https://thestirlingarms.com.au/stay/terms-conditions',
     });
+  }
+
+  logout() {
+    this.global.showLoader();
+    this.authService
+      .logout()
+      .then(() => {
+        this.navCtrl.navigateRoot('/login');
+        this.global.hideLoader();
+      })
+      .catch((e) => {
+        this.global.hideLoader();
+        this.toastService.presentToast(
+          'Logout Failed!Check Your Internet Connection'
+        );
+      });
   }
 }

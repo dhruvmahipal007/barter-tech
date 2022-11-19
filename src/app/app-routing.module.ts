@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './auth.guard';
+import { ConfigGuard } from './config.guard';
 
 const routes: Routes = [
   // {
@@ -24,7 +25,6 @@ const routes: Routes = [
     path: 'login',
     loadChildren: () =>
       import('./login/login.module').then((m) => m.LoginPageModule),
-    canActivate: [AuthGuard],
   },
   {
     path: 'register',
@@ -56,11 +56,13 @@ const routes: Routes = [
     path: 'contactus',
     loadChildren: () =>
       import('./contactus/contactus.module').then((m) => m.ContactusPageModule),
+    canActivate: [ConfigGuard],
   },
   {
     path: 'profile',
     loadChildren: () =>
       import('./profile/profile.module').then((m) => m.ProfilePageModule),
+    canActivate: [ConfigGuard],
   },
   {
     path: 'addaddress',
@@ -68,6 +70,7 @@ const routes: Routes = [
       import('./addaddress/addaddress.module').then(
         (m) => m.AddaddressPageModule
       ),
+    canActivate: [ConfigGuard],
   },
   // {
   //   path: 'delivery',
@@ -94,6 +97,7 @@ const routes: Routes = [
     path: 'payment',
     loadChildren: () =>
       import('./payment/payment.module').then((m) => m.PaymentPageModule),
+    canActivate: [ConfigGuard],
   },
   {
     path: 'manageaddress',
@@ -101,26 +105,32 @@ const routes: Routes = [
       import('./manageaddress/manageaddress.module').then(
         (m) => m.ManageaddressPageModule
       ),
+    canActivate: [ConfigGuard],
   },
   {
     path: 'search',
     loadChildren: () =>
       import('./search/search.module').then((m) => m.SearchPageModule),
+    canActivate: [ConfigGuard],
   },
   {
     path: 'cart',
     loadChildren: () =>
       import('./cart/cart.module').then((m) => m.CartPageModule),
+    canActivate: [ConfigGuard],
   },
+
   {
     path: 'account',
     loadChildren: () =>
       import('./account/account.module').then((m) => m.AccountPageModule),
+    canActivate: [ConfigGuard],
   },
   {
     path: 'orders',
     loadChildren: () =>
       import('./orders/orders.module').then((m) => m.OrdersPageModule),
+    canActivate: [ConfigGuard],
   },
   {
     path: 'applyvoucher',
@@ -128,6 +138,7 @@ const routes: Routes = [
       import('./applyvoucher/applyvoucher.module').then(
         (m) => m.ApplyvoucherPageModule
       ),
+    canActivate: [ConfigGuard],
   },
   {
     path: '',
@@ -135,6 +146,7 @@ const routes: Routes = [
       import('./maindelivery/maindelivery.module').then(
         (m) => m.MaindeliveryPageModule
       ),
+    canActivate: [ConfigGuard],
   },
   // {
   //   path: 'salad',
@@ -215,6 +227,7 @@ const routes: Routes = [
     path: 'aboutus',
     loadChildren: () =>
       import('./aboutus/aboutus.module').then((m) => m.AboutusPageModule),
+    canActivate: [ConfigGuard],
   },
   {
     path: 'forgetpasswordverify',
@@ -248,6 +261,7 @@ const routes: Routes = [
       import('./orderfilled/orderfilled.module').then(
         (m) => m.OrderfilledPageModule
       ),
+    canActivate: [ConfigGuard],
   },
   {
     path: 'rate',

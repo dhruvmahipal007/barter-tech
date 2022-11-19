@@ -7,14 +7,16 @@ import { IonicModule } from '@ionic/angular';
 import { DeliveryPageRoutingModule } from './delivery-routing.module';
 
 import { DeliveryPage } from './delivery.page';
+import { SwiperModule } from 'swiper/angular';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    DeliveryPageRoutingModule
+    DeliveryPageRoutingModule,
+    SwiperModule,
   ],
-  declarations: [DeliveryPage]
+  declarations: [DeliveryPage],
 })
 export class DeliveryPageModule {}

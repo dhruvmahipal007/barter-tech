@@ -22,7 +22,7 @@
     </ion-text>
   </div>
 
-  <form id="form" [formGroup]="validateForm">
+  <form id="form" [formGroup]="validateForm1">
     <div>
       <ion-label>First Name</ion-label>
       <ion-input
@@ -58,9 +58,10 @@
     <div>
       <ion-label>Mobile</ion-label>
       <ion-input
-        type="number"
+        type="tel"
         placeholder="Enter Number"
-        max-length="10"
+        minlength="10"
+        maxlength="10"
         formControlName="mobile"
       ></ion-input>
     </div>
@@ -78,6 +79,7 @@
         expand="block"
         color="white"
         (click)="submitForm()"
+        [disabled]="validateForm1.invalid"
         >Register</ion-button
       >
     </div>

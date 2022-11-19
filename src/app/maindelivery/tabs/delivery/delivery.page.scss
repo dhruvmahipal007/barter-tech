@@ -133,7 +133,7 @@ ion-card-content img {
 }
 .top_cat h3 {
   padding: 12px;
-  margin-top: -10px;
+  margin-top: 7px;
 }
 .button-transparent {
   --background: transparentize(100);
@@ -143,4 +143,22 @@ ion-card-content img {
 .bold {
   font-size: initial;
   font-weight: bold;
+}
+
+swiper {
+  div {
+    height: 20vh;
+    width: 94%;
+    margin: auto;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    border-radius: 2px;
+    transform: translateY(10%);
+  }
+}
+
+.borderBottom {
+  border-bottom: 2.5vh solid var(--ion-color-light);
+  overflow: unset !important;
 }

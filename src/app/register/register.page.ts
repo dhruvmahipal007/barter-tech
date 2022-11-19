@@ -8,6 +8,7 @@ import {
 import { Router } from '@angular/router';
 
 import { AuthService } from '../services/auth.service';
+import { StorageService } from '../services/storage.service';
 import { ToastService } from '../services/toast.service';
 @Component({
   selector: 'app-register',
@@ -15,14 +16,15 @@ import { ToastService } from '../services/toast.service';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
-  validateForm: FormGroup;
+  validateForm1: FormGroup;
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
     private toastService: ToastService,
+    private storage: StorageService,
     private router: Router
   ) {
-    this.validateForm = this.fb.group({
+    this.validateForm1 = this.fb.group({
       firstName: [null, [Validators.required]],
       lastName: [null, [Validators.required]],
       email: [null, [Validators.required]],
@@ -35,7 +37,7 @@ export class RegisterPage implements OnInit {
   ngOnInit() {}
 
   submitForm() {
-    if (!this.validateForm.valid) return;
+    if (!this.validateForm1.valid) return;
     let data = {
       firstName: this.firstName_FormControl.value,
       lastName: this.lastName_FormControl.value,
@@ -50,10 +52,13 @@ export class RegisterPage implements OnInit {
     this.authService.registerUser(data).subscribe(
       (res) => {
         if (res.status) {
-          localStorage.setItem('token', res.data[0].data.token);
-          localStorage.setItem('userDetails', res.data[0].data);
+          this.storage.store('token', res.data[0].data.token);
+          this.storage.store('userDetails', res.data[0].data);
+          // localStorage.setItem('token', res.data[0].data.token);
+          // localStorage.setItem('userDetails', res.data[0].data);
           this.toastService.presentToast(res.message);
           this.router.navigate(['/account']);
+          this.validateForm1.reset();
         }
         // else{
         //   this.toastService.presentToast();
@@ -66,21 +71,21 @@ export class RegisterPage implements OnInit {
   }
 
   get firstName_FormControl(): FormControl | null {
-    return (this.validateForm?.get('firstName') as FormControl) ?? null;
+    return (this.validateForm1?.get('firstName') as FormControl) ?? null;
   }
   get lastName_FormControl(): FormControl | null {
-    return (this.validateForm?.get('lastName') as FormControl) ?? null;
+    return (this.validateForm1?.get('lastName') as FormControl) ?? null;
   }
   get email_FormControl(): FormControl | null {
-    return (this.validateForm?.get('email') as FormControl) ?? null;
+    return (this.validateForm1?.get('email') as FormControl) ?? null;
   }
   get password_FormControl(): FormControl | null {
-    return (this.validateForm?.get('password') as FormControl) ?? null;
+    return (this.validateForm1?.get('password') as FormControl) ?? null;
   }
   get mobile_FormControl(): FormControl | null {
-    return (this.validateForm?.get('mobile') as FormControl) ?? null;
+    return (this.validateForm1?.get('mobile') as FormControl) ?? null;
   }
   get dateOfBirth_FormControl(): FormControl | null {
-    return (this.validateForm?.get('dateOfBirth') as FormControl) ?? null;
+    return (this.validateForm1?.get('dateOfBirth') as FormControl) ?? null;
   }
 }

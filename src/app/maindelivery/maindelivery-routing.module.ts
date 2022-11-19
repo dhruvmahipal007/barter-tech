@@ -138,6 +138,11 @@ const routes: Routes = [
           },
         ],
       },
+      {
+        path: '',
+        redirectTo: '/maindelivery/delivery',
+        pathMatch: 'full',
+      },
     ],
   },
   // {
