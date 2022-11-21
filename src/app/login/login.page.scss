@@ -58,7 +58,7 @@ h3:after {
 // Piyush's css-------------------------------------- //
 
 #form {
-  margin: 26px 24px 26px 24px;
+  margin: 26px 24px 0px 24px;
   padding: 12px;
 }
 
@@ -134,9 +134,9 @@ h3:after {
 }
 
 #create_acc {
-  position: absolute;
-  bottom: 4%;
-  margin: 0 auto;
+  // position: absolute;
+  // bottom: 4%;
+  margin-top: 35px;
   width: 100%;
   text-align: center;
   left: 0;

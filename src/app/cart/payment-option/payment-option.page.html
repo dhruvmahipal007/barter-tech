@@ -1,0 +1,79 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button id="arrow" routerLink="/cart">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title> Payment </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>
+    <h4>Select Payment Gateway</h4>
+  </div>
+
+  <ion-item class="head">
+    <ion-checkbox slot="start"></ion-checkbox>
+    <ion-label>Payment Method 1</ion-label>
+  </ion-item>
+  <ion-item class="head">
+    <ion-checkbox slot="start"></ion-checkbox>
+    <ion-label>Payment Method 2</ion-label>
+  </ion-item>
+
+  <div id="bottom">
+    <hr class="hr" />
+    <ion-button
+      class="btn-send"
+      expand="block"
+      color="warning"
+      (click)="presentAlert()"
+      >PAY NOW</ion-button
+    >
+  </div>
+
+  <div
+    id="modal"
+    style="
+      background: #808080b8;
+      position: absolute;
+      top: 0;
+      z-index: 10;
+      width: 100%;
+      height: 100%;
+      display: none;
+      justify-content: center;
+      align-items: center;
+    "
+  >
+    <div
+      style="
+        position: relative;
+        background: white;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        padding: 20px;
+        border: 1px solid;
+      "
+    >
+      <div
+        style="
+          position: absolute;
+          right: 12px;
+          top: 10px;
+          font-size: 23px;
+          font-weight: bold;
+        "
+      >
+        X
+      </div>
+      <img
+        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSG_oPXpwBSwtd3rTiabI-I0UrqSB0-tfZ5ig&usqp=CAU"
+      />
+      <h3>Order Placed Successfully</h3>
+    </div>
+  </div>
+</ion-content>

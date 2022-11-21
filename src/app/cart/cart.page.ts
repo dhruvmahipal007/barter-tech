@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -7,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CartPage implements OnInit {
   quantity: number = 1;
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit() {}
   i = 1;
@@ -20,5 +21,8 @@ export class CartPage implements OnInit {
       this.i--;
       this.quantity = this.i;
     }
+  }
+  async makePayment() {
+    this.router.navigate([this.router.url, 'payment-option']);
   }
 }
