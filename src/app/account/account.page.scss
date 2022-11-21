@@ -23,43 +23,6 @@ ion-title {
   width: 120px;
   padding: 0px 13px;
 }
-<<<<<<< HEAD
-
-.userDetails {
-  display: flex;
-  flex-direction: column;
-}
-
-.progressBarHolder {
-  border: 1px solid;
-  height: 10px;
-  width: 100%;
-  position: relative;
-}
-
-.audio-progress-bar {
-  &.mat-progress-bar {
-    height: 8px;
-  }
-
-  .mat-progress-bar-fill::after {
-    background-color: #37474f;
-  }
-
-  .mat-progress-bar-buffer {
-    background-color: #ffffff;
-  }
-
-  /* remove animation and the dots*/ 
-  .mat-progress-bar-background {
-    animation: none;
-    background-color: #eceff1;
-    fill: #eceff1;
-  }
-}
-
-=======
->>>>>>> parent of 2903718 (Feat: progress bar at account page)
 .card-middle {
   display: flex;
   align-items: center;
