@@ -3,7 +3,10 @@
     <ion-title>Account</ion-title>
     <ion-buttons class="btn" slot="end">
       <ion-button (click)="qrbtn()">
-        <ion-icon [class]="zipped ? 'icon':'icons'" [name]="zipped ? 'qr-code-sharp' :'close'"></ion-icon>
+        <ion-icon
+          [class]="zipped ? 'icon':'icons'"
+          [name]="zipped ? 'qr-code-sharp' :'close'"
+        ></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -14,22 +17,21 @@
     <div *ngIf="isBarCodeVisible">
       <ion-card class="ion-text-center">
         <ion-card-content>
-          <qrcode [qrdata]="qrCodeString" [width]="256" [errorCorrectionLevel]="'M'"></qrcode>
+          <qrcode
+            [qrdata]="qrCodeString"
+            [width]="256"
+            [errorCorrectionLevel]="'M'"
+          ></qrcode>
         </ion-card-content>
       </ion-card>
     </div>
     <div style="margin-top: 10px">
       <div class="card-middle">
         <div><img src="assets/logoOriginal.png" class="image-header" /></div>
-        <div class="userDetails">
+        <div>
           <ion-text> John Doe </ion-text>
           <ion-text> johndoe@gmail.com </ion-text>
-          <div class="progressBarHolder">
-            <mat-progress-bar class="audio-progress-bar" [color]="accent" mode="determinate" [value]="value">
-            </mat-progress-bar> 
-            <div style="position: absolute; color: rgb(0, 0, 0);"> {{value}}% complete</div>
-          </div>
-          <!-- <div
+          <div
             style="
               border: 1px solid;
               height: 20px;
@@ -43,11 +45,15 @@
                 >Profile Completeness 60%</ion-text
               >
             </div>
-          </div> -->
+          </div>
         </div>
 
         <div style="margin-top: -36px">
-          <ion-button class="button-transparent" fill="clear" routerLink="/profile">
+          <ion-button
+            class="button-transparent"
+            fill="clear"
+            routerLink="/profile"
+          >
             <span class="bold">Edit</span>
           </ion-button>
         </div>
@@ -55,12 +61,15 @@
       <div>
         <ion-card class="ion-card">
           <ion-card-content style="padding-bottom: 0px">
-            <div class="row" style="
+            <div
+              class="row"
+              style="
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
                 margin-bottom: 10px;
-              ">
+              "
+            >
               <div class="col" style="padding: 0; text-align: left">
                 Gold Membership
               </div>
@@ -72,19 +81,28 @@
                 5600
               </div>
             </div>
-            <div class="row" style="
+            <div
+              class="row"
+              style="
                 display: flex;
                 align-items: center;
                 justify-content: space-around;
                 border-top: 1px solid;
-              ">
-              <div class="col" style="padding: 5px 15px; border-right: 1px solid">
+              "
+            >
+              <div
+                class="col"
+                style="padding: 5px 15px; border-right: 1px solid"
+              >
                 Statement
               </div>
               <div class="col" style="padding: 5px 15px; text-align: center">
                 Manage
               </div>
-              <div class="col" style="padding: 5px 15px; border-left: 1px solid">
+              <div
+                class="col"
+                style="padding: 5px 15px; border-left: 1px solid"
+              >
                 Services
               </div>
             </div>

@@ -8,7 +8,6 @@ import { AccountPageRoutingModule } from './account-routing.module';
 
 import { AccountPage } from './account.page';
 import { QRCodeModule } from 'angularx-qrcode';
-import { MaterialModule } from '../material.module';
 
 @NgModule({
   imports: [
@@ -16,10 +15,8 @@ import { MaterialModule } from '../material.module';
     FormsModule,
     IonicModule,
     AccountPageRoutingModule,
-    QRCodeModule,
-    MaterialModule
+    QRCodeModule
   ],
   declarations: [AccountPage]
 })
-export class AccountPageModule {
-}
+export class AccountPageModule {}

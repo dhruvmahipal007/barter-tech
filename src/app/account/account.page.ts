@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 import { Browser } from '@capacitor/browser';
 import { NavController } from '@ionic/angular';
@@ -9,11 +9,8 @@ import { ToastService } from '../services/toast.service';
   selector: 'app-account',
   templateUrl: './account.page.html',
   styleUrls: ['./account.page.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class AccountPage implements OnInit {
-  value = 62;
-  accent = "#808080";
   qrCodeString = 'This is a secret qr code message';
   // scannedResults:any;
   // content_visibility='hidden';

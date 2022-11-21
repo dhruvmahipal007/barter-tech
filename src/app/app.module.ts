@@ -12,9 +12,6 @@ import { TokenInterceptorService } from './token-interceptor.service';
 import { AuthGuard } from './auth.guard';
 import { ConfigGuard } from './config.guard';
 import { IonicStorageModule } from '@ionic/storage-angular';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from './material.module';
-import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -24,9 +21,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     IonicModule,
     HttpClientModule,
     IonicStorageModule.forRoot(),
-    BrowserAnimationsModule,
-    MaterialModule,
-    ReactiveFormsModule
   ],
   providers: [
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
