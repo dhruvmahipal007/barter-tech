@@ -32,16 +32,16 @@ ion-title {
   flex-direction: column;
 }
 
-.progressBarHolder {
-  border: 1px solid;
-  height: 10px;
-  width: 100%;
-  position: relative;
-}
+// .progressBarHolder {
+//   border: 1px solid;
+//   height: 10px;
+//   width: 100%;
+//   position: relative;
+// }
 
 .audio-progress-bar {
   &.mat-progress-bar {
-    height: 8px;
+    height: 10px;
   }
 
   .mat-progress-bar-fill::after {
@@ -49,7 +49,7 @@ ion-title {
   }
 
   .mat-progress-bar-buffer {
-    background-color: #ffffff;
+    background-color: #90a4ae;
   }
 
   /* remove animation and the dots*/ 
