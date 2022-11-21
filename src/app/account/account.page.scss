@@ -8,24 +8,22 @@ ion-title {
   color: rgb(204, 59, 59);
   font-size: 30px;
 }
-
 .icons {
   color: #000;
   font-size: 30px;
 }
-
 .button-transparent {
   --background: transparentize(100);
   --background-hover: #ffffff;
   color: black;
 }
-
 .image-header {
   margin: 12px 0px 0px 5px;
   height: 62px;
   width: 120px;
   padding: 0px 13px;
 }
+<<<<<<< HEAD
 
 .userDetails {
   display: flex;
@@ -60,6 +58,8 @@ ion-title {
   }
 }
 
+=======
+>>>>>>> parent of 2903718 (Feat: progress bar at account page)
 .card-middle {
   display: flex;
   align-items: center;
@@ -77,21 +77,17 @@ ion-title {
   text-align: center;
   left: 0;
 }
-
 .hr {
   border-top: 1px solid rgba(0, 0, 0, 0.6);
 }
-
 .gray {
   background-color: #d3d3d3;
 }
-
 .button-arrow {
   --background: transparentize(100);
   --background-hover: #ffffff;
   color: black;
 }
-
 // .main {
 //   padding: 10px;
 // }
@@ -99,18 +95,15 @@ ion-title {
   font-size: initial;
   font-weight: bold;
 }
-
 .ion-card {
   background-color: rgb(224, 169, 50);
   padding: 4px;
   border-radius: 9px;
 }
-
 .col {
   font-size: 18px;
   color: black;
 }
-
 .button-bottom {
   --background: transparentize(100);
   --background-hover: #ffffff;
@@ -118,11 +111,9 @@ ion-title {
   font-size: 16px;
   font-weight: bold;
 }
-
 .two.tab-selected {
   color: #000;
 }
-
 // #footer {
 //   display: flex;
 //   justify-content: space-evenly;
