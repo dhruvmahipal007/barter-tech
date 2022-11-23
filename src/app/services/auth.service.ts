@@ -48,6 +48,12 @@ export class AuthService {
   editProfile(data) {
     return this.http.post<any>(this.url2 + '/editprofile', data);
   }
+  addAddress(data) {
+    return this.http.post<any>(this.url2 + '/addaddress', data);
+  }
+  reservation(data) {
+    return this.http.post<any>(this.url2 + '/TableReservation', data);
+  }
   async logout() {
     try {
       // await this.storage.clear();

@@ -3,7 +3,7 @@
     <ion-row>
       <div class="head">
         <ion-button
-          class="button-transparent"
+          [class]="zipped ? 'button-transparent btn-bgr':'button-transparent'"
           fill="clear"
           style="border-right: 2px solid"
           (click)="tableReservation()"
@@ -11,7 +11,7 @@
           <span class="bold">TABLE RESERVATION</span>
         </ion-button>
         <ion-button
-          class="button-transparent"
+          [class]="!zipped ? 'button-transparent btn-bgr':'button-transparent'"
           fill="clear"
           (click)="eventReservation()"
         >
@@ -21,14 +21,22 @@
     </ion-row>
   </ion-grid>
 
-  <form id="form">
+  <form id="form" [formGroup]="reservationForm">
     <div>
       <ion-label>FIRST NAME</ion-label>
-      <ion-input type="text" placeholder="Enter First Name"></ion-input>
+      <ion-input
+        type="text"
+        placeholder="Enter First Name"
+        formControlName="firstName"
+      ></ion-input>
     </div>
     <div>
       <ion-label>LAST NAME</ion-label>
-      <ion-input type="text" placeholder="Enter Last Name"></ion-input>
+      <ion-input
+        type="text"
+        placeholder="Enter Last Name"
+        formControlName="lastName"
+      ></ion-input>
     </div>
     <div>
       <ion-label>MOBILE</ion-label>
@@ -36,35 +44,60 @@
         type="number"
         placeholder="Enter Number"
         max-length="10"
+        formControlName="mobile"
       ></ion-input>
     </div>
     <div>
       <ion-label>EMAIL</ion-label>
-      <ion-input type="text" placeholder="Enter Email"></ion-input>
+      <ion-input
+        type="text"
+        placeholder="Enter Email"
+        formControlName="email"
+      ></ion-input>
     </div>
     <div>
       <ion-label>{{dining_event_date}}</ion-label>
-      <ion-input placeholder="Enter Input" type="date"></ion-input>
+      <ion-input
+        placeholder="Enter Input"
+        type="date"
+        formControlName="date"
+      ></ion-input>
     </div>
     <div>
       <ion-label>{{dining_event_time}}</ion-label>
-      <ion-input placeholder="Enter Input" type="time"></ion-input>
+      <ion-input
+        placeholder="Enter Input"
+        type="time"
+        formControlName="time"
+      ></ion-input>
     </div>
     <div>
       <ion-label>GUESTS</ion-label>
-      <ion-input type="number" placeholder="Enter Number"></ion-input>
+      <ion-input
+        type="number"
+        placeholder="Enter Number"
+        formControlName="guests"
+      ></ion-input>
     </div>
     <div>
       <ion-label>OCCASION</ion-label>
-      <ion-input type="text" placeholder="Enter Occasion"></ion-input>
+      <ion-input
+        type="text"
+        placeholder="Enter Occasion"
+        formControlName="occasion"
+      ></ion-input>
     </div>
     <div>
       <ion-label position="floating">NOTES</ion-label>
-      <ion-textarea rows="4"></ion-textarea>
+      <ion-textarea rows="4" formControlName="notes"></ion-textarea>
     </div>
     <div id="bottom">
       <hr class="hr" />
-      <ion-button class="reset-button" expand="block" color="white"
+      <ion-button
+        class="reset-button"
+        expand="block"
+        color="white"
+        (click)="reserveNow()"
         >RESERVE NOW</ion-button
       >
       <!-- <div>

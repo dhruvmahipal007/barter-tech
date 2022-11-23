@@ -10,12 +10,16 @@
 </ion-header>
 
 <ion-content>
-  <form id="form">
+  <form id="form" [formGroup]="addAddressForm">
     <div>
       <ion-label>Tag</ion-label>
       <ion-list class="tag">
         <ion-item>
-          <ion-select interface="popover" placeholder="Home">
+          <ion-select
+            interface="popover"
+            placeholder="Home"
+            formControlName="tag"
+          >
             <ion-select-option value="home">Home</ion-select-option>
             <ion-select-option value="office">Office</ion-select-option>
           </ion-select>
@@ -24,22 +28,39 @@
     </div>
     <div>
       <ion-label position="floating">Address</ion-label>
-      <ion-textarea rows="3"></ion-textarea>
+      <ion-textarea rows="3" formControlName="address"></ion-textarea>
     </div>
     <div>
       <ion-label>Pincode</ion-label>
-      <ion-input type="number" placeholder="Enter Input"></ion-input>
+      <ion-input
+        type="number"
+        placeholder="Enter Input"
+        formControlName="pincode"
+      ></ion-input>
     </div>
     <div>
       <ion-label>Landmark</ion-label>
-      <ion-input placeholder="Enter Input"></ion-input>
+      <ion-input
+        placeholder="Enter Input"
+        formControlName="landmark"
+      ></ion-input>
     </div>
     <div>
       <ion-label>Mobile</ion-label>
-      <ion-input type="number" placeholder="Enter Input"></ion-input>
+      <ion-input
+        type="number"
+        placeholder="Enter Input"
+        formControlName="mobile"
+      ></ion-input>
     </div>
     <div>
-      <ion-button class="button1" expand="block" color="white">Add</ion-button>
+      <ion-button
+        class="button1"
+        expand="block"
+        color="white"
+        (click)="addAddress()"
+        >Add</ion-button
+      >
     </div>
   </form>
 </ion-content>
