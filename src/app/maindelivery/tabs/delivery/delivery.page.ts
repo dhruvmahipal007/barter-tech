@@ -24,6 +24,7 @@ SwiperCore.use([
   styleUrls: ['./delivery.page.scss'],
 })
 export class DeliveryPage implements OnInit {
+  quantity: number = 1;
   // public slideOps = {
   //   loop: true,
   //   effect: 'slide',
@@ -67,6 +68,17 @@ export class DeliveryPage implements OnInit {
   constructor() {}
 
   ngOnInit() {}
+  i = 1;
+  plus() {
+    this.i++;
+    this.quantity = this.i;
+  }
+  minus() {
+    if (this.i != 1) {
+      this.i--;
+      this.quantity = this.i;
+    }
+  }
 
   segmentChanged(ev: any) {
     this.segment = ev.detail.value;

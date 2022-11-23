@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { IonicModule } from '@ionic/angular';
 
@@ -13,8 +13,9 @@ import { MobileloginverifyPage } from './mobileloginverify.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    MobileloginverifyPageRoutingModule
+    MobileloginverifyPageRoutingModule,
+    ReactiveFormsModule,
   ],
-  declarations: [MobileloginverifyPage]
+  declarations: [MobileloginverifyPage],
 })
 export class MobileloginverifyPageModule {}

@@ -14,24 +14,31 @@
     <img src="assets/Stirling-Arms_Logo.png" class="image-header" />
   </div>
 
-  <form id="form">
+  <form id="form" [formGroup]="profileForm">
     <div>
       <ion-label>Name</ion-label>
-      <ion-input placeholder="Enter Name"></ion-input>
+      <ion-input placeholder="Enter Name" formControlName="name"></ion-input>
     </div>
     <div>
       <ion-label>Email</ion-label>
-      <ion-input placeholder="Enter Email"></ion-input>
+      <ion-input placeholder="Enter Email" formControlName="email"></ion-input>
     </div>
     <div>
       <ion-label>Mobile</ion-label>
-      <ion-input placeholder="Enter Mobile"></ion-input>
+      <ion-input
+        placeholder="Enter Mobile"
+        formControlName="mobile"
+      ></ion-input>
     </div>
     <div>
       <ion-label>Gender</ion-label>
       <ion-list>
         <ion-item>
-          <ion-select interface="popover" placeholder="Male">
+          <ion-select
+            interface="popover"
+            placeholder="Male"
+            formControlName="gender"
+          >
             <ion-select-option value="male">Male</ion-select-option>
             <ion-select-option value="female">Female</ion-select-option>
           </ion-select>
@@ -40,14 +47,28 @@
     </div>
     <div>
       <ion-label>Date of Birth</ion-label>
-      <ion-input placeholder="Enter Date of Birth" type="date"></ion-input>
+      <ion-input
+        placeholder="Enter Date of Birth"
+        type="date"
+        formControlName="dateOfBirth"
+      ></ion-input>
     </div>
     <div>
       <ion-label>Anniversary</ion-label>
-      <ion-input placeholder="Enter Anniversary" type="date"></ion-input>
+      <ion-input
+        placeholder="Enter Anniversary"
+        type="date"
+        formControlName="anniversary"
+      ></ion-input>
     </div>
     <div>
-      <ion-button class="button1" expand="block" color="white">SAVE</ion-button>
+      <ion-button
+        class="button1"
+        expand="block"
+        color="white"
+        (click)="saveForm()"
+        >SAVE</ion-button
+      >
     </div>
   </form>
 </ion-content>

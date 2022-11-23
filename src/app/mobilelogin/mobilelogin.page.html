@@ -22,13 +22,22 @@
     </ion-text>
   </div>
 
-  <form id="form">
+  <form id="form" [formGroup]="mobileLoginForm">
     <div>
       <ion-label>Mobile</ion-label>
-      <ion-input type="number" placeholder="Enter Number" required></ion-input>
+      <ion-input
+        type="number"
+        placeholder="Enter Number"
+        formControlName="mobile"
+        required
+      ></ion-input>
     </div>
     <div>
-      <ion-button class="button1" expand="block" color="white"
+      <ion-button
+        class="button1"
+        expand="block"
+        color="white"
+        (click)="submitForm()"
         >Generate OTP</ion-button
       >
     </div>

@@ -47,7 +47,7 @@ export class ForgetpasswordPage implements OnInit {
           this.router.navigate(['/forgetpasswordverify']);
           this.forgotPasswordForm.reset();
           this.email_FormControl.enable();
-        }, 3000);
+        }, 2000);
       },
       error: (err) => {
         this.isLoading = false;

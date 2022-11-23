@@ -10,10 +10,10 @@
       <p>Doing.Hotel.Different</p>
     </ion-text>
   </div>
-  <form id="form">
+  <form id="form" [formGroup]="mobileLoginVerifyForm">
     <div>
       <ion-label>OTP</ion-label>
-      <ion-input placeholder="Enter OTP"></ion-input>
+      <ion-input placeholder="Enter OTP" formControlName="otp"></ion-input>
     </div>
     <div id="resend">
       <ion-button color="white" expand="block" fill="clear"
@@ -21,7 +21,11 @@
       >
     </div>
     <div>
-      <ion-button class="button1" expand="block" color="white"
+      <ion-button
+        class="button1"
+        expand="block"
+        color="white"
+        (click)="submitForm()"
         >Verify OTP</ion-button
       >
     </div>

@@ -52,10 +52,10 @@ export class RegisterPage implements OnInit {
     this.authService.registerUser(data).subscribe(
       (res) => {
         if (res.status) {
-          this.storage.store('token', res.data[0].data.token);
-          this.storage.store('userDetails', res.data[0].data);
-          // localStorage.setItem('token', res.data[0].data.token);
-          // localStorage.setItem('userDetails', res.data[0].data);
+          // this.storage.store('token', res.data[0].data.token);
+          // this.storage.store('userDetails', res.data[0].data);
+          localStorage.setItem('token', res.data[0].data.token);
+          localStorage.setItem('userDetails', res.data[0].data);
           this.toastService.presentToast(res.message);
           this.router.navigate(['/account']);
           this.validateForm1.reset();

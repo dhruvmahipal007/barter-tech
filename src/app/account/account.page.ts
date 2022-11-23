@@ -100,18 +100,19 @@ export class AccountPage implements OnInit {
   }
 
   logout() {
-    this.global.showLoader();
-    this.authService
-      .logout()
-      .then(() => {
-        this.navCtrl.navigateRoot('/login');
-        this.global.hideLoader();
-      })
-      .catch((e) => {
-        this.global.hideLoader();
-        this.toastService.presentToast(
-          'Logout Failed!Check Your Internet Connection'
-        );
-      });
+    this.global.showLoader().then(() => {
+      this.authService
+        .logout()
+        .then(() => {
+          this.navCtrl.navigateRoot('/login');
+          this.global.hideLoader();
+        })
+        .catch((e) => {
+          this.global.hideLoader();
+          this.toastService.presentToast(
+            'Logout Failed!Check Your Internet Connection'
+          );
+        });
+    });
   }
 }

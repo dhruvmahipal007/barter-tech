@@ -119,7 +119,24 @@
           <p>Charred ciabatta, chef’s dip selections</p>
         </div>
 
-        <img src="assets/img/burger1.jpg" alt="" />
+        <div><img src="assets/img/burger1.jpg" alt="" /></div>
+        <!-- <ion-button class="btn-apply" color="warning">ADD </ion-button> -->
+        <div class="left_design">
+          <ion-button fill="clear" (click)="minus()"
+            ><ion-icon class="icon" name="remove"></ion-icon>
+          </ion-button>
+          <ion-input type="text" [value]="quantity"></ion-input>
+          <ion-button fill="clear" (click)="plus()"
+            ><ion-icon class="icon" name="add"></ion-icon>
+          </ion-button>
+        </div>
+        <!-- <ng-container>
+          <ion-icon color="success" name="remove-outline"></ion-icon>
+          <ion-text class="ion-text-center quantity" color="success"
+            >1</ion-text
+          >
+          <ion-icon color="success" name="add-outline"></ion-icon>
+        </ng-container> -->
       </ion-card-content>
     </ion-card>
   </div>

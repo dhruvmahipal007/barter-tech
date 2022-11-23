@@ -10,6 +10,7 @@ import { StorageService } from './storage.service';
 })
 export class AuthService {
   url: string = environment.serverUrl;
+  url2: string = 'http://barter-tech.antino.ca/api';
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -17,33 +18,40 @@ export class AuthService {
   ) {}
 
   registerUser(data): Observable<any> {
-    return this.http.post<any>(this.url + '/register', data);
+    return this.http.post<any>(this.url2 + '/register', data);
   }
   login(data) {
-    return this.http.post<any>(this.url + '/login', data);
+    return this.http.post<any>(this.url2 + '/login', data);
   }
   forgetPass(email: string) {
     let body = { email };
-    return this.http.post<any>(this.url + '/forgotPassword', body);
+    return this.http.post<any>(this.url2 + '/forgotPassword', body);
   }
   getToken() {
-    // return localStorage.getItem('token');
-    return this.storage.get('token');
+    return localStorage.getItem('token');
+    // return this.storage.get('token');
+  }
+  contactUs(data) {
+    return this.http.post<any>(this.url2 + '/contactUs', data);
   }
   loggedIn() {
-    // return !!localStorage.getItem('token');
-    return !!this.getToken();
+    return !!localStorage.getItem('token');
+    // return !!this.getToken();
   }
   forgetPassVerify(otp: string, newPassword: string) {
     let body = {
       uniqueCode: otp,
       new_password: newPassword,
     };
-    return this.http.post<any>(this.url + `resetPassword`, body);
+    return this.http.post<any>(this.url2 + '/resetPassword', body);
+  }
+  editProfile(data) {
+    return this.http.post<any>(this.url2 + '/editprofile', data);
   }
   async logout() {
     try {
-      await this.storage.clear();
+      // await this.storage.clear();
+      await localStorage.clear();
     } catch (e) {
       console.log(e);
       throw e;

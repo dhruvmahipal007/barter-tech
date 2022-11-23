@@ -6,6 +6,7 @@ import {
   PushNotifications,
   Token,
 } from '@capacitor/push-notifications';
+
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',

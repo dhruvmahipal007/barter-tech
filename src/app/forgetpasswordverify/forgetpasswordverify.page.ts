@@ -57,6 +57,7 @@ export class ForgetpasswordverifyPage implements OnInit {
         },
         error: (err) => {
           this.isLoading = false;
+          this.forgotPassVerifyform.reset();
           this.toastService.presentToast(err);
         },
       });

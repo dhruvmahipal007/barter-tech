@@ -66,16 +66,16 @@ export class LoginPage implements OnInit {
     this.authService.login(data).subscribe({
       next: (data) => {
         if (data.status) {
-          // localStorage.setItem(
-          //   'token',
-          //   data.data.userToken.original.access_token
-          // );
-          this.storage.store(
+          localStorage.setItem(
             'token',
             data.data.userToken.original.access_token
           );
-          // localStorage.setItem('userDetails', data.data.UserData);
-          this.storage.store('userDetails', data.data.UserData);
+          // this.storage.store(
+          //   'token',
+          //   data.data.userToken.original.access_token
+          // );
+          localStorage.setItem('userDetails', data.data.UserData);
+          // this.storage.store('userDetails', data.data.UserData);
           this.toastService.presentToast(data.message);
           this.router.navigate(['/account']);
           this.validateForm.reset();

@@ -162,3 +162,36 @@ swiper {
   border-bottom: 2.5vh solid var(--ion-color-light);
   overflow: unset !important;
 }
+.btn-apply {
+  background: #ffc409;
+  color: black;
+  border: 2px solid;
+  outline: 5px black;
+  box-shadow: 3px 3px 3px 0px rgb(0 0 0 / 75%);
+  position: absolute;
+  bottom: 0%;
+  right: 20px;
+  z-index: 2;
+  height: 25px;
+}
+.quantity {
+  width: 2rem;
+}
+.left_design {
+  height: 26px;
+  border: 2px solid #000;
+  display: flex;
+  align-items: center;
+  width: 26%;
+  background: #ffc409;
+  z-index: 99;
+}
+.left_design ion-button {
+  height: 20px;
+  color: #000;
+  font-size: 10px;
+}
+.left_design ion-input {
+  text-align: center;
+  color: #000;
+}
