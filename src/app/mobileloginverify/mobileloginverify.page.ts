@@ -27,7 +27,39 @@ export class MobileloginverifyPage implements OnInit {
   }
 
   ngOnInit() {}
-  submitForm() {}
+  submitForm() {
+    let data = {
+      otp: this.otp_FormControl.value,
+    };
+    console.log(data);
+    this.authService.mobileLoginVerify(data).subscribe({
+      next: (data) => {
+        if (data.status) {
+          localStorage.setItem(
+            'token',
+            data.data.userToken.original.access_token
+          );
+          // this.storage.store(
+          //   'token',
+          //   data.data.userToken.original.access_token
+          // );
+          localStorage.setItem(
+            'userDetails',
+            JSON.stringify(data.data.UserData)
+          );
+          // this.storage.store('userDetails', data.data.UserData);
+          this.toastService.presentToast(data.message);
+          this.router.navigate(['/account']);
+          this.mobileLoginVerifyForm.reset();
+        } else {
+          this.toastService.presentToast('Incorrect OTP');
+        }
+      },
+      error: (err) => {
+        this.toastService.presentToast(err);
+      },
+    });
+  }
 
   get otp_FormControl(): FormControl | null {
     return (this.mobileLoginVerifyForm?.get('otp') as FormControl) ?? null;

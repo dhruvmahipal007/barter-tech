@@ -32,8 +32,20 @@ export class ProfilePage implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getProfileData();
+  }
 
+  getProfileData() {
+    this.authService.accountSubject.subscribe((res: any) => {
+      console.log(res);
+      if (res) {
+        this.profileForm.patchValue(res);
+        this.profileForm.controls['mobile'].patchValue(res.mobileNo);
+        this.profileForm.controls['dateOfBirth'].patchValue(res.dateOfbirth);
+      }
+    });
+  }
   saveForm() {
     let data = {
       name: this.name_FormControl.value,
@@ -51,6 +63,7 @@ export class ProfilePage implements OnInit {
         if (data.status) {
           this.toastService.presentToast(data.message);
           this.profileForm.reset();
+          this.router.navigate(['/account']);
         } else {
           this.toastService.presentToast('Error in User Details');
         }

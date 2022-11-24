@@ -74,7 +74,10 @@ export class LoginPage implements OnInit {
           //   'token',
           //   data.data.userToken.original.access_token
           // );
-          localStorage.setItem('userDetails', data.data.UserData);
+          localStorage.setItem(
+            'userDetails',
+            JSON.stringify(data.data.UserData)
+          );
           // this.storage.store('userDetails', data.data.UserData);
           this.toastService.presentToast(data.message);
           this.router.navigate(['/account']);

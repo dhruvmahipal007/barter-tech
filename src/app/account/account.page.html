@@ -29,8 +29,9 @@
       <div class="card-middle">
         <div><img src="assets/logoOriginal.png" class="image-header" /></div>
         <div>
-          <ion-text> John Doe </ion-text>
-          <ion-text> johndoe@gmail.com </ion-text>
+          <ion-text>{{userData?.name}}</ion-text>
+          <br />
+          <ion-text>{{userData?.email}}</ion-text>
           <div
             style="
               border: 1px solid;
@@ -53,7 +54,7 @@
           <ion-button
             class="button-transparent"
             fill="clear"
-            routerLink="/profile"
+            (click)="editProfile(userData)"
           >
             <span class="bold">Edit</span>
           </ion-button>

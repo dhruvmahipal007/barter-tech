@@ -8,7 +8,6 @@ import {
 import { Router } from '@angular/router';
 
 import { AuthService } from '../services/auth.service';
-import { StorageService } from '../services/storage.service';
 import { ToastService } from '../services/toast.service';
 @Component({
   selector: 'app-addaddress',
@@ -37,7 +36,7 @@ export class AddaddressPage implements OnInit {
     let data = {
       tag: this.tag_FormControl.value,
       address: this.address_FormControl.value,
-      pincode: this.pincode_FormControl.value,
+      zipcode: this.pincode_FormControl.value,
       landmark: this.landmark_FormControl.value,
       mobile: this.mobile_FormControl.value,
     };
@@ -48,6 +47,7 @@ export class AddaddressPage implements OnInit {
         if (data.status) {
           this.toastService.presentToast(data.message);
           this.addAddressForm.reset();
+          this.router.navigate(['/manageaddress']);
         } else {
           this.toastService.presentToast('Error in User Details');
         }

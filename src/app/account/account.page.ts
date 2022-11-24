@@ -5,6 +5,7 @@ import { NavController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { GlobalService } from '../services/global.service';
 import { ToastService } from '../services/toast.service';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-account',
   templateUrl: './account.page.html',
@@ -16,13 +17,22 @@ export class AccountPage implements OnInit {
   // content_visibility='hidden';
   zipped: boolean = true;
   isBarCodeVisible: boolean = false;
+  userData: any;
 
   constructor(
     private authService: AuthService,
     private navCtrl: NavController,
     private toastService: ToastService,
-    private global: GlobalService
-  ) {}
+    private global: GlobalService,
+    private router: Router,
+    private _route: ActivatedRoute
+  ) {
+    this._route.params.subscribe((res) => {
+      // console.log(res);
+      // console.log(this.router.url);
+      this.getData();
+    });
+  }
 
   // async checkPermission(){
   //   try{
@@ -74,7 +84,10 @@ export class AccountPage implements OnInit {
   //  ngOnDestroy(): void {
   //    this.stopScan();
   //  }
-  ngOnInit(): void {}
+
+  ngOnInit(): void {
+    // this.getData();
+  }
   qrbtn() {
     this.zipped = !this.zipped;
     if (this.zipped) {
@@ -114,5 +127,21 @@ export class AccountPage implements OnInit {
           );
         });
     });
+  }
+
+  getData() {
+    this.authService.getProfile().subscribe({
+      next: (data: any) => {
+        this.userData = data.data;
+        console.log(this.userData);
+      },
+      error: (err) => {
+        this.toastService.presentToast('Network connection error');
+      },
+    });
+  }
+  editProfile(userData) {
+    this.authService.accountSubject.next(this.userData);
+    this.router.navigate(['/profile']);
   }
 }

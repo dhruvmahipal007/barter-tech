@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { StorageService } from './storage.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +12,8 @@ import { StorageService } from './storage.service';
 export class AuthService {
   url: string = environment.serverUrl;
   url2: string = 'http://barter-tech.antino.ca/api';
+  addressSubject = new BehaviorSubject({});
+  accountSubject = new BehaviorSubject({});
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -38,12 +41,8 @@ export class AuthService {
     return !!localStorage.getItem('token');
     // return !!this.getToken();
   }
-  forgetPassVerify(otp: string, newPassword: string) {
-    let body = {
-      uniqueCode: otp,
-      new_password: newPassword,
-    };
-    return this.http.post<any>(this.url2 + '/resetPassword', body);
+  forgetPassVerify(data) {
+    return this.http.post<any>(this.url2 + '/resetPassword', data);
   }
   editProfile(data) {
     return this.http.post<any>(this.url2 + '/editprofile', data);
@@ -51,8 +50,17 @@ export class AuthService {
   addAddress(data) {
     return this.http.post<any>(this.url2 + '/addaddress', data);
   }
+  editAddress(data) {
+    return this.http.post<any>(this.url2 + '/editAddress', data);
+  }
   reservation(data) {
     return this.http.post<any>(this.url2 + '/TableReservation', data);
+  }
+  getAddress() {
+    return this.http.get(this.url2 + '/getaddress');
+  }
+  mobileLoginVerify(data) {
+    return this.http.post<any>(this.url2 + '/verifyOtp', data);
   }
   async logout() {
     try {
@@ -62,5 +70,8 @@ export class AuthService {
       console.log(e);
       throw e;
     }
+  }
+  getProfile() {
+    return this.http.get(this.url2 + '/profile');
   }
 }

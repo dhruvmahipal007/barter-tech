@@ -41,26 +41,26 @@ export class ForgetpasswordverifyPage implements OnInit {
   submitForm() {
     if (this.forgotPassVerifyform.invalid) return;
     this.isLoading = true;
-    this.authService
-      .forgetPassVerify(
-        this.otp_FormControl?.value,
-        this.newPassword_FormControl?.value
-      )
-      .subscribe({
-        next: (data) => {
-          this.isLoading = false;
-          this.toastService.presentToast(data.message);
-          setTimeout(() => {
-            this.router.navigate(['/login']);
-            this.forgotPassVerifyform.reset();
-          }, 3000);
-        },
-        error: (err) => {
-          this.isLoading = false;
+    let data = {
+      uniqueCode: this.otp_FormControl.value,
+      password: this.newPassword_FormControl.value,
+    };
+    console.log(data);
+    this.authService.forgetPassVerify(data).subscribe({
+      next: (data) => {
+        this.isLoading = false;
+        this.toastService.presentToast(data.message);
+        setTimeout(() => {
+          this.router.navigate(['/login']);
           this.forgotPassVerifyform.reset();
-          this.toastService.presentToast(err);
-        },
-      });
+        }, 3000);
+      },
+      error: (err) => {
+        this.isLoading = false;
+        this.forgotPassVerifyform.reset();
+        this.toastService.presentToast(err);
+      },
+    });
   }
 
   get otp_FormControl(): FormControl | null {

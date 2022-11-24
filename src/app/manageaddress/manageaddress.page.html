@@ -14,15 +14,15 @@
 
 <ion-content>
   <ion-grid>
-    <ion-row>
+    <ion-row *ngFor="let data of userAddress">
       <ion-col size="12" id="first">
-        <h4>Home</h4>
+        <h4>{{data?.tag}}</h4>
       </ion-col>
       <ion-col size="10">
-        <p>355 Scarborough Beach Rd,Osborne Park WA 6017,Australia</p>
+        <p>{{data?.addressLine1}} {{data?.addressLine2}}</p>
       </ion-col>
       <ion-col size="2">
-        <ion-button fill="clear" class="btn-arrow">
+        <ion-button fill="clear" class="btn-arrow" (click)="editAddress(data)">
           <ion-icon name="pencil-sharp"></ion-icon>
         </ion-button>
       </ion-col>

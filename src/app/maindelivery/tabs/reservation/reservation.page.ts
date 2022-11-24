@@ -43,9 +43,7 @@ export class ReservationPage implements OnInit {
       firstname: this.firstName_FormControl.value,
       last_name: this.lastName_FormControl.value,
       email: this.email_FormControl.value,
-      date: this.date_FormControl.value,
       mobile: this.mobile_FormControl.value,
-      time: this.time_FormControl.value,
       guest: this.guests_FormControl.value,
       occasion: this.occasion_FormControl.value,
       note: this.notes_FormControl.value,
@@ -53,6 +51,13 @@ export class ReservationPage implements OnInit {
       reservation_type:
         this.dining_event_date === 'DINING DATE' ? 'dining' : 'event',
     };
+    if (this.dining_event_date === 'DINING DATE') {
+      (data['diningDate'] = this.date_FormControl.value),
+        (data['diningTime'] = this.time_FormControl.value);
+    } else {
+      data['eventDate'] = this.date_FormControl.value;
+      data['eventTime'] = this.time_FormControl.value;
+    }
     console.log(data);
     this.authService.reservation(data).subscribe({
       next: (data) => {

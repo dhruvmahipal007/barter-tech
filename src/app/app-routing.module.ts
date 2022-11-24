@@ -268,6 +268,14 @@ const routes: Routes = [
     loadChildren: () =>
       import('./rate/rate.module').then((m) => m.RatePageModule),
   },
+  {
+    path: 'editaddress',
+    loadChildren: () =>
+      import('./editaddress/editaddress.module').then(
+        (m) => m.EditaddressPageModule
+      ),
+    canActivate: [ConfigGuard],
+  },
 
   // {
   //   path: 'search',
