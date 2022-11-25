@@ -195,3 +195,21 @@ swiper {
   text-align: center;
   color: #000;
 }
+.cart_card_control_span {
+  width: 71px;
+  color: #000;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 24px;
+  background: #ffc409;
+  border-radius: 4px;
+  position: absolute;
+  right: 21px;
+  padding: 4px 0;
+  border: 2px solid;
+  outline: 5px black;
+  box-shadow: 3px 3px 3px 0px rgb(0 0 0 / 75%);
+  /* background-color: #fff; */
+  bottom: 5px;
+}

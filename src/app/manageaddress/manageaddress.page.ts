@@ -8,6 +8,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { AuthService } from '../services/auth.service';
+import { GlobalService } from '../services/global.service';
 import { ToastService } from '../services/toast.service';
 @Component({
   selector: 'app-manageaddress',
@@ -21,6 +22,7 @@ export class ManageaddressPage implements OnInit {
     private fb: FormBuilder,
     private toastService: ToastService,
     private router: Router,
+    private global: GlobalService,
     private _route: ActivatedRoute
   ) {
     this._route.params.subscribe((res) => {
@@ -32,12 +34,15 @@ export class ManageaddressPage implements OnInit {
 
   ngOnInit() {}
   getAdd() {
+    this.global.showLoader('Loading Data');
     this.authService.getAddress().subscribe({
       next: (data: any) => {
         this.userAddress = data.data;
+        this.global.hideLoader();
         console.log(this.userAddress);
       },
       error: (err) => {
+        this.global.hideLoader();
         this.toastService.presentToast(err);
       },
     });

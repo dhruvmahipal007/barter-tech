@@ -16,10 +16,10 @@
   <ion-grid>
     <ion-row *ngFor="let data of userAddress">
       <ion-col size="12" id="first">
-        <h4>{{data?.tag}}</h4>
+        <h3>{{data?.tag}}</h3>
       </ion-col>
       <ion-col size="10">
-        <p>{{data?.addressLine1}} {{data?.addressLine2}}</p>
+        <p class="f_weight">{{data?.addressLine1}} {{data?.addressLine2}}</p>
       </ion-col>
       <ion-col size="2">
         <ion-button fill="clear" class="btn-arrow" (click)="editAddress(data)">

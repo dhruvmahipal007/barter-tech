@@ -18,6 +18,7 @@ export class AccountPage implements OnInit {
   zipped: boolean = true;
   isBarCodeVisible: boolean = false;
   userData: any;
+  isLoading: boolean;
 
   constructor(
     private authService: AuthService,
@@ -130,13 +131,16 @@ export class AccountPage implements OnInit {
   }
 
   getData() {
+    this.global.showLoader('Loading Data');
     this.authService.getProfile().subscribe({
       next: (data: any) => {
         this.userData = data.data;
+        this.global.hideLoader();
         console.log(this.userData);
       },
       error: (err) => {
-        this.toastService.presentToast('Network connection error');
+        this.global.hideLoader();
+        this.toastService.presentToast(err);
       },
     });
   }

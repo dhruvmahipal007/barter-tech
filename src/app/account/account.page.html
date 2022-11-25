@@ -13,6 +13,11 @@
 </ion-header>
 
 <ion-content>
+  <!-- <div *ngIf="isLoading" class="ion-text-center alignSpinner">
+    <ion-spinner color="primary"></ion-spinner>
+  </div> -->
+
+  <!-- <ng-container *ngIf="!isLoading"> -->
   <div class="main">
     <div *ngIf="isBarCodeVisible">
       <ion-card class="ion-text-center">
@@ -178,7 +183,7 @@
   </div>
 
   <ion-tabs style="position: sticky; bottom: 0; height: 10%">
-    <ion-tab-bar slot="bottom">
+    <ion-tab-bar slot="bottom" style="border-top: 1px solid #000">
       <ion-tab-button routerLink="/maindelivery/delivery" class="two">
         <ion-icon name="home"></ion-icon>
         <ion-label>Home</ion-label>
@@ -200,4 +205,5 @@
       </ion-tab-button>
     </ion-tab-bar>
   </ion-tabs>
+  <!-- </ng-container> -->
 </ion-content>
