@@ -29,6 +29,7 @@ export class RegisterPage implements OnInit {
       lastName: [null, [Validators.required]],
       email: [null, [Validators.required]],
       password: [null, [Validators.required]],
+      gender: [null, [Validators.required]],
       mobile: [null, [Validators.required]],
       dateOfBirth: [null, [Validators.required]],
     });
@@ -42,9 +43,11 @@ export class RegisterPage implements OnInit {
       firstName: this.firstName_FormControl.value,
       lastName: this.lastName_FormControl.value,
       email: this.email_FormControl.value,
-      password: this.password_FormControl.value,
       mobile: this.mobile_FormControl.value,
+      gender: this.gender_FormControl.value,
       dateOfBirth: this.dateOfBirth_FormControl.value,
+      password: this.password_FormControl.value,
+
       merchant_id: 4,
     };
 
@@ -87,5 +90,8 @@ export class RegisterPage implements OnInit {
   }
   get dateOfBirth_FormControl(): FormControl | null {
     return (this.validateForm1?.get('dateOfBirth') as FormControl) ?? null;
+  }
+  get gender_FormControl(): FormControl | null {
+    return (this.validateForm1?.get('gender') as FormControl) ?? null;
   }
 }

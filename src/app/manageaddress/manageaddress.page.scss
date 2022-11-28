@@ -18,14 +18,22 @@ ion-title {
   font-weight: bold;
 }
 .btn {
-  color: black !important;
-  border: 2px solid;
+  color: #fff !important;
+  background-color: #000;
+  // color: black !important;
+  border: 2px solid #000;
   outline: 5px black;
   box-shadow: 3px 3px 3px 0px rgb(0 0 0 / 75%);
-  padding-left: 4px;
+  // padding-left: 4px;
   align-items: center;
-  padding-right: 4px;
+  // padding-right: 4px;
   margin-right: 16px;
+  padding: 0;
+}
+.btn:hover {
+  background-color: #bf923d;
+  border: 2px solid #bf923d;
+  color: #fff;
 }
 .btn ion-button {
   font-size: 18px;

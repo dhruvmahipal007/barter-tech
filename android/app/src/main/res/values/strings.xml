@@ -4,4 +4,6 @@
     <string name="title_activity_main">Barter</string>
     <string name="package_name">io.ionic.starter</string>
     <string name="custom_url_scheme">io.ionic.starter</string>
+
+    <string name="server_client_id">737194284758-c9eutvgthupd9qhjoqa350vhj95n3aka.apps.googleusercontent.com</string>
 </resources>

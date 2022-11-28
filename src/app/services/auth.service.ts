@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
@@ -73,5 +73,15 @@ export class AuthService {
   }
   getProfile() {
     return this.http.get(this.url2 + '/profile');
+  }
+  getVouchers() {
+    const params = new HttpParams().append('merchant_id', '4');
+    return this.http.get(this.url2 + '/getvouchers', { params });
+  }
+  getMyOrders() {
+    return this.http.get(this.url2 + '/myOrders');
+  }
+  getOrderDetails(id) {
+    return this.http.get(this.url2 + '/getOrderDetails', id);
   }
 }

@@ -112,27 +112,50 @@
       *ngFor="let item of arr; let index = index"
       style="margin-top: -10px"
     >
-      <ion-card-content>
-        <div>
+      <ion-card-content
+        style="
+          display: flex;
+          align-items: center;
+          position: relative;
+          justify-content: space-between;
+          flex-wrap: nowrap;
+        "
+      >
+        <div style="width: 75%">
           <h2>Bread &amp; Dips</h2>
           <span>$ 14.50</span>
           <p>Charred ciabatta, chef’s dip selections</p>
         </div>
 
-        <div><img src="assets/img/burger1.jpg" alt="" /></div>
+        <div
+          style="
+            width: 25%;
+            display: flex;
+            flex-direction: column;
+            /* height: 100%; */
+            justify-content: center;
+            align-items: center;
+          "
+        >
+          <img
+            src="assets/img/burger1.jpg"
+            alt=""
+            style="width: unset; position: unset"
+          />
 
-        <div class="cart_card_control_span">
-          <span class="cart_mod_btn" role="button" tabindex="0">
-            <span class="cart_remove_icon">–</span>
-          </span>
+          <div class="cart_card_control_span">
+            <span class="cart_mod_btn" role="button" tabindex="0">
+              <span class="cart_remove_icon">–</span>
+            </span>
 
-          <span class="cart_qty_span">
-            <p style="display: inline">1</p>
-          </span>
+            <span class="cart_qty_span">
+              <p style="display: inline">1</p>
+            </span>
 
-          <span class="cart_mod_btn" role="button" tabindex="0">
-            <span class="cart_add_icon">+</span>
-          </span>
+            <span class="cart_mod_btn" role="button" tabindex="0">
+              <span class="cart_add_icon">+</span>
+            </span>
+          </div>
         </div>
         <!-- <ion-button class="btn-apply" color="warning">ADD </ion-button> -->
       </ion-card-content>

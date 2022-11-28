@@ -63,3 +63,16 @@ ion-title {
   margin-left: -20px;
   font-weight: bold;
 }
+#form ion-list {
+  width: 90vw;
+  margin-left: -24px;
+  padding-left: 10px !important;
+}
+#form ion-select {
+  border: 2px solid #000;
+  margin: 0;
+  margin-top: 12px;
+  width: 100%;
+  margin-bottom: 12px;
+  padding-left: 10px !important;
+}

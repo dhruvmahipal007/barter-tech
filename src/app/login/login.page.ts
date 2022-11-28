@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { StorageService } from '../services/storage.service';
 import { ToastService } from '../services/toast.service';
+import '@codetrix-studio/capacitor-google-auth';
+import { Plugins, registerWebPlugin } from '@capacitor/core';
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
@@ -31,6 +33,10 @@ export class LoginPage implements OnInit {
       ],
       password: [null, [Validators.required]],
     });
+  }
+  async loginwithgoogle() {
+    const googleUser = await Plugins.GoogleAuth.signIn(null);
+    console.log('user=', googleUser);
   }
 
   ngOnInit() {

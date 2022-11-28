@@ -6,6 +6,9 @@ import { AuthService } from '../services/auth.service';
 import { GlobalService } from '../services/global.service';
 import { ToastService } from '../services/toast.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Platform } from '@ionic/angular';
+import { Location } from '@angular/common';
+import { App } from '@capacitor/app';
 @Component({
   selector: 'app-account',
   templateUrl: './account.page.html',
@@ -26,8 +29,22 @@ export class AccountPage implements OnInit {
     private toastService: ToastService,
     private global: GlobalService,
     private router: Router,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private platform: Platform,
+    private location: Location
   ) {
+    this.platform.ready().then(() => {
+      this.platform.backButton.subscribeWithPriority(99999, () => {
+        var url = this.router['routerState'].snapshot.url;
+        console.log(url);
+        if (url == '/account') {
+          if (window.confirm('Do you want to exit?')) {
+            App.exitApp();
+          }
+        }
+        // this.location.back();
+      });
+    });
     this._route.params.subscribe((res) => {
       // console.log(res);
       // console.log(this.router.url);

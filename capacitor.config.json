@@ -4,6 +4,11 @@
   "webDir": "www",
   "bundledWebRuntime": false,
   "npmClient": "npm",
+  "server": {
+    "androidScheme": "http",
+    "allowNavigation": ["http://barter-tech.antino.ca/api/*"],
+    "cleartext": true
+  },
   "plugins": {
     "SplashScreen": {
       "launchShowDuration": 0
