@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import {
   FormGroup,
@@ -16,6 +17,7 @@ import { ToastService } from '../services/toast.service';
 })
 export class ProfilePage implements OnInit {
   profileForm: FormGroup;
+  datePipe = new DatePipe('es-US');
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
@@ -39,13 +41,32 @@ export class ProfilePage implements OnInit {
   getProfileData() {
     this.authService.accountSubject.subscribe((res: any) => {
       console.log(res);
+      res.anniversary_date = new Date(res.anniversary_date);
+      res.dateOfBirth = new Date(res.dateOfBirth);
       if (res) {
         this.profileForm.patchValue(res);
         this.profileForm.controls['mobile'].patchValue(res.mobileNo);
-        this.profileForm.controls['dateOfBirth'].patchValue(res.dateOfbirth);
+        this.profileForm.controls['dateOfBirth'].patchValue(
+          this.formatDate(res.dateOfbirth)
+        );
+        this.profileForm.controls['anniversary'].patchValue(
+          this.formatDate(res.anniversary_date)
+        );
+        this.profileForm.controls['gender'].patchValue(res.gender);
       }
     });
   }
+
+  private formatDate(date) {
+    const d = new Date(date);
+    let month = '' + (d.getMonth() + 1);
+    let day = '' + d.getDate();
+    const year = d.getFullYear();
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+    return [year, month, day].join('-');
+  }
+
   saveForm() {
     let data = {
       name: this.name_FormControl.value,

@@ -12,13 +12,17 @@
 <ion-content>
   <ion-grid>
     <ion-row id="first_row">
-      <ion-col size="9" id="first"><h5>Status</h5></ion-col>
-      <ion-col size="3"><h5>Ordered</h5></ion-col>
+      <ion-col size="5.5" id="first"><h5>Status</h5></ion-col>
+      <ion-col size="6.5"
+        ><h5>{{userOrderDetails?.orders.order_status_code}}</h5></ion-col
+      >
       <ion-col size="12">
         <h4>Address</h4>
       </ion-col>
       <ion-col size="12">
-        <p>355 Scarborough Beach Rd,Osborne Park WA 6017,Australia</p>
+        <p>
+          {{userOrderDetails?.orders.addressLine1}},{{userOrderDetails?.orders.city}}
+        </p>
       </ion-col>
       <ion-col size="12"><p>BILL DETAILS</p></ion-col>
     </ion-row>

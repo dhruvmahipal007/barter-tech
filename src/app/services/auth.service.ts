@@ -82,6 +82,10 @@ export class AuthService {
     return this.http.get(this.url2 + '/myOrders');
   }
   getOrderDetails(id) {
-    return this.http.get(this.url2 + '/getOrderDetails', id);
+    const params = new HttpParams().append('id', id);
+    return this.http.get(this.url2 + '/getOrderDetails', { params });
+  }
+  insertReview(data) {
+    return this.http.post(this.url2 + '/insertReview', data);
   }
 }

@@ -12,40 +12,80 @@
 <ion-content>
   <p class="header">Food</p>
   <div class="rating">
-    <input type="radio" id="star1" name="rating" value="1" /><label
-      for="star1"
-    ></label>
-    <input type="radio" id="star2" name="rating" value="2" /><label
-      for="star2"
-    ></label>
-    <input type="radio" id="star3" name="rating" value="3" /><label
-      for="star3"
-    ></label>
-    <input type="radio" id="star4" name="rating" value="4" /><label
-      for="star4"
-    ></label>
-    <input type="radio" id="star5" name="rating" value="5" /><label
-      for="star5"
-    ></label>
+    <input
+      type="radio"
+      id="star1"
+      (click)="onFoodRatingSelect(5)"
+      name="rating"
+      value="1"
+    /><label for="star1"></label>
+    <input
+      type="radio"
+      id="star2"
+      (click)="onFoodRatingSelect(4)"
+      name="rating"
+      value="2"
+    /><label for="star2"></label>
+    <input
+      type="radio"
+      id="star3"
+      (click)="onFoodRatingSelect(3)"
+      name="rating"
+      value="3"
+    /><label for="star3"></label>
+    <input
+      type="radio"
+      id="star4"
+      (click)="onFoodRatingSelect(2)"
+      name="rating"
+      value="4"
+    /><label for="star4"></label>
+    <input
+      type="radio"
+      id="star5"
+      (click)="onFoodRatingSelect(1)"
+      name="rating"
+      value="5"
+    /><label for="star5"></label>
     <br />
   </div>
   <p class="header">Delivery</p>
   <div class="delivery">
-    <input type="radio" id="del1" name="delivery" value="1" /><label
-      for="del1"
-    ></label>
-    <input type="radio" id="del2" name="delivery" value="2" /><label
-      for="del2"
-    ></label>
-    <input type="radio" id="del3" name="delivery" value="3" /><label
-      for="del3"
-    ></label>
-    <input type="radio" id="del4" name="delivery" value="4" /><label
-      for="del4"
-    ></label>
-    <input type="radio" id="del5" name="delivery" value="5" /><label
-      for="del5"
-    ></label>
+    <input
+      type="radio"
+      id="del1"
+      (click)="onDeliveryRatingSelect(5)"
+      name="delivery"
+      value="1"
+    /><label for="del1"></label>
+    <input
+      type="radio"
+      id="del2"
+      (click)="onDeliveryRatingSelect(4)"
+      name="delivery"
+      value="2"
+    /><label for="del2"></label>
+    <input
+      type="radio"
+      id="del3"
+      (click)="onDeliveryRatingSelect(3)"
+      name="delivery"
+      value="3"
+    /><label for="del3"></label>
+    <input
+      type="radio"
+      id="del4"
+      (click)="onDeliveryRatingSelect(2)"
+      name="delivery"
+      value="4"
+    /><label for="del4"></label>
+    <input
+      type="radio"
+      id="del5"
+      (click)="onDeliveryRatingSelect(1)"
+      name="delivery"
+      value="5"
+    /><label for="del5"></label>
     <br />
   </div>
 

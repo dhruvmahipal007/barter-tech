@@ -13,6 +13,11 @@
     "SplashScreen": {
       "launchShowDuration": 0
     },
+    "GoogleAuth": {
+      "scopes": ["profile", "email"],
+      "serverClientId": "737194284758-c9eutvgthupd9qhjoqa350vhj95n3aka.apps.googleusercontent.com",
+      "forceCodeForRefreshToken": true
+    },
     "PushNotifications": {
       "presentationOptions": ["badge", "sound", "alert"]
     }

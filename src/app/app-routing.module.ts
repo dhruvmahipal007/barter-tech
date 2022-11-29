@@ -256,7 +256,7 @@ const routes: Routes = [
       ),
   },
   {
-    path: 'orderfilled',
+    path: 'orderfilled/:id',
     loadChildren: () =>
       import('./orderfilled/orderfilled.module').then(
         (m) => m.OrderfilledPageModule

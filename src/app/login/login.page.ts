@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { StorageService } from '../services/storage.service';
 import { ToastService } from '../services/toast.service';
-import '@codetrix-studio/capacitor-google-auth';
+import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { Plugins, registerWebPlugin } from '@capacitor/core';
 @Component({
   selector: 'app-login',
@@ -34,9 +34,13 @@ export class LoginPage implements OnInit {
       password: [null, [Validators.required]],
     });
   }
+  // ionViewDidEnter() {
+  //   GoogleAuth.init();
+  // }
+
   async loginwithgoogle() {
-    const googleUser = await Plugins.GoogleAuth.signIn(null);
-    console.log('user=', googleUser);
+    const googleUser = await GoogleAuth.signIn();
+    console.log('my user: ', googleUser);
   }
 
   ngOnInit() {
@@ -52,6 +56,8 @@ export class LoginPage implements OnInit {
       console.log(e);
     }
   }
+
+  loginwithfacebook() {}
 
   submitForm(): void {
     for (const i in this.validateForm.controls) {

@@ -11,6 +11,7 @@ import { AuthService } from './services/auth.service';
 import { TokenInterceptorService } from './token-interceptor.service';
 import { AuthGuard } from './auth.guard';
 import { ConfigGuard } from './config.guard';
+import { HTTP } from '@awesome-cordova-plugins/http/ngx';
 import { IonicStorageModule } from '@ionic/storage-angular';
 @NgModule({
   declarations: [AppComponent],
@@ -27,6 +28,7 @@ import { IonicStorageModule } from '@ionic/storage-angular';
     AuthService,
     AuthGuard,
     Storage,
+    HTTP,
     ConfigGuard,
     {
       provide: HTTP_INTERCEPTORS,
