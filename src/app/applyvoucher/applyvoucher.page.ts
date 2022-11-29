@@ -12,6 +12,8 @@ import { GlobalService } from '../services/global.service';
 })
 export class ApplyvoucherPage implements OnInit {
   isDataVisible: boolean;
+  couponList: any[] = [];
+
   constructor(
     private authService: AuthService,
     private toastService: ToastService,
@@ -28,6 +30,15 @@ export class ApplyvoucherPage implements OnInit {
     this.authService.getVouchers().subscribe({
       next: (data: any) => {
         if (data.status) {
+          data.data.map((ele) => {
+            let objData = {
+              couponCode: ele.couponcode.trim(),
+              couponValue: ele.couponvalue,
+              couponName: ele.couponName,
+              couponTitle: ele.couponTitle,
+            };
+            this.couponList.push(objData);
+          });
           this.global.hideLoader();
         } else {
           // this.toastService.presentToast(data.message);
@@ -35,11 +46,29 @@ export class ApplyvoucherPage implements OnInit {
           this.global.hideLoader();
         }
         console.log(data);
+        console.log(this.couponList);
       },
       error: (err) => {
         this.global.hideLoader();
         this.toastService.presentToast(err);
       },
     });
+  }
+  applyCoupon(value) {
+    console.log(value);
+    this.couponList.map((ele) => {
+      if (ele.couponCode.toLowerCase() == value.toLowerCase()) {
+        console.log('Entered');
+        this.authService.couponSubject.next(ele);
+      } else {
+        this.authService.couponSubject.next('invalid');
+      }
+      this.router.navigate(['/cart']);
+    });
+  }
+
+  existedCouponApplied(element: any) {
+    this.authService.couponSubject.next(element);
+    this.router.navigate(['/cart']);
   }
 }

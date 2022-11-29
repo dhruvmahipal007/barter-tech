@@ -71,17 +71,36 @@
       <ion-col size="2">
         <ion-badge style="margin-top: 8px" color="warning">%</ion-badge>
       </ion-col>
+
       <ion-col size="8">
-        <h4>Apply Vouchers/Points</h4>
+        <h4 *ngIf="!isCouponApplied">Apply Vouchers/Points</h4>
+        <h4 style="color: red" *ngIf="!isCouponApplied && isCouponUsed">
+          Coupon is invalid
+        </h4>
+        <h4 *ngIf="isCouponApplied">Coupon Applied Successfully</h4>
       </ion-col>
+
       <ion-col size="2">
         <ion-button
           class="button-arrow"
           fill="clear"
           routerLink="/applyvoucher"
+          [disabled]="isCouponApplied"
         >
           <ion-icon name="chevron-forward"></ion-icon>
         </ion-button>
+      </ion-col>
+
+      <ion-col size="12">
+        <div id="remove_btn">
+          <ion-button
+            *ngIf="isCouponApplied"
+            fill="clear"
+            style="color: red"
+            (click)="remove()"
+            >REMOVE</ion-button
+          >
+        </div>
       </ion-col>
     </ion-row>
   </ion-grid>
@@ -100,6 +119,15 @@
       </ion-col>
       <ion-col>
         <p>$95</p>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="isCouponApplied && isCouponUsed">
+      <ion-col size="10">
+        <p>Coupon -({{appliedCoupon.couponCode}})</p>
+      </ion-col>
+      <ion-col>
+        <p>${{appliedCoupon.couponValue}}</p>
       </ion-col>
     </ion-row>
 

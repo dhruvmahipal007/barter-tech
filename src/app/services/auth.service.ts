@@ -14,6 +14,7 @@ export class AuthService {
   url2: string = 'http://barter-tech.antino.ca/api';
   addressSubject = new BehaviorSubject({});
   accountSubject = new BehaviorSubject({});
+  couponSubject = new BehaviorSubject({});
   constructor(
     private http: HttpClient,
     private router: Router,

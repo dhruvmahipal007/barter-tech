@@ -12,7 +12,30 @@ import { ToastService } from '../services/toast.service';
 })
 export class OrderfilledPage implements OnInit {
   id: string = '';
+  finalMoney: any;
   userOrderDetails: any;
+  // menu: any[] = [
+  //   {
+  //     menuitem_name: 'Hara bhara Kabab(6 Pieces)',
+  //     Quantity: '1.0000',
+  //     default_Price: '15.9500',
+  //   },
+  //   {
+  //     menuitem_name: 'Hara bhara Kabab(6 Pieces)',
+  //     Quantity: '2.0000',
+  //     default_Price: '15.9500',
+  //   },
+  //   {
+  //     menuitem_name: 'Hara bhara Kabab(6 Pieces)',
+  //     Quantity: '3.0000',
+  //     default_Price: '15.9500',
+  //   },
+  //   {
+  //     menuitem_name: 'Hara bhara Kabab(6 Pieces)',
+  //     Quantity: '4.0000',
+  //     default_Price: '15.9500',
+  //   },
+  // ];
   constructor(
     private modalController: ModalController,
     private readonly _activatedRoute: ActivatedRoute,
@@ -49,6 +72,7 @@ export class OrderfilledPage implements OnInit {
       next: (data: any) => {
         if (data.status) {
           this.userOrderDetails = data.data.order_details;
+          this.itemTotal(this.userOrderDetails.menu);
           this.global.hideLoader();
           console.log(this.userOrderDetails);
         } else {
@@ -60,5 +84,15 @@ export class OrderfilledPage implements OnInit {
         this.toastService.presentToast(err);
       },
     });
+  }
+
+  itemTotal(menu) {
+    let finalPrice = 0;
+    menu.map((x) => {
+      let calculatedPrice = x.Quantity * x.default_Price;
+      finalPrice += calculatedPrice;
+    });
+    console.log(finalPrice);
+    this.finalMoney = finalPrice;
   }
 }

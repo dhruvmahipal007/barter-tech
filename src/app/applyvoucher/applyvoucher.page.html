@@ -10,8 +10,13 @@
 </ion-header>
 <ion-content>
   <div class="head">
-    <ion-searchbar placeholder="Enter Voucher Code"></ion-searchbar>
-    <ion-button class="btn-send" color="warning">APPLY </ion-button>
+    <ion-searchbar placeholder="Enter Voucher Code" #value></ion-searchbar>
+    <ion-button
+      class="btn-send"
+      color="warning"
+      (click)="applyCoupon(value.value)"
+      >APPLY
+    </ion-button>
   </div>
   <ion-row>
     <ion-col>
@@ -23,7 +28,7 @@
 
   <ion-grid>
     <ion-row>
-      <div class="empty-state" *ngIf="isDataVisible">
+      <div class="empty-state" *ngIf="couponList.length == 0">
         <div class="empty-state__content">
           <div class="empty-state__icon">
             <img
@@ -36,18 +41,23 @@
           </div>
         </div>
       </div>
-      <div id="avail_voucher" *ngIf="!isDataVisible">
+      <div id="avail_voucher" *ngFor="let data of couponList">
         <ion-col size="1">
           <ion-badge style="margin-top: 8px" color="warning">%</ion-badge>
         </ion-col>
         <ion-col size="8">
           <div id="mid_sec">
-            <h4>Senior Citizen: 10.0%</h4>
+            <h4>{{data.couponCode}}: {{data.couponValue}}%</h4>
             <p>Brief description about offer and its terms</p>
           </div>
         </ion-col>
         <ion-col size="3">
-          <ion-button class="btn-apply" color="warning">APPLY </ion-button>
+          <ion-button
+            class="btn-apply"
+            (click)="existedCouponApplied(data)"
+            color="warning"
+            >APPLY
+          </ion-button>
         </ion-col>
       </div>
     </ion-row>
