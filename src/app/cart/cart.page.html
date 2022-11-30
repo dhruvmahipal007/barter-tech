@@ -93,12 +93,8 @@
 
       <ion-col size="12">
         <div id="remove_btn">
-          <ion-button
-            *ngIf="isCouponApplied"
-            fill="clear"
-            style="color: red"
-            (click)="remove()"
-            >REMOVE</ion-button
+          <ion-button *ngIf="isCouponApplied" fill="clear" style="color: red"
+            ><span (click)="remove()">REMOVE</span></ion-button
           >
         </div>
       </ion-col>

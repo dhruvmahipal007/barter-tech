@@ -96,8 +96,8 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () =>
-              import('./tabs/takeaway/takeaway.module').then(
-                (m) => m.TakeawayPageModule
+              import('./tabs/delivery/delivery.module').then(
+                (m) => m.DeliveryPageModule
               ),
           },
         ],
@@ -120,8 +120,8 @@ const routes: Routes = [
           {
             path: '',
             loadChildren: () =>
-              import('./tabs/dinein/dinein.module').then(
-                (m) => m.DineinPageModule
+              import('./tabs/delivery/delivery.module').then(
+                (m) => m.DeliveryPageModule
               ),
           },
         ],

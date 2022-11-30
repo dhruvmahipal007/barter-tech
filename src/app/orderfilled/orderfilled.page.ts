@@ -12,6 +12,7 @@ import { ToastService } from '../services/toast.service';
 })
 export class OrderfilledPage implements OnInit {
   id: string = '';
+  orderNo: string = '';
   finalMoney: any;
   userOrderDetails: any;
   // menu: any[] = [
@@ -52,7 +53,9 @@ export class OrderfilledPage implements OnInit {
   ngOnInit() {
     this._activatedRoute.paramMap.subscribe((params) => {
       this.id = params.get('id');
+      this.orderNo = params.get('orderNo');
       console.log(this.id);
+      console.log(this.orderNo);
       this.getOrderedData();
     });
   }

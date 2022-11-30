@@ -33,6 +33,14 @@ export class LoginPage implements OnInit {
       ],
       password: [null, [Validators.required]],
     });
+    // this.authService.testData().subscribe({
+    //   next: (data) => {
+    //     console.log(data);
+    //   },
+    //   error: (err) => {
+    //     console.log(err);
+    //   },
+    // });
   }
   // ionViewDidEnter() {
   //   GoogleAuth.init();

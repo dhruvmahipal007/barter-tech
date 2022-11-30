@@ -15,7 +15,7 @@ import { App } from '@capacitor/app';
   styleUrls: ['./account.page.scss'],
 })
 export class AccountPage implements OnInit {
-  qrCodeString = 'This is a secret qr code message';
+  qrCodeString = '';
   // scannedResults:any;
   // content_visibility='hidden';
   zipped: boolean = true;
@@ -137,6 +137,7 @@ export class AccountPage implements OnInit {
         .then(() => {
           this.navCtrl.navigateRoot('/login');
           this.global.hideLoader();
+          this.authService.couponSubject.next({});
         })
         .catch((e) => {
           this.global.hideLoader();
@@ -154,6 +155,7 @@ export class AccountPage implements OnInit {
         this.userData = data.data;
         this.global.hideLoader();
         console.log(this.userData);
+        this.qrCodeString = this.userData.mobileNo;
       },
       error: (err) => {
         this.global.hideLoader();

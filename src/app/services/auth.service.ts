@@ -12,6 +12,8 @@ import { BehaviorSubject } from 'rxjs';
 export class AuthService {
   url: string = environment.serverUrl;
   url2: string = 'http://barter-tech.antino.ca/api';
+  // url3: string =
+  //   'https://op-au-uat-cusapp-api.azurewebsites.net/api/sendresponse';
   addressSubject = new BehaviorSubject({});
   accountSubject = new BehaviorSubject({});
   couponSubject = new BehaviorSubject({});
@@ -89,4 +91,7 @@ export class AuthService {
   insertReview(data) {
     return this.http.post(this.url2 + '/insertReview', data);
   }
+  // testData() {
+  //   return this.http.get(this.url3);
+  // }
 }

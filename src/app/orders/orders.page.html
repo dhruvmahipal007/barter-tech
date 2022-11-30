@@ -30,7 +30,10 @@
         ><p>{{data?.Orderdate | date: 'MMM- dd- YYYY h:mm: a'}}</p></ion-col
       >
       <ion-col size="6.5">
-        <h3 class="font-weight" [routerLink]="['/orderfilled', data.id]">
+        <h3
+          class="font-weight"
+          [routerLink]="['/orderfilled', data.id,data.orderNo]"
+        >
           #{{data?.orderNo}}
         </h3>
       </ion-col>
