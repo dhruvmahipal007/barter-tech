@@ -17,6 +17,7 @@ export class AuthService {
   addressSubject = new BehaviorSubject({});
   accountSubject = new BehaviorSubject({});
   couponSubject = new BehaviorSubject({});
+  mobileNumberSubject = new BehaviorSubject({});
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -64,6 +65,9 @@ export class AuthService {
   }
   mobileLoginVerify(data) {
     return this.http.post<any>(this.url2 + '/verifyOtp', data);
+  }
+  requestOtp(data) {
+    return this.http.post<any>(this.url2 + '/requestOtp', data);
   }
   async logout() {
     try {

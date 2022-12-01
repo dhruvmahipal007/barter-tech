@@ -27,7 +27,11 @@
       <ion-input placeholder="Enter OTP" formControlName="otp"></ion-input>
     </div>
     <div id="resend">
-      <ion-button color="white" expand="block" fill="clear"
+      <ion-button
+        color="white"
+        expand="block"
+        fill="clear"
+        (click)="resendOtp()"
         >Resend OTP</ion-button
       >
     </div>

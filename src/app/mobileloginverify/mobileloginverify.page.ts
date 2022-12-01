@@ -15,6 +15,7 @@ import { ToastService } from '../services/toast.service';
 })
 export class MobileloginverifyPage implements OnInit {
   mobileLoginVerifyForm: FormGroup;
+  mobileObj = {};
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -26,7 +27,22 @@ export class MobileloginverifyPage implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.authService.mobileNumberSubject.subscribe((res: any) => {
+      this.mobileObj = res;
+    });
+  }
+  resendOtp() {
+    this.authService.requestOtp(this.mobileObj).subscribe({
+      next: (data) => {
+        console.log(data);
+        this.toastService.presentToast('OTP sent successfully');
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
   submitForm() {
     let data = {
       otp: this.otp_FormControl.value,
@@ -56,7 +72,7 @@ export class MobileloginverifyPage implements OnInit {
         }
       },
       error: (err) => {
-        this.toastService.presentToast(err);
+        this.toastService.presentToast(err.error.message);
       },
     });
   }

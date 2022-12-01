@@ -15,6 +15,7 @@ import { ToastService } from '../services/toast.service';
 })
 export class MobileloginPage implements OnInit {
   mobileLoginForm: FormGroup;
+  isLoading = false;
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -27,7 +28,44 @@ export class MobileloginPage implements OnInit {
   }
 
   ngOnInit() {}
-  submitForm() {}
+  submitForm() {
+    if (
+      this.mobile_FormControl.value.toString().length < 10 ||
+      this.mobile_FormControl.value.toString().length > 10
+    ) {
+      this.toastService.presentToast('Please enter a valid no');
+    } else {
+      this.isLoading = true;
+      this.mobileLoginForm.get('mobile').disable();
+      let obj = {
+        mobileNo: '91' + this.mobile_FormControl.value,
+      };
+      console.log(obj);
+      this.authService.requestOtp(obj).subscribe({
+        next: (data) => {
+          if (data.status == 200) {
+            this.isLoading = false;
+            this.toastService.presentToast('OTP sent successfully');
+            this.authService.mobileNumberSubject.next(obj);
+            setTimeout(() => {
+              this.router.navigate(['/mobileloginverify']);
+              this.mobileLoginForm.reset();
+              this.mobile_FormControl.enable();
+            }, 2000);
+          } else {
+            this.toastService.presentToast('Not a Valid User');
+            this.isLoading = false;
+            this.mobileLoginForm.reset();
+            this.mobile_FormControl.enable();
+          }
+        },
+        error: (err) => {
+          this.isLoading = false;
+          this.toastService.presentToast(err);
+        },
+      });
+    }
+  }
 
   get mobile_FormControl(): FormControl | null {
     return (this.mobileLoginForm?.get('mobile') as FormControl) ?? null;
