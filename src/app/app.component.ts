@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 import { Storage } from '@ionic/storage-angular';
+import { IonRouterOutlet, Platform, ToastController } from '@ionic/angular';
 import {
   ActionPerformed,
   PushNotificationSchema,
@@ -7,18 +8,27 @@ import {
   Token,
 } from '@capacitor/push-notifications';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
-import { Platform } from '@ionic/angular';
-
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  constructor(private storage: Storage, private platform: Platform) {
+  @ViewChildren(IonRouterOutlet) routerOutlets: QueryList<IonRouterOutlet>;
+
+  constructor(
+    private storage: Storage,
+    private platform: Platform,
+    private router: Router,
+    private location: Location
+  ) {
     this.storage.create();
     this.initializeApp();
+    this.intialize();
   }
+
   initializeApp() {
     this.platform.ready().then(() => {
       GoogleAuth.initialize({
@@ -29,6 +39,32 @@ export class AppComponent implements OnInit {
       });
     });
   }
+  intialize() {
+    this.platform.ready().then(() => {
+      this.backButtonEvent();
+    });
+  }
+
+  backButtonEvent() {
+    // this.platform.backButton.subscribeWithPriority(0, () => {
+    //   this.routerOutlets.forEach(async () => {
+    //     console.log(this.router.url + 'hello');
+    //     if (this.router.url !== '/account') {
+    //       await this.location.back();
+    //     }
+    //   });
+    // });
+
+    this.platform.backButton.subscribe(async () => {
+      var url = this.router['routerState'].snapshot.url;
+      this.routerOutlets.forEach(async (outlet: IonRouterOutlet) => {
+        if (outlet && outlet.canGoBack() && url !== '/account') {
+          outlet.pop();
+        }
+      });
+    });
+  }
+
   ngOnInit() {
     console.log('Initializing HomePage');
 

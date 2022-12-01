@@ -52,3 +52,17 @@ ion-title {
 ion-content {
   background-color: rgb(172, 154, 154) !important;
 }
+
+ion-list {
+  background: transparent;
+  ion-item {
+    border-radius: 10px;
+    ion-icon {
+      margin-left: 8px;
+      margin-right: 24px;
+    }
+    ion-label {
+      font-size: 1.2 rem;
+    }
+  }
+}
