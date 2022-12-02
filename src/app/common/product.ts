@@ -1,0 +1,35 @@
+export class Product {
+    menuItemId: number;
+    menuItemName: string
+    menuItemShortName: any;
+    MenuItemNote: any;
+    menuItemimageUrl: string;
+    businessUnitId: number;
+    unitPrice: number;
+    currencySymbol: string;
+    itemStock: string;
+    KDU_id: any;
+    deliveryPrice: number;
+    takeAwayPrice: number;
+    dineInPrice: number;
+    isAvailableDelivery: number;
+    isAvailableDinein: number;
+    isAvailableTakeAway: number;
+    unit: string;
+    spiceLevel: any;
+    Calorie: any;
+    CalorieUnit: any;
+    discount: any;
+    vegOrNonVeg: any;
+    taxId: number;
+    taxclassid: number;
+    IsPriceTaxInclusive: number;
+    taxvalue_type: string;
+    taxrate: number;
+    availableType: Array<undefined>[];
+    availableText: string;
+    IsoptionApplicable: number;
+    IsSizeApplicable: number;
+    options: any;
+    isOptionMandatory: number;
+}
