@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-
+import { AuthService } from '../services/auth.service';
+import { GlobalService } from 'src/app/services/global.service';
 @Component({
   selector: 'app-search',
   templateUrl: './search.page.html',
@@ -7,13 +8,18 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 })
 export class SearchPage implements OnInit {
   @ViewChild('searchInput') sInput;
+  searchItems: any[] = [];
+  itemsFound: number;
   model: any = {
     icon: 'search-outline',
     title: 'No Food Matching Record Found',
   };
   query: any;
   isLoading: boolean = false;
-  constructor() {}
+  constructor(
+    private authService: AuthService,
+    private global: GlobalService
+  ) {}
 
   ngOnInit() {
     setTimeout(() => {
@@ -24,15 +30,20 @@ export class SearchPage implements OnInit {
   async onSearchChange(event) {
     console.log(event.detail.value);
     this.query = event.detail.value;
-    // this.restaurants=[];
-    // if(this.query.length>0){
-    // this.isLoading=true;
-    // setTimeout(async()=>{
-    //   this.restaurants=await this.allRestaurants.filter((element:any)=>{
-    //     return element.short_name.includes(this.query);
-    //   });
-    // this.isLoading=false;
-    // },3000);
-    // }
+    // let obj = {
+    //   merchant_id: '4',
+    //   keyword: this.query,
+    // };
+    this.global.showLoader('Loading Data');
+    this.authService.searchData(this.query).subscribe({
+      next: (data: any) => {
+        console.log(data);
+        this.searchItems = data.data;
+        this.global.hideLoader();
+        this.itemsFound = this.searchItems.length;
+        console.log(this.searchItems);
+      },
+      error: (err) => {},
+    });
   }
 }

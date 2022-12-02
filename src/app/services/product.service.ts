@@ -6,40 +6,37 @@ import { Product } from '../common/product';
 import { ProductCategory } from '../common/product-category';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProductService {
-
   categoryUrl: string = 'http://barter-tech.antino.ca/api/MenuItems';
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
   getProductCategories(): Observable<any> {
-    console.log("inside get product categories")
     let param = new HttpParams();
     param = param.append('merchant_id', '4');
     return this.httpClient.get<any>(this.categoryUrl, { params: param });
   }
 
-  getProductList(theCategoryId: number): Observable<any> {
-    console.log("Getting products from resp category");
-    // return this.httpClient.get<any>(this.categoryUrl, { paramMap: theCategoryId })
-  }
-
+  // getProductList(theCategoryId: number): Observable<any> {
+  //   console.log("Getting products from resp category");
+  //   // return this.httpClient.get<any>(this.categoryUrl, { paramMap: theCategoryId })
+  // }
 }
 
 interface GetResponseProducts {
   _embedded: {
     products: Product[];
-  },
+  };
   page: {
-    size: number,
-    totalElements: number,
-    totalPages: number,
-    number: number
-  }
+    size: number;
+    totalElements: number;
+    totalPages: number;
+    number: number;
+  };
 }
 
 interface GetProductCategoriesResponse {
-  menueGroup: { productCategory: ProductCategory[]; };
+  menueGroup: { productCategory: ProductCategory[] };
 }

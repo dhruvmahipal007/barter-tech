@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import SwiperCore, {
   Navigation,
   Pagination,
@@ -7,11 +7,13 @@ import SwiperCore, {
   Autoplay,
   SwiperOptions,
 } from 'swiper';
-import { IonicSlides } from '@ionic/angular';
+import { IonicSlides, IonSegment, IonSlides } from '@ionic/angular';
 import { ProductCategory } from 'src/app/common/product-category';
-import { ProductService } from "src/app/services/product.service";
+import { ProductService } from 'src/app/services/product.service';
 import { Product } from 'src/app/common/product';
 import { ActivatedRoute } from '@angular/router';
+import { GlobalService } from 'src/app/services/global.service';
+
 // install Swiper modules
 SwiperCore.use([
   Autoplay,
@@ -28,10 +30,13 @@ SwiperCore.use([
   styleUrls: ['./delivery.page.scss'],
 })
 export class DeliveryPage implements OnInit {
-
+  @ViewChild('slides', { static: true }) slider: IonSlides;
   productCategories: ProductCategory[];
   products: Product[] = [];
   currentCategoryId!: number;
+  menuItems: any[] = [];
+  currentItem: any;
+  selected: any;
 
   quantity: number = 1;
   // public slideOps = {
@@ -70,52 +75,36 @@ export class DeliveryPage implements OnInit {
     loop: true,
     speed: 400,
   };
+  segment = 0;
 
-  public segment = 'salad';
-  public arr = new Array(4);
-
-  constructor(private productService: ProductService, private route: ActivatedRoute) { }
+  constructor(
+    private productService: ProductService,
+    private route: ActivatedRoute,
+    private global: GlobalService
+  ) {}
 
   ngOnInit() {
     this.listProductCategories();
-    this.route.paramMap.subscribe(() => {
-      this.listProducts();
-    });
+  }
+
+  async segmentChanged(ev: any) {
+    await this.slider.slideTo(this.segment);
+  }
+  async slideChanged() {
+    this.segment = await this.slider.getActiveIndex();
   }
 
   listProductCategories() {
-    this.productService.getProductCategories().subscribe(
-      data => {
-        this.productCategories = data.data[0].menueGroup;
-        this.currentCategoryId = data.data[0].menueGroup.menuGroupId;
-        // console.log(this.productCategories,"API DATA");
-      }
-    )
-    
+    this.global.showLoader('Loading Data');
+    this.productService.getProductCategories().subscribe((data) => {
+      this.productCategories = data.data[0].menueGroup;
+      this.currentCategoryId = data.data[0].menueGroup[0].menuGroupId;
+      this.selected = data.data[0].menueGroup[0].groupName;
+      this.global.hideLoader();
+      this.getDataBymenuGroupId(this.currentCategoryId, this.selected);
+      // console.log(this.productCategories,"API DATA");
+    });
   }
-
-  listProducts() {
-
-    // check if "id" parameter is available
-    const hasCategoryId: boolean = this.route.snapshot.paramMap.has('id');
-
-    if (hasCategoryId) {
-      // get the "id" param string. convert string to a number using the "+" symbol
-      this.currentCategoryId = +this.route.snapshot.paramMap.get('id')!;
-    }
-    else {
-      // not category id available ... default to category id 1
-      this.currentCategoryId = 326;
-    }
-
-    // now get the products for the given category id
-    this.productService.getProductList(this.currentCategoryId).subscribe(
-      data => {
-        this.products = data;
-      }
-    )
-  }
-
 
   i = 1;
   plus() {
@@ -129,7 +118,30 @@ export class DeliveryPage implements OnInit {
     }
   }
 
-  segmentChanged(ev: any) {
-    this.segment = ev.detail.value;
+  getDataBymenuGroupId(id: any, name: any) {
+    this.menuItems = this.productCategories.find(
+      (x) => Number(x.menuGroupId) == Number(id)
+    ).menuItems;
+    this.currentItem = id;
+    this.selected = name;
+    console.log(this.menuItems);
+  }
+  isResetVisible() {
+    if (this.productCategories?.length > 0) {
+      if (
+        Number(this.productCategories[0]?.menuGroupId) ==
+        Number(this.currentItem)
+      ) {
+        return false;
+      }
+      return true;
+    }
+  }
+
+  resetFunctionality() {
+    this.menuItems = this.productCategories[0].menuItems;
+    this.currentItem = this.productCategories[0].menuGroupId;
+    this.selected = this.productCategories[0].groupName;
+    this.productCategories = this.productCategories;
   }
 }

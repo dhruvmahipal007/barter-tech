@@ -98,4 +98,9 @@ export class AuthService {
   // testData() {
   //   return this.http.get(this.url3);
   // }
+  searchData(keyword) {
+    let params = new HttpParams().append('merchant_id', '4');
+    params = params.append('keyword', keyword);
+    return this.http.get(this.url2 + '/searchItems', { params });
+  }
 }
