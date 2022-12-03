@@ -145,41 +145,6 @@ const routes: Routes = [
       },
     ],
   },
-  // {
-  //   path: 'account',
-  //   children: [
-  //     {
-  //       path: '',
-  //       loadChildren: () =>
-  //         import('./footer/account/account.module').then(
-  //           (m) => m.AccountPageModule
-  //         ),
-  //     },
-  //   ],
-  // },
-  // {
-  //   path: 'search',
-  //   children: [
-  //     {
-  //       path: '',
-  //       loadChildren: () =>
-  //         import('./footer/search/search.module').then(
-  //           (m) => m.SearchPageModule
-  //         ),
-  //     },
-  //   ],
-  // },
-  // {
-  //   path: 'cart',
-  //   children: [
-  //     {
-  //       path: '',
-  //       loadChildren: () =>
-  //         import('./footer/cart/cart.module').then((m) => m.CartPageModule),
-  //     },
-  //   ],
-  // },
-  // },
 ];
 
 @NgModule({

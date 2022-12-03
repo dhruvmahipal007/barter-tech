@@ -127,8 +127,10 @@
         "
       >
         <div style="width: 75%">
-          <h2>{{item.menuItemName}}</h2>
-          <span>$ {{item.unitPrice}}</span>
+          <h2 style="font-size: 20px; font-weight: 700">
+            {{item.menuItemName}}
+          </h2>
+          <span style="font-size: 17px">$ {{item.unitPrice}}</span>
           <p>{{item.MenuItemNote}}</p>
         </div>
 
@@ -149,7 +151,12 @@
           />
 
           <div class="cart_card_control_span">
-            <span class="cart_mod_btn" role="button" tabindex="0">
+            <span
+              class="cart_mod_btn"
+              (click)="subQty(product,i)"
+              role="button"
+              tabindex="0"
+            >
               <span class="cart_remove_icon">–</span>
             </span>
 
@@ -157,7 +164,12 @@
               <p style="display: inline">1</p>
             </span>
 
-            <span class="cart_mod_btn" role="button" tabindex="0">
+            <span
+              class="cart_mod_btn"
+              role="button"
+              (click)="addQty(product,i)"
+              tabindex="0"
+            >
               <span class="cart_add_icon">+</span>
             </span>
           </div>

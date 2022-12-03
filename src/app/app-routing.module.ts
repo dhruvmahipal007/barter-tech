@@ -4,13 +4,6 @@ import { AuthGuard } from './auth.guard';
 import { ConfigGuard } from './config.guard';
 
 const routes: Routes = [
-  // {
-  //   path: 'cart',
-  //   loadChildren: () =>
-  //     import('./maindelivery/footer/cart/cart.module').then(
-  //       (m) => m.CartPageModule
-  //     ),
-  // },
   {
     path: 'home',
     loadChildren: () =>
@@ -72,27 +65,7 @@ const routes: Routes = [
       ),
     canActivate: [ConfigGuard],
   },
-  // {
-  //   path: 'delivery',
-  //   loadChildren: () =>
-  //     import('./maindelivery/tabs/delivery/delivery.module').then(
-  //       (m) => m.DeliveryPageModule
-  //     ),
-  // },
-  // {
-  //   path: 'takeaway',
-  //   loadChildren: () =>
-  //     import('./maindelivery/tabs/takeaway/takeaway.module').then(
-  //       (m) => m.TakeawayPageModule
-  //     ),
-  // },
-  // {
-  //   path: 'dinein',
-  //   loadChildren: () =>
-  //     import('./maindelivery/tabs/dinein/dinein.module').then(
-  //       (m) => m.DineinPageModule
-  //     ),
-  // },
+
   {
     path: 'payment',
     loadChildren: () =>
@@ -148,81 +121,7 @@ const routes: Routes = [
       ),
     canActivate: [ConfigGuard],
   },
-  // {
-  //   path: 'salad',
-  //   loadChildren: () =>
-  //     import('./maindelivery/category/salad/salad.module').then(
-  //       (m) => m.SaladPageModule
-  //     ),
-  // },
-  // {
-  //   path: 'category/side',
-  //   loadChildren: () =>
-  //     import('./maindelivery/category/side/side.module').then(
-  //       (m) => m.SidePageModule
-  //     ),
-  // },
-  // {
-  //   path: 'category/pizza',
-  //   loadChildren: () =>
-  //     import('./maindelivery/category/pizza/pizza.module').then(
-  //       (m) => m.PizzaPageModule
-  //     ),
-  // },
-  // {
-  //   path: 'category/burger',
-  //   loadChildren: () =>
-  //     import('./maindelivery/category/burger/burger.module').then(
-  //       (m) => m.BurgerPageModule
-  //     ),
-  // },
-  // {
-  //   path: 'category/dimatina',
-  //   loadChildren: () =>
-  //     import('./maindelivery/category/dimatina/dimatina.module').then(
-  //       (m) => m.DimatinaPageModule
-  //     ),
-  // },
-  // {
-  //   path: 'category/dessert',
-  //   loadChildren: () =>
-  //     import('./maindelivery/category/dessert/dessert.module').then(
-  //       (m) => m.DessertPageModule
-  //     ),
-  // },
-  // {
-  //   path: 'orders',
-  //   loadChildren: () =>
-  //     import('./orders/orders.module').then((m) => m.OrdersPageModule),
-  // },
-  // {
-  //   path: 'applyvoucher',
-  //   loadChildren: () =>
-  //     import('./applyvoucher/applyvoucher.module').then(
-  //       (m) => m.ApplyvoucherPageModule
-  //     ),
-  // },
-  // {
-  //   path: 'reservation',
-  //   loadChildren: () =>
-  //     import('./maindelivery/tabs/reservation/reservation.module').then(
-  //       (m) => m.ReservationPageModule
-  //     ),
-  // },
 
-  // {
-  //   path: 'account',
-  //   loadChildren: () =>
-  //     import('./maindelivery/footer/account/account.module').then((m) => m.AccountPageModule),
-  // },
-
-  // {
-  //   path: 'cart',
-  //   loadChildren: () =>
-  //     import('./maindelivery/footer/cart/cart.module').then(
-  //       (m) => m.CartPageModule
-  //     ),
-  // },
   {
     path: 'aboutus',
     loadChildren: () =>
@@ -276,11 +175,6 @@ const routes: Routes = [
       ),
     canActivate: [ConfigGuard],
   },
-
-  // {
-  //   path: 'search',
-  //   loadChildren: () => import('./maindelivery/footer/search/search.module').then(m => m.SearchPageModule)
-  // }
 ];
 
 @NgModule({

@@ -36,6 +36,7 @@ export class ApplyvoucherPage implements OnInit {
               couponValue: ele.couponvalue,
               couponName: ele.couponName,
               couponTitle: ele.couponTitle,
+              couponDesc: ele.couponDesc,
             };
             this.couponList.push(objData);
           });
