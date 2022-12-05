@@ -149,11 +149,14 @@
             alt=""
             style="width: unset; position: unset"
           />
-          <!-- 
-          <div class="cart_card_control_span">
+
+          <div
+            class="cart_card_control_span"
+            *ngIf="item.product_quantity >= 1"
+          >
             <span
               class="cart_mod_btn"
-              (click)="subQty(product,i)"
+              (click)="subQty(item,index)"
               role="button"
               tabindex="0"
             >
@@ -161,19 +164,25 @@
             </span>
 
             <span class="cart_qty_span">
-              <p style="display: inline">{{ product_quantity }}</p>
+              <p style="display: inline">{{ item.product_quantity }}</p>
             </span>
 
             <span
               class="cart_mod_btn"
               role="button"
-              (click)="addQty(product,i)"
+              (click)="addQty(item,index)"
               tabindex="0"
             >
               <span class="cart_add_icon">+</span>
             </span>
-          </div> -->
-          <ion-button class="btn-apply" color="warning">ADD </ion-button>
+          </div>
+          <ion-button
+            *ngIf="item.product_quantity == 0"
+            (click)="add(item)"
+            class="btn-apply"
+            color="warning"
+            >ADD
+          </ion-button>
         </div>
       </ion-card-content>
     </ion-card>

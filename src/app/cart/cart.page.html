@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-buttons slot="start">
-      <ion-button routerLink="/maindelivery/delivery" id="arrow">
+      <ion-button (click)="changeRoute()" id="arrow">
         <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
       </ion-button>
     </ion-buttons>
@@ -10,210 +10,213 @@
 </ion-header>
 
 <ion-content>
-  <!-- <div class="middle">
+  <div class="middle" *ngIf="cartItems.length == 0">
     <div class="cart_content">
       <img src="assets/cartempty.png" />
       <h5>Your Cart is empty</h5>
     </div>
     <h3 class="h3">Looks like you haven’t added any items yet.</h3>
-  </div> -->
+  </div>
 
   <!--============== FIRST GRID ===============-->
+  <div *ngIf="cartItems.length > 0">
+    <ion-grid>
+      <ion-row *ngFor="let item of cartItems; let index = index">
+        <ion-col size="8" id="first">
+          <div id="item_name">
+            <ion-badge color="success">V</ion-badge>
+            <h3>{{item.menuItemName}}</h3>
+          </div>
+          <p>${{item.unitPrice}}</p>
+        </ion-col>
+        <ion-col id="second" size="4">
+          <div class="left_design">
+            <ion-button fill="clear" (click)="subQty(item)"
+              ><ion-icon class="icon" name="remove"></ion-icon>
+            </ion-button>
+            <ion-input type="text" [value]="item.product_quantity"></ion-input>
+            <ion-button fill="clear" (click)="addQty(item)"
+              ><ion-icon class="icon" name="add"></ion-icon>
+            </ion-button>
+          </div>
+          <p>${{item.unitPrice*item.product_quantity | number : '1.2-2'}}</p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col size="8" id="first">
-        <div id="item_name">
-          <ion-badge color="success">V</ion-badge>
-          <h3>Bread & Dips</h3>
-        </div>
-        <p>$14.5</p>
-      </ion-col>
-      <ion-col id="second" size="4">
-        <div class="left_design">
-          <ion-button fill="clear" (click)="minus()"
-            ><ion-icon class="icon" name="remove"></ion-icon>
-          </ion-button>
-          <ion-input type="text" [value]="quantity"></ion-input>
-          <ion-button fill="clear" (click)="plus()"
-            ><ion-icon class="icon" name="add"></ion-icon>
-          </ion-button>
-        </div>
-        <p>$14.5</p>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+    <hr class="hr" />
 
-  <hr class="hr" />
+    <!--============== SECOND GRID ===============-->
 
-  <!--============== SECOND GRID ===============-->
-
-  <ion-grid id="mid_grid">
-    <ion-row style="padding: 5px">
-      <ion-textarea
-        rows="1"
-        placeholder="Any Allergies? We will pass it to kitchen"
-      >
-      </ion-textarea>
-    </ion-row>
-  </ion-grid>
-
-  <!--============== THIRD GRID ===============-->
-
-  <ion-grid id="last_grid">
-    <ion-row>
-      <ion-col size="12">
-        <p>Offers</p>
-      </ion-col>
-    </ion-row>
-
-    <ion-row id="last">
-      <ion-col size="2">
-        <ion-badge style="margin-top: 8px" color="warning">%</ion-badge>
-      </ion-col>
-
-      <ion-col size="8">
-        <h4 *ngIf="!isCouponApplied">Apply Vouchers/Points</h4>
-        <h4 style="color: red" *ngIf="!isCouponApplied && isCouponUsed">
-          Coupon is invalid
-        </h4>
-        <h4 *ngIf="isCouponApplied">Coupon Applied Successfully</h4>
-      </ion-col>
-
-      <ion-col size="2">
-        <ion-button
-          class="button-arrow"
-          fill="clear"
-          routerLink="/applyvoucher"
-          [disabled]="isCouponApplied"
+    <ion-grid id="mid_grid">
+      <ion-row style="padding: 5px">
+        <ion-textarea
+          rows="1"
+          placeholder="Any Allergies? We will pass it to kitchen"
         >
-          <ion-icon name="chevron-forward"></ion-icon>
-        </ion-button>
-      </ion-col>
+        </ion-textarea>
+      </ion-row>
+    </ion-grid>
 
-      <ion-col size="12">
-        <div id="remove_btn">
-          <ion-button *ngIf="isCouponApplied" fill="clear" style="color: red"
-            ><span (click)="remove()">REMOVE</span></ion-button
+    <!--============== THIRD GRID ===============-->
+
+    <ion-grid id="last_grid">
+      <ion-row>
+        <ion-col size="12">
+          <p>Offers</p>
+        </ion-col>
+      </ion-row>
+
+      <ion-row id="last">
+        <ion-col size="2">
+          <ion-badge style="margin-top: 8px" color="warning">%</ion-badge>
+        </ion-col>
+
+        <ion-col size="8">
+          <h4 *ngIf="!isCouponApplied">Apply Vouchers/Points</h4>
+          <h4 style="color: red" *ngIf="!isCouponApplied && isCouponUsed">
+            Coupon is invalid
+          </h4>
+          <h4 *ngIf="isCouponApplied">Coupon Applied Successfully</h4>
+        </ion-col>
+
+        <ion-col size="2">
+          <ion-button
+            class="button-arrow"
+            fill="clear"
+            routerLink="/applyvoucher"
+            [disabled]="isCouponApplied"
           >
-        </div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <hr class="hr" />
+            <ion-icon name="chevron-forward"></ion-icon>
+          </ion-button>
+        </ion-col>
 
-  <ion-grid id="bottom_grid">
-    <ion-row style="margin: 0px !important">
-      <ion-col size="12">
-        <p>Bill Details</p>
-      </ion-col>
-    </ion-row>
+        <ion-col size="12">
+          <div id="remove_btn">
+            <ion-button *ngIf="isCouponApplied" fill="clear" style="color: red"
+              ><span (click)="remove()">REMOVE</span></ion-button
+            >
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <hr class="hr" />
 
-    <ion-row>
-      <ion-col size="10">
-        <p>Item Total</p>
-      </ion-col>
-      <ion-col>
-        <p>$95</p>
-      </ion-col>
-    </ion-row>
+    <ion-grid id="bottom_grid">
+      <ion-row style="margin: 0px !important">
+        <ion-col size="12">
+          <p>Bill Details</p>
+        </ion-col>
+      </ion-row>
 
-    <ion-row *ngIf="isCouponApplied && isCouponUsed">
-      <ion-col size="10">
-        <p>Coupon -({{appliedCoupon.couponCode}})</p>
-      </ion-col>
-      <ion-col>
-        <p>${{appliedCoupon.couponValue}}</p>
-      </ion-col>
-    </ion-row>
+      <ion-row>
+        <ion-col size="10">
+          <p>Item Total</p>
+        </ion-col>
+        <ion-col>
+          <p>${{itemTotal}}</p>
+        </ion-col>
+      </ion-row>
 
-    <ion-row>
-      <ion-col size="10">
-        <p>Delivery</p>
-      </ion-col>
-      <ion-col>
-        <p>$10</p>
-      </ion-col>
-    </ion-row>
+      <ion-row *ngIf="isCouponApplied && isCouponUsed">
+        <ion-col size="10">
+          <p>Coupon -({{appliedCoupon.couponCode}})</p>
+        </ion-col>
+        <ion-col>
+          <p>${{appliedCoupon.couponValue}}</p>
+        </ion-col>
+      </ion-row>
 
-    <ion-row>
-      <ion-col size="10">
-        <p>GST</p>
-      </ion-col>
-      <ion-col>
-        <p>$12</p>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+      <ion-row>
+        <ion-col size="10">
+          <p>Delivery</p>
+        </ion-col>
+        <ion-col>
+          <p>${{deliveryCharges}}</p>
+        </ion-col>
+      </ion-row>
 
-  <hr class="hr" />
+      <ion-row>
+        <ion-col size="10">
+          <p>GST</p>
+        </ion-col>
+        <ion-col>
+          <p>${{gst}}</p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
-  <ion-grid>
-    <ion-row>
-      <ion-col size="10">
-        <p>To Pay</p>
-      </ion-col>
-      <ion-col>
-        <p>$117</p>
-      </ion-col>
-    </ion-row>
+    <hr class="hr" />
 
-    <ion-row style="display: flex; align-items: center">
-      <ion-col size="6">
-        <p>Deliver To</p>
-      </ion-col>
-      <ion-col size="6">
-        <div class="upperbottom_design">
-          <!-- <ion-text style="font-size: 18px">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="10">
+          <p>To Pay</p>
+        </ion-col>
+        <ion-col>
+          <p>${{totalPayable}}</p>
+        </ion-col>
+      </ion-row>
+
+      <ion-row style="display: flex; align-items: center">
+        <ion-col size="6">
+          <p>Deliver To</p>
+        </ion-col>
+        <ion-col size="6">
+          <div class="upperbottom_design">
+            <!-- <ion-text style="font-size: 18px">
             {{currentAddress?.tag}}
             <ion-icon name="chevron-down-outline"></ion-icon>
           </ion-text> -->
-          <ion-list lines="none">
-            <ion-item>
-              <ion-select
-                interface="popover"
-                [placeholder]="currentAddress?.tag"
-                style="width: 100%; text-align: right"
-              >
-                <ion-select-option
-                  *ngFor="let data of userAddress"
-                  value="data.tag"
-                  >{{data.tag}}<br />
-                  <p>
-                    {{data.addressLine1}} {{data.addressLine2}}
-                  </p></ion-select-option
+            <ion-list lines="none">
+              <ion-item>
+                <ion-select
+                  interface="popover"
+                  [placeholder]="userAddress?.tag"
+                  (ionChange)="onAddressChange($event)"
+                  style="width: 100%; text-align: right"
                 >
-              </ion-select>
-            </ion-item>
-          </ion-list>
-          <p class="ion-text-wrap" style="text-align: right">
-            {{currentAddress?.addressLine1}} {{currentAddress?.addressLine2}}
-          </p>
-        </div>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+                  <ion-select-option
+                    *ngFor="let data of userAddress"
+                    [value]="data"
+                    >{{data.tag}}<br />
+                    <!-- <p>
+                    {{data.addressLine1}} {{data.addressLine2}}
+                  </p> -->
+                  </ion-select-option>
+                </ion-select>
+              </ion-item>
+            </ion-list>
+            <p class="ion-text-wrap" style="text-align: right">
+              {{selectedAddress?.addressLine1}}
+              {{selectedAddress?.addressLine2}}
+            </p>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
 
-  <hr class="hr" />
+    <hr class="hr" />
 
-  <ion-grid>
-    <ion-row>
-      <ion-col size="6.5">
-        <div class="bottom_design">
-          <h4>$117</h4>
-          <!-- <p>VIEW DETAILED BILL</p> -->
-          <ion-text>
-            VIEW DETAILED BILL
-            <ion-icon name="chevron-down-outline"></ion-icon>
-          </ion-text>
-        </div>
-      </ion-col>
+    <ion-grid>
+      <ion-row>
+        <ion-col size="6.5">
+          <div class="bottom_design">
+            <h4>${{totalPayable}}</h4>
+            <!-- <p>VIEW DETAILED BILL</p> -->
+            <ion-text>
+              VIEW DETAILED BILL
+              <ion-icon name="chevron-down-outline"></ion-icon>
+            </ion-text>
+          </div>
+        </ion-col>
 
-      <ion-col size="5.5" (click)="makePayment()">
-        <ion-button class="button1" expand="block" color="white"
-          >MAKE PAYMENT</ion-button
-        >
-      </ion-col>
-    </ion-row>
-  </ion-grid>
+        <ion-col size="5.5" (click)="makePayment()">
+          <ion-button class="button1" expand="block" color="white"
+            >MAKE PAYMENT</ion-button
+          >
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
 </ion-content>

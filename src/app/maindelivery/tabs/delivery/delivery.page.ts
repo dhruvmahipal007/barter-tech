@@ -37,7 +37,8 @@ export class DeliveryPage implements OnInit {
   menuItems: any[] = [];
   currentItem: any;
   selected: any;
-  product_quantity = 1;
+  product_quantity = 0;
+  selectedProducts: any[] = [];
 
   quantity: number = 1;
   // public slideOps = {
@@ -85,15 +86,15 @@ export class DeliveryPage implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.listProductCategories();
+    this.route.params.subscribe((res) => {
+      this.listProductCategories();
+      if (JSON.parse(localStorage.getItem('cartItems'))) {
+        this.selectedProducts = JSON.parse(localStorage.getItem('cartItems'));
+      }
+    });
   }
 
-  async segmentChanged(ev: any) {
-    await this.slider.slideTo(this.segment);
-  }
-  async slideChanged() {
-    this.segment = await this.slider.getActiveIndex();
-  }
+  ionViewWillEnter() {}
 
   listProductCategories() {
     this.global.showLoader('Loading Data');
@@ -107,26 +108,60 @@ export class DeliveryPage implements OnInit {
     });
   }
 
-  i = 1;
-  plus() {
-    this.i++;
-    this.quantity = this.i;
-  }
-  minus() {
-    if (this.i != 1) {
-      this.i--;
-      this.quantity = this.i;
+  // i = 1;
+  // plus() {
+  //   this.i++;
+  //   this.quantity = this.i;
+  // }
+  // minus() {
+  //   if (this.i != 1) {
+  //     this.i--;
+  //     this.quantity = this.i;
+  //   }
+  // }
+
+  subQty(product, index) {
+    product.product_quantity = product.product_quantity - 1;
+    if (product.product_quantity == 0) {
+      this.selectedProducts = this.selectedProducts.filter(
+        (ele) => ele.menuItemId != product.menuItemId
+      );
     }
+    localStorage.setItem('cartItems', JSON.stringify(this.selectedProducts));
+  }
+
+  addQty(product, index) {
+    console.log(this.selectedProducts);
+    product.product_quantity = product.product_quantity + 1;
+    localStorage.setItem('cartItems', JSON.stringify(this.selectedProducts));
+  }
+
+  add(product) {
+    product.product_quantity = product.product_quantity + 1;
+    this.selectedProducts.push(product);
+    localStorage.setItem('cartItems', JSON.stringify(this.selectedProducts));
   }
 
   getDataBymenuGroupId(id: any, name: any) {
     this.menuItems = this.productCategories.find(
       (x) => Number(x.menuGroupId) == Number(id)
     ).menuItems;
+    let i = 0;
+    this.menuItems.map((x) => {
+      x.product_quantity = 0;
+      if (this.selectedProducts.length > 0) {
+        this.selectedProducts.map((y: any) => {
+          if (x.menuItemId == y.menuItemId) {
+            x.product_quantity = y.product_quantity;
+          }
+        });
+      }
+    });
     this.currentItem = id;
     this.selected = name;
     console.log(this.menuItems);
   }
+
   isResetVisible() {
     if (this.productCategories?.length > 0) {
       if (
@@ -144,5 +179,24 @@ export class DeliveryPage implements OnInit {
     this.currentItem = this.productCategories[0].menuGroupId;
     this.selected = this.productCategories[0].groupName;
     this.productCategories = this.productCategories;
+  }
+
+  segmentChanged(e) {
+    //<ion-segment (ionChange)="segmentChanged($event)">
+    setTimeout(() => {
+      const s = e.target.getBoundingClientRect();
+      const sw = s.right - s.left;
+      for (const button of e.target.childNodes) {
+        if (button.className.indexOf('segment-button-checked') > -1) {
+          const bc = button.offsetLeft + button.offsetWidth / 2;
+          const diff = bc - sw / 2;
+          e.target.scrollTo({
+            left: diff,
+            behavior: 'smooth',
+          });
+          break;
+        }
+      }
+    }, 200);
   }
 }
