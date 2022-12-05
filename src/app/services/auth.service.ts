@@ -103,4 +103,7 @@ export class AuthService {
     params = params.append('keyword', keyword);
     return this.http.get(this.url2 + '/searchItems', { params });
   }
+  saveCustomerOrder(data) {
+    return this.http.post(this.url2 + '/saveCustomerOrder', data);
+  }
 }

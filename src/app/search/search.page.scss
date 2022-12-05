@@ -44,7 +44,25 @@
 #head {
   display: flex;
   align-items: center;
+  border-bottom: 1px solid gray;
 }
 .two.tab-selected {
   color: #000;
+}
+.cart_card_control_span {
+  width: 71px;
+  color: #000;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 30px;
+  background: #ffc409;
+  border-radius: 4px;
+  padding: 4px 0;
+  border: 2px solid;
+  outline: 5px black;
+  box-shadow: 3px 3px 3px 0px rgb(0 0 0 / 75%);
+  bottom: -18px;
+  left: 17%;
+  position: absolute;
 }

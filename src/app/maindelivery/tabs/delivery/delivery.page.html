@@ -77,18 +77,18 @@
         (click)="getDataBymenuGroupId(productCategory.menuGroupId,productCategory.groupName)"
         [value]="productCategory.groupName"
       >
-        <img src="{{productCategory.groupImageUrl}}" alt="" />
+        <!-- <img src="{{productCategory.groupImageUrl}}" alt="" /> -->
         <ion-label
           style="
             white-space: pre-wrap;
-            line-height: 10px;
+            line-height: 14px;
             text-overflow: ellipsis;
             overflow: hidden;
             display: -webkit-box;
             -webkit-line-clamp: 4;
             -webkit-box-orient: vertical;
             font-size: 11px;
-            font-weight: bold;
+            font-weight: 700;
           "
         >
           {{productCategory.groupName}}
@@ -145,11 +145,11 @@
           "
         >
           <img
-            [src]="item.menuItemimageUrl"
+            src="assets/img/burger1.jpg"
             alt=""
             style="width: unset; position: unset"
           />
-
+          <!-- 
           <div class="cart_card_control_span">
             <span
               class="cart_mod_btn"
@@ -172,9 +172,9 @@
             >
               <span class="cart_add_icon">+</span>
             </span>
-          </div>
+          </div> -->
+          <ion-button class="btn-apply" color="warning">ADD </ion-button>
         </div>
-        <!-- <ion-button class="btn-apply" color="warning">ADD </ion-button> -->
       </ion-card-content>
     </ion-card>
   </div>

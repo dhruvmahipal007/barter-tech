@@ -30,20 +30,25 @@ export class SearchPage implements OnInit {
   async onSearchChange(event) {
     console.log(event.detail.value);
     this.query = event.detail.value;
+
     // let obj = {
     //   merchant_id: '4',
     //   keyword: this.query,
     // };
-    this.global.showLoader('Loading Data');
-    this.authService.searchData(this.query).subscribe({
-      next: (data: any) => {
-        console.log(data);
-        this.searchItems = data.data;
-        this.global.hideLoader();
-        this.itemsFound = this.searchItems.length;
-        console.log(this.searchItems);
-      },
-      error: (err) => {},
-    });
+    if (this.query.length >= 3) {
+      this.global.showLoader('Loading Data');
+      this.authService.searchData(this.query).subscribe({
+        next: (data: any) => {
+          console.log(data);
+          this.searchItems = data.data;
+          this.global.hideLoader();
+          this.itemsFound = this.searchItems.length;
+          console.log(this.searchItems);
+        },
+        error: (err) => {},
+      });
+    } else {
+      this.searchItems = [];
+    }
   }
 }

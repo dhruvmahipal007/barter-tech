@@ -20,7 +20,7 @@
   <!-- *ngIf="restaurants.length>0" ion list condition-->
 
   <app-empty-screen
-    *ngIf=" searchItems?.length==0"
+    *ngIf=" searchItems?.length==0 || query?.length==0"
     [model]="model"
   ></app-empty-screen>
   <ion-list *ngIf="!isLoading">
@@ -31,7 +31,7 @@
     </ion-list-header>
     <ion-row>
       <ion-col>
-        <div *ngIf="itemsFound">
+        <div *ngIf="itemsFound && query?.length>=3">
           <h5>{{itemsFound}} items found</h5>
         </div>
       </ion-col>
@@ -50,14 +50,38 @@
           <ion-col size="4">
             <div id="bottom_sec">
               <img src="assets/logoOriginal.png" />
-              <ion-button class="btn-apply" color="warning">ADD </ion-button>
+
+              <div class="cart_card_control_span">
+                <span
+                  class="cart_mod_btn"
+                  (click)="subQty(product,i)"
+                  role="button"
+                  tabindex="0"
+                >
+                  <span class="cart_remove_icon">–</span>
+                </span>
+
+                <span class="cart_qty_span">
+                  <p style="display: inline">1</p>
+                </span>
+
+                <span
+                  class="cart_mod_btn"
+                  role="button"
+                  (click)="addQty(product,i)"
+                  tabindex="0"
+                >
+                  <span class="cart_add_icon">+</span>
+                </span>
+              </div>
+              <!-- <ion-button class="btn-apply" color="warning">ADD </ion-button> -->
             </div>
           </ion-col>
         </div>
       </ion-row>
     </ion-grid>
   </ion-list>
-  <ion-tabs>
+  <ion-tabs style="position: sticky; bottom: 0; height: 44%">
     <ion-tab-bar slot="bottom" style="border-top: 1px solid #000">
       <ion-tab-button routerLink="/maindelivery/delivery" class="two">
         <ion-icon name="home"></ion-icon>
