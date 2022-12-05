@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 import { AuthService } from '../services/auth.service';
 @Component({
@@ -24,19 +25,27 @@ export class CartPage implements OnInit {
   deliveryCharges = 10;
   gst = 12;
   totalPayable = 0;
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
-    this.customer_name = JSON.parse(localStorage.getItem('userDetails')).name;
-    this.customer_email = JSON.parse(localStorage.getItem('userDetails')).email;
-    this.customer_mobile = JSON.parse(localStorage.getItem('userNo'));
-    this.cartItems = JSON.parse(localStorage.getItem('cartItems'));
-    console.log(this.cartItems);
-    if (this.cartItems) {
-      this.getItemTotal();
-    } else {
-      this.cartItems = [];
-    }
+    this.route.params.subscribe((res) => {
+      this.customer_name = JSON.parse(localStorage.getItem('userDetails')).name;
+      this.customer_email = JSON.parse(
+        localStorage.getItem('userDetails')
+      ).email;
+      this.customer_mobile = JSON.parse(localStorage.getItem('userNo'));
+      this.cartItems = JSON.parse(localStorage.getItem('cartItems'));
+      console.log(this.cartItems);
+      if (this.cartItems) {
+        this.getItemTotal();
+      } else {
+        this.cartItems = [];
+      }
+    });
 
     this.getAddress();
     this.authService.couponSubject.subscribe((res: any) => {
