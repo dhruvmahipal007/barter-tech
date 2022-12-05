@@ -10,6 +10,7 @@ export class SearchPage implements OnInit {
   @ViewChild('searchInput') sInput;
   searchItems: any[] = [];
   itemsFound: number;
+  product_quantity = 1;
   model: any = {
     icon: 'search-outline',
     title: 'No Food Matching Record Found',

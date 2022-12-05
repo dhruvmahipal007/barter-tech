@@ -37,6 +37,7 @@ export class DeliveryPage implements OnInit {
   menuItems: any[] = [];
   currentItem: any;
   selected: any;
+  product_quantity = 1;
 
   quantity: number = 1;
   // public slideOps = {

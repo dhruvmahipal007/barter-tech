@@ -158,17 +158,37 @@
       </ion-col>
     </ion-row>
 
-    <ion-row>
-      <ion-col size="8">
+    <ion-row style="display: flex; align-items: center">
+      <ion-col size="6">
         <p>Deliver To</p>
       </ion-col>
-      <ion-col>
+      <ion-col size="6">
         <div class="upperbottom_design">
-          <ion-text>
-            Home
+          <!-- <ion-text style="font-size: 18px">
+            {{currentAddress?.tag}}
             <ion-icon name="chevron-down-outline"></ion-icon>
-          </ion-text>
-          <p class="ion-text-wrap">355 Scarborough Beach Rd,0</p>
+          </ion-text> -->
+          <ion-list lines="none">
+            <ion-item>
+              <ion-select
+                interface="popover"
+                [placeholder]="currentAddress?.tag"
+                style="width: 100%; text-align: right"
+              >
+                <ion-select-option
+                  *ngFor="let data of userAddress"
+                  value="data.tag"
+                  >{{data.tag}}<br />
+                  <p>
+                    {{data.addressLine1}} {{data.addressLine2}}
+                  </p></ion-select-option
+                >
+              </ion-select>
+            </ion-item>
+          </ion-list>
+          <p class="ion-text-wrap" style="text-align: right">
+            {{currentAddress?.addressLine1}} {{currentAddress?.addressLine2}}
+          </p>
         </div>
       </ion-col>
     </ion-row>

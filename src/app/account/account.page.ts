@@ -155,6 +155,7 @@ export class AccountPage implements OnInit {
         this.userData = data.data;
         this.global.hideLoader();
         console.log(this.userData);
+        localStorage.setItem('userNo', JSON.stringify(this.userData.mobileNo));
         this.qrCodeString = this.userData.mobileNo;
       },
       error: (err) => {
