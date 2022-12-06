@@ -94,8 +94,6 @@ export class DeliveryPage implements OnInit {
     });
   }
 
-  ionViewWillEnter() {}
-
   listProductCategories() {
     this.global.showLoader('Loading Data');
     this.productService.getProductCategories().subscribe((data) => {
@@ -149,12 +147,15 @@ export class DeliveryPage implements OnInit {
     let i = 0;
     this.menuItems.map((x) => {
       x.product_quantity = 0;
-      if (this.selectedProducts.length > 0) {
+      this.selectedProducts = JSON.parse(localStorage.getItem('cartItems'));
+      if (this.selectedProducts && this.selectedProducts.length > 0) {
         this.selectedProducts.map((y: any) => {
           if (x.menuItemId == y.menuItemId) {
             x.product_quantity = y.product_quantity;
           }
         });
+      } else {
+        this.selectedProducts = [];
       }
     });
     this.currentItem = id;
