@@ -90,7 +90,10 @@
       </ion-row>
     </ion-grid>
   </ion-list>
-  <ion-tabs style="position: sticky; bottom: 0; height: 44%">
+  <ion-tabs
+    class="tabs"
+    [ngStyle]="{'height': (searchItems?.length==0 || query?.length==0) ? '44%' : '10%'}"
+  >
     <ion-tab-bar slot="bottom" style="border-top: 1px solid #000">
       <ion-tab-button routerLink="/maindelivery/delivery" class="two">
         <ion-icon name="home"></ion-icon>

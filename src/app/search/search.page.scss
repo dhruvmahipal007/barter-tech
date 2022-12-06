@@ -35,7 +35,7 @@
   position: absolute;
   bottom: -18%;
   left: 17%;
-  z-index: 2;
+  z-index: 1;
   height: 30px;
 }
 #bottom_sec img {
@@ -65,4 +65,9 @@
   bottom: -18px;
   left: 17%;
   position: absolute;
+}
+
+.tabs {
+  position: sticky;
+  bottom: 0;
 }
