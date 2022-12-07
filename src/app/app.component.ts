@@ -10,23 +10,38 @@ import {
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { Geolocation } from '@capacitor/geolocation';
+import {
+  NativeGeocoder,
+  NativeGeocoderResult,
+  NativeGeocoderOptions,
+} from '@awesome-cordova-plugins/native-geocoder/ngx';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  options: NativeGeocoderOptions = {
+    useLocale: true,
+    maxResults: 5,
+  };
+
+  geoAddress: any;
+
   @ViewChildren(IonRouterOutlet) routerOutlets: QueryList<IonRouterOutlet>;
 
   constructor(
     private storage: Storage,
     private platform: Platform,
     private router: Router,
-    private location: Location
+    private location: Location,
+    private nativegeocoder: NativeGeocoder
   ) {
     this.storage.create();
     this.initializeApp();
     this.intialize();
+    this.fetchLocation();
   }
 
   initializeApp() {
@@ -63,6 +78,49 @@ export class AppComponent implements OnInit {
         }
       });
     });
+  }
+
+  async fetchLocation() {
+    const location = await Geolocation.getCurrentPosition();
+    console.log('location=', location);
+    this.nativegeocoder
+      .reverseGeocode(
+        location.coords.latitude,
+        location.coords.longitude,
+        this.options
+      )
+      .then((result: NativeGeocoderResult[]) => {
+        console.log('result=', result);
+        console.log('result 0=', result[0]);
+
+        this.geoAddress = this.generateAddress(result[0]);
+
+        console.log('location address= ', this.geoAddress);
+      });
+  }
+  //Return Comma separated address
+  generateAddress(addressObj) {
+    let obj = [];
+    let uniqueNames = [];
+    let address = '';
+    for (let key in addressObj) {
+      if (key != 'areasOfInterest') {
+        obj.push(addressObj[key]);
+      }
+    }
+    var i = 0;
+    obj.forEach((value) => {
+      if (uniqueNames.indexOf(obj[i]) === -1) {
+        uniqueNames.push(obj[i]);
+      }
+      i++;
+    });
+
+    uniqueNames.reverse();
+    for (let val in uniqueNames) {
+      if (uniqueNames[val].length) address += uniqueNames[val] + ', ';
+    }
+    return address.slice(0, -2);
   }
 
   ngOnInit() {

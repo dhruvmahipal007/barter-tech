@@ -14,6 +14,11 @@ import { ConfigGuard } from './config.guard';
 import { HTTP } from '@awesome-cordova-plugins/http/ngx';
 import { IonicStorageModule } from '@ionic/storage-angular';
 import { ProductService } from './services/product.service';
+import {
+  NativeGeocoder,
+  NativeGeocoderResult,
+  NativeGeocoderOptions,
+} from '@awesome-cordova-plugins/native-geocoder/ngx';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -30,6 +35,7 @@ import { ProductService } from './services/product.service';
     AuthGuard,
     ProductService,
     Storage,
+    NativeGeocoder,
     HTTP,
     ConfigGuard,
     {
