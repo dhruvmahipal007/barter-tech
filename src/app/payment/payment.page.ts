@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-payment',
@@ -7,13 +7,15 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./payment.page.scss'],
 })
 export class PaymentPage implements OnInit {
-
-  constructor() { }
+  constructor(private authService: AuthService) {}
 
   ngOnInit() {
+    this.authService.totalDataSubject.subscribe((res) => {
+      console.log(res);
+    });
   }
-  presentAlert(){
-    var id=document.getElementById('modal')
-    id.style.display='flex';
+  presentAlert() {
+    var id = document.getElementById('modal');
+    id.style.display = 'flex';
   }
 }

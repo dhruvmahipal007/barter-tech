@@ -12,6 +12,7 @@ import { AuthService } from './services/auth.service';
 import { Observable, throwError } from 'rxjs';
 import { NavController } from '@ionic/angular';
 import { retry, tap, catchError } from 'rxjs/operators';
+import { GlobalService } from './services/global.service';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +22,8 @@ export class TokenInterceptorService implements HttpInterceptor {
     private injector: Injector,
     private auth_service: AuthService,
     private router: Router,
-    private navCtrl: NavController
+    private navCtrl: NavController,
+    private global: GlobalService
   ) {}
   intercept(req, next) {
     let authService = this.injector.get(AuthService);
@@ -49,6 +51,7 @@ export class TokenInterceptorService implements HttpInterceptor {
             console.log('RESPONSE ERROR');
             alert('Session is logged out, Please Login');
             authService.logout();
+            this.global.hideLoader();
             this.navCtrl.navigateRoot('/login');
           }
         }

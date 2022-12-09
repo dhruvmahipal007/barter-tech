@@ -13,6 +13,8 @@ import { ProductService } from 'src/app/services/product.service';
 import { Product } from 'src/app/common/product';
 import { ActivatedRoute } from '@angular/router';
 import { GlobalService } from 'src/app/services/global.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { JsonpClientBackend } from '@angular/common/http';
 
 // install Swiper modules
 SwiperCore.use([
@@ -39,7 +41,7 @@ export class DeliveryPage implements OnInit {
   selected: any;
   product_quantity = 0;
   selectedProducts: any[] = [];
-
+  currentRoute: any;
   quantity: number = 1;
   // public slideOps = {
   //   loop: true,
@@ -78,20 +80,44 @@ export class DeliveryPage implements OnInit {
     speed: 400,
   };
   segment = 0;
+  dummyRoute: any;
 
   constructor(
     private productService: ProductService,
     private route: ActivatedRoute,
-    private global: GlobalService
-  ) {}
+    private global: GlobalService,
+    private authService: AuthService
+  ) {
+    this.currentRoute = this.route.snapshot['_routerState'].url.split('/')[2];
+    console.log(this.currentRoute, 'lkjhgfxz');
+    let staticRoute = localStorage.getItem('currentRoute');
+    if (staticRoute && staticRoute != this.currentRoute) {
+      localStorage.setItem('cartItems', JSON.stringify([]));
+    }
+  }
 
   ngOnInit() {
+    localStorage.setItem('currentRoute', this.currentRoute);
     this.route.params.subscribe((res) => {
+      this.currentRoute = this.route.snapshot['_routerState'].url.split('/')[2];
+      console.log(this.currentRoute, 'lkjhgfxz');
+      let staticRoute = localStorage.getItem('currentRoute');
+      if (staticRoute && staticRoute != this.currentRoute) {
+        localStorage.setItem('cartItems', JSON.stringify([]));
+      }
       this.listProductCategories();
       if (JSON.parse(localStorage.getItem('cartItems'))) {
         this.selectedProducts = JSON.parse(localStorage.getItem('cartItems'));
       }
     });
+    // setTimeout(this.getTime(), 60000);
+  }
+
+  getTime() {
+    // let getLocalStorageOrderTime = localStorage.getItem('latestOrder');
+    console.log('1 minute over');
+    return 'ok';
+    // return JSON.parse(getLocalStorageOrderTime);
   }
 
   listProductCategories() {
@@ -120,6 +146,10 @@ export class DeliveryPage implements OnInit {
 
   subQty(product, index) {
     product.product_quantity = product.product_quantity - 1;
+    let ind = this.selectedProducts.findIndex(
+      (x) => x.menuItemId == product.menuItemId
+    );
+    this.selectedProducts[ind] = product;
     if (product.product_quantity == 0) {
       this.selectedProducts = this.selectedProducts.filter(
         (ele) => ele.menuItemId != product.menuItemId
@@ -130,7 +160,11 @@ export class DeliveryPage implements OnInit {
 
   addQty(product, index) {
     console.log(this.selectedProducts);
-    product.product_quantity = product.product_quantity + 1;
+    product.product_quantity = ++product.product_quantity;
+    let ind = this.selectedProducts.findIndex(
+      (x) => x.menuItemId == product.menuItemId
+    );
+    this.selectedProducts[ind] = product;
     localStorage.setItem('cartItems', JSON.stringify(this.selectedProducts));
   }
 
@@ -144,7 +178,6 @@ export class DeliveryPage implements OnInit {
     this.menuItems = this.productCategories.find(
       (x) => Number(x.menuGroupId) == Number(id)
     ).menuItems;
-    let i = 0;
     this.menuItems.map((x) => {
       x.product_quantity = 0;
       this.selectedProducts = JSON.parse(localStorage.getItem('cartItems'));

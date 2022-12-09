@@ -31,11 +31,11 @@
         </ion-col>
         <ion-col id="second" size="4">
           <div class="left_design">
-            <ion-button fill="clear" (click)="subQty(item)"
+            <ion-button fill="clear" (click)="subQty(item,index)"
               ><ion-icon class="icon" name="remove"></ion-icon>
             </ion-button>
             <ion-input type="text" [value]="item.product_quantity"></ion-input>
-            <ion-button fill="clear" (click)="addQty(item)"
+            <ion-button fill="clear" (click)="addQty(item,index)"
               ><ion-icon class="icon" name="add"></ion-icon>
             </ion-button>
           </div>

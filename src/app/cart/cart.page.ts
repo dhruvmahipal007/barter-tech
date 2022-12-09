@@ -23,30 +23,32 @@ export class CartPage implements OnInit {
   cartItems: any[] = [];
   itemTotal: any = 0;
   deliveryCharges = 10;
-  gst = 12;
+  gst = 10;
   totalPayable = 0;
+  currentRoute: any;
   constructor(
     private router: Router,
     private authService: AuthService,
     private route: ActivatedRoute
-  ) {}
-
-  ngOnInit() {
+  ) {
     this.route.params.subscribe((res) => {
+      this.cartItems = JSON.parse(localStorage.getItem('cartItems'));
       this.customer_name = JSON.parse(localStorage.getItem('userDetails')).name;
       this.customer_email = JSON.parse(
         localStorage.getItem('userDetails')
       ).email;
       this.customer_mobile = JSON.parse(localStorage.getItem('userNo'));
-      this.cartItems = JSON.parse(localStorage.getItem('cartItems'));
       console.log(this.cartItems);
       if (this.cartItems) {
         this.getItemTotal();
       } else {
         this.cartItems = [];
       }
+      this.currentRoute = localStorage.getItem('currentRoute');
     });
+  }
 
+  ngOnInit() {
     this.getAddress();
     this.authService.couponSubject.subscribe((res: any) => {
       if (res != 'invalid' && Object.keys(res).length != 0) {
@@ -64,10 +66,10 @@ export class CartPage implements OnInit {
   }
 
   changeRoute() {
-    this.router.navigate(['/maindelivery/delivery']);
+    this.router.navigate(['/maindelivery/' + this.currentRoute]);
   }
 
-  subQty(product) {
+  subQty(product, index) {
     product.product_quantity = product.product_quantity - 1;
     if (product.product_quantity == 0) {
       this.cartItems = this.cartItems.filter(
@@ -78,7 +80,7 @@ export class CartPage implements OnInit {
     localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
   }
 
-  addQty(product) {
+  addQty(product, index) {
     console.log(this.cartItems);
     product.product_quantity = product.product_quantity + 1;
     this.getItemTotal();
@@ -87,6 +89,15 @@ export class CartPage implements OnInit {
 
   async makePayment() {
     this.router.navigate([this.router.url, 'payment-option']);
+    let obj = {
+      merchant_Id: 4,
+      company_id: 1,
+      customer_BillingAddress_id: this.selectedAddress.id,
+      billing_addressline1: this.selectedAddress.addressLine1,
+      billing_addressline2: this.selectedAddress.addressLine2,
+      takeAwayPrice: this.totalPayable,
+    };
+    this.authService.totalDataSubject.next(obj);
   }
 
   getItemTotal() {
@@ -126,12 +137,12 @@ export class CartPage implements OnInit {
     this.selectedAddress = event.target.value;
   }
 
-  saveCustomerOrder() {
-    let obj = {
-      merchant_Id: 4,
-      company_id: 1,
-      billing_addressline1: this.selectedAddress.addressLine1,
-      billing_addressline2: this.selectedAddress.addressLine2,
-    };
-  }
+  // saveCustomerOrder() {
+  //   let obj = {
+  //     merchant_Id: 4,
+  //     company_id: 1,
+  //     billing_addressline1: this.selectedAddress.addressLine1,
+  //     billing_addressline2: this.selectedAddress.addressLine2,
+  //   };
+  // }
 }
