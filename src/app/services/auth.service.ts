@@ -19,6 +19,7 @@ export class AuthService {
   couponSubject = new BehaviorSubject({});
   mobileNumberSubject = new BehaviorSubject({});
   totalDataSubject = new BehaviorSubject({});
+  badgeDataSubject=new BehaviorSubject(0);
 
   constructor(
     private http: HttpClient,

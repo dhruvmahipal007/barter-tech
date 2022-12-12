@@ -108,6 +108,11 @@
       <ion-tab-button routerLink="/cart" class="two">
         <ion-icon name="cart"></ion-icon>
         <ion-label>Cart</ion-label>
+        <ion-badge color="danger" style="position: absolute;
+        top: 0;
+        left: calc(60%);
+        font-size: 10px;
+        line-height: 14px;">{{cartItemsLength}}</ion-badge>
       </ion-tab-button>
 
       <ion-tab-button routerLink="/account" class="two">

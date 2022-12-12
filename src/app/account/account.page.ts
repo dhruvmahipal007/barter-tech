@@ -22,6 +22,7 @@ export class AccountPage implements OnInit {
   isBarCodeVisible: boolean = false;
   userData: any;
   isLoading: boolean;
+  cartItemsLength:any=0;
 
   constructor(
     private authService: AuthService,
@@ -105,6 +106,21 @@ export class AccountPage implements OnInit {
 
   ngOnInit(): void {
     // this.getData();
+
+    this.authService.badgeDataSubject.subscribe(res=>{
+      console.log(res,"heelo");
+      console.log(Object.keys(res),"byee");
+      if(res==0){
+       
+       let data=JSON.parse(localStorage.getItem('cartItems'));
+       this.cartItemsLength=data?data.length:0
+       
+      }
+      else{
+       this.cartItemsLength=res;
+      }
+   
+     })
   }
   qrbtn() {
     this.zipped = !this.zipped;

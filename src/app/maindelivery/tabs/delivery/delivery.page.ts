@@ -43,6 +43,7 @@ export class DeliveryPage implements OnInit {
   selectedProducts: any[] = [];
   currentRoute: any;
   quantity: number = 1;
+
   // public slideOps = {
   //   loop: true,
   //   effect: 'slide',
@@ -154,8 +155,10 @@ export class DeliveryPage implements OnInit {
       this.selectedProducts = this.selectedProducts.filter(
         (ele) => ele.menuItemId != product.menuItemId
       );
+      
     }
     localStorage.setItem('cartItems', JSON.stringify(this.selectedProducts));
+    this.authService.badgeDataSubject.next(this.selectedProducts.length)
   }
 
   addQty(product, index) {
@@ -171,6 +174,7 @@ export class DeliveryPage implements OnInit {
   add(product) {
     product.product_quantity = product.product_quantity + 1;
     this.selectedProducts.push(product);
+    this.authService.badgeDataSubject.next(this.selectedProducts.length)
     localStorage.setItem('cartItems', JSON.stringify(this.selectedProducts));
   }
 

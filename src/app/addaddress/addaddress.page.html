@@ -12,8 +12,8 @@
 <ion-content>
   <form id="form" [formGroup]="addAddressForm">
     <div>
-      <ion-label>Tag</ion-label>
-      <ion-list class="tag">
+      <ion-label class="required">Tag</ion-label>
+      <ion-list class="tag" lines="none">
         <ion-item>
           <ion-select
             interface="popover"
@@ -27,11 +27,11 @@
       </ion-list>
     </div>
     <div>
-      <ion-label position="floating">Address</ion-label>
+      <ion-label position="floating" class="required">Address</ion-label>
       <ion-textarea rows="3" formControlName="address"></ion-textarea>
     </div>
     <div>
-      <ion-label>Pincode</ion-label>
+      <ion-label class="required">Pincode</ion-label>
       <ion-input
         type="number"
         placeholder="Enter Input"
@@ -39,14 +39,14 @@
       ></ion-input>
     </div>
     <div>
-      <ion-label>Landmark</ion-label>
+      <ion-label class="required">Landmark</ion-label>
       <ion-input
         placeholder="Enter Input"
         formControlName="landmark"
       ></ion-input>
     </div>
     <div>
-      <ion-label>Mobile</ion-label>
+      <ion-label class="required">Mobile</ion-label>
       <ion-input
         type="number"
         placeholder="Enter Input"

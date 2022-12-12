@@ -53,7 +53,9 @@ export class AddaddressPage implements OnInit {
         }
       },
       error: (err) => {
-        this.toastService.presentToast(err);
+        console.log(err)
+        const {address, landmark, mobile, tag, zipcode} = err.error
+        this.toastService.presentToast(tag || address || zipcode || landmark || mobile);
       },
     });
   }

@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class SearchPage implements OnInit {
   @ViewChild('searchInput') sInput;
+  cartItemsLength:any=0;
   searchItems: any[] = [];
   itemsFound: number;
   product_quantity = 0;
@@ -35,6 +36,20 @@ export class SearchPage implements OnInit {
         this.selectedProducts = JSON.parse(localStorage.getItem('cartItems'));
       }
     });
+    this.authService.badgeDataSubject.subscribe(res=>{
+      console.log(res,"heelo");
+      console.log(Object.keys(res),"byee");
+      if(res==0){
+       
+       let data=JSON.parse(localStorage.getItem('cartItems'));
+       this.cartItemsLength=data?data.length:0
+       
+      }
+      else{
+       this.cartItemsLength=res;
+      }
+   
+     })
   }
 
   async onSearchChange(event) {
@@ -49,8 +64,15 @@ export class SearchPage implements OnInit {
       this.global.showLoader('Loading Data');
       this.authService.searchData(this.query).subscribe({
         next: (data: any) => {
+          if(data.data==""){
+            this.searchItems=[]
+          }
+          else{
+
+            this.searchItems = data.data;
+          }
+          
           console.log(data);
-          this.searchItems = data.data;
           this.searchItems.map((x) => {
             x.product_quantity = 0;
             this.selectedProducts = JSON.parse(
@@ -70,7 +92,9 @@ export class SearchPage implements OnInit {
           this.itemsFound = this.searchItems.length;
           console.log(this.searchItems);
         },
-        error: (err) => {},
+        error: (err) => {
+          console.log(err);
+        },
       });
     } else {
       this.searchItems = [];
@@ -85,6 +109,7 @@ export class SearchPage implements OnInit {
       );
     }
     localStorage.setItem('cartItems', JSON.stringify(this.selectedProducts));
+    this.authService.badgeDataSubject.next(this.selectedProducts.length)
   }
 
   addQty(product, index) {
@@ -96,6 +121,7 @@ export class SearchPage implements OnInit {
   add(product) {
     product.product_quantity = product.product_quantity + 1;
     this.selectedProducts.push(product);
+    this.authService.badgeDataSubject.next(this.selectedProducts.length)
     localStorage.setItem('cartItems', JSON.stringify(this.selectedProducts));
   }
 }

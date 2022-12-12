@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'app-maindelivery',
@@ -6,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./maindelivery.page.scss'],
 })
 export class MaindeliveryPage implements OnInit {
+  startDate:any;
+  cartItemsLength:any=0;
   public slideOps = {
     // pager : true,
     // initialSlide: 0,
@@ -35,11 +38,32 @@ export class MaindeliveryPage implements OnInit {
   public segment = 'salad';
   public arr = new Array(4);
 
-  constructor() {}
+  constructor(private authservice:AuthService ) {
+   
+  }
 
-  ngOnInit() {}
+  ngOnInit() {
+    //this.cartItemsLength= !!localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem("cartItems")).length : 0
+    this.authservice.badgeDataSubject.subscribe(res=>{
+     console.log(res,"heelo");
+     console.log(Object.keys(res),"byee");
+     if(res==0){
+      
+      let data=JSON.parse(localStorage.getItem('cartItems'));
+      this.cartItemsLength=data?data.length:0
+      
+     }
+     else{
+      this.cartItemsLength=res;
+     }
+  
+    })
+    
+    // console.log(this.cartItemsLength,"length");
+  }
 
   segmentChanged(ev: any) {
     this.segment = ev.detail.value;
   }
+  
 }

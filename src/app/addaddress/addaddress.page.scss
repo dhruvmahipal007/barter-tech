@@ -133,3 +133,7 @@ ion-textarea {
   margin-left: -16px;
   width: 90vw;
 }
+.required:after {
+  content:" *";
+  color: red;
+}

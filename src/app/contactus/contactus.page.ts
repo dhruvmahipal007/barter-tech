@@ -54,7 +54,9 @@ export class ContactusPage implements OnInit {
         }
       },
       error: (err) => {
-        this.toastService.presentToast('Network connection error');
+        console.log(err);
+        const {firstName,email  } = err.error
+        this.toastService.presentToast(firstName || email);
       },
     });
   }

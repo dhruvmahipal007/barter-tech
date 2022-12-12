@@ -66,7 +66,8 @@ export class CartPage implements OnInit {
   }
 
   changeRoute() {
-    this.router.navigate(['/maindelivery/' + this.currentRoute]);
+    let route= !this.currentRoute? 'delivery': this.currentRoute
+    this.router.navigate(['/maindelivery/' + route]);
   }
 
   subQty(product, index) {
@@ -78,6 +79,7 @@ export class CartPage implements OnInit {
     }
     this.getItemTotal();
     localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
+    this.authService.badgeDataSubject.next(this.cartItems.length)
   }
 
   addQty(product, index) {
