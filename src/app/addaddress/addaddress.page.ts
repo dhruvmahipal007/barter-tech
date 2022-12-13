@@ -38,7 +38,7 @@ export class AddaddressPage implements OnInit {
       address: this.address_FormControl.value,
       zipcode: this.pincode_FormControl.value,
       landmark: this.landmark_FormControl.value,
-      mobile: this.mobile_FormControl.value,
+      mobile: '91'+this.mobile_FormControl.value,
     };
     console.log(data);
     this.authService.addAddress(data).subscribe({

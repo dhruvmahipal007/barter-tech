@@ -7,7 +7,7 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./maindelivery.page.scss'],
 })
 export class MaindeliveryPage implements OnInit {
-  startDate:any;
+  
   cartItemsLength:any=0;
   public slideOps = {
     // pager : true,
@@ -58,12 +58,23 @@ export class MaindeliveryPage implements OnInit {
      }
   
     })
+
     
     // console.log(this.cartItemsLength,"length");
   }
 
   segmentChanged(ev: any) {
     this.segment = ev.detail.value;
+  }
+
+  updateMyDate($event) {
+    // const day: number = $event.detail.value.day.value;
+    // const month: number = $event.detail.value.month.value;
+    // const year: number = $event.detail.value.year.value;
+    console.log($event); // --> wil contains $event.day, $event.month and $event.year
+  //   console.log(day);
+  //   console.log(month);
+  //   console.log(year);
   }
   
 }

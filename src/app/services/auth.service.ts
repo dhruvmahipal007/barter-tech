@@ -109,4 +109,7 @@ export class AuthService {
   saveCustomerOrder(data) {
     return this.http.post(this.url2 + '/saveCustomerOrder', data);
   }
+  deleteAddress(data){
+    return this.http.post(this.url2 + '/Deleteaddress',data)
+  }
 }

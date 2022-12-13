@@ -18,6 +18,7 @@ import { ToastService } from '../services/toast.service';
 export class ProfilePage implements OnInit {
   profileForm: FormGroup;
   datePipe = new DatePipe('es-US');
+  emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$';
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
@@ -26,8 +27,8 @@ export class ProfilePage implements OnInit {
   ) {
     this.profileForm = this.fb.group({
       name: [null, [Validators.required]],
-      email: [null, [Validators.required]],
-      mobile: [null, [Validators.required]],
+      email: [null, [Validators.required, Validators.pattern(this.emailPattern)],],
+      mobile: [null, [Validators.required, Validators.maxLength(10)]],
       dateOfBirth: [null, [Validators.required]],
       gender: [null, [Validators.required]],
       anniversary: [null, [Validators.required]],
@@ -68,13 +69,16 @@ export class ProfilePage implements OnInit {
   }
 
   saveForm() {
+    if (this.profileForm.invalid) {
+      return;
+    }
     let data = {
       name: this.name_FormControl.value,
       gender: this.gender_FormControl.value,
       email: this.email_FormControl.value,
       anniversary: this.anniversary_FormControl.value,
-      mobile: this.mobile_FormControl.value,
-      dateOfBirth: this.dateOfBirth_FormControl.value,
+      mobile: '91'+this.mobile_FormControl.value,
+      dateOfbirth: this.dateOfBirth_FormControl.value,
     };
 
     console.log(data);
@@ -94,7 +98,9 @@ export class ProfilePage implements OnInit {
       },
     });
   }
-
+  get officialEmail() {
+    return this.profileForm.get('email');
+  }
   get name_FormControl(): FormControl | null {
     return (this.profileForm?.get('name') as FormControl) ?? null;
   }

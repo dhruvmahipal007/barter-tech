@@ -94,6 +94,8 @@ export class DeliveryPage implements OnInit {
     let staticRoute = localStorage.getItem('currentRoute');
     if (staticRoute && staticRoute != this.currentRoute) {
       localStorage.setItem('cartItems', JSON.stringify([]));
+      this.authService.badgeDataSubject.next(0)
+
     }
   }
 
@@ -105,6 +107,7 @@ export class DeliveryPage implements OnInit {
       let staticRoute = localStorage.getItem('currentRoute');
       if (staticRoute && staticRoute != this.currentRoute) {
         localStorage.setItem('cartItems', JSON.stringify([]));
+        this.authService.badgeDataSubject.next(0)
       }
       this.listProductCategories();
       if (JSON.parse(localStorage.getItem('cartItems'))) {

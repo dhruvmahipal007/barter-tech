@@ -181,6 +181,8 @@ export class AccountPage implements OnInit {
     });
   }
   editProfile(userData) {
+    this.userData.mobileNo = (this.userData.mobileNo.split('').splice(2,12).toString().replaceAll(',',''));
+    console.log(this.userData.mobileNo);
     this.authService.accountSubject.next(this.userData);
     this.router.navigate(['/profile']);
   }

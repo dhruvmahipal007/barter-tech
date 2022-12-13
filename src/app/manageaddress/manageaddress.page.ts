@@ -54,7 +54,7 @@ export class ManageaddressPage implements OnInit {
     this.authService.addressSubject.next(data);
     this.router.navigate(['/editaddress']);
   }
-  async presentAlert() {
+  async presentAlert(id) {
     const  alert = await this.alertCtrl.create({
        
         message: 'Are you sure you want to permanently delete this address?',
@@ -70,6 +70,24 @@ export class ManageaddressPage implements OnInit {
                 text: 'Yes',
                 role: 'confirm',
                 handler: () => {
+                  this.global.showLoader('Deleting Data');
+                  let obj={
+                    address_id:id
+                  }
+                  this.authService.deleteAddress(obj).subscribe({
+                    next:(data:any)=>{
+                      this.global.hideLoader();
+                      this.toastService.presentToast('Address Deleted Successfully')
+                      this.userAddress = this.userAddress.filter(x => x.id !== id);
+                      
+                    },
+                    error:(err)=>{
+                      this.global.hideLoader();
+                      this.toastService.presentToast(err);
+                    },
+
+                  })
+
                    
                 }
             }
