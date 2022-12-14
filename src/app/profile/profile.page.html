@@ -22,7 +22,7 @@
     </div>
     <div>
       <ion-label class="required">Email</ion-label>
-      <ion-input placeholder="Enter Email" formControlName="email"></ion-input>
+      <ion-input placeholder="Enter Email" formControlName="email" disabled></ion-input>
       <small *ngIf="email_FormControl.hasError('required') && email_FormControl.touched "><b style="color:red;">Email is required</b></small>
       <small *ngIf="officialEmail.errors?.pattern"><b style="color:red;"> Email is not valid</b></small>
     </div>

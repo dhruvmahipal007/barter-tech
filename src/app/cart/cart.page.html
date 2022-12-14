@@ -73,7 +73,7 @@
         </ion-col>
 
         <ion-col size="8">
-          <h4 *ngIf="!isCouponApplied">Apply Vouchers/Points</h4>
+          <h4 *ngIf="!isCouponApplied"  routerLink="/applyvoucher">Apply Vouchers/Points</h4>
           <h4 style="color: red" *ngIf="!isCouponApplied && isCouponUsed">
             Coupon is invalid
           </h4>

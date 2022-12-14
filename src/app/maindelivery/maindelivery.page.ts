@@ -46,7 +46,7 @@ export class MaindeliveryPage implements OnInit {
     //this.cartItemsLength= !!localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem("cartItems")).length : 0
     this.authservice.badgeDataSubject.subscribe(res=>{
      console.log(res,"heelo");
-     console.log(Object.keys(res),"byee");
+    //  console.log(Object.keys(res),"byee");
      if(res==0){
       
       let data=JSON.parse(localStorage.getItem('cartItems'));
