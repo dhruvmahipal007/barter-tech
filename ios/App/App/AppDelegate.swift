@@ -1,6 +1,7 @@
 import UIKit
 import Capacitor
 import FBSDKCoreKit
+import FacebookCore
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {

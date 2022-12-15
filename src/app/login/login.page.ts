@@ -15,9 +15,11 @@ import {
   FacebookLogin,
   FacebookLoginResponse,
 } from '@capacitor-community/facebook-login';
+
 import { Plugins, registerWebPlugin } from '@capacitor/core';
 import { HTTP } from '@awesome-cordova-plugins/http/ngx';
 import { HttpClient } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-login',
@@ -36,6 +38,7 @@ export class LoginPage implements OnInit {
   registration_id: any;
   validateForm: FormGroup;
   emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$';
+  
 
   constructor(
     private fb: FormBuilder,
@@ -52,6 +55,7 @@ export class LoginPage implements OnInit {
       ],
       password: [null, [Validators.required]],
     });
+   
     // this.authService.testData().subscribe({
     //   next: (data) => {
     //     console.log(data);
@@ -105,6 +109,8 @@ export class LoginPage implements OnInit {
     });
   }
 
+ 
+
   ngOnInit() {
     this.isLoggedIn();
     this.getDeviceInfo();
@@ -140,14 +146,86 @@ export class LoginPage implements OnInit {
       permissions: FACEBOOK_PERMISSIONS,
     });
     console.log('result=', result);
-    if (result.accessToken) {
+    if (result.accessToken && result.accessToken.userId) {
+      this.token=result.accessToken;
+      this.loadUserData();
       console.log(`Facebook access token is ${result.accessToken.token}`);
+      console.log(`Facebook access token is ${result.accessToken.userId}`)
     }
-    const UserFacebookData = await FacebookLogin.getProfile<{
+    else if(result.accessToken && !result.accessToken.userId){
+      this.getCurrentToken();
+    }
+    else{
+      this.toastService.presentToast('Login Failed');
+    }
+    
+
+    
+  }
+
+  async getCurrentToken(){
+    const result=await FacebookLogin.getCurrentAccessToken();
+
+      if(result.accessToken){
+        this.token=result.accessToken;
+        this.loadUserData();
+      }
+      else{
+        this.toastService.presentToast('Not Logged In');
+      }
+  }
+
+  async loadUserData(){
+    const url=`https://graph.facebook.com/${this.token.userId}?fields=id,name,gender,link,picture&type=large&access_token=${this.token.token}`;
+   this.http.get(url).subscribe(res=>{
+    console.log('user: ',res);
+    this.user=res;
+
+
+   });
+   const UserFacebookData = await FacebookLogin.getProfile<{
       email: string;
     }>({ fields: ['email'] });
 
     console.log(`Facebook user's email is ${UserFacebookData.email}`);
+
+    const obj = {
+      login_type: 'social',
+      email: UserFacebookData.email,
+      social_id: this.user.id,
+      name: this.user.name,
+      // "registration_token": JSON.parse(localStorage.getItem('fcm_token')),
+    };
+console.log(obj);
+    this.authService.login(obj).subscribe({
+      next: (data) => {
+        console.log(data);
+        if (data.status) {
+          localStorage.setItem(
+            'token',
+            data.data.userToken.original.access_token
+          );
+          // this.storage.store(
+          //   'token',
+          //   data.data.userToken.original.access_token
+          // );
+          localStorage.setItem(
+            'userDetails',
+            JSON.stringify(data.data.UserData)
+          );
+          // this.storage.store('userDetails', data.data.UserData);
+          this.toastService.presentToast(data.message);
+          this.router.navigate(['/account']);
+        } else {
+          this.toastService.presentToast('Incorrect username or password');
+        }
+      },
+      error: (err) => {
+        this.toastService.presentToast(err);
+        console.log(err);
+      },
+    });
+   
   }
 
   submitForm(): void {

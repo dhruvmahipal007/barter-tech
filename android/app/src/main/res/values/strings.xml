@@ -7,7 +7,7 @@
 
     <string name="server_client_id">737194284758-c9eutvgthupd9qhjoqa350vhj95n3aka.apps.googleusercontent.com</string>
 
-    <string name="facebook_app_id">721435849402540</string>
-    <string name="fb_login_protocol_scheme">fb721435849402540</string>
-    <string name="facebook_client_token">389d03d15ce2348f18838521b19eff6d</string>
+    <string name="facebook_app_id">918488829083347</string>
+    <string name="fb_login_protocol_scheme">fb918488829083347</string>
+    <string name="facebook_client_token">2913d3266432985900e5edb371db129d</string>
 </resources>
