@@ -15,6 +15,7 @@ import { ToastService } from '../services/toast.service';
 })
 export class ContactusPage implements OnInit {
   contactUsForm: FormGroup;
+  emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$';
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -25,13 +26,21 @@ export class ContactusPage implements OnInit {
       firstName: [null, [Validators.required]],
       lastName: [null, [Validators.required]],
       mobile: [null, [Validators.required]],
-      email: [null, [Validators.required]],
+      email: [null, [Validators.required, Validators.pattern(this.emailPattern)],],
       note: [null, [Validators.required]],
     });
   }
 
   ngOnInit() {}
   submitForm() {
+
+    for (const i in this.contactUsForm.controls) {
+      this.contactUsForm.controls[i].markAsDirty();
+      this.contactUsForm.controls[i].updateValueAndValidity();
+    }
+    if (this.contactUsForm.invalid) {
+      return;
+    }
     this.contactUs();
   }
   contactUs() {
@@ -39,7 +48,7 @@ export class ContactusPage implements OnInit {
       firstName: this.firstName_FormControl.value,
       lastName: this.lastName_FormControl.value,
       email: this.email_FormControl.value,
-      mobile: this.mobile_FormControl.value,
+      mobile: '91'+ this.mobile_FormControl.value,
       note: this.note_FormControl.value,
     };
     console.log('-----------------data contact us-----------', data);
@@ -54,11 +63,15 @@ export class ContactusPage implements OnInit {
         }
       },
       error: (err) => {
-        this.toastService.presentToast('Network connection error');
+        console.log(err);
+        const {firstName,email  } = err.error
+        this.toastService.presentToast(firstName || email);
       },
     });
   }
-
+  get officialEmail() {
+    return this.contactUsForm.get('email');
+  }
   get firstName_FormControl(): FormControl | null {
     return (this.contactUsForm?.get('firstName') as FormControl) ?? null;
   }

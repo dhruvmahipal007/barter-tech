@@ -53,7 +53,7 @@ export class MobileloginPage implements OnInit {
               this.mobile_FormControl.enable();
             }, 2000);
           } else {
-            this.toastService.presentToast('Not a Valid User');
+            this.toastService.presentToast('User is Not registered');
             this.isLoading = false;
             this.mobileLoginForm.reset();
             this.mobile_FormControl.enable();

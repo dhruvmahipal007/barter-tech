@@ -18,7 +18,9 @@ export class AuthService {
   accountSubject = new BehaviorSubject({});
   couponSubject = new BehaviorSubject({});
   mobileNumberSubject = new BehaviorSubject({});
-  totalDataSubject: any;
+  totalDataSubject = new BehaviorSubject({});
+  badgeDataSubject=new BehaviorSubject(0);
+
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -106,5 +108,8 @@ export class AuthService {
   }
   saveCustomerOrder(data) {
     return this.http.post(this.url2 + '/saveCustomerOrder', data);
+  }
+  deleteAddress(data){
+    return this.http.post(this.url2 + '/Deleteaddress',data)
   }
 }

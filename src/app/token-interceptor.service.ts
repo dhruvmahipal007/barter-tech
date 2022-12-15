@@ -1,13 +1,19 @@
 import { Injectable, Injector } from '@angular/core';
 import {
+  HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
   HttpRequest,
+  HttpResponse,
 } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AuthService } from './services/auth.service';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { NavController } from '@ionic/angular';
+import { retry, tap, catchError } from 'rxjs/operators';
+import { GlobalService } from './services/global.service';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -15,7 +21,9 @@ export class TokenInterceptorService implements HttpInterceptor {
   constructor(
     private injector: Injector,
     private auth_service: AuthService,
-    private router: Router
+    private router: Router,
+    private navCtrl: NavController,
+    private global: GlobalService
   ) {}
   intercept(req, next) {
     let authService = this.injector.get(AuthService);
@@ -36,6 +44,18 @@ export class TokenInterceptorService implements HttpInterceptor {
         // },
       });
     }
-    return next.handle(tokenizedReq);
+    return next.handle(tokenizedReq).pipe(
+      tap((event) => {
+        if (event instanceof HttpResponse) {
+          if (event.body.status === 'Token is Expired') {
+            console.log('RESPONSE ERROR');
+            alert('Session is logged out, Please Login');
+            authService.logout();
+            this.global.hideLoader();
+            this.navCtrl.navigateRoot('/login');
+          }
+        }
+      })
+    );
   }
 }

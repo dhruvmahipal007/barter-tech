@@ -21,12 +21,18 @@
       <ion-col size="12" id="first">
         <h3>{{data?.tag}}</h3>
       </ion-col>
-      <ion-col size="10">
+      <ion-col size="8">
         <p class="f_weight">{{data?.addressLine1}} {{data?.addressLine2}}</p>
       </ion-col>
       <ion-col size="2">
         <ion-button fill="clear" class="btn-arrow" (click)="editAddress(data)">
           <ion-icon name="pencil-sharp"></ion-icon>
+        </ion-button>
+       
+      </ion-col>
+      <ion-col size="2">
+        <ion-button fill="clear" class="btn-arrow" (click)="presentAlert(data.id)">
+          <ion-icon name="trash"></ion-icon>
         </ion-button>
       </ion-col>
     </ion-row>

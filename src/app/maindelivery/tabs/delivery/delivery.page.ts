@@ -13,6 +13,8 @@ import { ProductService } from 'src/app/services/product.service';
 import { Product } from 'src/app/common/product';
 import { ActivatedRoute } from '@angular/router';
 import { GlobalService } from 'src/app/services/global.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { JsonpClientBackend } from '@angular/common/http';
 
 // install Swiper modules
 SwiperCore.use([
@@ -37,9 +39,11 @@ export class DeliveryPage implements OnInit {
   menuItems: any[] = [];
   currentItem: any;
   selected: any;
-  product_quantity = 1;
-
+  product_quantity = 0;
+  selectedProducts: any[] = [];
+  currentRoute: any;
   quantity: number = 1;
+
   // public slideOps = {
   //   loop: true,
   //   effect: 'slide',
@@ -77,22 +81,47 @@ export class DeliveryPage implements OnInit {
     speed: 400,
   };
   segment = 0;
+  dummyRoute: any;
 
   constructor(
     private productService: ProductService,
     private route: ActivatedRoute,
-    private global: GlobalService
-  ) {}
+    private global: GlobalService,
+    private authService: AuthService
+  ) {
+    this.currentRoute = this.route.snapshot['_routerState'].url.split('/')[2];
+    console.log(this.currentRoute, 'lkjhgfxz');
+    let staticRoute = localStorage.getItem('currentRoute');
+    if (staticRoute && staticRoute != this.currentRoute) {
+      localStorage.setItem('cartItems', JSON.stringify([]));
+      this.authService.badgeDataSubject.next(0)
+
+    }
+  }
 
   ngOnInit() {
-    this.listProductCategories();
+    localStorage.setItem('currentRoute', this.currentRoute);
+    this.route.params.subscribe((res) => {
+      this.currentRoute = this.route.snapshot['_routerState'].url.split('/')[2];
+      console.log(this.currentRoute, 'lkjhgfxz');
+      let staticRoute = localStorage.getItem('currentRoute');
+      if (staticRoute && staticRoute != this.currentRoute) {
+        localStorage.setItem('cartItems', JSON.stringify([]));
+        this.authService.badgeDataSubject.next(0)
+      }
+      this.listProductCategories();
+      if (JSON.parse(localStorage.getItem('cartItems'))) {
+        this.selectedProducts = JSON.parse(localStorage.getItem('cartItems'));
+      }
+    });
+    // setTimeout(this.getTime(), 60000);
   }
 
-  async segmentChanged(ev: any) {
-    await this.slider.slideTo(this.segment);
-  }
-  async slideChanged() {
-    this.segment = await this.slider.getActiveIndex();
+  getTime() {
+    // let getLocalStorageOrderTime = localStorage.getItem('latestOrder');
+    console.log('1 minute over');
+    return 'ok';
+    // return JSON.parse(getLocalStorageOrderTime);
   }
 
   listProductCategories() {
@@ -107,26 +136,73 @@ export class DeliveryPage implements OnInit {
     });
   }
 
-  i = 1;
-  plus() {
-    this.i++;
-    this.quantity = this.i;
-  }
-  minus() {
-    if (this.i != 1) {
-      this.i--;
-      this.quantity = this.i;
+  // i = 1;
+  // plus() {
+  //   this.i++;
+  //   this.quantity = this.i;
+  // }
+  // minus() {
+  //   if (this.i != 1) {
+  //     this.i--;
+  //     this.quantity = this.i;
+  //   }
+  // }
+
+  subQty(product, index) {
+    product.product_quantity = product.product_quantity - 1;
+    let ind = this.selectedProducts.findIndex(
+      (x) => x.menuItemId == product.menuItemId
+    );
+    this.selectedProducts[ind] = product;
+    if (product.product_quantity == 0) {
+      this.selectedProducts = this.selectedProducts.filter(
+        (ele) => ele.menuItemId != product.menuItemId
+      );
+      
     }
+    localStorage.setItem('cartItems', JSON.stringify(this.selectedProducts));
+    this.authService.badgeDataSubject.next(this.selectedProducts.length)
+  }
+
+  addQty(product, index) {
+    console.log(this.selectedProducts);
+    product.product_quantity = ++product.product_quantity;
+    let ind = this.selectedProducts.findIndex(
+      (x) => x.menuItemId == product.menuItemId
+    );
+    this.selectedProducts[ind] = product;
+    localStorage.setItem('cartItems', JSON.stringify(this.selectedProducts));
+  }
+
+  add(product) {
+    product.product_quantity = product.product_quantity + 1;
+    this.selectedProducts.push(product);
+    this.authService.badgeDataSubject.next(this.selectedProducts.length)
+    localStorage.setItem('cartItems', JSON.stringify(this.selectedProducts));
   }
 
   getDataBymenuGroupId(id: any, name: any) {
     this.menuItems = this.productCategories.find(
       (x) => Number(x.menuGroupId) == Number(id)
     ).menuItems;
+    this.menuItems.map((x) => {
+      x.product_quantity = 0;
+      this.selectedProducts = JSON.parse(localStorage.getItem('cartItems'));
+      if (this.selectedProducts && this.selectedProducts.length > 0) {
+        this.selectedProducts.map((y: any) => {
+          if (x.menuItemId == y.menuItemId) {
+            x.product_quantity = y.product_quantity;
+          }
+        });
+      } else {
+        this.selectedProducts = [];
+      }
+    });
     this.currentItem = id;
     this.selected = name;
     console.log(this.menuItems);
   }
+
   isResetVisible() {
     if (this.productCategories?.length > 0) {
       if (
@@ -144,5 +220,24 @@ export class DeliveryPage implements OnInit {
     this.currentItem = this.productCategories[0].menuGroupId;
     this.selected = this.productCategories[0].groupName;
     this.productCategories = this.productCategories;
+  }
+
+  segmentChanged(e) {
+    //<ion-segment (ionChange)="segmentChanged($event)">
+    setTimeout(() => {
+      const s = e.target.getBoundingClientRect();
+      const sw = s.right - s.left;
+      for (const button of e.target.childNodes) {
+        if (button.className.indexOf('segment-button-checked') > -1) {
+          const bc = button.offsetLeft + button.offsetWidth / 2;
+          const diff = bc - sw / 2;
+          e.target.scrollTo({
+            left: diff,
+            behavior: 'smooth',
+          });
+          break;
+        }
+      }
+    }, 200);
   }
 }

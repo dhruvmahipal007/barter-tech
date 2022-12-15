@@ -6,6 +6,7 @@ import {
   FormControl,
 } from '@angular/forms';
 import { Router } from '@angular/router';
+import { Device } from '@capacitor/device';
 import { AuthService } from '../services/auth.service';
 import { StorageService } from '../services/storage.service';
 import { ToastService } from '../services/toast.service';
@@ -17,6 +18,13 @@ import { Plugins, registerWebPlugin } from '@capacitor/core';
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  device_model: any;
+  device_platform: any;
+  device_uuid: any;
+  device_version: any;
+  device_manufacturer: any;
+  device_serial: any;
+  registration_id: any;
   validateForm: FormGroup;
   emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$';
   constructor(
@@ -53,6 +61,16 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.isLoggedIn();
+    this.getDeviceInfo();
+  }
+  getDeviceInfo() {
+    Device.getInfo().then((val: any) => {
+      this.device_model = val.model;
+      this.device_platform = val.platform;
+      this.device_uuid = val.uuid;
+      this.device_version = val.appVersion;
+      this.device_manufacturer = val.manufacturer;
+    });
   }
   async isLoggedIn() {
     try {
@@ -81,6 +99,12 @@ export class LoginPage implements OnInit {
     let data = {
       email: this.validateForm.controls['email'].value,
       password: this.validateForm.controls['password'].value,
+      // device_model: this.device_model,
+      // device_platform: this.device_platform,
+      // device_uuid: this.device_uuid,
+      // device_version: this.device_version,
+      // device_manufacturer: this.device_manufacturer,
+      // registration_token: JSON.parse(localStorage.getItem('fcm_token')),
     };
     console.log(data);
     this.authService.login(data).subscribe({

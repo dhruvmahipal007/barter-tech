@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { GlobalService } from '../services/global.service';
 import { ToastService } from '../services/toast.service';
+import { AlertController } from '@ionic/angular';
 @Component({
   selector: 'app-manageaddress',
   templateUrl: './manageaddress.page.html',
@@ -23,7 +24,8 @@ export class ManageaddressPage implements OnInit {
     private toastService: ToastService,
     private router: Router,
     private global: GlobalService,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
+    private alertCtrl:AlertController,
   ) {
     this._route.params.subscribe((res) => {
       // console.log(res);
@@ -51,5 +53,46 @@ export class ManageaddressPage implements OnInit {
   editAddress(data) {
     this.authService.addressSubject.next(data);
     this.router.navigate(['/editaddress']);
+  }
+  async presentAlert(id) {
+    const  alert = await this.alertCtrl.create({
+       
+        message: 'Are you sure you want to permanently delete this address?',
+        buttons: [
+            {
+                text: 'No',
+                role: 'cancel',
+                handler: () => {
+                    console.log('Cancel clicked');
+                }
+            },
+            {
+                text: 'Yes',
+                role: 'confirm',
+                handler: () => {
+                  this.global.showLoader('Deleting Data');
+                  let obj={
+                    address_id:id
+                  }
+                  this.authService.deleteAddress(obj).subscribe({
+                    next:(data:any)=>{
+                      this.global.hideLoader();
+                      this.toastService.presentToast('Address Deleted Successfully')
+                      this.userAddress = this.userAddress.filter(x => x.id !== id);
+                      
+                    },
+                    error:(err)=>{
+                      this.global.hideLoader();
+                      this.toastService.presentToast(err);
+                    },
+
+                  })
+
+                   
+                }
+            }
+        ]
+    })
+    await alert.present();
   }
 }

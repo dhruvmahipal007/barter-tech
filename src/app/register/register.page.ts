@@ -8,6 +8,7 @@ import {
 import { Router } from '@angular/router';
 
 import { AuthService } from '../services/auth.service';
+import { Device } from '@capacitor/device';
 import { StorageService } from '../services/storage.service';
 import { ToastService } from '../services/toast.service';
 @Component({
@@ -16,7 +17,15 @@ import { ToastService } from '../services/toast.service';
   styleUrls: ['./register.page.scss'],
 })
 export class RegisterPage implements OnInit {
+  device_model: any;
+  device_platform: any;
+  device_uuid: any;
+  device_version: any;
+  device_manufacturer: any;
+  device_serial: any;
+  registration_id: any;
   validateForm1: FormGroup;
+  emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$';
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
@@ -27,7 +36,7 @@ export class RegisterPage implements OnInit {
     this.validateForm1 = this.fb.group({
       firstName: [null, [Validators.required]],
       lastName: [null, [Validators.required]],
-      email: [null, [Validators.required]],
+      email: [null, [Validators.required, Validators.pattern(this.emailPattern)],],
       password: [null, [Validators.required]],
       gender: [null, [Validators.required]],
       mobile: [null, [Validators.required]],
@@ -35,7 +44,18 @@ export class RegisterPage implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getDeviceInfo();
+  }
+  getDeviceInfo() {
+    Device.getInfo().then((val: any) => {
+      this.device_model = val.model;
+      this.device_platform = val.platform;
+      this.device_uuid = val.uuid;
+      this.device_version = val.appVersion;
+      this.device_manufacturer = val.manufacturer;
+    });
+  }
 
   submitForm() {
     if (!this.validateForm1.valid) return;
@@ -43,12 +63,18 @@ export class RegisterPage implements OnInit {
       firstName: this.firstName_FormControl.value,
       lastName: this.lastName_FormControl.value,
       email: this.email_FormControl.value,
-      mobile: this.mobile_FormControl.value,
+      mobile: '91' + this.mobile_FormControl.value,
       gender: this.gender_FormControl.value,
       dateOfBirth: this.dateOfBirth_FormControl.value,
       password: this.password_FormControl.value,
 
       merchant_id: 4,
+      // device_model: this.device_model,
+      // device_platform: this.device_platform,
+      // device_uuid: this.device_uuid,
+      // device_version: this.device_version,
+      // device_manufacturer: this.device_manufacturer,
+      // registration_token: JSON.parse(localStorage.getItem('fcm_token')),
     };
 
     console.log('-----------------data signup-----------', data);
@@ -72,7 +98,9 @@ export class RegisterPage implements OnInit {
       }
     );
   }
-
+  get officialEmail() {
+    return this.validateForm1.get('email');
+  }
   get firstName_FormControl(): FormControl | null {
     return (this.validateForm1?.get('firstName') as FormControl) ?? null;
   }

@@ -16,10 +16,27 @@
       <ion-tab-button tab="reservation" class="one">
         <ion-label>Reservation</ion-label>
       </ion-tab-button>
+      
+    
+      
     </ion-tab-bar>
-    <!-- <ion-button expand="block" color="white" id="calender_btn">
-      <ion-icon name="calendar"></ion-icon>
-    </ion-button> -->
+
+    <ion-button  fill="clear" id="date" class="date_btn"  >
+      <ion-icon name="calendar" size="large" ></ion-icon>
+       <ion-popover trigger="date" >
+         <ng-template>
+             <ion-datetime locale="en-GB-u-hc-h12" (ionChange)="updateMyDate($event)"  ></ion-datetime>
+         </ng-template>
+     </ion-popover>
+       
+     </ion-button>
+
+  
+
+    
+  
+    
+    
     <!-- <div class="category">
       <h3>Categories</h3>
     </div>
@@ -174,6 +191,11 @@
       <ion-tab-button routerLink="/cart" class="two">
         <ion-icon name="cart"></ion-icon>
         <ion-label>Cart</ion-label>
+        <ion-badge color="danger" style="position: absolute;
+        top: 0;
+        left: calc(60%);
+        font-size: 10px;
+        line-height: 14px;">{{cartItemsLength}}</ion-badge>
       </ion-tab-button>
 
       <ion-tab-button routerLink="/account" class="two">

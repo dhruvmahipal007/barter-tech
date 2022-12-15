@@ -67,3 +67,7 @@ ion-title {
   margin-left: -20px;
   padding-left: 6px !important;
 }
+.required:after {
+  content:" *";
+  color: red;
+}

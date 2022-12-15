@@ -31,17 +31,19 @@
       </ion-card>
     </div>
     <div style="margin-top: 10px">
-      <div class="card-middle">
+      <div class="card-middle" style="justify-content: space-evenly;">
         <div><img src="assets/account.svg" class="image-header" /></div>
-        <div>
+        <div style="    display: flex;
+        flex-direction: column;
+        width: 50%;">
           <ion-text>{{userData?.name}}</ion-text>
-          <br />
+         
           <ion-text>{{userData?.email}}</ion-text>
           <div
             style="
               border: 1px solid;
               height: 22px;
-              width: 24vh;
+              width: 100%;
               position: relative;
             "
           >
@@ -118,17 +120,17 @@
       </div>
     </div>
     <hr class="hr" />
-    <div class="card-middle">
+    <div class="card-middle" routerLink="/manageaddress">
       <h4 style="margin-left: 10px">Manage Addresses</h4>
-      <ion-button class="button-arrow" fill="clear" routerLink="/manageaddress">
+      <ion-button class="button-arrow" fill="clear" >
         <!-- <span class="font-bold text-sm">></span> -->
         <ion-icon name="chevron-forward"></ion-icon>
       </ion-button>
     </div>
     <hr class="hr" />
-    <div class="card-middle">
+    <div class="card-middle" routerLink="/orders">
       <h4 style="margin-left: 10px">My Orders</h4>
-      <ion-button class="button-arrow" fill="clear" routerLink="/orders">
+      <ion-button class="button-arrow" fill="clear" >
         <!-- <span class="font-bold text-sm">></span> -->
         <ion-icon name="chevron-forward"></ion-icon>
       </ion-button>
@@ -137,9 +139,9 @@
     <div class="gray">
       <h4 style="padding: 10px">HELP & SUPPORT</h4>
     </div>
-    <div class="card-middle">
+    <div class="card-middle" (click)="openLegal()">
       <h4 style="margin-left: 10px">Legal,Terms & Conditions</h4>
-      <ion-button class="button-arrow" fill="clear" (click)="openLegal()">
+      <ion-button class="button-arrow" fill="clear" >
         <!-- <span
           class="font-bold text-sm"
           style="transform: rotate(90deg); font-size: 16px"
@@ -149,25 +151,25 @@
       </ion-button>
     </div>
     <hr class="hr" />
-    <div class="card-middle">
+    <div class="card-middle" (click)="openWhatson()">
       <h4 style="margin-left: 10px">What's On</h4>
-      <ion-button class="button-arrow" fill="clear" (click)="openWhatson()">
+      <ion-button class="button-arrow" fill="clear" >
         <!-- <span class="font-bold text-sm">></span> -->
         <ion-icon name="chevron-forward"></ion-icon>
       </ion-button>
     </div>
     <hr class="hr" />
-    <div class="card-middle">
+    <div class="card-middle" routerLink="/contactus">
       <h4 style="margin-left: 10px">Contact Us</h4>
-      <ion-button class="button-arrow" fill="clear" routerLink="/contactus">
+      <ion-button class="button-arrow" fill="clear" >
         <!-- <span class="font-bold text-sm">></span> -->
         <ion-icon name="chevron-forward"></ion-icon>
       </ion-button>
     </div>
     <hr class="hr" />
-    <div class="card-middle">
+    <div class="card-middle" (click)="openAboutUs()">
       <h4 style="margin-left: 10px">About</h4>
-      <ion-button class="button-arrow" fill="clear" (click)="openAboutUs()">
+      <ion-button class="button-arrow" fill="clear" >
         <!-- <span class="font-bold text-sm">></span> -->
         <ion-icon name="chevron-forward"></ion-icon>
       </ion-button>
@@ -187,6 +189,7 @@
       <ion-tab-button routerLink="/maindelivery/delivery" class="two">
         <ion-icon name="home"></ion-icon>
         <ion-label>Home</ion-label>
+        
       </ion-tab-button>
 
       <ion-tab-button routerLink="/search" class="two">
@@ -197,6 +200,11 @@
       <ion-tab-button routerLink="/cart" class="two">
         <ion-icon name="cart"></ion-icon>
         <ion-label>Cart</ion-label>
+        <ion-badge color="danger" style="position: absolute;
+        top: 0;
+        left: calc(60%);
+        font-size: 10px;
+        line-height: 14px;">{{cartItemsLength}}</ion-badge>
       </ion-tab-button>
 
       <ion-tab-button routerLink="/account" selected="true" class="two">

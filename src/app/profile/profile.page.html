@@ -16,22 +16,27 @@
 
   <form id="form" [formGroup]="profileForm">
     <div>
-      <ion-label>Name</ion-label>
+      <ion-label class="required">Name</ion-label>
       <ion-input placeholder="Enter Name" formControlName="name"></ion-input>
+      <small *ngIf="name_FormControl.hasError('required') && name_FormControl.touched"><b style="color:red;"> Name is required</b></small>
     </div>
     <div>
-      <ion-label>Email</ion-label>
-      <ion-input placeholder="Enter Email" formControlName="email"></ion-input>
+      <ion-label class="required">Email</ion-label>
+      <ion-input placeholder="Enter Email" formControlName="email" disabled></ion-input>
+      <small *ngIf="email_FormControl.hasError('required') && email_FormControl.touched "><b style="color:red;">Email is required</b></small>
+      <small *ngIf="officialEmail.errors?.pattern"><b style="color:red;"> Email is not valid</b></small>
     </div>
     <div>
-      <ion-label>Mobile</ion-label>
+      <ion-label class="required">Mobile</ion-label>
       <ion-input
         placeholder="Enter Mobile"
         formControlName="mobile"
       ></ion-input>
+      <small *ngIf="mobile_FormControl.hasError('required') && mobile_FormControl.touched "><b style="color:red;">Mobile No is required</b></small>
+      <small *ngIf="mobile_FormControl.hasError('maxlength') && mobile_FormControl.touched "><b style="color:red;">Mobile No cannot be greater than 10</b></small>
     </div>
     <div>
-      <ion-label>Gender</ion-label>
+      <ion-label class="required">Gender</ion-label>
       <ion-list lines="none">
         <ion-item>
           <ion-select
@@ -44,22 +49,26 @@
           </ion-select>
         </ion-item>
       </ion-list>
+      <small *ngIf="gender_FormControl.hasError('required') && gender_FormControl.touched "><b style="color:red;">Gender is required</b></small>
     </div>
     <div>
-      <ion-label>Date of Birth</ion-label>
+      <ion-label class="required">Date of Birth</ion-label>
       <ion-input
         placeholder="Enter Date of Birth"
         type="date"
         formControlName="dateOfBirth"
       ></ion-input>
+      <small *ngIf="dateOfBirth_FormControl.hasError('required') && dateOfBirth_FormControl.touched "><b style="color:red;">DOB is required</b></small>
     </div>
     <div>
-      <ion-label>Anniversary</ion-label>
+      <ion-label class="required">Anniversary</ion-label>
       <ion-input
         placeholder="Enter Anniversary"
         type="date"
         formControlName="anniversary"
       ></ion-input>
+      <small *ngIf="anniversary_FormControl.hasError('required') && anniversary_FormControl.touched "><b style="color:red;">Anniversary is required</b></small>
+
     </div>
     <div>
       <ion-button
@@ -67,6 +76,7 @@
         expand="block"
         color="white"
         (click)="saveForm()"
+        [disabled]="profileForm.invalid"
         >SAVE</ion-button
       >
     </div>

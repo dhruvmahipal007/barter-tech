@@ -18,26 +18,31 @@
   ></iframe> -->
   <form id="form" [formGroup]="contactUsForm">
     <div>
-      <ion-label>FIRST NAME</ion-label>
+      <ion-label class="required">FIRST NAME</ion-label>
       <ion-input
         placeholder="Enter Input"
         formControlName="firstName"
       ></ion-input>
+      <small *ngIf="firstName_FormControl.hasError('required') && firstName_FormControl.touched"><b style="color:red;">First Name is required</b></small>
     </div>
     <div>
-      <ion-label>LAST NAME</ion-label>
+      <ion-label class="required">LAST NAME</ion-label>
       <ion-input
         placeholder="Enter Input"
         formControlName="lastName"
       ></ion-input>
+      <small *ngIf="lastName_FormControl.hasError('required') && lastName_FormControl.touched"><b style="color:red;">Last Name is required</b></small>
     </div>
     <div>
-      <ion-label>MOBILE</ion-label>
+      <ion-label class="required">MOBILE</ion-label>
       <ion-input placeholder="Enter Input" formControlName="mobile"></ion-input>
+      <small *ngIf="mobile_FormControl.hasError('required') && mobile_FormControl.touched "><b style="color:red;">Mobile No is required</b></small>
     </div>
     <div>
-      <ion-label>EMAIL</ion-label>
+      <ion-label class="required">EMAIL</ion-label>
       <ion-input placeholder="Enter Input" formControlName="email"></ion-input>
+      <small *ngIf="email_FormControl.hasError('required') && email_FormControl.touched "><b style="color:red;">Email is required</b></small>
+      <small *ngIf="officialEmail.errors?.pattern"><b style="color:red;"> Email is not valid</b></small>
     </div>
 
     <!-- <div>
@@ -51,8 +56,9 @@
 
     <!-- working code -->
     <div>
-      <ion-label position="floating">DESCRIPTION</ion-label>
+      <ion-label position="floating" class="required">DESCRIPTION</ion-label>
       <ion-textarea rows="5" formControlName="note"></ion-textarea>
+      <small *ngIf="note_FormControl.hasError('required') && note_FormControl.touched"><b style="color:red;">Description is required</b></small>
     </div>
 
     <div id="bottom">
@@ -62,6 +68,7 @@
         expand="block"
         color="white"
         (click)="submitForm()"
+        [disabled]="contactUsForm.invalid"
         >SEND</ion-button
       >
     </div>

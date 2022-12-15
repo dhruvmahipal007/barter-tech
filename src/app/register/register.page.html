@@ -24,31 +24,35 @@
 
   <form id="form" [formGroup]="validateForm1">
     <div>
-      <ion-label>First Name</ion-label>
+      <ion-label class="required">First Name</ion-label>
       <ion-input
         type="text"
         placeholder="Enter First Name"
         formControlName="firstName"
       ></ion-input>
+      <small *ngIf="firstName_FormControl.hasError('required') && firstName_FormControl.touched"><b style="color:red;">First Name is required</b></small>
     </div>
     <div>
-      <ion-label>Last Name</ion-label>
+      <ion-label class="required">Last Name</ion-label>
       <ion-input
         type="text"
         placeholder="Enter Last Name"
         formControlName="lastName"
       ></ion-input>
+      <small *ngIf="lastName_FormControl.hasError('required') && lastName_FormControl.touched"><b style="color:red;">Last Name is required</b></small>
     </div>
     <div>
-      <ion-label>Email</ion-label>
+      <ion-label class="required">Email</ion-label>
       <ion-input
         type="text"
         placeholder="Enter Email"
         formControlName="email"
       ></ion-input>
+      <small *ngIf="email_FormControl.hasError('required') && email_FormControl.touched "><b style="color:red;">Email is required</b></small>
+      <small *ngIf="officialEmail.errors?.pattern"><b style="color:red;"> Email is not valid</b></small>
     </div>
     <div>
-      <ion-label>Mobile</ion-label>
+      <ion-label class="required">Mobile</ion-label>
       <ion-input
         type="tel"
         placeholder="Enter Number"
@@ -56,9 +60,10 @@
         maxlength="10"
         formControlName="mobile"
       ></ion-input>
+      <small *ngIf="mobile_FormControl.hasError('required') && mobile_FormControl.touched "><b style="color:red;">Mobile No is required</b></small>
     </div>
     <div>
-      <ion-label>Gender</ion-label>
+      <ion-label class="required">Gender</ion-label>
       <ion-list lines="none">
         <ion-item>
           <ion-select
@@ -71,22 +76,25 @@
           </ion-select>
         </ion-item>
       </ion-list>
+      <small *ngIf="gender_FormControl.hasError('required') && gender_FormControl.touched "><b style="color:red;">Gender is required</b></small>
     </div>
     <div>
-      <ion-label>DOB</ion-label>
+      <ion-label class="required">DOB</ion-label>
       <ion-input
         placeholder="Enter Input"
         type="date"
         formControlName="dateOfBirth"
       ></ion-input>
+      <small *ngIf="dateOfBirth_FormControl.hasError('required') && dateOfBirth_FormControl.touched "><b style="color:red;">DOB is required</b></small>
     </div>
     <div>
-      <ion-label>Password</ion-label>
+      <ion-label class="required">Password</ion-label>
       <ion-input
         type="password"
         placeholder="Enter Password"
         formControlName="password"
       ></ion-input>
+      <small *ngIf="password_FormControl.hasError('required') && password_FormControl.touched "><b style="color:red;">Password is required</b></small>
     </div>
     <div id="register">
       <ion-button
