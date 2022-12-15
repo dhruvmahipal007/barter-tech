@@ -49,4 +49,8 @@ export class RatePage implements OnInit {
     const onClosedData: string = 'Wrapped Up!';
     await this.modalController.dismiss(onClosedData);
   }
+  async crossButton(){
+    const onClosedData: string = 'Wrapped Up!';
+    await this.modalController.dismiss(onClosedData);
+  }
 }

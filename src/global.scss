@@ -51,7 +51,13 @@ ion-modal.dialog-modal::part(content) {
   --width: 90%;
   display: block;
 }
-
+ion-modal.dialog-preorder::part(content) {
+  --height: 75%;
+  position: absolute;
+  top: 21%;
+  --width: 90%;
+  display: block;
+}
 #create_acc a {
   color: #000;
 }

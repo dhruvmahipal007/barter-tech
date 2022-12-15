@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
+import { AlertController } from '@ionic/angular';
+import { ModalController } from '@ionic/angular';
 
+import { PreorderPage } from '../preorder/preorder.page';
 @Component({
   selector: 'app-maindelivery',
   templateUrl: './maindelivery.page.html',
@@ -38,7 +41,9 @@ export class MaindeliveryPage implements OnInit {
   public segment = 'salad';
   public arr = new Array(4);
 
-  constructor(private authservice:AuthService ) {
+  constructor(private authservice:AuthService,
+    private alertController: AlertController,
+    private modalController: ModalController, ) {
    
   }
 
@@ -76,5 +81,15 @@ export class MaindeliveryPage implements OnInit {
   //   console.log(month);
   //   console.log(year);
   }
+
+  async presentAlert() {
+    const modal = await this.modalController.create({
+      component: PreorderPage,
+      cssClass: 'dialog-preorder',
+    });
+    return await modal.present();
+  }
+
+  
   
 }

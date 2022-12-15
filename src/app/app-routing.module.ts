@@ -175,6 +175,10 @@ const routes: Routes = [
       ),
     canActivate: [ConfigGuard],
   },
+  {
+    path: 'preorder',
+    loadChildren: () => import('./preorder/preorder.module').then( m => m.PreorderPageModule)
+  },
 ];
 
 @NgModule({

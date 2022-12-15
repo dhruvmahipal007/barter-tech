@@ -8,12 +8,14 @@ import { MaindeliveryPageRoutingModule } from './maindelivery-routing.module';
 
 import { MaindeliveryPage } from './maindelivery.page';
 
+import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    MaindeliveryPageRoutingModule
+    MaindeliveryPageRoutingModule,
+    ReactiveFormsModule,
   ],
   declarations: [MaindeliveryPage]
 })

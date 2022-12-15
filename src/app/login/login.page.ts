@@ -56,8 +56,44 @@ export class LoginPage implements OnInit {
 
   async loginwithgoogle() {
     const googleUser = await GoogleAuth.signIn();
+    const obj={
+      "login_type" : "social",
+      "email" : googleUser.email,
+      "social_id" : googleUser.id,
+      "name" : googleUser.givenName
+    }
     console.log('my user: ', googleUser);
+    this.authService.login(obj).subscribe({
+      next: (data) => {
+        console.log(data);
+        if (data.status) {
+          localStorage.setItem(
+            'token',
+            data.data.userToken.original.access_token
+          );
+          // this.storage.store(
+          //   'token',
+          //   data.data.userToken.original.access_token
+          // );
+          localStorage.setItem(
+            'userDetails',
+            JSON.stringify(data.data.UserData)
+          );
+          // this.storage.store('userDetails', data.data.UserData);
+          this.toastService.presentToast(data.message);
+          this.router.navigate(['/account']);
+        } else {
+          this.toastService.presentToast('Incorrect username or password');
+        }
+      },
+      error: (err) => {
+        this.toastService.presentToast(err);
+        console.log(err);
+      },
+    });
   }
+   
+  
 
   ngOnInit() {
     this.isLoggedIn();
@@ -131,7 +167,8 @@ export class LoginPage implements OnInit {
         }
       },
       error: (err) => {
-        this.toastService.presentToast('Network connection error');
+        this.toastService.presentToast(err);
+        console.log(err);
       },
     });
   }

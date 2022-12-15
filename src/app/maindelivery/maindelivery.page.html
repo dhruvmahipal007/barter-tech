@@ -21,13 +21,13 @@
       
     </ion-tab-bar>
 
-    <ion-button  fill="clear" id="date" class="date_btn"  >
+    <ion-button  fill="clear" id="date" class="date_btn"  (click)="presentAlert()" >
       <ion-icon name="calendar" size="large" ></ion-icon>
-       <ion-popover trigger="date" >
+       <!-- <ion-popover trigger="date" >
          <ng-template>
              <ion-datetime locale="en-GB-u-hc-h12" (ionChange)="updateMyDate($event)"  ></ion-datetime>
          </ng-template>
-     </ion-popover>
+     </ion-popover> -->
        
      </ion-button>
 

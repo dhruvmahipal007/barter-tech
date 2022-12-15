@@ -15,6 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 import { GlobalService } from 'src/app/services/global.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { JsonpClientBackend } from '@angular/common/http';
+import { AlertController } from '@ionic/angular';
 
 // install Swiper modules
 SwiperCore.use([
@@ -87,7 +88,8 @@ export class DeliveryPage implements OnInit {
     private productService: ProductService,
     private route: ActivatedRoute,
     private global: GlobalService,
-    private authService: AuthService
+    private authService: AuthService,
+    private alertController: AlertController
   ) {
     this.currentRoute = this.route.snapshot['_routerState'].url.split('/')[2];
     console.log(this.currentRoute, 'lkjhgfxz');
@@ -174,11 +176,28 @@ export class DeliveryPage implements OnInit {
     localStorage.setItem('cartItems', JSON.stringify(this.selectedProducts));
   }
 
-  add(product) {
+  async add(product) {
+    let time = `${new Date().getHours()}-${new Date().getMinutes()} `
+   
+    let hours=time.split('-')[0]
+    let minutes=time.split('-')[1];
+   if( hours< '11' || (hours>='21' && minutes>'30') ){
+    const alert = await this.alertController.create({
+      header: 'Alert',
+     
+      message: 'Order Time Should Fall Under Servicable Time And Should Be Future Time',
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+   }
+   else{
     product.product_quantity = product.product_quantity + 1;
     this.selectedProducts.push(product);
     this.authService.badgeDataSubject.next(this.selectedProducts.length)
     localStorage.setItem('cartItems', JSON.stringify(this.selectedProducts));
+   }
+    
   }
 
   getDataBymenuGroupId(id: any, name: any) {
