@@ -10,6 +10,11 @@ import {
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { Stripe } from '@capacitor-community/stripe';
+
+
+//stripe
+// import { Stripe } from '@capacitor-community/stripe';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -27,6 +32,9 @@ export class AppComponent implements OnInit {
     this.storage.create();
     this.initializeApp();
     this.intialize();
+    Stripe.initialize({
+      publishableKey: 'pk_test_51MBdEcSF30jh4yGpir3CLpJIEJvWnNJuqmTwVuxahkANEYzXRzgx8iveT6mI9BK7wMbrfO8oAexXkBohQdN7L7Xx00GQ0s32Nm',
+    });
   }
 
   initializeApp() {
@@ -39,6 +47,7 @@ export class AppComponent implements OnInit {
       });
     });
   }
+
   intialize() {
     this.platform.ready().then(() => {
       this.backButtonEvent();

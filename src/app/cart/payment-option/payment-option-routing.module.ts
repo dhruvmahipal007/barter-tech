@@ -7,7 +7,12 @@ const routes: Routes = [
   {
     path: '',
     component: PaymentOptionPage
-  }
+  },
+  // {
+  //   path: 'card',
+  //   loadChildren: () => import('./card/card.module').then( m => m.CardPageModule)
+  // }
+
 ];
 
 @NgModule({

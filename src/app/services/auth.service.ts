@@ -18,6 +18,7 @@ export class AuthService {
   accountSubject = new BehaviorSubject({});
   couponSubject = new BehaviorSubject({});
   mobileNumberSubject = new BehaviorSubject({});
+  totalDataSubject: any;
   constructor(
     private http: HttpClient,
     private router: Router,
