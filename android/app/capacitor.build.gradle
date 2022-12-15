@@ -10,6 +10,7 @@ android {
 apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
 dependencies {
     implementation project(':capacitor-community-barcode-scanner')
+    implementation project(':capacitor-community-facebook-login')
     implementation project(':capacitor-community-stripe')
     implementation project(':capacitor-app')
     implementation project(':capacitor-browser')
@@ -22,7 +23,6 @@ dependencies {
     implementation project(':capacitor-status-bar')
     implementation project(':codetrix-studio-capacitor-google-auth')
     implementation "androidx.webkit:webkit:1.4.0"
-    implementation "com.stripe:stripe-android:4.1.2"
 }
 
 

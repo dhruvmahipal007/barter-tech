@@ -21,7 +21,7 @@ import {
   ScheduleOptions,
 } from '@capacitor/local-notifications';
 import { Stripe } from '@capacitor-community/stripe';
-
+import { FacebookLogin } from '@capacitor-community/facebook-login';
 
 //stripe
 // import { Stripe } from '@capacitor-community/stripe';
@@ -50,10 +50,12 @@ export class AppComponent implements OnInit {
   ) {
     this.storage.create();
     this.initializeApp();
+    this.initializeFacebook();
     this.intialize();
     this.fetchLocation();
     Stripe.initialize({
-      publishableKey: 'pk_test_51MBdEcSF30jh4yGpir3CLpJIEJvWnNJuqmTwVuxahkANEYzXRzgx8iveT6mI9BK7wMbrfO8oAexXkBohQdN7L7Xx00GQ0s32Nm',
+      publishableKey:
+        'pk_test_51MBdEcSF30jh4yGpir3CLpJIEJvWnNJuqmTwVuxahkANEYzXRzgx8iveT6mI9BK7wMbrfO8oAexXkBohQdN7L7Xx00GQ0s32Nm',
     });
   }
 
@@ -65,6 +67,12 @@ export class AppComponent implements OnInit {
         scopes: ['profile', 'email'],
         grantOfflineAccess: true,
       });
+    });
+  }
+
+  initializeFacebook() {
+    this.platform.ready().then(() => {
+      FacebookLogin.initialize({ appId: '721435849402540' });
     });
   }
 

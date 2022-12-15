@@ -58,6 +58,7 @@ export class CartPage implements OnInit {
         this.getItemTotal();
       } else if (Object.keys(res).length == 0) {
         this.isCouponUsed = false;
+        this.isCouponApplied = false;
       } else if (res == 'invalid') {
         this.isCouponUsed = true;
       }
@@ -66,7 +67,7 @@ export class CartPage implements OnInit {
   }
 
   changeRoute() {
-    let route= !this.currentRoute? 'delivery': this.currentRoute
+    let route = !this.currentRoute ? 'delivery' : this.currentRoute;
     this.router.navigate(['/maindelivery/' + route]);
   }
 
@@ -79,7 +80,10 @@ export class CartPage implements OnInit {
     }
     this.getItemTotal();
     localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
-    this.authService.badgeDataSubject.next(this.cartItems.length)
+    this.authService.badgeDataSubject.next(this.cartItems.length);
+    if (this.cartItems.length == 0) {
+      this.authService.couponSubject.next({});
+    }
   }
 
   addQty(product, index) {

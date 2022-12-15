@@ -11,13 +11,22 @@ import { AuthService } from '../services/auth.service';
 import { StorageService } from '../services/storage.service';
 import { ToastService } from '../services/toast.service';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
+import {
+  FacebookLogin,
+  FacebookLoginResponse,
+} from '@capacitor-community/facebook-login';
 import { Plugins, registerWebPlugin } from '@capacitor/core';
+import { HTTP } from '@awesome-cordova-plugins/http/ngx';
+import { HttpClient } from '@angular/common/http';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
   styleUrls: ['./login.page.scss'],
 })
 export class LoginPage implements OnInit {
+  token: any;
+  user = null;
   device_model: any;
   device_platform: any;
   device_uuid: any;
@@ -27,12 +36,14 @@ export class LoginPage implements OnInit {
   registration_id: any;
   validateForm: FormGroup;
   emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$';
+
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
     private toastService: ToastService,
-    private storage: StorageService
+    private storage: StorageService,
+    private http: HttpClient
   ) {
     this.validateForm = this.fb.group({
       email: [
@@ -56,13 +67,13 @@ export class LoginPage implements OnInit {
 
   async loginwithgoogle() {
     const googleUser = await GoogleAuth.signIn();
-    const obj={
-      "login_type" : "social",
-      "email" : googleUser.email,
-      "social_id" : googleUser.id,
-      "name" : googleUser.givenName,
+    const obj = {
+      login_type: 'social',
+      email: googleUser.email,
+      social_id: googleUser.id,
+      name: googleUser.givenName,
       // "registration_token": JSON.parse(localStorage.getItem('fcm_token')),
-    }
+    };
     console.log('my user: ', googleUser);
     this.authService.login(obj).subscribe({
       next: (data) => {
@@ -93,8 +104,6 @@ export class LoginPage implements OnInit {
       },
     });
   }
-   
-  
 
   ngOnInit() {
     this.isLoggedIn();
@@ -120,9 +129,25 @@ export class LoginPage implements OnInit {
     }
   }
 
-  loginwithfacebook() {
-    // $ keytool -exportcert -alias androiddebugkey -keystore "C:\Documents and Settings\Administrator.android\debug.keystore" | "C:\OpenSSL\bin\openssl" sha1 -binary |"C:\OpenSSL\bin\openssl" base64
+  async loginwithfacebook() {
+    const FACEBOOK_PERMISSIONS = [
+      'email',
+      'user_birthday',
+      'user_photos',
+      'user_gender',
+    ];
+    const result: FacebookLoginResponse = await FacebookLogin.login({
+      permissions: FACEBOOK_PERMISSIONS,
+    });
+    console.log('result=', result);
+    if (result.accessToken) {
+      console.log(`Facebook access token is ${result.accessToken.token}`);
+    }
+    const UserFacebookData = await FacebookLogin.getProfile<{
+      email: string;
+    }>({ fields: ['email'] });
 
+    console.log(`Facebook user's email is ${UserFacebookData.email}`);
   }
 
   submitForm(): void {

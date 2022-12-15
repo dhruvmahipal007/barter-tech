@@ -26,6 +26,9 @@ public class MainActivity extends BridgeActivity {
     //   add(GoogleAuth.class);
     // }});
     registerPlugin(GoogleAuth.class);
+    registerPlugin(
+      com.getcapacitor.community.facebooklogin.FacebookLogin.class
+    );
     }
 
 

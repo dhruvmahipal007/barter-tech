@@ -96,8 +96,7 @@ export class DeliveryPage implements OnInit {
     let staticRoute = localStorage.getItem('currentRoute');
     if (staticRoute && staticRoute != this.currentRoute) {
       localStorage.setItem('cartItems', JSON.stringify([]));
-      this.authService.badgeDataSubject.next(0)
-
+      this.authService.badgeDataSubject.next(0);
     }
   }
 
@@ -109,7 +108,7 @@ export class DeliveryPage implements OnInit {
       let staticRoute = localStorage.getItem('currentRoute');
       if (staticRoute && staticRoute != this.currentRoute) {
         localStorage.setItem('cartItems', JSON.stringify([]));
-        this.authService.badgeDataSubject.next(0)
+        this.authService.badgeDataSubject.next(0);
       }
       this.listProductCategories();
       if (JSON.parse(localStorage.getItem('cartItems'))) {
@@ -160,10 +159,9 @@ export class DeliveryPage implements OnInit {
       this.selectedProducts = this.selectedProducts.filter(
         (ele) => ele.menuItemId != product.menuItemId
       );
-      
     }
     localStorage.setItem('cartItems', JSON.stringify(this.selectedProducts));
-    this.authService.badgeDataSubject.next(this.selectedProducts.length)
+    this.authService.badgeDataSubject.next(this.selectedProducts.length);
   }
 
   addQty(product, index) {
@@ -177,27 +175,26 @@ export class DeliveryPage implements OnInit {
   }
 
   async add(product) {
-    let time = `${new Date().getHours()}-${new Date().getMinutes()} `
-   
-    let hours=time.split('-')[0]
-    let minutes=time.split('-')[1];
-   if( hours< '11' || (hours>='21' && minutes>'30') ){
-    const alert = await this.alertController.create({
-      header: 'Alert',
-     
-      message: 'Order Time Should Fall Under Servicable Time And Should Be Future Time',
-      buttons: ['OK'],
-    });
+    let time = `${new Date().getHours()}-${new Date().getMinutes()} `;
 
-    await alert.present();
-   }
-   else{
-    product.product_quantity = product.product_quantity + 1;
-    this.selectedProducts.push(product);
-    this.authService.badgeDataSubject.next(this.selectedProducts.length)
-    localStorage.setItem('cartItems', JSON.stringify(this.selectedProducts));
-   }
-    
+    let hours = time.split('-')[0];
+    let minutes = time.split('-')[1];
+    if (hours < '11' || (hours >= '21' && minutes > '30')) {
+      const alert = await this.alertController.create({
+        header: 'Alert',
+
+        message:
+          'Order Time Should Fall Under Servicable Time And Should Be Future Time',
+        buttons: ['OK'],
+      });
+
+      await alert.present();
+    } else {
+      product.product_quantity = product.product_quantity + 1;
+      this.selectedProducts.push(product);
+      this.authService.badgeDataSubject.next(this.selectedProducts.length);
+      localStorage.setItem('cartItems', JSON.stringify(this.selectedProducts));
+    }
   }
 
   getDataBymenuGroupId(id: any, name: any) {
