@@ -4,6 +4,8 @@ import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
+// import { Stripe, StripeOriginal } from '@ionic-native/Stripe'
+
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -19,8 +21,19 @@ import {
   NativeGeocoderResult,
   NativeGeocoderOptions,
 } from '@awesome-cordova-plugins/native-geocoder/ngx';
+
+
+import { PaymentOptionPage } from './cart/payment-option/payment-option.page';
+import { CartPage } from './cart/cart.page';
+
+// const stripe : any = StripeOriginal;
+
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [
+    AppComponent,
+    PaymentOptionPage,
+    CartPage,
+  ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(),
@@ -30,6 +43,7 @@ import {
     IonicStorageModule.forRoot(),
   ],
   providers: [
+    // stripe,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     AuthService,
     AuthGuard,
@@ -43,7 +57,8 @@ import {
       useClass: TokenInterceptorService,
       multi: true,
     },
+  ], entryComponents: [
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

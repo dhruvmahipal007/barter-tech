@@ -74,4 +74,29 @@ console.log(data);
   get selectedDate_FormControl(): FormControl | null {
     return (this.takeawayForm?.get('selectedDate') as FormControl) ?? null;
   }
+  get selectedTime_FormControl(): FormControl | null {
+    return (this.takeawayForm?.get('selectedTime') as FormControl) ?? null;
+  }
+  get postalCode_FormControl(): FormControl | null {
+    return (this.DeliveryForm?.get('postalCode') as FormControl) ?? null;
+  }
+  get deliverySelectedDate_FormControl(): FormControl | null {
+    return (this.DeliveryForm?.get('selectedDate') as FormControl) ?? null;
+  }
+  get deliverySelectedTime_FormControl(): FormControl | null {
+    return (this.DeliveryForm?.get('selectedTime') as FormControl) ?? null;
+  }
+  get dineInSelectedPeople_FormControl(): FormControl | null {
+    return (this.DineinForm?.get('selectedPeople') as FormControl) ?? null;
+  }
+  get dineInSelectedTime_FormControl(): FormControl | null {
+    return (this.DineinForm?.get('selectedDate') as FormControl) ?? null;
+  }
+  get dineInSelectedDate_FormControl(): FormControl | null {
+    return (this.DineinForm?.get('selectedTime') as FormControl) ?? null;
+  }
+
+
+
+
 }

@@ -20,6 +20,11 @@ import {
   LocalNotifications,
   ScheduleOptions,
 } from '@capacitor/local-notifications';
+import { Stripe } from '@capacitor-community/stripe';
+
+
+//stripe
+// import { Stripe } from '@capacitor-community/stripe';
 @Component({
   selector: 'app-root',
   templateUrl: 'app.component.html',
@@ -47,6 +52,9 @@ export class AppComponent implements OnInit {
     this.initializeApp();
     this.intialize();
     this.fetchLocation();
+    Stripe.initialize({
+      publishableKey: 'pk_test_51MBdEcSF30jh4yGpir3CLpJIEJvWnNJuqmTwVuxahkANEYzXRzgx8iveT6mI9BK7wMbrfO8oAexXkBohQdN7L7Xx00GQ0s32Nm',
+    });
   }
 
   initializeApp() {
@@ -59,6 +67,7 @@ export class AppComponent implements OnInit {
       });
     });
   }
+
   intialize() {
     this.platform.ready().then(() => {
       this.backButtonEvent();
