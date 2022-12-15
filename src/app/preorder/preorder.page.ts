@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
+import { AlertController } from '@ionic/angular';
 import {
   FormGroup,
   FormBuilder,
@@ -20,7 +21,7 @@ takeawayForm: FormGroup;
 DeliveryForm:FormGroup;
 DineinForm:FormGroup;
 
-  constructor(  private modalController: ModalController,  private fb: FormBuilder,) { 
+  constructor(  private modalController: ModalController,  private fb: FormBuilder,  private alertController: AlertController) { 
     this.takeawayForm = this.fb.group({
       selectedDate: [null, [Validators.required]],
       selectedTime: [null, [Validators.required]],
@@ -63,6 +64,7 @@ console.log(data);
   }
   submitTakeawayForm(){
 
+
   }
   submitDeliveryForm(){
 
@@ -70,6 +72,25 @@ console.log(data);
   submitDineInForm(){
 
   }
+
+  async onTimeChange(event){
+    console.log(event.detail.value);
+    let time=event.detail.value;
+    
+    let hours=time.split(':')[0]
+    let minutes=time.split(':')[1];
+    
+   if( hours< '11' || (hours>='21' && minutes>'30') ){
+    const alert = await this.alertController.create({
+      header: 'Alert',
+     
+      message: 'Order Time Should Fall Under Servicable Time And Should Be Future Time',
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+  }
+}
 
   get selectedDate_FormControl(): FormControl | null {
     return (this.takeawayForm?.get('selectedDate') as FormControl) ?? null;

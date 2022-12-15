@@ -60,7 +60,8 @@ export class LoginPage implements OnInit {
       "login_type" : "social",
       "email" : googleUser.email,
       "social_id" : googleUser.id,
-      "name" : googleUser.givenName
+      "name" : googleUser.givenName,
+      // "registration_token": JSON.parse(localStorage.getItem('fcm_token')),
     }
     console.log('my user: ', googleUser);
     this.authService.login(obj).subscribe({
@@ -119,7 +120,10 @@ export class LoginPage implements OnInit {
     }
   }
 
-  loginwithfacebook() {}
+  loginwithfacebook() {
+    // $ keytool -exportcert -alias androiddebugkey -keystore "C:\Documents and Settings\Administrator.android\debug.keystore" | "C:\OpenSSL\bin\openssl" sha1 -binary |"C:\OpenSSL\bin\openssl" base64
+
+  }
 
   submitForm(): void {
     for (const i in this.validateForm.controls) {

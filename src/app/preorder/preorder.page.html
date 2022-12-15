@@ -29,12 +29,12 @@
   <div *ngIf="takeaway">
     <form id="form" [formGroup]="takeawayForm" >
     <div>
-      <ion-label>Select Date</ion-label>
+      <ion-label class="required">Select Date</ion-label>
       <ion-input placeholder="Enter Input" type="date"  formControlName="selectedDate"></ion-input>
     </div>
   <div>
-    <ion-label>Select Time</ion-label>
-    <ion-input placeholder="Enter Input" type="time"  formControlName="selectedTime"></ion-input>
+    <ion-label class="required">Select Time</ion-label>
+    <ion-input placeholder="Enter Input" type="time"  formControlName="selectedTime" (ionChange)="onTimeChange($event)"></ion-input>
   </div>
   <div>
     <hr class="hr" />
@@ -68,12 +68,12 @@
       </ion-list>
     </div>
     <div>
-      <ion-label>Select Date</ion-label>
+      <ion-label class="required">Select Date</ion-label>
       <ion-input placeholder="Enter Input" type="date" formControlName="selectedDate"></ion-input>
     </div>
   <div>
-    <ion-label>Select Time</ion-label>
-    <ion-input placeholder="Enter Input" type="time" formControlName="selectedTime"></ion-input>
+    <ion-label class="required">Select Time</ion-label>
+    <ion-input placeholder="Enter Input" type="time" formControlName="selectedTime" (ionChange)="onTimeChange($event)"></ion-input>
   </div>
   <div>
     <hr class="hr" />
@@ -93,15 +93,15 @@
 <div *ngIf="dinein">
   <form id="form" [formGroup]="DineinForm" >
   <div>
-    <ion-label>Select Date</ion-label>
+    <ion-label class="required">Select Date</ion-label>
     <ion-input placeholder="Enter Input" type="date" formControlName="selectedDate"></ion-input>
   </div>
 <div>
-  <ion-label>Select Time</ion-label>
-  <ion-input placeholder="Enter Input" type="time" formControlName="selectedTime"></ion-input>
+  <ion-label class="required">Select Time</ion-label>
+  <ion-input placeholder="Enter Input" type="time" formControlName="selectedTime" (ionChange)="onTimeChange($event)"></ion-input>
 </div>
 <div>
-  <ion-label>No of People
+  <ion-label class="required">No of People
   </ion-label>
   <ion-input placeholder="Enter Input" formControlName="selectedPeople"></ion-input>
 </div>
