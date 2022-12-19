@@ -20,102 +20,94 @@ delivery:boolean=false;
 takeawayForm: FormGroup;
 DeliveryForm:FormGroup;
 DineinForm:FormGroup;
+confirmationForm: FormGroup;
+selectedTakeawayDate:any;
+selectedTakeawayTime:any;
+selectedDeliveryDate:any;
+selectedDeliveryTime:any;
+selectedDineInDate:any;
+selectedDineInTime:any;
+selectedDineInPeople:any;
+preOrderobject:any;
+value:any;
+isFormVisible: boolean = false;
 
   constructor(  private modalController: ModalController,  private fb: FormBuilder,  private alertController: AlertController) { 
-    this.takeawayForm = this.fb.group({
-      selectedDate: [null, [Validators.required]],
-      selectedTime: [null, [Validators.required]],
-    });
-    this.DeliveryForm = this.fb.group({
-      postalCode: [null, [Validators.required]],
-      selectedDate: [null, [Validators.required]],
-      selectedTime: [null, [Validators.required]],
-    });
-    this.DineinForm = this.fb.group({
-      selectedPeople: [null, [Validators.required]],
+    this.confirmationForm = this.fb.group({
+      selectedPeople: [null],
       selectedDate: [null, [Validators.required]],
       selectedTime: [null, [Validators.required]],
     });
   }
 
   ngOnInit() {
-  }
+
+     this.preOrderobject=JSON.parse(localStorage.getItem('preorder'));
+     console.log(this.preOrderobject);
+     if(this.preOrderobject){
+      this.isFormVisible=true;
+      this.confirmationForm.controls['selectedDate'].patchValue(this.preOrderobject.selectedDate);
+      this.confirmationForm.controls['selectedTime'].patchValue(this.preOrderobject.selectedTime);
+      this.confirmationForm.controls['selectedPeople'].patchValue(this.preOrderobject.selectedPeople);
+      this.value= this.preOrderobject.type
+      if(this.value=='dinein'){
+        this.dinein=true;
+      }
+}
+     }
+
+    
   async crossButton(){
     const onClosedData: string = 'Wrapped Up!';
     await this.modalController.dismiss(onClosedData);
   }
   preorder(data){
-    if(data=='takeaway'){
-      this.takeaway=true;
-      this.delivery=false;
-      this.dinein=false;
+    if(this.value != data){
+      this.confirmationForm.reset('');
     }
-    if(data=='delivery'){
-      this.delivery=true;
-      this.takeaway=false;
-      this.dinein=false;
+    this.isFormVisible = true
+    if(data == 'dinein'){
+      this.dinein = true;
+      this.confirmationForm.get('selectedPeople').addValidators(Validators.required);
     }
-    if(data=='dinein'){
-      this.delivery=false;
-      this.takeaway=false;
-      this.dinein=true;
+    else{
+      this.dinein = false;
+      this.confirmationForm.get('selectedPeople').clearValidators();
     }
-console.log(data);
-  }
-  submitTakeawayForm(){
-
-
-  }
-  submitDeliveryForm(){
-
-  }
-  submitDineInForm(){
-
+    console.log(data);
   }
 
-  async onTimeChange(event){
-    console.log(event.detail.value);
-    let time=event.detail.value;
+
+
+ async onSubmit(){
+    let obj={
+      type: this.value,
+      selectedDate:this.confirmationForm.controls['selectedDate'].value,
+      selectedTime:this.confirmationForm.controls['selectedTime'].value,
+      selectedPeople: this.confirmationForm.controls['selectedPeople'].value
+    }
+      localStorage.setItem('preorder',JSON.stringify(obj));
+      await this.modalController.dismiss();
+  }
+
+//   async onTimeChange(event){
+//     console.log(event.detail.value);
+//     let time=event.detail.value;
     
-    let hours=time.split(':')[0]
-    let minutes=time.split(':')[1];
+//     let hours=time.split(':')[0]
+//     let minutes=time.split(':')[1];
     
-   if( hours< '11' || (hours>='21' && minutes>'30') ){
-    const alert = await this.alertController.create({
-      header: 'Alert',
+//    if( hours< '11' || (hours>='21' && minutes>'30') ){
+//     const alert = await this.alertController.create({
+//       header: 'Alert',
      
-      message: 'Order Time Should Fall Under Servicable Time And Should Be Future Time',
-      buttons: ['OK'],
-    });
+//       message: 'Order Time Should Fall Under Servicable Time And Should Be Future Time',
+//       buttons: ['OK'],
+//     });
 
-    await alert.present();
-  }
-}
-
-  get selectedDate_FormControl(): FormControl | null {
-    return (this.takeawayForm?.get('selectedDate') as FormControl) ?? null;
-  }
-  get selectedTime_FormControl(): FormControl | null {
-    return (this.takeawayForm?.get('selectedTime') as FormControl) ?? null;
-  }
-  get postalCode_FormControl(): FormControl | null {
-    return (this.DeliveryForm?.get('postalCode') as FormControl) ?? null;
-  }
-  get deliverySelectedDate_FormControl(): FormControl | null {
-    return (this.DeliveryForm?.get('selectedDate') as FormControl) ?? null;
-  }
-  get deliverySelectedTime_FormControl(): FormControl | null {
-    return (this.DeliveryForm?.get('selectedTime') as FormControl) ?? null;
-  }
-  get dineInSelectedPeople_FormControl(): FormControl | null {
-    return (this.DineinForm?.get('selectedPeople') as FormControl) ?? null;
-  }
-  get dineInSelectedTime_FormControl(): FormControl | null {
-    return (this.DineinForm?.get('selectedDate') as FormControl) ?? null;
-  }
-  get dineInSelectedDate_FormControl(): FormControl | null {
-    return (this.DineinForm?.get('selectedTime') as FormControl) ?? null;
-  }
+//     await alert.present();
+//   }
+// }
 
 
 

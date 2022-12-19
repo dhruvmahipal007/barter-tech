@@ -97,6 +97,7 @@ export class DeliveryPage implements OnInit {
     if (staticRoute && staticRoute != this.currentRoute) {
       localStorage.setItem('cartItems', JSON.stringify([]));
       this.authService.badgeDataSubject.next(0);
+      localStorage.setItem('currentRoute', this.currentRoute);
     }
   }
 
@@ -179,7 +180,7 @@ export class DeliveryPage implements OnInit {
 
     let hours = time.split('-')[0];
     let minutes = time.split('-')[1];
-    if (hours < '11' || (hours >= '21' && minutes > '30')) {
+    if (hours < '10' || (hours >= '24' && minutes > '30')) {
       const alert = await this.alertController.create({
         header: 'Alert',
 

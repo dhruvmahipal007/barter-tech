@@ -47,7 +47,15 @@
     <hr class="hr" />
 
     <!--============== SECOND GRID ===============-->
-
+    <!-- <ion-grid>
+      <ion-row>
+        <ion-item lines="none">
+          <ion-label>PRE ORDER</ion-label>
+          <ion-checkbox color="primary" checked slot="start"></ion-checkbox>
+        </ion-item>
+      </ion-row>
+    </ion-grid>
+    <hr class="hr" /> -->
     <ion-grid id="mid_grid">
       <ion-row style="padding: 5px">
         <ion-textarea
@@ -158,7 +166,7 @@
         </ion-col>
       </ion-row>
 
-      <ion-row style="display: flex; align-items: center">
+      <ion-row style="display: flex; align-items: center" *ngIf="currentRoute=='delivery'" >
         <ion-col size="6">
           <p>Deliver To</p>
         </ion-col>

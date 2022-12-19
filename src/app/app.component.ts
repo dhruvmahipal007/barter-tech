@@ -72,7 +72,7 @@ export class AppComponent implements OnInit {
 
   initializeFacebook() {
     this.platform.ready().then(() => {
-      FacebookLogin.initialize({ appId: '918488829083347' });
+      FacebookLogin.initialize({ appId: '1929065910569319' });
     });
   }
 

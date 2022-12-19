@@ -10,103 +10,25 @@
 </ion-header>
 
 <ion-content>
-  <ion-radio-group>
+  <ion-radio-group [(ngModel)] = "value"> 
     <ion-item>
-      <ion-radio slot="start" (click)="preorder('takeaway')"></ion-radio>
+      <ion-radio slot="start" (click)="preorder('takeaway')" value="takeaway"></ion-radio>
       <ion-label>Takeaway</ion-label>
     </ion-item>
     <ion-item>
-      <ion-radio slot="start" (click)="preorder('delivery')"></ion-radio>
+      <ion-radio slot="start" (click)="preorder('delivery')" value="delivery"></ion-radio>
       <ion-label>Delivery</ion-label>
     </ion-item>
     <ion-item>
-      <ion-radio slot="start" (click)="preorder('dinein')"></ion-radio>
+      <ion-radio slot="start" (click)="preorder('dinein')" value="dinein"></ion-radio>
       <ion-label>Dine In</ion-label>
     </ion-item>
   </ion-radio-group>
 
-  <div *ngIf="takeaway">
-    <form id="form" [formGroup]="takeawayForm">
-      <div>
-        <ion-label class="required">Select Date</ion-label>
-        <ion-input
-          placeholder="Enter Input"
-          type="date"
-          formControlName="selectedDate"
-        ></ion-input>
-      </div>
-      <div>
-        <ion-label class="required">Select Time</ion-label>
-        <ion-input
-          placeholder="Enter Input"
-          type="time"
-          formControlName="selectedTime"
-          (ionChange)="onTimeChange($event)"
-        ></ion-input>
-      </div>
-      <div>
-        <hr class="hr" />
-        <ion-button
-          expand="block"
-          class="button1"
-          color="white"
-          (click)="submitTakeawayForm()"
-          [disabled]="takeawayForm.invalid"
-          >CONFIRM</ion-button
-        >
-      </div>
-    </form>
-  </div>
-  <div *ngIf="delivery">
-    <form id="form" [formGroup]="DeliveryForm">
-      <div>
-        <ion-label class="required">Delivery Postal Code </ion-label>
-        <ion-list class="tag" lines="none">
-          <ion-item>
-            <ion-select
-              interface="popover"
-              placeholder="Select Postal Code"
-              formControlName="postalCode"
-            >
-              <ion-select-option value="home">Home</ion-select-option>
-              <ion-select-option value="office">Office</ion-select-option>
-            </ion-select>
-          </ion-item>
-        </ion-list>
-      </div>
-      <div>
-        <ion-label class="required">Select Date</ion-label>
-        <ion-input
-          placeholder="Enter Input"
-          type="date"
-          formControlName="selectedDate"
-        ></ion-input>
-      </div>
-      <div>
-        <ion-label class="required">Select Time</ion-label>
-        <ion-input
-          placeholder="Enter Input"
-          type="time"
-          formControlName="selectedTime"
-          (ionChange)="onTimeChange($event)"
-        ></ion-input>
-      </div>
-      <div>
-        <hr class="hr" />
-        <ion-button
-          expand="block"
-          class="button1"
-          color="white"
-          (click)="submitDeliveryForm()"
-          [disabled]="DeliveryForm.invalid"
-          >CONFIRM</ion-button
-        >
-      </div>
-    </form>
-  </div>
+ 
 
-  <div *ngIf="dinein">
-    <form id="form" [formGroup]="DineinForm">
+  <div *ngIf="isFormVisible">
+    <form id="form" [formGroup]="confirmationForm">
       <div>
         <ion-label class="required">Select Date</ion-label>
         <ion-input
@@ -121,10 +43,10 @@
           placeholder="Enter Input"
           type="time"
           formControlName="selectedTime"
-          (ionChange)="onTimeChange($event)"
+          
         ></ion-input>
       </div>
-      <div>
+      <div *ngIf="dinein">
         <ion-label class="required">No of People </ion-label>
         <ion-input
           placeholder="Enter Input"
@@ -137,8 +59,8 @@
           expand="block"
           class="button1"
           color="white"
-          (click)="submitDineInForm()"
-          [disabled]="DineinForm.invalid"
+          (click)="onSubmit()"
+          [disabled]="confirmationForm.invalid"
           >CONFIRM</ion-button
         >
       </div>

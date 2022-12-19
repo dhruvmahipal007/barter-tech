@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import { GlobalService } from 'src/app/services/global.service';
 
 import { AuthService } from '../services/auth.service';
 @Component({
@@ -23,13 +24,14 @@ export class CartPage implements OnInit {
   cartItems: any[] = [];
   itemTotal: any = 0;
   deliveryCharges = 10;
-  gst = 10;
+  gst = 0;
   totalPayable = 0;
   currentRoute: any;
   constructor(
     private router: Router,
     private authService: AuthService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private global: GlobalService,
   ) {
     this.route.params.subscribe((res) => {
       this.cartItems = JSON.parse(localStorage.getItem('cartItems'));
@@ -95,15 +97,29 @@ export class CartPage implements OnInit {
 
   async makePayment() {
     this.router.navigate([this.router.url, 'payment-option']);
-    let obj = {
-      merchant_Id: 4,
-      company_id: 1,
-      customer_BillingAddress_id: this.selectedAddress.id,
-      billing_addressline1: this.selectedAddress.addressLine1,
-      billing_addressline2: this.selectedAddress.addressLine2,
-      takeAwayPrice: this.totalPayable,
-    };
-    this.authService.totalDataSubject.next(obj);
+    if(this.currentRoute=='delivery'){
+      let obj = {
+        merchant_Id: 4,
+        company_id: 1,
+        customer_BillingAddress_id: this.selectedAddress.id,
+        billing_addressline1: this.selectedAddress.addressLine1,
+        billing_addressline2: this.selectedAddress.addressLine2,
+        takeAwayPrice: this.totalPayable,
+      };
+      this.authService.totalDataSubject.next(obj);
+    }
+    else{
+      let obj = {
+        merchant_Id: 4,
+        company_id: 1,
+        customer_BillingAddress_id: '',
+        billing_addressline1: '',
+        billing_addressline2: '',
+        takeAwayPrice: this.totalPayable,
+      };
+      this.authService.totalDataSubject.next(obj);
+    }
+    
   }
 
   getItemTotal() {
@@ -111,6 +127,7 @@ export class CartPage implements OnInit {
     this.cartItems.map((ele) => {
       this.itemTotal = this.itemTotal + ele.unitPrice * ele.product_quantity;
     });
+    this.gst=this.itemTotal*10/100;
     this.totalPayable =
       this.itemTotal +
       this.deliveryCharges +

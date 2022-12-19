@@ -25,10 +25,12 @@
           </ion-select>
         </ion-item>
       </ion-list>
+      <small *ngIf="tag_FormControl.hasError('required') && tag_FormControl.touched"><b style="color:red;">Tag is required</b></small>
     </div>
     <div>
       <ion-label position="floating" class="required">Address</ion-label>
       <ion-textarea rows="3" formControlName="address"></ion-textarea>
+      <small *ngIf="address_FormControl.hasError('required') && address_FormControl.touched"><b style="color:red;">Address is required</b></small>
     </div>
     <div>
       <ion-label class="required">Pincode</ion-label>
@@ -37,6 +39,7 @@
         placeholder="Enter Input"
         formControlName="pincode"
       ></ion-input>
+      <small *ngIf="pincode_FormControl.hasError('required') && pincode_FormControl.touched"><b style="color:red;">Pincode is required</b></small>
     </div>
     <div>
       <ion-label class="required">Landmark</ion-label>
@@ -44,6 +47,7 @@
         placeholder="Enter Input"
         formControlName="landmark"
       ></ion-input>
+      <small *ngIf="landmark_FormControl.hasError('required') && landmark_FormControl.touched"><b style="color:red;">Landmark is required</b></small>
     </div>
     <div>
       <ion-label class="required">Mobile</ion-label>
@@ -52,6 +56,7 @@
         placeholder="Enter Input"
         formControlName="mobile"
       ></ion-input>
+      <small *ngIf="mobile_FormControl.hasError('required') && mobile_FormControl.touched"><b style="color:red;">Mobile no is required</b></small>
     </div>
     <div>
       <ion-button
@@ -59,6 +64,7 @@
         expand="block"
         color="white"
         (click)="addAddress()"
+        [disabled]="addAddressForm.invalid"
         >Add</ion-button
       >
     </div>
