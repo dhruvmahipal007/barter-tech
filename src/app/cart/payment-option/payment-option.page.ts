@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from 'src/app/services/auth.service';
 // import { Stripe } from '@capacitor-community/stripe';
 import { Stripe, PaymentSheetEventsEnum } from '@capacitor-community/stripe';
-
+import { Subscriber } from 'rxjs';
+import { first } from 'rxjs/operators';
+// import { Stripe } from '@capacitor-community/Stripe';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-payment-option',
@@ -12,6 +14,8 @@ import { Stripe, PaymentSheetEventsEnum } from '@capacitor-community/stripe';
   styleUrls: ['./payment-option.page.scss'],
 })
 export class PaymentOptionPage implements OnInit {
+  url: any;
+
 
   orderType: any;
   customer_mobile: any;
