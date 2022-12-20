@@ -11,7 +11,6 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:usesCleartextTraffic="true"
-        android:usesCleartextTraffic="true"
         android:theme="@style/AppTheme"
         android:hardwareAccelerated="true">
 
@@ -60,7 +59,7 @@ xmlns:android="http://schemas.android.com/apk/res/android"
         </provider>
 
 <!-- //Stripe -->
-           <meta-data
+        <meta-data
           android:name="com.google.android.gms.wallet.api.enabled"
           android:value="true" />
 

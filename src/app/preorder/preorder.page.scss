@@ -26,4 +26,8 @@
     margin-left: -16px;
     width: 85vw;
   }
+  .requiredAestric:before {
+    content:" *";
+    color: red;
+  }
  

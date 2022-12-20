@@ -34,11 +34,26 @@
     </div>
     <div>
       <ion-label class="required">Pincode</ion-label>
-      <ion-input
+      <!-- <ion-input
         type="number"
         placeholder="Enter Input"
         formControlName="pincode"
-      ></ion-input>
+      ></ion-input> -->
+      <ion-list class="tag" lines="none">
+        <ion-item>
+          <ion-select
+            interface="popover"
+            placeholder="Enter Input"
+            formControlName="pincode"
+          >
+            <ion-select-option
+              *ngFor="let data of userAddress"
+              [value]="data"
+              >{{data.suburb}}-{{data.postcode}}<br />
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
       <small *ngIf="pincode_FormControl.hasError('required') && pincode_FormControl.touched"><b style="color:red;">Pincode is required</b></small>
     </div>
     <div>

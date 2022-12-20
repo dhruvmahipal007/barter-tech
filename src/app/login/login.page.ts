@@ -103,8 +103,8 @@ export class LoginPage implements OnInit {
         }
       },
       error: (err) => {
-        this.toastService.presentToast(err);
-        console.log(err);
+        this.toastService.presentToast("Something Went wrong!Try Again Later");
+        console.log(err.error.statusText);
       },
     });
   }

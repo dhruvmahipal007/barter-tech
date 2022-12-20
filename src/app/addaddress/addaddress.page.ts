@@ -16,6 +16,7 @@ import { ToastService } from '../services/toast.service';
 })
 export class AddaddressPage implements OnInit {
   addAddressForm: FormGroup;
+  userAddress:any;
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
@@ -31,12 +32,27 @@ export class AddaddressPage implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getzipCode();
+  }
+  getzipCode(){
+    this.authService.getZipCode().subscribe({
+      next:(data:any)=>{
+        this.userAddress=data.data;
+         console.log(this.userAddress);
+      },
+      error:(err)=>{
+         console.log(err);
+      }
+    })
+  }
   addAddress() {
+    console.log(this.pincode_FormControl.value.postcode);
     let data = {
       tag: this.tag_FormControl.value,
       address: this.address_FormControl.value,
-      zipcode: this.pincode_FormControl.value,
+      zipcode: this.pincode_FormControl.value.postcode.trim(),
+      suburb:this.pincode_FormControl.value.suburb,
       landmark: this.landmark_FormControl.value,
       mobile: '91'+this.mobile_FormControl.value,
     };
@@ -59,6 +75,20 @@ export class AddaddressPage implements OnInit {
       },
     });
   }
+
+  // onChangeOfOptions(event){
+  //   if(!event){
+  //     this.items = this.origItems;
+  // } // when nothing has typed*/   
+  // if (typeof event === 'string') {
+  //     console.log(event);
+  //     this.userAddress = this.userAddress.filter(a => a.toLowerCase()
+  //                                        .startsWith(event.toLowerCase())); 
+  // }
+  // console.log(this.userAddress.length);
+ 
+  // }
+  
   get tag_FormControl(): FormControl | null {
     return (this.addAddressForm?.get('tag') as FormControl) ?? null;
   }
