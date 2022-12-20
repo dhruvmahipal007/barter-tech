@@ -9,7 +9,7 @@ import { ProductCategory } from '../common/product-category';
   providedIn: 'root',
 })
 export class ProductService {
-  categoryUrl: string = 'http://barter-tech.antino.ca/api/MenuItems';
+  categoryUrl: string = 'https://barter-tech.antino.ca/api/MenuItems';
 
   constructor(private httpClient: HttpClient) {}
 

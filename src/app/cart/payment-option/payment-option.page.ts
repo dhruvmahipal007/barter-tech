@@ -140,7 +140,7 @@ export class PaymentOptionPage implements OnInit {
         paymentIntent?: string;
         client_secret?: string;
         data?: any;
-      }>("http://barter-tech.antino.ca/api/testIntent", 
+      }>("https://barter-tech.antino.ca/api/testIntent", 
         {
           amount: this.takeAwayPrice * 100,
           currency: "usd",
@@ -193,7 +193,7 @@ export class PaymentOptionPage implements OnInit {
 
   sendingConfirmation(responseId :any, paymentResultStatus: any){
     console.log(responseId, paymentResultStatus )
-    return this.http.post<any>("http://barter-tech.antino.ca/api/Statusupdate" , 
+    return this.http.post<any>("https://barter-tech.antino.ca/api/Statusupdate" , 
       {
         id : responseId,
         paymentResult : paymentResultStatus, 

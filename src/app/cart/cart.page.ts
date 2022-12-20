@@ -23,7 +23,7 @@ export class CartPage implements OnInit {
   optionSelected: any;
   cartItems: any[] = [];
   itemTotal: any = 0;
-  deliveryCharges = 10;
+  deliveryCharges :number=0;
   gst = 0;
   totalPayable = 0;
   currentRoute: any;
@@ -51,7 +51,9 @@ export class CartPage implements OnInit {
   }
 
   ngOnInit() {
+    
     this.getAddress();
+    
     this.authService.couponSubject.subscribe((res: any) => {
       if (res != 'invalid' && Object.keys(res).length != 0) {
         this.isCouponApplied = true;
@@ -143,11 +145,13 @@ export class CartPage implements OnInit {
   }
 
   getAddress() {
+    this.global.showLoader('Loading Data');
     this.authService.getAddress().subscribe({
       next: (data: any) => {
         this.userAddress = data.data;
         this.selectedAddress = this.userAddress[0];
         console.log(this.userAddress);
+        this.getDeliveryCharges();
       },
       error: (err) => {
         console.log(err);
@@ -155,9 +159,30 @@ export class CartPage implements OnInit {
     });
   }
 
+  getDeliveryCharges(){
+    let obj={
+      postalcode:this.selectedAddress.zipcode,
+      suburb:this.selectedAddress.suburb
+    }
+    console.log(obj);
+    this.authService.getDeliveryCharges(obj).subscribe({
+      next:(data:any)=>{
+       this.deliveryCharges=Number(data.data) ;
+       console.log(this.deliveryCharges);
+       this.getItemTotal();
+       this.global.hideLoader()
+      },
+      error:(err)=>{
+      console.log(err);
+      this.global.hideLoader();
+      }
+    })
+  }
+
   onAddressChange(event) {
     console.log(event.target.value);
     this.selectedAddress = event.target.value;
+    this.getDeliveryCharges();
   }
 
   // saveCustomerOrder() {

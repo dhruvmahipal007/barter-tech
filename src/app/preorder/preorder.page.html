@@ -28,7 +28,9 @@
  
 
   <div *ngIf="isFormVisible">
+    
     <form id="form" [formGroup]="confirmationForm">
+      <p *ngIf="dinein" class="requiredAestric" style="color:red;">Table allocation is subject to availability of table at dine in time.</p>
       <div>
         <ion-label class="required">Select Date</ion-label>
         <ion-input
@@ -43,7 +45,7 @@
           placeholder="Enter Input"
           type="time"
           formControlName="selectedTime"
-          
+          (ionChange)="onTimeChange($event)"
         ></ion-input>
       </div>
       <div *ngIf="dinein">
@@ -66,4 +68,5 @@
       </div>
     </form>
   </div>
+
 </ion-content>

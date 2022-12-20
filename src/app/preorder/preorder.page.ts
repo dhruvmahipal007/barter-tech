@@ -7,7 +7,8 @@ import {
   Validators,
   FormControl,
 } from '@angular/forms';
-
+import { AuthService } from '../services/auth.service';
+import { toLower } from 'ionicons/dist/types/components/icon/utils';
 @Component({
   selector: 'app-preorder',
   templateUrl: './preorder.page.html',
@@ -31,8 +32,12 @@ selectedDineInPeople:any;
 preOrderobject:any;
 value:any;
 isFormVisible: boolean = false;
+currentRoute:any;
+presentDay:any;
+workingHoursData: any[] = []
+hours:any;
 
-  constructor(  private modalController: ModalController,  private fb: FormBuilder,  private alertController: AlertController) { 
+  constructor(  private modalController: ModalController,  private fb: FormBuilder,  private alertController: AlertController,private authService: AuthService,) { 
     this.confirmationForm = this.fb.group({
       selectedPeople: [null],
       selectedDate: [null, [Validators.required]],
@@ -41,7 +46,11 @@ isFormVisible: boolean = false;
   }
 
   ngOnInit() {
-
+    this.getWorkingHours();
+     this.currentRoute=localStorage.getItem('currentRoute');
+     this.value=this.currentRoute;
+     this.isFormVisible=true;
+     console.log(this.currentRoute);
      this.preOrderobject=JSON.parse(localStorage.getItem('preorder'));
      console.log(this.preOrderobject);
      if(this.preOrderobject){
@@ -54,14 +63,51 @@ isFormVisible: boolean = false;
         this.dinein=true;
       }
 }
+if(this.value=='dinein'){
+  this.dinein=true;
+}
+     }
+     getWorkingHours(){
+      this.authService.getworkingHours().subscribe((res:any)=>{
+        console.log(res.data);
+        this.workingHoursData = res.data
+      })
      }
 
     
   async crossButton(){
     const onClosedData: string = 'Wrapped Up!';
-    await this.modalController.dismiss(onClosedData);
+    await this.modalController.dismiss(this.currentRoute);
+
   }
-  preorder(data){
+  async preorder(data){
+    if(this.currentRoute!=data){
+      const alert = await this.alertController.create({
+        header: 'Alert',
+        
+        message: 'Are you sure you want to proceed as items present in the cart will be removed',
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+            },
+          },
+          {
+            text: 'OK',
+            role: 'confirm',
+            handler: () => {
+              this.currentRoute=data;
+              localStorage.setItem('currentRoute',data);
+              localStorage.setItem('cartItems', JSON.stringify([]));
+              localStorage.setItem('preorder',JSON.stringify({}));
+            },
+          },
+        ],
+      });
+  
+      await alert.present();
+    }
     if(this.value != data){
       this.confirmationForm.reset('');
     }
@@ -90,25 +136,90 @@ isFormVisible: boolean = false;
       await this.modalController.dismiss();
   }
 
-//   async onTimeChange(event){
-//     console.log(event.detail.value);
-//     let time=event.detail.value;
-    
-//     let hours=time.split(':')[0]
-//     let minutes=time.split(':')[1];
-    
-//    if( hours< '11' || (hours>='21' && minutes>'30') ){
-//     const alert = await this.alertController.create({
-//       header: 'Alert',
-     
-//       message: 'Order Time Should Fall Under Servicable Time And Should Be Future Time',
-//       buttons: ['OK'],
-//     });
 
-//     await alert.present();
-//   }
-// }
+async onTimeChange(event){
+  console.log(event.detail.value);
+  let selectedDate=new Date(this.confirmationForm.controls['selectedDate'].value);  
+  var weekdays = new Array(7);
+        weekdays[0] = "Sunday";
+        weekdays[1] = "Monday";
+        weekdays[2] = "Tuesday";
+        weekdays[3] = "Wednesday";
+        weekdays[4] = "Thursday";
+        weekdays[5] = "Friday";
+        weekdays[6] = "Saturday";
+        this.presentDay  = weekdays[selectedDate.getDay()];
+        console.log(this.presentDay);
+    let time=event.detail.value;
+    
+      this.hours=Number(time.split(':')[0]);
+    let minutes=time.split(':')[1];
+    console.log(this.hours,minutes)
+    let timing = this.checkValidity(this.workingHoursData,this.presentDay);
+    let openingHrs = timing.OpeningHrs.split(':');
+    let closingHrs = timing.ClosingHrs.split(':');
+    if(openingHrs[1].includes('PM')){
+      openingHrs[0] += 12
+    }
 
+    if(closingHrs[1].includes('PM')){
+      closingHrs[0] =Number(closingHrs[0]) + 12
+      closingHrs[1] = closingHrs[1].replace("PM","").trim();
+      closingHrs[1] = Number(closingHrs[1]);
+    }
+    if(Number(openingHrs[0]) > this.hours || (this.hours>= Number(closingHrs[0])  && minutes>= closingHrs[1]) ){
+      const alert = await this.alertController.create({
+    header: this.currentRoute + ' not available!',
+    
+    message: this.currentRoute + ' service is not available during this time. Please choose another time',
+    buttons: [
+      {
+        text: 'Cancel',
+        role: 'cancel',
+        handler: () => {
+          alert.dismiss();
+        },
+      },
+      {
+        text: 'OK',
+        role: 'confirm',
+        handler: () => {
+          alert.dismiss();
+        },
+      },
+    ],
+  });
+
+  await alert.present();
+    }
+    
+  
+}
+commonMethods(matchedData,day){
+  let timing : any;
+  matchedData.map(x=>{
+    if(x.day==day){
+      console.log(x.timing);
+       timing = x.timing
+    }
+  })
+  return timing;
+}
+
+checkValidity(data,day){
+  let keys = Object.keys(data);
+  let timing : any;
+  keys.map((o,i) =>{
+    if(this.currentRoute == o.toLowerCase()){
+      timing = this.commonMethods(data[o],day);
+    }
+    else if( this.currentRoute== 'dinein' && o.toLowerCase()=='business'){
+      timing = this.commonMethods(data[o],day);
+    }
+  })
+  return timing[0];
+
+}
 
 
 

@@ -11,7 +11,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class AuthService {
   url: string = environment.serverUrl;
-  url2: string = 'http://barter-tech.antino.ca/api';
+  url2: string = 'https://barter-tech.antino.ca/api';
   // url3: string =
   //   'https://op-au-uat-cusapp-api.azurewebsites.net/api/sendresponse';
   addressSubject = new BehaviorSubject({});
@@ -111,5 +111,19 @@ export class AuthService {
   }
   deleteAddress(data){
     return this.http.post(this.url2 + '/Deleteaddress',data)
+  }
+  getZipCode(){
+    const params = new HttpParams().append('merchant_id', '4');
+    return this.http.get(this.url2+'/zipCode', { params });
+  }
+  getworkingHours(){
+    const params = new HttpParams().append('merchant_id', '4');
+    return this.http.get(this.url2+'/workingHours',{params});
+  }
+  getDeliveryCharges(data){
+    let params = new HttpParams().append('postalcode', data.postalcode);
+    params = params.append('suburb', data.suburb);
+    params=params.append('merchant_id','4')
+    return this.http.get(this.url2+'/getMerchantDetails',{params});
   }
 }
