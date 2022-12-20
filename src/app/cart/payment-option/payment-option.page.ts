@@ -95,26 +95,50 @@ export class PaymentOptionPage implements OnInit {
 
     Stripe.addListener(GooglePayEventsEnum.Loaded, () => {
       // this.processSheet = 'Ready';
-      console.log('PaymentSheetEventsEnum.Loaded');
+      console.log('GooglePayEventsEnum.Loaded');
     });
 
     Stripe.addListener(GooglePayEventsEnum.FailedToLoad, () => {
-      console.log('PaymentSheetEventsEnum.FailedToLoad');
+      console.log('GooglePayEventsEnum.FailedToLoad');
     });
 
     Stripe.addListener(GooglePayEventsEnum.Completed, () => {
       // this.processSheet = 'willReady';
-      console.log('PaymentSheetEventsEnum.Completed');
+      console.log('GooglePayEventsEnum.Completed');
     });
 
     Stripe.addListener(GooglePayEventsEnum.Canceled, () => {
       // this.processSheet = 'willReady';
-      console.log('PaymentSheetEventsEnum.Canceled');
+      console.log('GooglePayEventsEnum.Canceled');
     });
 
     Stripe.addListener(GooglePayEventsEnum.Failed, () => {
       // this.processSheet = 'willReady';
-      console.log('PaymentSheetEventsEnum.Failed');
+      console.log('GooglePayEventsEnum.Failed');
+    });
+
+    Stripe.addListener(ApplePayEventsEnum.Loaded, () => {
+      // this.processSheet = 'Ready';
+      console.log('ApplePayEventsEnum.Loaded');
+    });
+
+    Stripe.addListener(ApplePayEventsEnum.FailedToLoad, () => {
+      console.log('ApplePayEventsEnum.FailedToLoad');
+    });
+
+    Stripe.addListener(ApplePayEventsEnum.Completed, () => {
+      // this.processSheet = 'willReady';
+      console.log('ApplePayEventsEnum.Completed');
+    });
+
+    Stripe.addListener(ApplePayEventsEnum.Canceled, () => {
+      // this.processSheet = 'willReady';
+      console.log('ApplePayEventsEnum.Canceled');
+    });
+
+    Stripe.addListener(ApplePayEventsEnum.Failed, () => {
+      // this.processSheet = 'willReady';
+      console.log('ApplePayEventsEnum.Failed');
     });
   }
 
@@ -252,7 +276,7 @@ export class PaymentOptionPage implements OnInit {
         const alert = await this.alertCtrl.create({
           header: 'Gpay Not Available',
           subHeader: 'For yu device',
-          message: 'Please chose another payment meho as gpayisno aailable on this device',
+          message: 'Please chose another payment method as Gpay is not available on this device',
           buttons: ['OK'],
         });
         return;
@@ -314,7 +338,80 @@ export class PaymentOptionPage implements OnInit {
   }
 
   async makePaymentWithApplePay() {
-    console.log('Need Macbk to implement tis.');
+    console.log('Pay with Apple pay button hits');
+
+    (async () => {
+      // Check to be able to use Apple Pay on device
+      const isAvailable = Stripe.isApplePayAvailable().catch(() => undefined);
+      if (isAvailable === undefined) {
+        const alert = await this.alertCtrl.create({
+          header: 'Apple pay Not Available',
+          subHeader: 'For your device',
+          message: 'Please chose another payment methos as Apple pay is not aailable on this device',
+          buttons: ['OK'],
+        });
+        return;
+      }
+
+      // Connect to your backend endpoint, and get paymentIntent.
+      this.http.post<{
+          paymentIntent: string;
+          client_secret?: string;
+          data?: any;
+        }>('https://barter-tech.antino.ca/api/createIntent', {
+          amount: this.takeAwayPrice * 100,
+          currency: 'inr',
+          payment_method_types: ['card'],
+        })
+        .toPromise(Promise)
+        .then((res) => {
+          this.callForApplePayPayment(res.data.client_secret).then((response) => {
+            this.sendingConfirmation(res.data.id, response);
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    })();
+  }
+
+  async callForApplePayPayment(client_secret: any) {
+    await Stripe.createApplePay({
+      paymentIntentClientSecret: client_secret,
+      paymentSummaryItems: [{
+        label : 'Order',
+        amount: this.takeAwayPrice * 100
+      }],
+      merchantIdentifier: 'Barter Tech',
+      countryCode: 'IND',
+      currency: 'INR'
+    });
+
+    // Present Google Pay
+    const result = await Stripe.presentApplePay();
+
+    if (result.paymentResult === ApplePayEventsEnum.Completed) {
+      this.router.navigateByUrl('/maindelivery/delivery');
+    }
+
+    if (result.paymentResult === ApplePayEventsEnum.Canceled) {
+      console.log('Retry payment');
+      this.router.navigateByUrl('/cart/payment-option');
+    }
+
+    if (result.paymentResult === ApplePayEventsEnum.Failed) {
+      console.log('Payment failed redirect to cart');
+      this.router.navigateByUrl('/cart');
+    }
+
+    return new Promise((resolve, reject) => {
+      try {
+        resolve(result?.paymentResult);
+      } catch (error) {
+        reject(error);
+      }
+    });
+    // this.sendingConfirmation();
   }
 
   //confirmation API code _ Legacy do not touch
