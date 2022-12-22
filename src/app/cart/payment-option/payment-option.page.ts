@@ -39,6 +39,10 @@ export class PaymentOptionPage implements OnInit {
   merchant_Id: any;
   customer_name: any;
   customer_email: any;
+  ispreeorder:any;
+  deliverydate:any
+  deliverytime:any;
+  customercount:any;
 
   constructor(
     public router: Router,
@@ -56,6 +60,8 @@ export class PaymentOptionPage implements OnInit {
   ngOnInit() {
     this.authService.totalDataSubject.subscribe((res: any) => {
       console.log(res);
+      let preorder=JSON.parse(localStorage.getItem('preorder'));
+      if(preorder){
       this.billing_addressline1 = res.billing_addressline1;
       this.billing_addressline2 = res.billing_addressline2;
       this.customer_BillingAddress_id = res.customer_BillingAddress_id;
@@ -63,6 +69,25 @@ export class PaymentOptionPage implements OnInit {
       this.company_id = res.company_id;
       this.merchant_Id = res.merchant_Id;
       this.takeAwayPrice = res.takeAwayPrice;
+      this.ispreeorder=res.isPreorder;
+      this.deliverydate=res.delivery_date;
+      this.deliverytime=res.delivery_time;
+      this.customercount=res.dinein_Customer_count;
+      }
+      else{
+        this.billing_addressline1 = res.billing_addressline1;
+        this.billing_addressline2 = res.billing_addressline2;
+        this.customer_BillingAddress_id = res.customer_BillingAddress_id;
+        this.customer_DeliveryAddress_Id = res.customer_BillingAddress_id;
+        this.company_id = res.company_id;
+        this.merchant_Id = res.merchant_Id;
+        this.takeAwayPrice = res.takeAwayPrice;
+        this.ispreeorder='';
+        this.deliverydate='';
+        this.deliverytime='';
+        this.customercount='';
+      }
+
     });
     this.customer_name = JSON.parse(localStorage.getItem('userDetails')).name;
     this.customer_email = JSON.parse(localStorage.getItem('userDetails')).email;
@@ -142,6 +167,10 @@ export class PaymentOptionPage implements OnInit {
     });
   }
 
+  gotoUrl(){
+    this.router.navigate(['/cart']);
+  }
+
   presentAlert() {
     var id = document.getElementById('modal');
     id.style.display = 'flex';
@@ -203,6 +232,11 @@ export class PaymentOptionPage implements OnInit {
       taxrate: '10.0000',
       taxvalue_type: 'P',
       orderType: localStorage.getItem('currentRoute'),
+      isPreorder:this.ispreeorder,
+      delivery_date:this.deliverydate,
+      delivery_time: this.deliverytime,
+      dinein_Customer_count:this.customercount
+
     };
     console.log(sendData);
   }

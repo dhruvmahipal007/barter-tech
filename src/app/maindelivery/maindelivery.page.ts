@@ -4,13 +4,14 @@ import { AlertController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
 
 import { PreorderPage } from '../preorder/preorder.page';
+import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-maindelivery',
   templateUrl: './maindelivery.page.html',
   styleUrls: ['./maindelivery.page.scss'],
 })
 export class MaindeliveryPage implements OnInit {
-  
+  currentRoute:any;
   cartItemsLength:any=0;
   public slideOps = {
     // pager : true,
@@ -43,11 +44,29 @@ export class MaindeliveryPage implements OnInit {
 
   constructor(private authservice:AuthService,
     private alertController: AlertController,
-    private modalController: ModalController, ) {
+    private modalController: ModalController,
+    private _activatedRoute: ActivatedRoute,
+    private _router: Router,
+   
+   ) {
    
   }
 
   ngOnInit() {
+    this._activatedRoute.params.subscribe((res) => {
+      console.log(res);
+      // this.currentRoute = this.route.snapshot['_routerState'].url.split('/')[2];
+      // console.log(this.currentRoute, 'lkjhgfxz');
+      // let staticRoute = localStorage.getItem('currentRoute');
+      // if (staticRoute && staticRoute != this.currentRoute) {
+      //   localStorage.setItem('cartItems', JSON.stringify([]));
+      //   this.authService.badgeDataSubject.next(0);
+      // }
+      // this.listProductCategories();
+      // if (JSON.parse(localStorage.getItem('cartItems'))) {
+      //   this.selectedProducts = JSON.parse(localStorage.getItem('cartItems'));
+      // }
+    });
     //this.cartItemsLength= !!localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem("cartItems")).length : 0
     this.authservice.badgeDataSubject.subscribe(res=>{
      console.log(res,"heelo");
@@ -67,9 +86,24 @@ export class MaindeliveryPage implements OnInit {
     
     // console.log(this.cartItemsLength,"length");
   }
+      //   ionViewWillEnter(){
+      //     // this.myDefaultMethodToFetchData();
+      //     this._activatedRoute.params.subscribe((res) => {
+      //       console.log(res);
+      //       // this.currentRoute = this._activatedRoute.snapshot['_routerState'].url.split('/')[2];
+            
+      //     });
+      // }
+
+        // refreshPage() {
+        // this.ionViewWillEnter();
+        // }
 
   segmentChanged(ev: any) {
     this.segment = ev.detail.value;
+  }
+  changeRoute(tab){
+    this._router.navigate(['/maindelivery/'+tab]);
   }
 
   updateMyDate($event) {
@@ -87,8 +121,22 @@ export class MaindeliveryPage implements OnInit {
       component: PreorderPage,
       cssClass: 'dialog-preorder',
     });
+    modal.onDidDismiss()
+    .then((data) => {
+     console.log(data,"--------------")
+    if(data.data!=undefined){
+
+      this._router.navigate(['/maindelivery/'+data?.data])
+    }
+  });
+  //  let currentRoute = this._activatedRoute.snapshot['_routerState'].url.split('/')[2];
+  //  console.log(currentRoute,"------------");
     return await modal.present();
   }
+
+  // commonmethod(currentdataRoute){
+  // this.authservice.routeSubject.next(currentdataRoute);
+  // }
 
   
   

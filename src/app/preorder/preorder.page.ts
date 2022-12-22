@@ -5,10 +5,8 @@ import {
   FormGroup,
   FormBuilder,
   Validators,
-  FormControl,
 } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
-import { toLower } from 'ionicons/dist/types/components/icon/utils';
 @Component({
   selector: 'app-preorder',
   templateUrl: './preorder.page.html',
@@ -77,37 +75,11 @@ if(this.value=='dinein'){
     
   async crossButton(){
     const onClosedData: string = 'Wrapped Up!';
-    await this.modalController.dismiss(this.currentRoute);
+    await this.modalController.dismiss();
 
   }
   async preorder(data){
-    if(this.currentRoute!=data){
-      const alert = await this.alertController.create({
-        header: 'Alert',
-        
-        message: 'Are you sure you want to proceed as items present in the cart will be removed',
-        buttons: [
-          {
-            text: 'Cancel',
-            role: 'cancel',
-            handler: () => {
-            },
-          },
-          {
-            text: 'OK',
-            role: 'confirm',
-            handler: () => {
-              this.currentRoute=data;
-              localStorage.setItem('currentRoute',data);
-              localStorage.setItem('cartItems', JSON.stringify([]));
-              localStorage.setItem('preorder',JSON.stringify({}));
-            },
-          },
-        ],
-      });
-  
-      await alert.present();
-    }
+   
     if(this.value != data){
       this.confirmationForm.reset('');
     }
@@ -132,13 +104,48 @@ if(this.value=='dinein'){
       selectedTime:this.confirmationForm.controls['selectedTime'].value,
       selectedPeople: this.confirmationForm.controls['selectedPeople'].value
     }
+    if(this.currentRoute!=this.value){
+      const alert = await this.alertController.create({
+        header: 'Alert',
+        
+        message: 'Are you sure you want to proceed as items present in the cart will be removed',
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+              this.alertController.dismiss();
+            },
+          },
+          {
+            text: 'OK',
+            role: 'confirm',
+            handler: () => {
+              this.currentRoute=this.value;
+              localStorage.setItem('currentRoute',this.value);
+              localStorage.setItem('cartItems', JSON.stringify([]));
+              this.authService.badgeDataSubject.next(0);
+              localStorage.setItem('preorder',JSON.stringify(obj));
+              this.modalController.dismiss(this.currentRoute);
+
+            },
+          },
+        ],
+      });
+  
+      await alert.present();
+    }
+    else{
       localStorage.setItem('preorder',JSON.stringify(obj));
-      await this.modalController.dismiss();
+      this.modalController.dismiss();
+    }
   }
 
 
 async onTimeChange(event){
   console.log(event.detail.value);
+  console.log(this.confirmationForm.value);
+  if(this.confirmationForm.controls['selectedTime'].value != null && this.confirmationForm.controls['selectedTime'].value != undefined){
   let selectedDate=new Date(this.confirmationForm.controls['selectedDate'].value);  
   var weekdays = new Array(7);
         weekdays[0] = "Sunday";
@@ -192,8 +199,7 @@ async onTimeChange(event){
 
   await alert.present();
     }
-    
-  
+  }
 }
 commonMethods(matchedData,day){
   let timing : any;
