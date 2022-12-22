@@ -10,7 +10,7 @@ import {
 import { AlertController } from '@ionic/angular';
 import { async, Subscriber } from 'rxjs';
 import { first } from 'rxjs/operators';
-
+import { GlobalService } from 'src/app/services/global.service';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -48,7 +48,8 @@ export class PaymentOptionPage implements OnInit {
     public router: Router,
     private authService: AuthService,
     private http: HttpClient,
-    public alertCtrl: AlertController
+    public alertCtrl: AlertController,
+    private global: GlobalService,
   ) {
     Stripe.initialize({
       // publishableKey: 'pk_test_HQcvhQfP6gImSm0PUpGA1xSf', //clients
@@ -257,6 +258,8 @@ export class PaymentOptionPage implements OnInit {
         })
         .toPromise(Promise)
         .then((res) => {
+          //loader open
+          this.global.showLoader('Loading Data');
           this.callForStripePayment(res.data.client_secret).then((response) => {
             this.sendingConfirmation(res.data.id, response);
           });
@@ -274,6 +277,8 @@ export class PaymentOptionPage implements OnInit {
     });
 
     // present PaymentSheet and get result.
+    //loader end
+    this.global.hideLoader();
     const result = await Stripe.presentPaymentSheet();
 
     if (result.paymentResult === PaymentSheetEventsEnum.Completed) {
@@ -328,6 +333,8 @@ export class PaymentOptionPage implements OnInit {
         })
         .toPromise(Promise)
         .then((res) => {
+          //loader open
+          this.global.showLoader('Loading Data');
           this.callForGpayPayment(res.data.client_secret).then((response) => {
             this.sendingConfirmation(res.data.id, response);
           });
@@ -343,7 +350,8 @@ export class PaymentOptionPage implements OnInit {
       paymentIntentClientSecret: client_secret,
       // merchantDisplayName: 'Barter Tech',
     });
-
+//loader close
+this.global.hideLoader();
     // Present Google Pay
     const result = await Stripe.presentGooglePay();
 
@@ -399,6 +407,8 @@ export class PaymentOptionPage implements OnInit {
         })
         .toPromise(Promise)
         .then((res) => {
+          //loader start
+          this.global.showLoader('Loading Data');
           this.callForApplePayPayment(res.data.client_secret).then((response) => {
             this.sendingConfirmation(res.data.id, response);
           });
@@ -420,7 +430,8 @@ export class PaymentOptionPage implements OnInit {
       countryCode: 'IN',
       currency: 'INR'
     });
-
+    //loader end
+    this.global.hideLoader();
     // Present Google Pay
     const result = await Stripe.presentApplePay();
 

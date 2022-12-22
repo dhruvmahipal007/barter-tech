@@ -10,11 +10,11 @@ import com.codetrixstudio.capacitor.GoogleAuth.GoogleAuth;
 
 public class MainActivity extends BridgeActivity {
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        registerPlugin(com.getcapacitor.community.stripe.StripePlugin.class);
-    }
+    // @Override
+    // public void onCreate(Bundle savedInstanceState) {
+    //     super.onCreate(savedInstanceState);
+    //     registerPlugin(com.getcapacitor.community.stripe.StripePlugin.class);
+    // }
     
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -25,6 +25,7 @@ public class MainActivity extends BridgeActivity {
     //   // Additional plugins you've installed go here
     //   add(GoogleAuth.class);
     // }});
+     registerPlugin(com.getcapacitor.community.stripe.StripePlugin.class);
     registerPlugin(GoogleAuth.class);
     registerPlugin(
       com.getcapacitor.community.facebooklogin.FacebookLogin.class
