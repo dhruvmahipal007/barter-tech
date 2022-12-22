@@ -162,7 +162,7 @@
           <p>To Pay</p>
         </ion-col>
         <ion-col>
-          <p>${{totalPayable}}</p>
+          <p>${{totalPayable  | number : '1.2-2'}}</p>
         </ion-col>
       </ion-row>
 
@@ -202,6 +202,16 @@
           </div>
         </ion-col>
       </ion-row>
+      <ion-row style="display: flex; align-items: center" *ngIf="checkboxBoolean">
+        <ion-col size="10">
+          <p>PreOrder</p>
+        </ion-col>
+        <ion-col size="2" style="z-index: 0;">
+          <ion-item lines="none">
+            <ion-checkbox [(ngModel)]="preorderCheckbox"></ion-checkbox>
+          </ion-item>
+        </ion-col>
+      </ion-row>
     </ion-grid>
 
     <hr class="hr" />
@@ -210,7 +220,7 @@
       <ion-row>
         <ion-col size="6.5">
           <div class="bottom_design">
-            <h4>${{totalPayable}}</h4>
+            <h4>${{totalPayable  | number : '1.2-2'}}</h4>
             <!-- <p>VIEW DETAILED BILL</p> -->
             <ion-text>
               VIEW DETAILED BILL

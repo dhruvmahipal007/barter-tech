@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
+import { AlertController } from '@ionic/angular';
 import { GlobalService } from 'src/app/services/global.service';
 
 import { AuthService } from '../services/auth.service';
@@ -27,11 +28,15 @@ export class CartPage implements OnInit {
   gst = 0;
   totalPayable = 0;
   currentRoute: any;
+  preorderCheckbox:boolean=false;
+  checkboxBoolean:boolean=false;
+  preorder:any;
   constructor(
     private router: Router,
     private authService: AuthService,
     private route: ActivatedRoute,
     private global: GlobalService,
+    private alertController: AlertController
   ) {
     this.route.params.subscribe((res) => {
       this.cartItems = JSON.parse(localStorage.getItem('cartItems'));
@@ -51,7 +56,34 @@ export class CartPage implements OnInit {
   }
 
   ngOnInit() {
-    
+    this.route.params.subscribe((res) => {
+      this.cartItems = JSON.parse(localStorage.getItem('cartItems'));
+      this.customer_name = JSON.parse(localStorage.getItem('userDetails')).name;
+      this.customer_email = JSON.parse(
+        localStorage.getItem('userDetails')
+      ).email;
+      this.customer_mobile = JSON.parse(localStorage.getItem('userNo'));
+      console.log(this.cartItems);
+      if (this.cartItems) {
+        this.getItemTotal();
+      } else {
+        this.cartItems = [];
+      }
+      this.currentRoute = localStorage.getItem('currentRoute');
+      for (var key in localStorage){
+        if(key=='preorder'){
+          this.preorder=JSON.parse(localStorage.getItem('preorder'));
+          console.log(this.preorder);
+        }else{
+          this.checkboxBoolean = false
+        }
+       }
+    });
+
+   
+    if(this.preorder){
+      this.checkboxBoolean=true
+    }
     this.getAddress();
     
     this.authService.couponSubject.subscribe((res: any) => {
@@ -98,9 +130,9 @@ export class CartPage implements OnInit {
   }
 
   async makePayment() {
-    this.router.navigate([this.router.url, 'payment-option']);
+    let obj;
     if(this.currentRoute=='delivery'){
-      let obj = {
+       obj = {
         merchant_Id: 4,
         company_id: 1,
         customer_BillingAddress_id: this.selectedAddress.id,
@@ -108,10 +140,10 @@ export class CartPage implements OnInit {
         billing_addressline2: this.selectedAddress.addressLine2,
         takeAwayPrice: this.totalPayable,
       };
-      this.authService.totalDataSubject.next(obj);
+     
     }
     else{
-      let obj = {
+       obj = {
         merchant_Id: 4,
         company_id: 1,
         customer_BillingAddress_id: '',
@@ -119,8 +151,62 @@ export class CartPage implements OnInit {
         billing_addressline2: '',
         takeAwayPrice: this.totalPayable,
       };
-      this.authService.totalDataSubject.next(obj);
+     
     }
+    if(!this.preorderCheckbox && this.preorder) {
+      const alert = await this.alertController.create({
+        
+        message: 'Do you want preorder service as you have already added that?Press Confirm for preorder',
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            handler: () => {
+              this.authService.totalDataSubject.next(obj);
+              
+              localStorage.removeItem("preorder");
+              this.router.navigate([this.router.url, 'payment-option']);
+            },
+          },
+          {
+            text: 'OK',
+            role: 'confirm',
+            handler: () => {
+          this.preorderCheckbox=true;
+          obj.isPreorder="1";
+          obj.delivery_date=this.preorder.selectedDate;
+          obj.delivery_time=this.preorder.selectedTime;
+          if(this.preorder.type="dinein"){
+            obj.dinein_Customer_count=this.preorder.selectedPeople
+          }
+          this.authService.totalDataSubject.next(obj);
+          this.router.navigate([this.router.url, 'payment-option']);
+            },
+          },
+        ],
+      });
+    
+      await alert.present();
+    }
+    else if(this.preorderCheckbox &&this.preorder)
+    { 
+      obj.isPreorder="1";
+          obj.delivery_date=this.preorder.selectedDate;
+          obj.delivery_time=this.preorder.selectedTime;
+          if(this.preorder.type="dinein"){
+            obj.dinein_Customer_count=this.preorder.selectedPeople
+          }
+      this.authService.totalDataSubject.next(obj);
+      this.router.navigate([this.router.url, 'payment-option']);
+
+    }
+    else{
+      this.authService.totalDataSubject.next(obj);
+      this.router.navigate([this.router.url, 'payment-option'])
+    }
+    
+
+   
     
   }
 

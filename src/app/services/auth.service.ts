@@ -20,6 +20,7 @@ export class AuthService {
   mobileNumberSubject = new BehaviorSubject({});
   totalDataSubject = new BehaviorSubject({});
   badgeDataSubject=new BehaviorSubject(0);
+  routeSubject=new BehaviorSubject({});
 
   constructor(
     private http: HttpClient,
@@ -113,7 +114,7 @@ export class AuthService {
     return this.http.post(this.url2 + '/Deleteaddress',data)
   }
   getZipCode(){
-    const params = new HttpParams().append('merchant_id', '4');
+    const params = new HttpParams().append('merchant_id', '45');
     return this.http.get(this.url2+'/zipCode', { params });
   }
   getworkingHours(){
@@ -123,7 +124,7 @@ export class AuthService {
   getDeliveryCharges(data){
     let params = new HttpParams().append('postalcode', data.postalcode);
     params = params.append('suburb', data.suburb);
-    params=params.append('merchant_id','4')
+    params=params.append('merchant_id','45')
     return this.http.get(this.url2+'/getMerchantDetails',{params});
   }
 }

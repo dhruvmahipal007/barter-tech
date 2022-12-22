@@ -6,6 +6,7 @@ import {
   PushNotificationSchema,
   PushNotifications,
   Token,
+  
 } from '@capacitor/push-notifications';
 import { GoogleAuth } from '@codetrix-studio/capacitor-google-auth';
 import { Router } from '@angular/router';
@@ -22,7 +23,7 @@ import {
 } from '@capacitor/local-notifications';
 import { Stripe } from '@capacitor-community/stripe';
 import { FacebookLogin } from '@capacitor-community/facebook-login';
-
+import { AlertController } from '@ionic/angular';
 //stripe
 // import { Stripe } from '@capacitor-community/stripe';
 @Component({
@@ -46,7 +47,8 @@ export class AppComponent implements OnInit {
     private platform: Platform,
     private router: Router,
     private location: Location,
-    private nativegeocoder: NativeGeocoder
+    private nativegeocoder: NativeGeocoder,
+    private _alertController: AlertController,
   ) {
     this.storage.create();
     this.initializeApp();
@@ -172,12 +174,23 @@ export class AppComponent implements OnInit {
       alert('Error on registration: ' + JSON.stringify(error));
     });
 
-    PushNotifications.addListener(
-      'pushNotificationReceived',
-      (notification: PushNotificationSchema) => {
-        alert('Push received: ' + JSON.stringify(notification));
-      }
-    );
+
+    PushNotifications.addListener('pushNotificationReceived', async (notification: PushNotificationSchema) => {
+      await (
+          await this._alertController.create({
+              header: notification.title,
+              message: notification.body,
+              buttons: ['Close']
+          })
+      ).present();
+  });
+
+    // PushNotifications.addListener(
+    //   'pushNotificationReceived',
+    //   (notification: PushNotificationSchema) => {
+    //     alert('Push received: ' + JSON.stringify(notification));
+    //   }
+    // );
     // PushNotifications.addListener(
     //   'pushNotificationReceived',
     //   async (notification: PushNotificationSchema) => {

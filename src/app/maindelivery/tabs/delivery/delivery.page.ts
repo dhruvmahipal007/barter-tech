@@ -7,15 +7,15 @@ import SwiperCore, {
   Autoplay,
   SwiperOptions,
 } from 'swiper';
-import { IonicSlides, IonSegment, IonSlides } from '@ionic/angular';
+import { IonicSlides , IonSlides } from '@ionic/angular';
 import { ProductCategory } from 'src/app/common/product-category';
 import { ProductService } from 'src/app/services/product.service';
 import { Product } from 'src/app/common/product';
 import { ActivatedRoute } from '@angular/router';
 import { GlobalService } from 'src/app/services/global.service';
 import { AuthService } from 'src/app/services/auth.service';
-import { JsonpClientBackend } from '@angular/common/http';
 import { AlertController } from '@ionic/angular';
+import { first } from 'rxjs/internal/operators/first';
 
 // install Swiper modules
 SwiperCore.use([
@@ -110,14 +110,26 @@ export class DeliveryPage implements OnInit {
       if (staticRoute && staticRoute != this.currentRoute) {
         localStorage.setItem('cartItems', JSON.stringify([]));
         this.authService.badgeDataSubject.next(0);
+        localStorage.setItem('currentRoute', this.currentRoute);
       }
       this.listProductCategories();
       if (JSON.parse(localStorage.getItem('cartItems'))) {
         this.selectedProducts = JSON.parse(localStorage.getItem('cartItems'));
       }
     });
+    // this.authService.routeSubject.pipe(first()).subscribe(res=>{
+    //   console.log(res);
+    // })
     // setTimeout(this.getTime(), 60000);
   }
+
+//   ngDoCheck() {
+//     this.authService.routeSubject.pipe(first()).subscribe(res=>{
+//       console.log(res);
+//     })
+// }
+
+  
 
   getTime() {
     // let getLocalStorageOrderTime = localStorage.getItem('latestOrder');
