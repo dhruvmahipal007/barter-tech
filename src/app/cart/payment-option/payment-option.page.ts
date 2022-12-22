@@ -383,7 +383,7 @@ export class PaymentOptionPage implements OnInit {
         amount: this.takeAwayPrice * 100
       }],
       merchantIdentifier: 'Barter Tech',
-      countryCode: 'IND',
+      countryCode: 'IN',
       currency: 'INR'
     });
 
@@ -415,7 +415,6 @@ export class PaymentOptionPage implements OnInit {
   }
 
   //confirmation API code _ Legacy do not touch
-
   sendingConfirmation(responseId: any, paymentResultStatus: any) {
     console.log(responseId, paymentResultStatus);
     return this.http.post<any>(
