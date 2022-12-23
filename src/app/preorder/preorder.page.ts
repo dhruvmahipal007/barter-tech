@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
+import { DatePipe } from '@angular/common';
 @Component({
   selector: 'app-preorder',
   templateUrl: './preorder.page.html',
@@ -34,6 +35,8 @@ currentRoute:any;
 presentDay:any;
 workingHoursData: any[] = []
 hours:any;
+todaydate:any;
+datePipe = new DatePipe('en-US');
 
   constructor(  private modalController: ModalController,  private fb: FormBuilder,  private alertController: AlertController,private authService: AuthService,) { 
     this.confirmationForm = this.fb.group({
@@ -227,6 +230,26 @@ checkValidity(data,day){
 
 }
 
+datetriggered(event)
+{
+  let todaydate= this.datePipe.transform(new Date() , 'yyyy-MM-dd')
+  if(todaydate != event){
+    let splitDate = todaydate.split('-');
+    let eventSpritDate = event.split('-');
+    if(Number(eventSpritDate[0]) < Number(splitDate[0])){
+      console.log("Wrong year")
+    }
+    if(Number(eventSpritDate[1]) < Number(splitDate[1])){
+      console.log("Wrong month")
+    }
+    if(Number(eventSpritDate[2]) < Number(splitDate[2])){
+      console.log("Wrong date")
+    }
+
+  }
+  console.log(todaydate.split('-'),"------")
+  console.log(event.split('-'));
+}
 
 
 }

@@ -130,7 +130,9 @@
           <h2 style="font-size: 20px; font-weight: 700">
             {{item.menuItemName}}
           </h2>
-          <span style="font-size: 17px">$ {{item.unitPrice}}</span>
+          <span style="font-size: 17px" *ngIf="routercurrent=='delivery'">$ {{item.deliveryPrice | number: '0.2-2'}}</span>
+          <span style="font-size: 17px" *ngIf="routercurrent=='dinein'">$ {{item.dineInPrice | number: '0.2-2'}}</span>
+          <span style="font-size: 17px" *ngIf="routercurrent=='takeaway'">$ {{item.takeAwayPrice | number: '0.2-2'}}</span>
           <p>{{item.MenuItemNote}}</p>
         </div>
 
@@ -177,11 +179,19 @@
             </span>
           </div>
           <ion-button
-            *ngIf="item.product_quantity == 0"
+            *ngIf="item.product_quantity == 0 && item.itemStock=='Y'"
             (click)="add(item)"
             class="btn-apply"
             color="warning"
-            >ADD
+            [disabled]="item.buttonTitle=='NotAvailable'"
+            >{{item.buttonTitle}}
+          </ion-button>
+          <ion-button
+            *ngIf="item.itemStock!='Y'"
+            class="btn-apply"
+            color="warning"
+            [disabled]="true"
+            >NO STOCK
           </ion-button>
         </div>
       </ion-card-content>

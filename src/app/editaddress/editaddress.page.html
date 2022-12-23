@@ -31,12 +31,28 @@
       <ion-textarea rows="3" formControlName="address"></ion-textarea>
     </div>
     <div>
+
       <ion-label>Pincode</ion-label>
-      <ion-input
+      <ion-list class="tag" lines="none">
+        <ion-item>
+          <ion-select
+            interface="popover"
+            placeholder="Enter Input"
+            formControlName="zipcode"
+          >
+            <ion-select-option
+              *ngFor="let data of userAddress"
+              [value]="data"
+              >{{data.suburb}}-{{data.postcode}}<br />
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+      <!-- <ion-input
         type="number"
         placeholder="Enter Input"
         formControlName="zipcode"
-      ></ion-input>
+      ></ion-input> -->
     </div>
     <div>
       <ion-label>Landmark</ion-label>
@@ -51,6 +67,7 @@
         type="number"
         placeholder="Enter Input"
         formControlName="mobile"
+        onKeyPress="if(this.value.length>=10) return false;"
       ></ion-input>
     </div>
     <div>
@@ -59,6 +76,7 @@
         expand="block"
         color="white"
         (click)="editAddress()"
+        [disabled]="editAddressForm.invalid"
         >Edit</ion-button
       >
     </div>

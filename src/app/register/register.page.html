@@ -56,14 +56,14 @@
       <ion-input
         type="tel"
         placeholder="Enter Number"
-        minlength="10"
-        maxlength="10"
+        onKeyPress="if(this.value.length>=10) return false;"
         formControlName="mobile"
       ></ion-input>
       <small *ngIf="mobile_FormControl.hasError('required') && mobile_FormControl.touched "><b style="color:red;">Mobile No is required</b></small>
+      <small *ngIf="mobile_FormControl.hasError('maxlength') && mobile_FormControl.touched "><b style="color:red;">Mobile No cannot be greater than 10</b></small>
     </div>
     <div>
-      <ion-label class="required">Gender</ion-label>
+      <ion-label>Gender</ion-label>
       <ion-list lines="none">
         <ion-item>
           <ion-select
@@ -76,7 +76,7 @@
           </ion-select>
         </ion-item>
       </ion-list>
-      <small *ngIf="gender_FormControl.hasError('required') && gender_FormControl.touched "><b style="color:red;">Gender is required</b></small>
+      <!-- <small *ngIf="gender_FormControl.hasError('required') && gender_FormControl.touched "><b style="color:red;">Gender is required</b></small> -->
     </div>
     <div>
       <ion-label class="required">DOB</ion-label>

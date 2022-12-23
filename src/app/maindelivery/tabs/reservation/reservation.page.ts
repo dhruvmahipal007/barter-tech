@@ -27,7 +27,7 @@ export class ReservationPage implements OnInit {
     this.reservationForm = this.fb.group({
       firstName: [null, [Validators.required]],
       lastName: [null, [Validators.required]],
-      mobile: [null, [Validators.required]],
+      mobile: [null, [Validators.required,Validators.maxLength(10)]],
       email: [null, [Validators.required]],
       date: [null, [Validators.required]],
       time: [null, [Validators.required]],
@@ -39,6 +39,13 @@ export class ReservationPage implements OnInit {
 
   ngOnInit() {}
   reserveNow() {
+    if (
+      this.mobile_FormControl.value.toString().length < 10 ||
+      this.mobile_FormControl.value.toString().length > 10
+    ) {
+      this.toastService.presentToast('Please enter a valid no');
+    }
+    else{
     let data = {
       firstname: this.firstName_FormControl.value,
       last_name: this.lastName_FormControl.value,
@@ -73,6 +80,7 @@ export class ReservationPage implements OnInit {
         this.toastService.presentToast(err);
       },
     });
+  }
   }
 
   tableReservation() {

@@ -227,6 +227,7 @@ export class CartPage implements OnInit {
     this.isCouponApplied = false;
     this.isCouponUsed = false;
     this.appliedCoupon.couponValue = 0;
+    this.authService.couponSubject.next({});
     this.getItemTotal();
   }
 

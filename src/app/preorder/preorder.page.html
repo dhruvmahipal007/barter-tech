@@ -36,6 +36,8 @@
         <ion-input
           placeholder="Enter Input"
           type="date"
+          [(ngModel)]="todaydate"
+          (ngModelChange)="datetriggered($event)"
           formControlName="selectedDate"
         ></ion-input>
       </div>

@@ -43,7 +43,7 @@
       <ion-input
         type="number"
         placeholder="Enter Number"
-        max-length="10"
+        onKeyPress="if(this.value.length>=10) return false;"
         formControlName="mobile"
       ></ion-input>
     </div>

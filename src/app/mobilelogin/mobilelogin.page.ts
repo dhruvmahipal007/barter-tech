@@ -23,7 +23,7 @@ export class MobileloginPage implements OnInit {
     private toastService: ToastService
   ) {
     this.mobileLoginForm = this.fb.group({
-      mobile: [null, [Validators.required]],
+      mobile: [null, [Validators.required,Validators.maxLength(10), Validators.minLength(10)]],
     });
   }
 

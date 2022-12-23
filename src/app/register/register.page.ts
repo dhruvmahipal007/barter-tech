@@ -38,8 +38,8 @@ export class RegisterPage implements OnInit {
       lastName: [null, [Validators.required]],
       email: [null, [Validators.required, Validators.pattern(this.emailPattern)],],
       password: [null, [Validators.required]],
-      gender: [null, [Validators.required]],
-      mobile: [null, [Validators.required]],
+      gender: [null],
+      mobile: [null, [Validators.required,Validators.maxLength(10)]],
       dateOfBirth: [null, [Validators.required]],
     });
   }

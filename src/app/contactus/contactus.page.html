@@ -35,7 +35,7 @@
     </div>
     <div>
       <ion-label class="required">MOBILE</ion-label>
-      <ion-input placeholder="Enter Input" formControlName="mobile"></ion-input>
+      <ion-input placeholder="Enter Input" type="number" onKeyPress="if(this.value.length>=10) return false;" formControlName="mobile"></ion-input>
       <small *ngIf="mobile_FormControl.hasError('required') && mobile_FormControl.touched "><b style="color:red;">Mobile No is required</b></small>
     </div>
     <div>

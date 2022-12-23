@@ -17,6 +17,7 @@ import { ToastService } from '../services/toast.service';
 })
 export class EditaddressPage implements OnInit {
   editAddressForm: FormGroup;
+  userAddress:any;
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
@@ -28,7 +29,7 @@ export class EditaddressPage implements OnInit {
       address: [null, [Validators.required]],
       zipcode: [null, [Validators.required]],
       landmark: [null, [Validators.required]],
-      mobile: [null, [Validators.required]],
+      mobile: [null, [Validators.required,Validators.maxLength(10)]],
       address_id: [null],
     });
   }
@@ -40,6 +41,7 @@ export class EditaddressPage implements OnInit {
   geteditTable() {
     this.authService.addressSubject.subscribe((res: any) => {
       console.log(res);
+      this.getzipCode(res);
       if (res) {
         this.editAddressForm.controls['address'].patchValue(res.addressLine1);
         this.editAddressForm.controls['landmark'].patchValue(res.addressLine2);
@@ -49,10 +51,33 @@ export class EditaddressPage implements OnInit {
       }
     });
   }
+  getzipCode(res){
+    this.authService.getZipCode().subscribe({
+      next:(data:any)=>{
+        this.userAddress=data.data;
+         console.log(this.userAddress);
+         let obj = this.userAddress.find(x=>{
+          return x.suburb === res.suburb
+        })
+         console.log(obj)
+         this.editAddressForm.controls['zipcode'].patchValue(obj);
+      },
+      error:(err)=>{
+         console.log(err);
+      }
+    })
+  }
   editAddress() {
+    if (
+      this.mobile_FormControl.value.toString().length < 10 ||
+      this.mobile_FormControl.value.toString().length > 10
+    ) {
+      this.toastService.presentToast('Please enter a valid no');
+    }
+    else{
     this.authService.editAddress(this.editAddressForm.value).subscribe({
       next: (data) => {
-        // console.log(data);
+        console.log(data);
         if (data.status) {
           this.toastService.presentToast(data.message);
           this.editAddressForm.reset();
@@ -65,6 +90,7 @@ export class EditaddressPage implements OnInit {
         this.toastService.presentToast(err);
       },
     });
+    }
   }
   get tag_FormControl(): FormControl | null {
     return (this.editAddressForm?.get('tag') as FormControl) ?? null;

@@ -99,7 +99,7 @@ export class LoginPage implements OnInit {
           this.toastService.presentToast(data.message);
           this.router.navigate(['/account']);
         } else {
-          this.toastService.presentToast('Incorrect username or password');
+          this.toastService.presentToast('something went wrong');
         }
       },
       error: (err) => {
@@ -217,7 +217,7 @@ console.log(obj);
           this.toastService.presentToast(data.message);
           this.router.navigate(['/account']);
         } else {
-          this.toastService.presentToast('Incorrect username or password');
+          this.toastService.presentToast('something went wrong');
         }
       },
       error: (err) => {
@@ -250,8 +250,10 @@ console.log(obj);
       // registration_token: JSON.parse(localStorage.getItem('fcm_token')),
     };
     console.log(data);
+    this.authService.badgeDataSubject.next(0);
     this.authService.login(data).subscribe({
       next: (data) => {
+        console.log(data);
         if (data.status) {
           localStorage.setItem(
             'token',
@@ -270,7 +272,7 @@ console.log(obj);
           this.router.navigate(['/account']);
           this.validateForm.reset();
         } else {
-          this.toastService.presentToast('Incorrect username or password');
+          this.toastService.presentToast('Credentials are Incorrect');
         }
       },
       error: (err) => {
