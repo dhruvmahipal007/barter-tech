@@ -15,7 +15,7 @@ public class MainActivity extends BridgeActivity {
     //     super.onCreate(savedInstanceState);
     //     registerPlugin(com.getcapacitor.community.stripe.StripePlugin.class);
     // }
-    
+
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);

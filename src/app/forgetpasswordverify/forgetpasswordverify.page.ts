@@ -58,8 +58,6 @@ export class ForgetpasswordverifyPage implements OnInit {
     this.authService.forgetPassVerify(data).subscribe({
       next: (data) => {
         if(data.status){
-
-        
         console.log(data);
         this.isLoading = false;
         this.toastService.presentToast(data.message);

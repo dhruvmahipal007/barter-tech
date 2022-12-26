@@ -43,7 +43,8 @@ export class MobileloginPage implements OnInit {
       console.log(obj);
       this.authService.requestOtp(obj).subscribe({
         next: (data) => {
-          if (data.status == 200) {
+          console.log(data);
+          if (data.status) {
             this.isLoading = false;
             this.toastService.presentToast('OTP sent successfully');
             this.authService.mobileNumberSubject.next(obj);

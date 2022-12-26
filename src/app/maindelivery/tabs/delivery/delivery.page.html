@@ -67,12 +67,13 @@
   >
     <h2>Categories</h2>
 
-    <ion-segment
+    <ion-segment 
       #slides
       (ionChange)="segmentChanged($event)"
       [(ngModel)]="selected"
+      mode="md"
     >
-      <ion-segment-button
+      <ion-segment-button mode="md"
         *ngFor="let productCategory of productCategories"
         (click)="getDataBymenuGroupId(productCategory.menuGroupId,productCategory.groupName)"
         [value]="productCategory.groupName"

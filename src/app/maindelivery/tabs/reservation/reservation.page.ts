@@ -68,7 +68,7 @@ export class ReservationPage implements OnInit {
     console.log(data);
     this.authService.reservation(data).subscribe({
       next: (data) => {
-        // console.log(data);
+        console.log(data);
         if (data.status) {
           this.toastService.presentToast(data.message);
           this.reservationForm.reset();
@@ -87,12 +87,14 @@ export class ReservationPage implements OnInit {
     this.zipped = true;
     this.dining_event_date = 'DINING DATE';
     this.dining_event_time = 'DINING TIME';
+    this.reservationForm.reset();
   }
 
   eventReservation() {
     this.zipped = false;
     this.dining_event_date = 'EVENT DATE';
     this.dining_event_time = 'EVENT TIME';
+    this.reservationForm.reset();
   }
   get firstName_FormControl(): FormControl | null {
     return (this.reservationForm?.get('firstName') as FormControl) ?? null;

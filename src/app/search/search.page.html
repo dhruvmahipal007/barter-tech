@@ -92,7 +92,7 @@
   </ion-list>
   <ion-tabs
     class="tabs"
-    [ngStyle]="{'height': (searchItems?.length==0 || query?.length==0) ? '44%' : '10%'}"
+    [ngStyle]="{'height': (searchItems?.length==0 || query?.length==0 || searchItems?.length<4 ) ? '44%' : '10%'}"
   >
     <ion-tab-bar slot="bottom" style="border-top: 1px solid #000">
       <ion-tab-button routerLink="/maindelivery/delivery" class="two">

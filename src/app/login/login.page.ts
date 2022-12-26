@@ -37,7 +37,7 @@ export class LoginPage implements OnInit {
   device_serial: any;
   registration_id: any;
   validateForm: FormGroup;
-  emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$';
+  emailPattern = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-z]{2,4}$';
   
 
   constructor(
@@ -222,7 +222,7 @@ console.log(obj);
       },
       error: (err) => {
         this.toastService.presentToast(err);
-        console.log(err);
+        console.log(err.statusText);
       },
     });
    

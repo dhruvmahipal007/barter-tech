@@ -10,6 +10,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { StorageService } from '../services/storage.service';
 import { ToastService } from '../services/toast.service';
+import { GlobalService } from 'src/app/services/global.service';
 @Component({
   selector: 'app-editaddress',
   templateUrl: './editaddress.page.html',
@@ -22,7 +23,8 @@ export class EditaddressPage implements OnInit {
     private authService: AuthService,
     private fb: FormBuilder,
     private toastService: ToastService,
-    private router: Router
+    private router: Router,
+    private global: GlobalService,
   ) {
     this.editAddressForm = this.fb.group({
       tag: [null, [Validators.required]],
@@ -35,6 +37,7 @@ export class EditaddressPage implements OnInit {
   }
 
   ngOnInit() {
+    this.global.showLoader('Loading Data');
     this.geteditTable();
   }
 
@@ -61,9 +64,11 @@ export class EditaddressPage implements OnInit {
         })
          console.log(obj)
          this.editAddressForm.controls['zipcode'].patchValue(obj);
+         this.global.hideLoader();
       },
       error:(err)=>{
          console.log(err);
+         this.global.hideLoader();
       }
     })
   }
@@ -75,7 +80,18 @@ export class EditaddressPage implements OnInit {
       this.toastService.presentToast('Please enter a valid no');
     }
     else{
-    this.authService.editAddress(this.editAddressForm.value).subscribe({
+      // console.log(this.editAddressForm.value);
+      let obj={
+        address_id : this.editAddressForm.controls['address_id'].value,
+        address: this.address_FormControl.value,
+        landmark:this.landmark_FormControl.value,
+        mobile: '91'+ this.mobile_FormControl.value,
+        tag:this.tag_FormControl.value,
+        zipcode:this.editAddressForm.controls['zipcode'].value.postcode,
+        suburb:this.editAddressForm.controls['zipcode'].value.suburb
+      }
+      console.log(obj);
+    this.authService.editAddress(obj).subscribe({
       next: (data) => {
         console.log(data);
         if (data.status) {
