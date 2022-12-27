@@ -15,7 +15,11 @@ public class MainActivity extends BridgeActivity {
     //     super.onCreate(savedInstanceState);
     //     registerPlugin(com.getcapacitor.community.stripe.StripePlugin.class);
     // }
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> f0e60fa07905d38dc9b7b1572da40eabcdcebe35
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -25,7 +29,11 @@ public class MainActivity extends BridgeActivity {
     //   // Additional plugins you've installed go here
     //   add(GoogleAuth.class);
     // }});
+<<<<<<< HEAD
     registerPlugin(com.getcapacitor.community.stripe.StripePlugin.class);
+=======
+     registerPlugin(com.getcapacitor.community.stripe.StripePlugin.class);
+>>>>>>> f0e60fa07905d38dc9b7b1572da40eabcdcebe35
     registerPlugin(GoogleAuth.class);
     registerPlugin(
       com.getcapacitor.community.facebooklogin.FacebookLogin.class
