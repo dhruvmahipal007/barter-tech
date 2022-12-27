@@ -55,6 +55,11 @@
         formControlName="email"
       ></ion-input>
     </div>
+    <div *ngIf="officialEmail.errors">
+      <div style="color: red" *ngIf="officialEmail.errors.pattern">
+        Email is not valid.
+      </div>
+    </div>
     <div>
       <ion-label>{{dining_event_date}}</ion-label>
       <ion-input

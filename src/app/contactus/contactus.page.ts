@@ -63,6 +63,7 @@ export class ContactusPage implements OnInit {
     console.log('-----------------data contact us-----------', data);
     this.authService.contactUs(data).subscribe({
       next: (data) => {
+        
         // console.log(data);
         if (data.status) {
           this.toastService.presentToast(data.message);

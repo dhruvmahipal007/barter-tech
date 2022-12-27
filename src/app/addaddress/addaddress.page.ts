@@ -50,6 +50,7 @@ export class AddaddressPage implements OnInit {
     })
     this.global.hideLoader();
   }
+  
   addAddress() {
     if (
       this.mobile_FormControl.value.toString().length < 10 ||

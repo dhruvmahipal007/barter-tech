@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { DatePipe } from '@angular/common';
+import * as moment from 'moment';
 @Component({
   selector: 'app-preorder',
   templateUrl: './preorder.page.html',
@@ -47,6 +48,8 @@ datePipe = new DatePipe('en-US');
   }
 
   ngOnInit() {
+    this.todaydate=this.datePipe.transform(new Date() , 'yyyy-MM-dd');
+    console.log(this.todaydate);
     this.getWorkingHours();
      this.currentRoute=localStorage.getItem('currentRoute');
      this.value=this.currentRoute;
@@ -144,8 +147,17 @@ if(this.value=='dinein'){
     }
   }
 
+  checkPastTiming(event){
+  //   console.log(moment().format("HH:mm"))
+  //  console.log(event);
+  //  if(event<moment().format("HH:mm")){
+  //   console.log('hello');
+  //  }
+  }
+
 
 async onTimeChange(event){
+  this.checkPastTiming(event)
   console.log(event.detail.value);
   console.log(this.confirmationForm.value);
   if(this.confirmationForm.controls['selectedTime'].value != null && this.confirmationForm.controls['selectedTime'].value != undefined){
@@ -230,25 +242,37 @@ checkValidity(data,day){
 
 }
 
-datetriggered(event)
+async datetriggered(event)
 {
-  let todaydate= this.datePipe.transform(new Date() , 'yyyy-MM-dd')
-  if(todaydate != event){
-    let splitDate = todaydate.split('-');
-    let eventSpritDate = event.split('-');
-    if(Number(eventSpritDate[0]) < Number(splitDate[0])){
-      console.log("Wrong year")
-    }
-    if(Number(eventSpritDate[1]) < Number(splitDate[1])){
-      console.log("Wrong month")
-    }
-    if(Number(eventSpritDate[2]) < Number(splitDate[2])){
-      console.log("Wrong date")
-    }
+  // let todaydate= this.datePipe.transform(new Date() , 'yyyy-MM-dd')
 
+  if(moment()>moment(event)){
+    const alert = await this.alertController.create({
+      header: 'Alert',
+      message: 'Pre-Order Date Should Be A Future Date Or Today',
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+  
   }
-  console.log(todaydate.split('-'),"------")
-  console.log(event.split('-'));
+  // console.log(moment(event));
+  // if(todaydate != event){
+  //   let splitDate = todaydate.split('-');
+  //   let eventSpritDate = event.split('-');
+  //   if(Number(eventSpritDate[0]) < Number(splitDate[0])){
+  //     console.log("Wrong year")
+  //   }
+  //   if(Number(eventSpritDate[1]) < Number(splitDate[1])){
+  //     console.log("Wrong month")
+  //   }
+  //   if(Number(eventSpritDate[2]) < Number(splitDate[2])){
+  //     console.log("Wrong date")
+  //   }
+
+  // }
+  // console.log(todaydate.split('-'),"------")
+  // console.log(event.split('-'));
 }
 
 

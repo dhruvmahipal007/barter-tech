@@ -67,7 +67,8 @@ export class ForgetpasswordverifyPage implements OnInit {
         }, 3000);
       }
       else{
-        this.toastService.presentToast('Unique code not matched');
+        this.isLoading = false;
+        this.toastService.presentToast(data.message);
       }
       },
       error: (err) => {
