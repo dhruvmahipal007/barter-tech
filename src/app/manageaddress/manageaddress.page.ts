@@ -51,7 +51,9 @@ export class ManageaddressPage implements OnInit {
   }
 
   editAddress(data) {
-    data.mobileNo = (data.mobileNo.split('').splice(2,12).toString().replaceAll(',',''));
+    data.address_mobile
+    = (data.address_mobile
+      .split('').splice(2,12).toString().replaceAll(',',''));
     console.log(data);
     this.authService.addressSubject.next(data);
     this.router.navigate(['/editaddress']);

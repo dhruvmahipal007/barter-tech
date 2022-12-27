@@ -48,7 +48,7 @@ export class EditaddressPage implements OnInit {
       if (res) {
         this.editAddressForm.controls['address'].patchValue(res.addressLine1);
         this.editAddressForm.controls['landmark'].patchValue(res.addressLine2);
-        this.editAddressForm.controls['mobile'].patchValue(res.mobileNo);
+        this.editAddressForm.controls['mobile'].patchValue(res.address_mobile);
         this.editAddressForm.controls['address_id'].patchValue(res.id);
         this.editAddressForm.patchValue(res);
       }

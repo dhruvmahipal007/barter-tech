@@ -39,6 +39,7 @@ hours:any;
 todaydate:any;
 datePipe = new DatePipe('en-US');
 
+
   constructor(  private modalController: ModalController,  private fb: FormBuilder,  private alertController: AlertController,private authService: AuthService,) { 
     this.confirmationForm = this.fb.group({
       selectedPeople: [null],
@@ -48,9 +49,7 @@ datePipe = new DatePipe('en-US');
   }
 
   ngOnInit() {
-    this.todaydate=this.datePipe.transform(new Date() , 'yyyy-MM-dd');
-    console.log(this.todaydate);
-    this.getWorkingHours();
+    console.log(this.getWorkingHours());
      this.currentRoute=localStorage.getItem('currentRoute');
      this.value=this.currentRoute;
      this.isFormVisible=true;
@@ -147,12 +146,41 @@ if(this.value=='dinein'){
     }
   }
 
-  checkPastTiming(event){
-  //   console.log(moment().format("HH:mm"))
-  //  console.log(event);
-  //  if(event<moment().format("HH:mm")){
-  //   console.log('hello');
+  async checkPastTiming(event){
+   let selectedTime = event.detail.value;
+   let currentTime = moment().format("HH:mm").split(':');
+   selectedTime=selectedTime.split(':');
+  //  console.log(selectedTime);
+  //  console.log(currentTime);
+
+   var d1=new Date(parseInt("2001",10),(parseInt("01",10))-1,parseInt("01",10),parseInt(selectedTime[0],10),parseInt(selectedTime[1],10));
+var d2=new Date(parseInt("2001",10),(parseInt("01",10))-1,parseInt("01",10),parseInt(currentTime[0],10),parseInt(currentTime[1],10));
+var dd1=d1.valueOf();
+var dd2=d2.valueOf();
+if(dd1<dd2){
+  const alert = await this.alertController.create({
+    header: 'Alert',
+    message: 'Pre-Order Time Should Be A Future Time',
+
+    buttons: ['OK'],
+  });
+  this.confirmationForm.controls['selectedTime'].patchValue(moment().format("HH:mm"));
+  // this.todaydate=this.datePipe.transform(new Date() , 'yyyy-MM-dd')
+  // this.alertController.dismiss();
+  await alert.present();
+}
+
+
+  //  let bol = moment(currentTime).isBefore(selectedTime)
+  //  console.log(bol);
+  //  console.log(currentTime);
+  //  if(selectedTime[0] > currentTime[0] && selectedTime[1] > currentTime[1]){
+  //   return false;
   //  }
+  //  else{
+  //   return true;
+  //  }
+
   }
 
 
@@ -244,15 +272,17 @@ checkValidity(data,day){
 
 async datetriggered(event)
 {
+  let i = 0;
   // let todaydate= this.datePipe.transform(new Date() , 'yyyy-MM-dd')
-
   if(moment()>moment(event)){
     const alert = await this.alertController.create({
       header: 'Alert',
       message: 'Pre-Order Date Should Be A Future Date Or Today',
+
       buttons: ['OK'],
     });
-
+    this.todaydate=this.datePipe.transform(new Date() , 'yyyy-MM-dd')
+    this.alertController.dismiss();
     await alert.present();
   
   }
