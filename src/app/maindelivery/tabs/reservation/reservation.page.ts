@@ -49,7 +49,6 @@ export class ReservationPage implements OnInit {
       this.toastService.presentToast('Please enter a valid no');
     }
     else{
-      this.global.showLoader('Loading Data');
     let data = {
       firstname: this.firstName_FormControl.value,
       last_name: this.lastName_FormControl.value,
@@ -74,12 +73,10 @@ export class ReservationPage implements OnInit {
       next: (data) => {
         console.log(data);
         if (data.status) {
-          this.global.hideLoader();
           this.toastService.presentToast(data.message);
           this.reservationForm.reset();
         } else {
-          this.global.hideLoader();
-          this.toastService.presentToast('Error in User Details');
+          this.toastService.presentToast(data.message);
         }
       },
       error: (err) => {
