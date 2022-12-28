@@ -20,17 +20,12 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class PaymentOptionPage implements OnInit {
   url: any;
-
   orderType: any;
   customer_mobile: any;
   items: any[] = [];
   takeAwayPrice: any;
   cartItems: any[] = [];
-
-  payment_method_types: any[] = [];
   platform: any;
-
-  clientSecretId: any;
   billing_addressline1: any;
   billing_addressline2: any;
   customer_BillingAddress_id: any;
@@ -43,6 +38,9 @@ export class PaymentOptionPage implements OnInit {
   deliverydate:any
   deliverytime:any;
   customercount:any;
+  
+  payment_method_types: any[] = [];
+  clientSecretId: any;
 
   constructor(
     public router: Router,
