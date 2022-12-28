@@ -31,6 +31,7 @@ export class CartPage implements OnInit {
   preorderCheckbox:boolean=false;
   checkboxBoolean:boolean=false;
   preorder:any;
+  customValuesPrice:number = 0;
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -53,6 +54,9 @@ export class CartPage implements OnInit {
       }
       this.currentRoute = localStorage.getItem('currentRoute');
     });
+    this.cartItems.map(x =>{
+      this.customPriceValidate(x);
+    })
   }
 
   ngOnInit() {
@@ -114,6 +118,7 @@ export class CartPage implements OnInit {
         (ele) => ele.menuItemId != product.menuItemId
       );
     }
+    this.customPriceValidateForSub(product);
     this.getItemTotal();
     localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
     this.authService.badgeDataSubject.next(this.cartItems.length);
@@ -125,6 +130,7 @@ export class CartPage implements OnInit {
   addQty(product, index) {
     console.log(this.cartItems);
     product.product_quantity = product.product_quantity + 1;
+    this.customPriceValidate(product)
     this.getItemTotal();
     localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
   }
@@ -139,6 +145,8 @@ export class CartPage implements OnInit {
         billing_addressline1: this.selectedAddress.addressLine1,
         billing_addressline2: this.selectedAddress.addressLine2,
         takeAwayPrice: this.totalPayable,
+        taxAmount:this.gst,
+        deliveryCharge:this.deliveryCharges
       };
      
     }
@@ -150,6 +158,8 @@ export class CartPage implements OnInit {
         billing_addressline1: '',
         billing_addressline2: '',
         takeAwayPrice: this.totalPayable,
+        taxAmount:this.gst,
+        deliveryCharge:this.deliveryCharges
       };
      
     }
@@ -205,16 +215,66 @@ export class CartPage implements OnInit {
       this.router.navigate([this.router.url, 'payment-option'])
     }
     
+  }
 
-   
-    
+  customPriceValidate(product){
+    product.options.optionGroups.map(y =>{
+      y.optionItems.map(z =>{
+        if(z.selected){
+          if(this.currentRoute == 'delivery'){
+            this.customValuesPrice = this.customValuesPrice + z.deliveryPrice
+          }
+          else if(this.currentRoute == 'takeaway'){
+            this.customValuesPrice = this.customValuesPrice + z.takeawayPrice
+          }
+          else if(this.currentRoute == 'dinein'){
+            this.customValuesPrice = this.customValuesPrice + z.dineinPrice
+          }
+        }
+      })
+    })
+  }
+
+  customPriceValidateForSub(product){
+    product.options.optionGroups.map(y =>{
+      y.optionItems.map(z =>{
+        if(z.selected){
+          if(this.currentRoute == 'delivery'){
+            this.customValuesPrice = this.customValuesPrice - z.deliveryPrice
+          }
+          else if(this.currentRoute == 'takeaway'){
+            this.customValuesPrice = this.customValuesPrice - z.takeawayPrice
+          }
+          else if(this.currentRoute == 'dinein'){
+            this.customValuesPrice = this.customValuesPrice - z.dineinPrice
+          }
+        }
+      })
+    })
   }
 
   getItemTotal() {
     this.itemTotal = 0;
+    // if(this.currentRoute=='delivery'){
+    //   this.cartItems.map((ele) => {
+    //     this.itemTotal = this.itemTotal + ele.deliveryPrice * ele.product_quantity;
+    //   });
+    // }
+    // else if(this.currentRoute=='takeaway'){
+    //   this.cartItems.map((ele) => {
+    //     this.itemTotal = this.itemTotal + ele.takeAwayPrice * ele.product_quantity;
+    //   });
+    // }
+    // else if(this.currentRoute=='dinein'){
+    //   this.cartItems.map((ele) => {
+    //     this.itemTotal = this.itemTotal + ele.dineInPrice * ele.product_quantity;
+    //   });
+    // }
+    
     this.cartItems.map((ele) => {
-      this.itemTotal = this.itemTotal + ele.unitPrice * ele.product_quantity;
-    });
+          this.itemTotal = this.itemTotal + this.customValuesPrice + ele.unitPrice * ele.product_quantity;
+        });
+   
     this.gst=this.itemTotal*10/100;
     this.totalPayable =
       this.itemTotal +

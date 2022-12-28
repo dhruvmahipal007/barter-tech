@@ -75,7 +75,7 @@ export class OrderfilledPage implements OnInit {
       next: (data: any) => {
         if (data.status) {
           this.userOrderDetails = data.data.order_details;
-          this.itemTotal(this.userOrderDetails.menu);
+          this.itemTotal(this.userOrderDetails.menu,this.userOrderDetails?.orders.taxAmount,this.userOrderDetails?.orders.deliveryCharge);
           this.global.hideLoader();
           console.log(this.userOrderDetails);
         } else {
@@ -89,13 +89,13 @@ export class OrderfilledPage implements OnInit {
     });
   }
 
-  itemTotal(menu) {
+  itemTotal(menu,taxAmount,delivery) {
     let finalPrice = 0;
     menu.map((x) => {
       let calculatedPrice = x.Quantity * x.default_Price;
       finalPrice += calculatedPrice;
     });
     console.log(finalPrice);
-    this.finalMoney = finalPrice;
+    this.finalMoney = finalPrice+Number(taxAmount)+Number(delivery);
   }
 }

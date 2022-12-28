@@ -99,7 +99,7 @@ export class LoginPage implements OnInit {
           this.toastService.presentToast(data.message);
           this.router.navigate(['/account']);
         } else {
-          this.toastService.presentToast('something went wrong');
+          this.toastService.presentToast('Email Already Exists');
         }
       },
       error: (err) => {

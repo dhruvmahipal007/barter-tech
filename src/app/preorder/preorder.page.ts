@@ -164,7 +164,7 @@ if(dd1<dd2){
 
     buttons: ['OK'],
   });
-  this.confirmationForm.controls['selectedTime'].patchValue(moment().format("HH:mm"));
+  this.confirmationForm.controls['selectedTime'].patchValue(moment().add(15,'minutes').format("HH:mm"));
   // this.todaydate=this.datePipe.transform(new Date() , 'yyyy-MM-dd')
   // this.alertController.dismiss();
   await alert.present();
