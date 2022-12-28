@@ -15,6 +15,9 @@ import { ActivatedRoute } from '@angular/router';
 import { GlobalService } from 'src/app/services/global.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { JsonpClientBackend } from '@angular/common/http';
+// import { $ } from 'protractor';
+import * as $ from 'jquery';
+import { element } from 'protractor';
 
 // install Swiper modules
 SwiperCore.use([
@@ -39,10 +42,25 @@ export class DeliveryPage implements OnInit {
   menuItems: any[] = [];
   currentItem: any;
   selected: any;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   product_quantity = 0;
-  selectedProducts: any[] = [];
+  selectedProducts: any= [];
   currentRoute: any;
-  quantity: number = 1;
+  list=[];
+  list2=[];
+  newSize: any;
+  groupName: any;
+  quantity = 1;
+  category: any;
+  item: [];
+  newValue: any;
+  newValue1: any;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  tempItem: any = { selectedItems: [], IsSizeApplicable: '0', IsoptionApplicable: '0', product_quantity:0, options:{ size: []}};
+  tempArray: any=[];
+  selectedSize: any;
+  isCartValid = true;
+
 
   // public slideOps = {
   //   loop: true,
@@ -60,7 +78,7 @@ export class DeliveryPage implements OnInit {
 
   config: SwiperOptions = {
     // loop: true,
-    // effect: 'slide',
+    // effect: 'slide',const
     // freeMode: true,
     // slidesPerView: 3,
     // spaceBetween: 1,
@@ -82,6 +100,8 @@ export class DeliveryPage implements OnInit {
   };
   segment = 0;
   dummyRoute: any;
+  handlerMessage: string;
+  singleProduct: any;
 
   constructor(
     private productService: ProductService,
@@ -94,8 +114,7 @@ export class DeliveryPage implements OnInit {
     let staticRoute = localStorage.getItem('currentRoute');
     if (staticRoute && staticRoute != this.currentRoute) {
       localStorage.setItem('cartItems', JSON.stringify([]));
-      this.authService.badgeDataSubject.next(0)
-
+      this.authService.badgeDataSubject.next(0);
     }
   }
 
@@ -107,7 +126,7 @@ export class DeliveryPage implements OnInit {
       let staticRoute = localStorage.getItem('currentRoute');
       if (staticRoute && staticRoute != this.currentRoute) {
         localStorage.setItem('cartItems', JSON.stringify([]));
-        this.authService.badgeDataSubject.next(0)
+        this.authService.badgeDataSubject.next(0);
       }
       this.listProductCategories();
       if (JSON.parse(localStorage.getItem('cartItems'))) {
@@ -127,6 +146,7 @@ export class DeliveryPage implements OnInit {
   listProductCategories() {
     this.global.showLoader('Loading Data');
     this.productService.getProductCategories().subscribe((data) => {
+      // console.log('piyush', data);
       this.productCategories = data.data[0].menueGroup;
       this.currentCategoryId = data.data[0].menueGroup[0].menuGroupId;
       this.selected = data.data[0].menueGroup[0].groupName;
@@ -148,59 +168,159 @@ export class DeliveryPage implements OnInit {
   //   }
   // }
 
+  // eslint-disable-next-line @typescript-eslint/member-ordering
+
   subQty(product, index) {
+    // console.log(product, 'products in subqty');
+    let removeItems = [];
+    let remainingItems = [];
     product.product_quantity = product.product_quantity - 1;
-    let ind = this.selectedProducts.findIndex(
-      (x) => x.menuItemId == product.menuItemId
-    );
-    this.selectedProducts[ind] = product;
-    if (product.product_quantity == 0) {
-      this.selectedProducts = this.selectedProducts.filter(
-        (ele) => ele.menuItemId != product.menuItemId
-      );
-      
-    }
-    localStorage.setItem('cartItems', JSON.stringify(this.selectedProducts));
-    this.authService.badgeDataSubject.next(this.selectedProducts.length)
+    let latestCartItems = JSON.parse(localStorage.getItem('cartItems'));
+    latestCartItems.forEach(element => {
+      if (element.menuItemId == product.menuItemId) {
+        removeItems.push(element);
+      } else {
+        remainingItems.push(element);
+      }
+    });
+    removeItems.pop();
+    latestCartItems = removeItems.concat(remainingItems);
+    localStorage.setItem('cartItems', JSON.stringify(latestCartItems));
+    let productLength = 0;
+    latestCartItems.forEach(element => {
+      productLength += element.product_quantity;
+    });
+    this.authService.badgeDataSubject.next(productLength);
+    console.log(latestCartItems,'-----latestCartItems');
   }
 
   addQty(product, index) {
-    console.log(this.selectedProducts);
-    product.product_quantity = ++product.product_quantity;
-    let ind = this.selectedProducts.findIndex(
-      (x) => x.menuItemId == product.menuItemId
-    );
-    this.selectedProducts[ind] = product;
-    localStorage.setItem('cartItems', JSON.stringify(this.selectedProducts));
+    const tempTotalMenuItem = localStorage.getItem('cartItems');
+    const totalMenuItem = JSON.parse(tempTotalMenuItem);
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    totalMenuItem.map((element)=> {
+      if (element.menuItemId === product.menuItemId) {
+        element.product_quantity = element.product_quantity + 1;
+      }
+    });
+    localStorage.removeItem('cartItems');
+    localStorage.setItem('cartItems',JSON.stringify(totalMenuItem));
+    return product.product_quantity = product.product_quantity + 1;
   }
 
   add(product) {
     product.product_quantity = product.product_quantity + 1;
+
     this.selectedProducts.push(product);
-    this.authService.badgeDataSubject.next(this.selectedProducts.length)
+    console.log("selected prods",this.selectedProducts);
+    this.authService.badgeDataSubject.next(this.selectedProducts.length);
     localStorage.setItem('cartItems', JSON.stringify(this.selectedProducts));
   }
 
+  openpop(product, item?){
+    // document.getElementById("newpop").onreset();
+    this.tempItem = {};
+    this.singleProduct=product;
+    const pop = document.getElementById('popup');
+    pop.style.display = 'block';
+    this.newValue = product.optionGroups[0]?.optionItems;
+    this.groupName = product.optionGroups[0]?.optionGroupName;
+    this.newSize = product.size[0]?.size_deliveryPrice;
+    this.newValue1 = product.optionGroups[1]?.optionItems;
+    this.tempItem = item;
+    this.tempArray = JSON.parse(localStorage.getItem('cartItems')) ? JSON.parse(localStorage.getItem('cartItems')) : [];
+    console.log('this.menuItems','-----this.menuItems',this.tempItem);
+  }
+
+  onItemSelect(event) {
+    if (event?.selected === true) {
+      this.selectedProducts.push(event);
+
+    } else {
+      const newArray = this.selectedProducts.filter((el)=>el?.selected !== event?.selected);
+      this.selectedProducts = newArray;
+    }
+    if(this.tempItem.isOptionMandatory) {
+      let a = this.newValue.find((el)=>el.selected === true);
+      let b = this.newValue1.find((el)=>el.selected === true);
+      console.log(this.selectedSize,'----this.selectedSize');
+
+      if(a && b && this.selectedSize) {
+        this.isCartValid = false;
+      } else {
+        this.isCartValid = true;
+      }
+    }
+  }
+
+  addToCart() {
+      this.tempItem.product_quantity = 1;
+      this.singleProduct.product_quantity = this.singleProduct.product_quantity + 1;
+      console.log('add to cart',this.singleProduct);
+      this.singleProduct.options = this.singleProduct.product;
+      this.category = this.singleProduct.product;
+      this.authService.badgeDataSubject.next(this.menuItems.length);
+      // this.tempItem.selectedItems = this.selectedProducts;
+      this.tempItem.options.size = [];
+      this.tempItem.options.size.push(this.selectedSize);
+      this.tempArray.push(this.tempItem);
+
+      localStorage.setItem(
+        'cartItems',
+        JSON.stringify(this.tempArray)
+      );
+      const notShow = document.getElementById('popup');
+      notShow.style.display = 'none';
+      const currentCartItems = JSON.parse(localStorage.getItem('cartItems'));
+      let productLength = 0;
+      currentCartItems.forEach(element => {
+        productLength += element.product_quantity;
+      });
+      this.authService.badgeDataSubject.next(productLength);
+      this.menuItems.map((x) => {
+        x.product_quantity = 0;
+        this.tempArray = JSON.parse(localStorage.getItem('cartItems'));
+        if (this.tempArray && this.tempArray.length > 0) {
+          this.tempArray.map((y: any) => {
+            if (x.menuItemId == y.menuItemId) {
+              x.product_quantity = x.product_quantity + y.product_quantity;
+            }
+          });
+        } else {
+          this.tempArray = [];
+        }
+      });
+      this.selectedProducts = [];
+
+  }
+
+
+  notShow(){
+    const notShow = document.getElementById('popup');
+    notShow.style.display = 'none';
+  }
+
   getDataBymenuGroupId(id: any, name: any) {
+    console.log('1111111')
     this.menuItems = this.productCategories.find(
       (x) => Number(x.menuGroupId) == Number(id)
     ).menuItems;
     this.menuItems.map((x) => {
       x.product_quantity = 0;
-      this.selectedProducts = JSON.parse(localStorage.getItem('cartItems'));
-      if (this.selectedProducts && this.selectedProducts.length > 0) {
-        this.selectedProducts.map((y: any) => {
+      this.tempArray = JSON.parse(localStorage.getItem('cartItems'));
+      if (this.tempArray && this.tempArray.length > 0) {
+        this.tempArray.map((y: any) => {
           if (x.menuItemId == y.menuItemId) {
-            x.product_quantity = y.product_quantity;
+            x.product_quantity = x.product_quantity + y.product_quantity;
           }
         });
       } else {
-        this.selectedProducts = [];
+        this.tempArray = [];
       }
     });
     this.currentItem = id;
     this.selected = name;
-    console.log(this.menuItems);
+    console.log('newValue', this.menuItems);
   }
 
   isResetVisible() {

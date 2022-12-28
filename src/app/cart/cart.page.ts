@@ -31,14 +31,17 @@ export class CartPage implements OnInit {
     private authService: AuthService,
     private route: ActivatedRoute
   ) {
+    console.log('cartttttttttt');
     this.route.params.subscribe((res) => {
       this.cartItems = JSON.parse(localStorage.getItem('cartItems'));
+      console.log('cartttttttttt', this.cartItems);
+
       this.customer_name = JSON.parse(localStorage.getItem('userDetails')).name;
       this.customer_email = JSON.parse(
         localStorage.getItem('userDetails')
       ).email;
       this.customer_mobile = JSON.parse(localStorage.getItem('userNo'));
-      console.log(this.cartItems);
+      // console.log(this.cartItems);
       if (this.cartItems) {
         this.getItemTotal();
       } else {
@@ -66,33 +69,62 @@ export class CartPage implements OnInit {
   }
 
   changeRoute() {
-    let route= !this.currentRoute? 'delivery': this.currentRoute
+    const route= !this.currentRoute? 'delivery': this.currentRoute
     this.router.navigate(['/maindelivery/' + route]);
   }
 
   subQty(product, index) {
-    product.product_quantity = product.product_quantity - 1;
-    if (product.product_quantity == 0) {
-      this.cartItems = this.cartItems.filter(
-        (ele) => ele.menuItemId != product.menuItemId
-      );
+    let removeItems = [];
+    let remainingItems = [];
+    console.log(product.product_quantity)
+    if (product.product_quantity < 2) {
+      product.product_quantity = product.product_quantity - 1;
+      let latestCartItems = JSON.parse(localStorage.getItem('cartItems'));
+      latestCartItems.forEach(element => {
+        if (element.menuItemId == product.menuItemId) {
+          removeItems.push(element);
+        } else {
+          remainingItems.push(element);
+        }
+      });
+      removeItems.pop();
+      latestCartItems = removeItems.concat(remainingItems);
+      this.cartItems = latestCartItems;
+      localStorage.setItem('cartItems', JSON.stringify(latestCartItems));
+      let productLength = 0;
+      latestCartItems.forEach(element => {
+        productLength += element.product_quantity;
+      });
+      this.authService.badgeDataSubject.next(productLength);
+      this.getItemTotal();
+    } else {
+      product.product_quantity = product.product_quantity - 1;
+      localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
+      let productLength = 0;
+      this.cartItems.forEach(element => {
+        productLength += element.product_quantity;
+      });
+      this.authService.badgeDataSubject.next(productLength);
+      this.getItemTotal();
     }
-    this.getItemTotal();
-    localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
-    this.authService.badgeDataSubject.next(this.cartItems.length)
   }
 
   addQty(product, index) {
-    console.log(this.cartItems);
     product.product_quantity = product.product_quantity + 1;
     this.getItemTotal();
     localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
+    let productLength = 0;
+    this.cartItems.forEach(element => {
+      productLength += element.product_quantity;
+    });
+    this.authService.badgeDataSubject.next(productLength);
+
   }
 
   async makePayment() {
     this.router.navigate([this.router.url, 'payment-option']);
     let obj = {
-      merchant_Id: 4,
+      merchant_Id: 45,
       company_id: 1,
       customer_BillingAddress_id: this.selectedAddress.id,
       billing_addressline1: this.selectedAddress.addressLine1,

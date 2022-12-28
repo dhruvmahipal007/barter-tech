@@ -9,13 +9,13 @@ import { ProductCategory } from '../common/product-category';
   providedIn: 'root',
 })
 export class ProductService {
-  categoryUrl: string = 'http://barter-tech.antino.ca/api/MenuItems';
+  categoryUrl: string = 'https://barter-tech.antino.ca/api/MenuItems';
 
   constructor(private httpClient: HttpClient) {}
 
   getProductCategories(): Observable<any> {
     let param = new HttpParams();
-    param = param.append('merchant_id', '4');
+    param = param.append('merchant_id', '45');
     return this.httpClient.get<any>(this.categoryUrl, { params: param });
   }
 

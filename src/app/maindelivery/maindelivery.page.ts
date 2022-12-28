@@ -7,7 +7,7 @@ import { AuthService } from '../services/auth.service';
   styleUrls: ['./maindelivery.page.scss'],
 })
 export class MaindeliveryPage implements OnInit {
-  
+
   cartItemsLength:any=0;
   public slideOps = {
     // pager : true,
@@ -39,7 +39,7 @@ export class MaindeliveryPage implements OnInit {
   public arr = new Array(4);
 
   constructor(private authservice:AuthService ) {
-   
+
   }
 
   ngOnInit() {
@@ -47,19 +47,27 @@ export class MaindeliveryPage implements OnInit {
     this.authservice.badgeDataSubject.subscribe(res=>{
      console.log(res,"heelo");
     //  console.log(Object.keys(res),"byee");
-     if(res==0){
-      
+     if(res == 0){
       let data=JSON.parse(localStorage.getItem('cartItems'));
-      this.cartItemsLength=data?data.length:0
-      
+      if (data) {
+        let itemCount = 0;
+       data.forEach(element => {
+          itemCount = itemCount + element.product_quantity;
+          return itemCount;
+        });
+        this.cartItemsLength = itemCount;
+      } else {
+        this.cartItemsLength = 0;
+      }
+
      }
      else{
       this.cartItemsLength=res;
      }
-  
+
     })
 
-    
+
     // console.log(this.cartItemsLength,"length");
   }
 
@@ -76,5 +84,5 @@ export class MaindeliveryPage implements OnInit {
   //   console.log(month);
   //   console.log(year);
   }
-  
+
 }

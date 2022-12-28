@@ -11,7 +11,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class AuthService {
   url: string = environment.serverUrl;
-  url2: string = 'http://barter-tech.antino.ca/api';
+  url2: string = 'https://barter-tech.antino.ca/api';
   // url3: string =
   //   'https://op-au-uat-cusapp-api.azurewebsites.net/api/sendresponse';
   addressSubject = new BehaviorSubject({});
