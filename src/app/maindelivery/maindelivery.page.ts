@@ -71,19 +71,27 @@ export class MaindeliveryPage implements OnInit {
     this.authservice.badgeDataSubject.subscribe(res=>{
      console.log(res,"heelo");
     //  console.log(Object.keys(res),"byee");
-     if(res==0){
-      
+     if(res == 0){
       let data=JSON.parse(localStorage.getItem('cartItems'));
-      this.cartItemsLength=data?data.length:0
-      
+      if (data) {
+        let itemCount = 0;
+       data.forEach(element => {
+          itemCount = itemCount + element.product_quantity;
+          return itemCount;
+        });
+        this.cartItemsLength = itemCount;
+      } else {
+        this.cartItemsLength = 0;
+      }
+
      }
      else{
       this.cartItemsLength=res;
      }
-  
+
     })
 
-    
+
     // console.log(this.cartItemsLength,"length");
   }
       //   ionViewWillEnter(){

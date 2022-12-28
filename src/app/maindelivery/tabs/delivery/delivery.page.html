@@ -173,7 +173,7 @@
             <span
               class="cart_mod_btn"
               role="button"
-              (click)="addQty(item,index)"
+              (click)="openpop(item.options,item)"
               tabindex="0"
             >
               <span class="cart_add_icon">+</span>
@@ -181,8 +181,8 @@
           </div>
           <ion-button
             *ngIf="item.product_quantity == 0 && item.itemStock=='Y'"
-            (click)="add(item)"
-            class="btn-apply"
+            (click)="openpop(item.options, item)"
+            class="btn-apply Click-here"
             color="warning"
             [disabled]="item.buttonTitle=='NotAvailable'"
             >{{item.buttonTitle}}
@@ -194,10 +194,49 @@
             [disabled]="true"
             >NO STOCK
           </ion-button>
+          <p>{{handlerMessage}}</p>
         </div>
       </ion-card-content>
+
     </ion-card>
+
+    <div id="popup">
+      <div id="close" (click)="notShow()">x</div><br>
+      <form id="newpop">
+        <div id="content">
+          <ng-container *ngIf="this.tempItem.IsSizeApplicable == '1'">
+            <label class="main">Size</label>
+            <ion-radio-group [allowEmptySelection]="true" [(ngModel)]="selectedSize" (ngModelChange)="onItemSelect(null)" name="productSize">
+              <ion-item *ngFor="let item of tempItem.options.size">
+                <ion-label>{{ item?.size_name }} <span> &nbsp; - &nbsp; $ {{ item?.size_deliveryPrice }}</span></ion-label>
+                <ion-radio slot="end" [value]="item" ></ion-radio>
+              </ion-item>
+            </ion-radio-group>
+          </ng-container>
+          <ng-container *ngIf="this.tempItem.IsoptionApplicable == '1'">
+            <label class="main">{{this.groupName}}</label>
+            <div class="form-check" *ngFor="let ls of newValue; let index=index">
+              <input class="form-check-input" name="checkbox{{index}}" type="checkbox" value={{ls.optionitemname}} [(ngModel)]="ls.selected" (change)="onItemSelect(ls)" id="flexCheckDefault{{index}}" />
+              <label class="form-check-label" for="flexCheckDefault{{index}}">{{ls.optionitemname}} &nbsp;-&nbsp; <span>${{ls.deliveryPrice}}</span></label>
+            </div>
+            <label class="main">Add</label>
+            <div class="form-check" *ngFor="let ls of newValue1 let index = index" >
+              <input class="form-check-input" type="checkbox" name="checkbox{{index}}" value={{ls.optionitemname}} [(ngModel)]="ls.selected" (change)="onItemSelect(ls)" id="flexCheckDefault" />
+              <label class="form-check-label" for="flexCheckDefault">{{ls.optionitemname}} &nbsp;-&nbsp; <span>${{ls.deliveryPrice}}</span></label>
+            </div>
+          </ng-container>
+          <ion-button type="submit" class="neww" color="warning" [disabled]="this.tempItem.isOptionMandatory ? isCartValid: false" (click)= "addToCart()" >ADD TO CART</ion-button>
+        </div>
+      </form>
+
+    </div>
+
   </div>
+
+
+
+
+  <!-- Modal -->
 
   <!-- <ion-tabs>
     <ion-tab-bar slot="bottom">
