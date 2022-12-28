@@ -44,6 +44,15 @@ export class ContactusPage implements OnInit {
     this.contactUs();
   }
   contactUs() {
+    if (
+      this.mobile_FormControl.value.toString().length < 10 ||
+      this.mobile_FormControl.value.toString().length > 10
+    ) {
+      this.toastService.presentToast('Please enter a valid no');
+    }
+    else{
+
+    
     let data = {
       firstName: this.firstName_FormControl.value,
       lastName: this.lastName_FormControl.value,
@@ -54,6 +63,7 @@ export class ContactusPage implements OnInit {
     console.log('-----------------data contact us-----------', data);
     this.authService.contactUs(data).subscribe({
       next: (data) => {
+        
         // console.log(data);
         if (data.status) {
           this.toastService.presentToast(data.message);
@@ -68,6 +78,7 @@ export class ContactusPage implements OnInit {
         this.toastService.presentToast(firstName || email);
       },
     });
+  }
   }
   get officialEmail() {
     return this.contactUsForm.get('email');

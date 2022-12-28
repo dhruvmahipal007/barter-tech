@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 
 import { AuthService } from '../services/auth.service';
 import { ToastService } from '../services/toast.service';
+import { GlobalService } from 'src/app/services/global.service';
 @Component({
   selector: 'app-addaddress',
   templateUrl: './addaddress.page.html',
@@ -20,6 +21,7 @@ export class AddaddressPage implements OnInit {
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
+    private global: GlobalService,
     private toastService: ToastService,
     private router: Router
   ) {
@@ -28,11 +30,12 @@ export class AddaddressPage implements OnInit {
       address: [null, [Validators.required]],
       pincode: [null, [Validators.required]],
       landmark: [null, [Validators.required]],
-      mobile: [null, [Validators.required]],
+      mobile: [null, [Validators.required,Validators.maxLength(10)]],
     });
   }
 
   ngOnInit() {
+    this.global.showLoader('Loading Data');
     this.getzipCode();
   }
   getzipCode(){
@@ -45,8 +48,19 @@ export class AddaddressPage implements OnInit {
          console.log(err);
       }
     })
+    this.global.hideLoader();
   }
+  
   addAddress() {
+    if (
+      this.mobile_FormControl.value.toString().length < 10 ||
+      this.mobile_FormControl.value.toString().length > 10
+    ) {
+      this.toastService.presentToast('Please enter a valid no');
+    }
+    else{
+
+    
     console.log(this.pincode_FormControl.value.postcode);
     let data = {
       tag: this.tag_FormControl.value,
@@ -59,7 +73,7 @@ export class AddaddressPage implements OnInit {
     console.log(data);
     this.authService.addAddress(data).subscribe({
       next: (data) => {
-        // console.log(data);
+        console.log(data);
         if (data.status) {
           this.toastService.presentToast(data.message);
           this.addAddressForm.reset();
@@ -74,6 +88,7 @@ export class AddaddressPage implements OnInit {
         this.toastService.presentToast(tag || address || zipcode || landmark || mobile);
       },
     });
+  }
   }
 
   // onChangeOfOptions(event){

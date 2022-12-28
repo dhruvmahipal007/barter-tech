@@ -25,7 +25,7 @@ public class MainActivity extends BridgeActivity {
     //   // Additional plugins you've installed go here
     //   add(GoogleAuth.class);
     // }});
-     registerPlugin(com.getcapacitor.community.stripe.StripePlugin.class);
+    registerPlugin(com.getcapacitor.community.stripe.StripePlugin.class);
     registerPlugin(GoogleAuth.class);
     registerPlugin(
       com.getcapacitor.community.facebooklogin.FacebookLogin.class

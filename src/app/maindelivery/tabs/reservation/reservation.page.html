@@ -43,7 +43,7 @@
       <ion-input
         type="number"
         placeholder="Enter Number"
-        max-length="10"
+        onKeyPress="if(this.value.length>=10) return false;"
         formControlName="mobile"
       ></ion-input>
     </div>
@@ -54,6 +54,11 @@
         placeholder="Enter Email"
         formControlName="email"
       ></ion-input>
+    </div>
+    <div *ngIf="officialEmail.errors">
+      <div style="color: red" *ngIf="officialEmail.errors.pattern">
+        Email is not valid.
+      </div>
     </div>
     <div>
       <ion-label>{{dining_event_date}}</ion-label>
@@ -98,6 +103,7 @@
         expand="block"
         color="white"
         (click)="reserveNow()"
+        [disabled]="reservationForm.invalid"
         >RESERVE NOW</ion-button
       >
       <!-- <div>

@@ -74,7 +74,7 @@ export class AppComponent implements OnInit {
 
   initializeFacebook() {
     this.platform.ready().then(() => {
-      FacebookLogin.initialize({ appId: '1929065910569319' });
+      FacebookLogin.initialize({ appId: '918488829083347' });
     });
   }
 
@@ -167,11 +167,11 @@ export class AppComponent implements OnInit {
       this.token = token.value;
       console.log(this.token + 'token value');
       localStorage.setItem('fcm_token', JSON.stringify(this.token));
-      alert('Push registration success, token: ' + token.value);
+      //alert('Push registration success, token: ' + token.value);
     });
 
     PushNotifications.addListener('registrationError', (error: any) => {
-      alert('Error on registration: ' + JSON.stringify(error));
+     // alert('Error on registration: ' + JSON.stringify(error));
     });
 
 
@@ -212,7 +212,7 @@ export class AppComponent implements OnInit {
     PushNotifications.addListener(
       'pushNotificationActionPerformed',
       (notification: ActionPerformed) => {
-        alert('Push action performed: ' + JSON.stringify(notification));
+       // alert('Push action performed: ' + JSON.stringify(notification));
       }
     );
   }

@@ -38,7 +38,8 @@ export class PaymentOptionPage implements OnInit {
   deliverydate:any
   deliverytime:any;
   customercount:any;
-  
+  taxAmount:any;
+  deliveryCharge:any;  
   payment_method_types: any[] = [];
   clientSecretId: any;
 
@@ -72,6 +73,8 @@ export class PaymentOptionPage implements OnInit {
       this.deliverydate=res.delivery_date;
       this.deliverytime=res.delivery_time;
       this.customercount=res.dinein_Customer_count;
+      this.taxAmount=res.taxAmount;
+      this.deliveryCharge=res.deliveryCharge;
       }
       else{
         this.billing_addressline1 = res.billing_addressline1;
@@ -85,6 +88,8 @@ export class PaymentOptionPage implements OnInit {
         this.deliverydate='';
         this.deliverytime='';
         this.customercount='';
+        this.taxAmount=res.taxAmount;
+      this.deliveryCharge=res.deliveryCharge;
       }
 
     });
@@ -199,7 +204,10 @@ export class PaymentOptionPage implements OnInit {
         menuItemName: x.menuItemName,
         unitPrice: x.unitPrice,
         IsoptionApplicable: x.IsoptionApplicable,
+        IsSizeApplicable : x.IsSizeApplicable,
+        taxclassid:x.taxclassid,
         unit: x.unit,
+        options: x.options
       };
       finalObj = {
         menuItem: obj,
@@ -221,9 +229,9 @@ export class PaymentOptionPage implements OnInit {
       customer_BillingAddress_id: this.customer_BillingAddress_id,
       customer_DeliveryAddress_Id: this.customer_DeliveryAddress_Id,
       items: this.items,
-      options: { optionGroups: [], size: [] },
-      optionGroups: [],
-      size: [],
+      // options: { optionGroups: [], size: [] },
+      // optionGroups: [],
+      // size: [],
       spiceLevel: null,
       takeAwayPrice: this.takeAwayPrice,
       taxId: '4',
@@ -234,7 +242,9 @@ export class PaymentOptionPage implements OnInit {
       isPreorder:this.ispreeorder,
       delivery_date:this.deliverydate,
       delivery_time: this.deliverytime,
-      dinein_Customer_count:this.customercount
+      dinein_Customer_count:this.customercount,
+      taxAmount:this.taxAmount,
+      deliveryCharge:this.deliveryCharge
 
     };
     console.log(sendData);

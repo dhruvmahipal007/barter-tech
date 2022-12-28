@@ -39,6 +39,15 @@ export class ForgetpasswordverifyPage implements OnInit {
   ngOnInit() {}
 
   submitForm() {
+    if (
+      this.otp_FormControl.value.toString().length < 6 ||
+      this.otp_FormControl.value.toString().length > 6
+    ) {
+      this.toastService.presentToast('The unique code must be at least 6 characters');
+    }
+    else{
+
+    
     if (this.forgotPassVerifyform.invalid) return;
     this.isLoading = true;
     let data = {
@@ -48,12 +57,19 @@ export class ForgetpasswordverifyPage implements OnInit {
     console.log(data);
     this.authService.forgetPassVerify(data).subscribe({
       next: (data) => {
+        if(data.status){
+        console.log(data);
         this.isLoading = false;
         this.toastService.presentToast(data.message);
         setTimeout(() => {
           this.router.navigate(['/login']);
           this.forgotPassVerifyform.reset();
         }, 3000);
+      }
+      else{
+        this.isLoading = false;
+        this.toastService.presentToast(data.message);
+      }
       },
       error: (err) => {
         this.isLoading = false;
@@ -61,6 +77,7 @@ export class ForgetpasswordverifyPage implements OnInit {
         this.toastService.presentToast(err);
       },
     });
+  }
   }
 
   get otp_FormControl(): FormControl | null {

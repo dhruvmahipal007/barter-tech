@@ -51,6 +51,7 @@
     "cordova-plugin-nativegeocoder": "^3.4.1",
     "font-awesome": "^4.7.0",
     "ionicons": "^6.0.3",
+    "moment": "^2.29.4",
     "rxjs": "~6.6.0",
     "swiper": "^8.4.4",
     "tslib": "^2.2.0",

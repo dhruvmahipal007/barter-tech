@@ -44,6 +44,7 @@ export class DeliveryPage implements OnInit {
   selectedProducts: any[] = [];
   currentRoute: any;
   quantity: number = 1;
+  routercurrent:any;
 
   // public slideOps = {
   //   loop: true,
@@ -94,6 +95,7 @@ export class DeliveryPage implements OnInit {
     this.currentRoute = this.route.snapshot['_routerState'].url.split('/')[2];
     console.log(this.currentRoute, 'lkjhgfxz');
     let staticRoute = localStorage.getItem('currentRoute');
+    this.routercurrent=localStorage.getItem('currentRoute');
     if (staticRoute && staticRoute != this.currentRoute) {
       localStorage.setItem('cartItems', JSON.stringify([]));
       this.authService.badgeDataSubject.next(0);
@@ -107,6 +109,7 @@ export class DeliveryPage implements OnInit {
       this.currentRoute = this.route.snapshot['_routerState'].url.split('/')[2];
       console.log(this.currentRoute, 'lkjhgfxz');
       let staticRoute = localStorage.getItem('currentRoute');
+      this.routercurrent=localStorage.getItem('currentRoute');
       if (staticRoute && staticRoute != this.currentRoute) {
         localStorage.setItem('cartItems', JSON.stringify([]));
         this.authService.badgeDataSubject.next(0);
@@ -215,6 +218,16 @@ export class DeliveryPage implements OnInit {
       (x) => Number(x.menuGroupId) == Number(id)
     ).menuItems;
     this.menuItems.map((x) => {
+      x.buttonTitle = 'ADD'
+      if(this.routercurrent == 'delivery' && x.isAvailableDelivery == 0){
+        x.buttonTitle = 'NotAvailable'
+      }
+      else if(this.routercurrent == 'takeaway' && x.isAvailableTakeAway == 0){
+        x.buttonTitle = 'NotAvailable'
+      }
+      else if(this.routercurrent == 'dinein' && x.isAvailableDinein == 0){
+        x.buttonTitle = 'NotAvailable' 
+      }
       x.product_quantity = 0;
       this.selectedProducts = JSON.parse(localStorage.getItem('cartItems'));
       if (this.selectedProducts && this.selectedProducts.length > 0) {

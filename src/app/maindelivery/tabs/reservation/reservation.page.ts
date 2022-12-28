@@ -8,6 +8,7 @@ import {
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 import { ToastService } from 'src/app/services/toast.service';
+import { GlobalService } from 'src/app/services/global.service';
 @Component({
   selector: 'app-reservation',
   templateUrl: './reservation.page.html',
@@ -18,17 +19,19 @@ export class ReservationPage implements OnInit {
   zipped: boolean = true;
   dining_event_date = 'DINING DATE';
   dining_event_time = 'DINING TIME';
+  emailPattern = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-z]{2,4}$';
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
     private toastService: ToastService,
-    private router: Router
+    private router: Router,
+    private global: GlobalService,
   ) {
     this.reservationForm = this.fb.group({
       firstName: [null, [Validators.required]],
       lastName: [null, [Validators.required]],
-      mobile: [null, [Validators.required]],
-      email: [null, [Validators.required]],
+      mobile: [null, [Validators.required,Validators.maxLength(10)]],
+      email: [null, [Validators.required,Validators.pattern(this.emailPattern)]],
       date: [null, [Validators.required]],
       time: [null, [Validators.required]],
       guests: [null, [Validators.required]],
@@ -39,6 +42,13 @@ export class ReservationPage implements OnInit {
 
   ngOnInit() {}
   reserveNow() {
+    if (
+      this.mobile_FormControl.value.toString().length < 10 ||
+      this.mobile_FormControl.value.toString().length > 10
+    ) {
+      this.toastService.presentToast('Please enter a valid no');
+    }
+    else{
     let data = {
       firstname: this.firstName_FormControl.value,
       last_name: this.lastName_FormControl.value,
@@ -61,12 +71,12 @@ export class ReservationPage implements OnInit {
     console.log(data);
     this.authService.reservation(data).subscribe({
       next: (data) => {
-        // console.log(data);
+        console.log(data);
         if (data.status) {
           this.toastService.presentToast(data.message);
           this.reservationForm.reset();
         } else {
-          this.toastService.presentToast('Error in User Details');
+          this.toastService.presentToast(data.message);
         }
       },
       error: (err) => {
@@ -74,17 +84,23 @@ export class ReservationPage implements OnInit {
       },
     });
   }
+  }
 
   tableReservation() {
     this.zipped = true;
     this.dining_event_date = 'DINING DATE';
     this.dining_event_time = 'DINING TIME';
+    this.reservationForm.reset();
   }
 
   eventReservation() {
     this.zipped = false;
     this.dining_event_date = 'EVENT DATE';
     this.dining_event_time = 'EVENT TIME';
+    this.reservationForm.reset();
+  }
+  get officialEmail() {
+    return this.reservationForm.get('email');
   }
   get firstName_FormControl(): FormControl | null {
     return (this.reservationForm?.get('firstName') as FormControl) ?? null;

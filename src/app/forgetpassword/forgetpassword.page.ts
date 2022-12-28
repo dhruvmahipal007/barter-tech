@@ -39,6 +39,8 @@ export class ForgetpasswordPage implements OnInit {
     this.forgotPasswordForm.get('email').disable();
     this.authService.forgetPass(this.email_FormControl.value).subscribe({
       next: (data) => {
+        console.log(data);
+        if(data.status){
         this.isLoading = false;
         this.toastService.presentToast(
           'Reset Password Link is sent to your Email Address'
@@ -48,6 +50,15 @@ export class ForgetpasswordPage implements OnInit {
           this.forgotPasswordForm.reset();
           this.email_FormControl.enable();
         }, 2000);
+      }
+      else{
+        this.isLoading = false;
+        this.toastService.presentToast(
+          'Email is not correct'
+        );
+        this.email_FormControl.enable();
+
+      }
       },
       error: (err) => {
         this.isLoading = false;

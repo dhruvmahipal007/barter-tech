@@ -70,8 +70,10 @@
         type="number"
         placeholder="Enter Input"
         formControlName="mobile"
+        onKeyPress="if(this.value.length>=10) return false;"
       ></ion-input>
       <small *ngIf="mobile_FormControl.hasError('required') && mobile_FormControl.touched"><b style="color:red;">Mobile no is required</b></small>
+      <small *ngIf="mobile_FormControl.hasError('maxlength') && mobile_FormControl.touched "><b style="color:red;">Mobile No cannot be greater than 10</b></small>
     </div>
     <div>
       <ion-button
