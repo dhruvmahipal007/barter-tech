@@ -15,6 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 import { GlobalService } from 'src/app/services/global.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { AlertController } from '@ionic/angular';
+import { element } from 'protractor';
 
 
 // install Swiper modules
@@ -110,9 +111,8 @@ export class DeliveryPage implements OnInit {
     private alertController: AlertController
   ) {
     this.currentRoute = this.route.snapshot['_routerState'].url.split('/')[2];
-    console.log(this.currentRoute, 'lkjhgfxz');
     let staticRoute = localStorage.getItem('currentRoute');
-    this.routercurrent=localStorage.getItem('currentRoute');
+    this.routercurrent=staticRoute;
     if (staticRoute && staticRoute != this.currentRoute) {
       localStorage.setItem('cartItems', JSON.stringify([]));
       this.authService.badgeDataSubject.next(0);
@@ -135,6 +135,11 @@ export class DeliveryPage implements OnInit {
       this.listProductCategories();
       if (JSON.parse(localStorage.getItem('cartItems'))) {
         this.selectedProducts = JSON.parse(localStorage.getItem('cartItems'));
+      }
+      this.notShow();
+      let pop = document.getElementsByClassName('pppp')
+      console.log(pop)
+      if(pop.length > 1){
       }
     });
     // this.authService.routeSubject.pipe(first()).subscribe(res=>{
@@ -244,7 +249,8 @@ export class DeliveryPage implements OnInit {
     this.newValue1 = product.optionGroups[1]?.optionItems;
     this.tempItem = item;
     this.tempArray = JSON.parse(localStorage.getItem('cartItems')) ? JSON.parse(localStorage.getItem('cartItems')) : [];
-    console.log('this.menuItems','-----this.menuItems',this.tempItem);
+    console.log(this.tempArray)
+    console.log('this.menuItems',product,'-----this.menuItems',this.tempItem);
   }
 
   onItemSelect(event) {
@@ -255,12 +261,20 @@ export class DeliveryPage implements OnInit {
       const newArray = this.selectedProducts.filter((el)=>el?.selected !== event?.selected);
       this.selectedProducts = newArray;
     }
-    if(this.tempItem.isOptionMandatory) {
+    console.log(this.tempItem.isOptionMandatory,'-----man');
+    
+    if(this.tempItem.isOptionMandatory && this.tempItem.IsSizeApplicable === '1') {
       let a = this.newValue.find((el)=>el.selected === true);
       let b = this.newValue1.find((el)=>el.selected === true);
-      console.log(this.selectedSize,'----this.selectedSize');
-
       if(a && b && this.selectedSize) {
+        this.isCartValid = false;
+      } else {
+        this.isCartValid = true;
+      }
+    } else if (this.tempItem.IsSizeApplicable === '0') {
+      let a = this.newValue.find((el)=>el.selected === true);
+      let b = this.newValue1.find((el)=>el.selected === true);
+      if(a && b) {
         this.isCartValid = false;
       } else {
         this.isCartValid = true;
@@ -306,6 +320,7 @@ export class DeliveryPage implements OnInit {
         }
       });
       this.selectedProducts = [];
+      this.selectedSize = null;
 
   }
 

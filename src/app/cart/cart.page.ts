@@ -50,16 +50,12 @@ export class CartPage implements OnInit {
       ).email;
       this.customer_mobile = JSON.parse(localStorage.getItem('userNo'));
       // console.log(this.cartItems);
-      if (this.cartItems) {
-        this.getItemTotal();
-      } else {
-        this.cartItems = [];
-      }
+     
       this.currentRoute = localStorage.getItem('currentRoute');
     });
-    this.cartItems.map(x =>{
-      this.customPriceValidate(x);
-    })
+    // this.cartItems.map(x =>{
+    //   this.customPriceValidate(x);
+    // })
   }
 
   ngOnInit() {
@@ -71,12 +67,16 @@ export class CartPage implements OnInit {
       ).email;
       this.customer_mobile = JSON.parse(localStorage.getItem('userNo'));
       console.log(this.cartItems);
+      
+      this.currentRoute = localStorage.getItem('currentRoute');
+      this.cartItems.map(x =>{
+        this.customPriceValidate(x);
+      })
       if (this.cartItems) {
         this.getItemTotal();
       } else {
         this.cartItems = [];
       }
-      this.currentRoute = localStorage.getItem('currentRoute');
       for (var key in localStorage){
         if(key=='preorder'){
           this.preorder=JSON.parse(localStorage.getItem('preorder'));
@@ -117,7 +117,6 @@ export class CartPage implements OnInit {
   subQty(product, index) {
     let removeItems = [];
     let remainingItems = [];
-    console.log(product.product_quantity)
     if (product.product_quantity < 2) {
       product.product_quantity = product.product_quantity - 1;
       let latestCartItems = JSON.parse(localStorage.getItem('cartItems'));
@@ -137,7 +136,7 @@ export class CartPage implements OnInit {
         productLength += element.product_quantity;
       });
       this.authService.badgeDataSubject.next(productLength);
-      this.getItemTotal();
+      // this.customPriceValidateForSub(product);
     } else {
       product.product_quantity = product.product_quantity - 1;
       localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
@@ -146,9 +145,9 @@ export class CartPage implements OnInit {
         productLength += element.product_quantity;
       });
       this.authService.badgeDataSubject.next(productLength);
-      this.getItemTotal();
     }
-    this.customPriceValidateForSub(product);
+      this.customPriceValidateForSub(product);
+      this.getItemTotal();
     if (this.cartItems.length == 0) {
       this.authService.couponSubject.next({});
     }
@@ -283,16 +282,16 @@ export class CartPage implements OnInit {
         }
       })
     })
-    this.router.navigate([this.router.url, 'payment-option']);
-    let obj = {
-      merchant_Id: 45,
-      company_id: 1,
-      customer_BillingAddress_id: this.selectedAddress.id,
-      billing_addressline1: this.selectedAddress.addressLine1,
-      billing_addressline2: this.selectedAddress.addressLine2,
-      takeAwayPrice: this.totalPayable,
-    };
-    this.authService.totalDataSubject.next(obj);
+    // this.router.navigate([this.router.url, 'payment-option']);
+    // let obj = {
+    //   merchant_Id: 45,
+    //   company_id: 1,
+    //   customer_BillingAddress_id: this.selectedAddress.id,
+    //   billing_addressline1: this.selectedAddress.addressLine1,
+    //   billing_addressline2: this.selectedAddress.addressLine2,
+    //   takeAwayPrice: this.totalPayable,
+    // };
+    // this.authService.totalDataSubject.next(obj);
   }
 
   getItemTotal() {
@@ -314,9 +313,9 @@ export class CartPage implements OnInit {
     // }
     
     this.cartItems.map((ele) => {
-          this.itemTotal = this.itemTotal + this.customValuesPrice + ele.unitPrice * ele.product_quantity;
+          this.itemTotal = this.itemTotal + Number(ele.unitPrice) * ele.product_quantity;
         });
-   
+        this.itemTotal = this.itemTotal + this.customValuesPrice
     this.gst=this.itemTotal*10/100;
     this.totalPayable =
       this.itemTotal +

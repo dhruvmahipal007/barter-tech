@@ -28,14 +28,14 @@
             <h3>{{item.menuItemName}}</h3>
           </div>
           <p>${{item.unitPrice}}</p>
-          <ng-container *ngFor="let nm of item.options.optionGroups[0].optionItems" >
-            <p *ngIf="nm.selected">{{nm.optionitemname}}</p>
+          <ng-container *ngFor="let nm of item?.options?.optionGroups[0]?.optionItems" >
+            <p *ngIf="nm.selected">{{nm?.optionitemname}}</p>
           </ng-container>
-          <ng-container *ngFor="let subItem of item.options.optionGroups[1].optionItems" >
-            <p *ngIf="subItem.selected">{{subItem.optionitemname}}</p>
+          <ng-container *ngFor="let subItem of item?.options?.optionGroups[1]?.optionItems" >
+            <p *ngIf="subItem.selected">{{subItem?.optionitemname}}</p>
           </ng-container>
-          <ng-container *ngFor="let sz of item.options.size">
-            <p> <span>{{sz.size_name}}</span> <small> &nbsp; ${{sz.size_deliveryPrice}}</small></p>
+          <ng-container *ngFor="let sz of item?.options.size">
+            <p *ngIf="sz?.size_name"> <span>{{sz?.size_name}}</span> <small> &nbsp; ${{sz?.size_deliveryPrice}}</small></p>
           </ng-container>
         </ion-col>
         <ion-col id="second" size="4">
@@ -167,10 +167,10 @@
 
     <ion-grid>
       <ion-row>
-        <ion-col size="10">
+        <ion-col size="9.5">
           <p>To Pay</p>
         </ion-col>
-        <ion-col>
+        <ion-col size="2.5">
           <p>${{totalPayable  | number : '1.2-2'}}</p>
         </ion-col>
       </ion-row>
