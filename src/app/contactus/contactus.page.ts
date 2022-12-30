@@ -68,6 +68,7 @@ export class ContactusPage implements OnInit {
         if (data.status) {
           this.toastService.presentToast(data.message);
           this.contactUsForm.reset();
+          this.router.navigate(['/account']);
         } else {
           this.toastService.presentToast('Error in User Details');
         }

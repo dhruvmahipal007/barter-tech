@@ -72,6 +72,7 @@
       (ionChange)="segmentChanged($event)"
       [(ngModel)]="selected"
       mode="md"
+      scrollable
     >
       <ion-segment-button mode="md"
         *ngFor="let productCategory of productCategories"
@@ -90,6 +91,7 @@
             -webkit-box-orient: vertical;
             font-size: 11px;
             font-weight: 700;
+            overflow-x: scroll;
           "
         >
           {{productCategory.groupName}}

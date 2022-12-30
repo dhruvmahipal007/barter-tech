@@ -197,6 +197,10 @@ export class PaymentOptionPage implements OnInit {
     this.saveCustomerOrder();
   }
 
+  payWithCash(){
+    this.saveCustomerOrder();
+  }
+
   saveCustomerOrder() {
     let obj: any;
     let finalObj: any;
@@ -250,11 +254,13 @@ export class PaymentOptionPage implements OnInit {
 
     };
     console.log(sendData);
+
+    
   }
 
   async makePaymentWithStripe() {
     console.log('Pay with stripe button hits');
-
+   
     (async () => {
       this.http
         .post<{
@@ -269,6 +275,7 @@ export class PaymentOptionPage implements OnInit {
         .toPromise(Promise)
         .then((res) => {
           //loader open
+          console.log(res);
           this.global.showLoader('Loading Data');
           this.callForStripePayment(res.data.client_secret).then((response) => {
             this.sendingConfirmation(res.data.id, response);
@@ -473,7 +480,7 @@ this.global.hideLoader();
   sendingConfirmation(responseId: any, paymentResultStatus: any) {
     console.log(responseId, paymentResultStatus);
     return this.http.post<any>(
-      'http://barter-tech.antino.ca/api/Statusupdate',
+      'https://barter-tech.antino.ca/api/Statusupdate',
       {
         id: responseId,
         paymentResult: paymentResultStatus,

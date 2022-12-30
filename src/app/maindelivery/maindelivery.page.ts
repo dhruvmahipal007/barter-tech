@@ -146,6 +146,26 @@ export class MaindeliveryPage implements OnInit {
   // this.authservice.routeSubject.next(currentdataRoute);
   // }
 
-  
+  changeTk(){
+    const changePop = document.getElementById('popup');
+    changePop.style.display = 'none';
+    window.location.reload();
+    window.location.href = '/maindelivery/takeaway';
+  }
+
+  changeDn(){
+    const changePop = document.getElementById('popup');
+    changePop.style.display = 'none';
+    window.location.reload();
+    window.location.href = '/maindelivery/dinein';
+  }
+
+  changeDl(){
+    const changePop = document.getElementById('popup');
+    changePop.style.display = 'none';
+    window.location.reload();
+    window.location.href = '/maindelivery/delivery';
+
+  }
   
 }

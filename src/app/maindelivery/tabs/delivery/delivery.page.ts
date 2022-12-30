@@ -6,6 +6,7 @@ import SwiperCore, {
   A11y,
   Autoplay,
   SwiperOptions,
+  Thumbs,
 } from 'swiper';
 import { IonicSlides , IonSlides } from '@ionic/angular';
 import { ProductCategory } from 'src/app/common/product-category';
@@ -136,11 +137,11 @@ export class DeliveryPage implements OnInit {
       if (JSON.parse(localStorage.getItem('cartItems'))) {
         this.selectedProducts = JSON.parse(localStorage.getItem('cartItems'));
       }
-      this.notShow();
-      let pop = document.getElementsByClassName('pppp')
-      console.log(pop)
-      if(pop.length > 1){
-      }
+      // this.notShow();
+      // let pop = document.getElementsByClassName('pppp')
+      // console.log(pop)
+      // if(pop.length > 1){
+      // }
     });
     // this.authService.routeSubject.pipe(first()).subscribe(res=>{
     //   console.log(res);
@@ -247,6 +248,8 @@ export class DeliveryPage implements OnInit {
     this.groupName = product.optionGroups[0]?.optionGroupName;
     this.newSize = product.size[0]?.size_deliveryPrice;
     this.newValue1 = product.optionGroups[1]?.optionItems;
+    console.log(this.newValue,'lol');
+    console.log(this.newValue1,'hibro');
     this.tempItem = item;
     this.tempArray = JSON.parse(localStorage.getItem('cartItems')) ? JSON.parse(localStorage.getItem('cartItems')) : [];
     console.log(this.tempArray)
@@ -326,8 +329,17 @@ export class DeliveryPage implements OnInit {
 
 
   notShow(){
+
     const notShow = document.getElementById('popup');
     notShow.style.display = 'none';
+    this.newValue.map(x=>{
+      x.selected=false;
+    })
+    this.newValue1.map(x=>{
+      x.selected=false;
+    })
+    this.selectedSize = null;
+    
   }
 
   getDataBymenuGroupId(id: any, name: any) {
