@@ -78,12 +78,20 @@
                 </span>
               </div>
               <ion-button
-                *ngIf="item.product_quantity == 0"
+              *ngIf="item.product_quantity == 0 && item.itemStock=='Y'"
                 (click)="add(item)"
                 class="btn-apply"
                 color="warning"
-                >ADD
+                [disabled]="item.buttonTitle=='NotAvailable'"
+                >{{item.buttonTitle}}
               </ion-button>
+              <ion-button
+            *ngIf="item.itemStock!='Y'"
+            class="btn-apply"
+            color="warning"
+            [disabled]="true"
+            >NO STOCK
+          </ion-button>
             </div>
           </ion-col>
         </div>

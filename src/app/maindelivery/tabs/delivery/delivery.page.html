@@ -223,8 +223,8 @@
             </div>
             <label class="main">Add</label>
             <div class="form-check" *ngFor="let ls of newValue1 let index = index" >
-              <input class="form-check-input" type="checkbox" name="checkbox{{index}}" value={{ls.optionitemname}} [(ngModel)]="ls.selected" (change)="onItemSelect(ls)" id="flexCheckDefault" />
-              <label class="form-check-label" for="flexCheckDefault">{{ls.optionitemname}} &nbsp;-&nbsp; <span>${{ls.deliveryPrice}}</span></label>
+              <input class="form-check-input" type="checkbox" name="checkbox{{index}}" value={{ls.optionitemname}} [(ngModel)]="ls.selected" (change)="onItemSelect(ls)" id="flexCheckDefaultt{{index}}" />
+              <label class="form-check-label" for="flexCheckDefaultt{{index}}">{{ls.optionitemname}} &nbsp;-&nbsp; <span>${{ls.deliveryPrice}}</span></label>
             </div>
           </ng-container>
           <ion-button type="submit" class="neww" color="warning" [disabled]="this.tempItem.isOptionMandatory ? isCartValid: false" (click)= "addToCart()" >ADD TO CART</ion-button>

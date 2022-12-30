@@ -12,6 +12,7 @@ import { async, Subscriber } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { GlobalService } from 'src/app/services/global.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-payment-option',
@@ -51,6 +52,7 @@ export class PaymentOptionPage implements OnInit {
     private http: HttpClient,
     public alertCtrl: AlertController,
     private global: GlobalService,
+    private toastService: ToastService,
   ) {
     Stripe.initialize({
       // publishableKey: 'pk_test_HQcvhQfP6gImSm0PUpGA1xSf', //clients
@@ -182,29 +184,50 @@ export class PaymentOptionPage implements OnInit {
     id.style.display = 'flex';
   }
 
-  payWithCard() {
-    this.makePaymentWithStripe();
-    this.saveCustomerOrder();
-  }
+  // payWithCard() {
+  //   this.saveCustomerOrder();
+  //   this.makePaymentWithStripe();
+  // }
 
-  payWithGpay() {
-    this.makePaymentWithGpay();
-    this.saveCustomerOrder();
-  }
+  // payWithGpay() {
+  //   this.saveCustomerOrder();
+  //   this.makePaymentWithGpay();
+  // }
 
-  payWithApplePay() {
-    this.makePaymentWithApplePay();
-    this.saveCustomerOrder();
-  }
+  // payWithApplePay() {
+  //   this.saveCustomerOrder();
+  //   this.makePaymentWithApplePay();
+  // }
 
-  payWithCash(){
-    this.saveCustomerOrder();
+  // payWithCash(){
+  //   this.saveCustomerOrder();
+  // }
+
+  paywithCard(data){
+ if(data=='Card'){
+  this.saveCustomerOrder();
+
+ }
+ else if(data=='Gpay'){
+this.saveCustomerOrder();
+ }
+ else if(data=='ApplePay'){
+  this.saveCustomerOrder();
+ }
+ else if(data=='Cash'){
+  this.saveCustomerOrder();
+ }
   }
 
   saveCustomerOrder() {
     let obj: any;
+    let sizeInfo:any;
     let finalObj: any;
     this.cartItems.map((x: any) => {
+      sizeInfo=x.options.size[0];
+      sizeInfo.sizeName=sizeInfo.size_name
+      sizeInfo.additionalCost=sizeInfo.additionalcost
+
       obj = {
         menuItemId: x.menuItemId,
         menuItemName: x.menuItemName,
@@ -213,12 +236,14 @@ export class PaymentOptionPage implements OnInit {
         IsSizeApplicable : x.IsSizeApplicable,
         taxclassid:x.taxclassid,
         unit: x.unit,
-        options: x.options
+        options: x.options,
+        sizeInfo:sizeInfo
       };
       finalObj = {
         menuItem: obj,
         quantity: x.product_quantity,
       };
+
       this.items.push(finalObj);
     });
 
@@ -241,7 +266,7 @@ export class PaymentOptionPage implements OnInit {
       spiceLevel: null,
       takeAwayPrice: this.takeAwayPrice,
       taxId: '4',
-      taxclassid: '1',
+      // taxclassid: '1',
       taxrate: '10.0000',
       taxvalue_type: 'P',
       orderType: localStorage.getItem('currentRoute'),
@@ -254,8 +279,14 @@ export class PaymentOptionPage implements OnInit {
 
     };
     console.log(sendData);
-
-    
+     this.authService.saveCustomerOrder(sendData).subscribe({
+      next:(data)=>{
+          console.log(data);
+      },
+      error:(err)=>{
+       console.log(err);
+      }
+     })
   }
 
   async makePaymentWithStripe() {
@@ -299,16 +330,20 @@ export class PaymentOptionPage implements OnInit {
     const result = await Stripe.presentPaymentSheet();
 
     if (result.paymentResult === PaymentSheetEventsEnum.Completed) {
+      this.toastService.presentToast('Payment Success');
       this.router.navigateByUrl('/maindelivery/delivery');
+
     }
 
     if (result.paymentResult === PaymentSheetEventsEnum.Canceled) {
       console.log('Retry payment');
+      this.toastService.presentToast('Retry payment');
       this.router.navigateByUrl('/cart/payment-option');
     }
 
     if (result.paymentResult === PaymentSheetEventsEnum.Failed) {
       console.log('Payment failed redirect to cart');
+      this.toastService.presentToast('Payment Failed');
       this.router.navigateByUrl('/cart');
     }
 
@@ -373,16 +408,19 @@ this.global.hideLoader();
     const result = await Stripe.presentGooglePay();
 
     if (result.paymentResult === GooglePayEventsEnum.Completed) {
+      this.toastService.presentToast('Payment Success');
       this.router.navigateByUrl('/maindelivery/delivery');
     }
 
     if (result.paymentResult === GooglePayEventsEnum.Canceled) {
+      this.toastService.presentToast('Retry payment');
       console.log('Retry payment');
       this.router.navigateByUrl('/cart/payment-option');
     }
 
     if (result.paymentResult === GooglePayEventsEnum.Failed) {
       console.log('Payment failed redirect to cart');
+      this.toastService.presentToast('Payment Failed');
       this.router.navigateByUrl('/cart');
     }
 
@@ -453,15 +491,18 @@ this.global.hideLoader();
     const result = await Stripe.presentApplePay();
 
     if (result.paymentResult === ApplePayEventsEnum.Completed) {
+      this.toastService.presentToast('Payment Success');
       this.router.navigateByUrl('/maindelivery/delivery');
     }
 
     if (result.paymentResult === ApplePayEventsEnum.Canceled) {
+      this.toastService.presentToast('Retry payment');
       console.log('Retry payment');
       this.router.navigateByUrl('/cart/payment-option');
     }
 
     if (result.paymentResult === ApplePayEventsEnum.Failed) {
+      this.toastService.presentToast('Payment Failed');
       console.log('Payment failed redirect to cart');
       this.router.navigateByUrl('/cart');
     }

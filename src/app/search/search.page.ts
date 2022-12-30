@@ -19,6 +19,7 @@ export class SearchPage implements OnInit {
   };
   query: any;
   isLoading: boolean = false;
+  routercurrent:any;
 
   selectedProducts: any[] = [];
   constructor(
@@ -31,6 +32,7 @@ export class SearchPage implements OnInit {
     setTimeout(() => {
       this.sInput.setFocus();
     }, 500);
+    this.routercurrent=localStorage.getItem('currentRoute');
     this.route.params.subscribe((res) => {
       if (JSON.parse(localStorage.getItem('cartItems'))) {
         this.selectedProducts = JSON.parse(localStorage.getItem('cartItems'));
@@ -74,6 +76,17 @@ export class SearchPage implements OnInit {
           
           console.log(data);
           this.searchItems.map((x) => {
+            x.buttonTitle = 'ADD'
+            if(this.routercurrent == 'delivery' && x.isAvailableDelivery == 0){
+              x.buttonTitle = 'NotAvailable'
+            }
+            else if(this.routercurrent == 'takeaway' && x.isAvailableTakeAway == 0){
+              x.buttonTitle = 'NotAvailable'
+            }
+            else if(this.routercurrent == 'dinein' && x.isAvailableDinein == 0){
+              x.buttonTitle = 'NotAvailable' 
+            }
+
             x.product_quantity = 0;
             this.selectedProducts = JSON.parse(
               localStorage.getItem('cartItems')
