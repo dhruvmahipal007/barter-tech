@@ -184,40 +184,40 @@ export class PaymentOptionPage implements OnInit {
     id.style.display = 'flex';
   }
 
-  // payWithCard() {
-  //   this.saveCustomerOrder();
-  //   this.makePaymentWithStripe();
-  // }
-
-  // payWithGpay() {
-  //   this.saveCustomerOrder();
-  //   this.makePaymentWithGpay();
-  // }
-
-  // payWithApplePay() {
-  //   this.saveCustomerOrder();
-  //   this.makePaymentWithApplePay();
-  // }
-
-  // payWithCash(){
-  //   this.saveCustomerOrder();
-  // }
-
-  paywithCard(data){
- if(data=='Card'){
-  this.saveCustomerOrder();
-
- }
- else if(data=='Gpay'){
-this.saveCustomerOrder();
- }
- else if(data=='ApplePay'){
-  this.saveCustomerOrder();
- }
- else if(data=='Cash'){
-  this.saveCustomerOrder();
- }
+  payWithCard() {
+    this.saveCustomerOrder();
+    this.makePaymentWithStripe();
   }
+
+  payWithGpay() {
+    this.saveCustomerOrder();
+    this.makePaymentWithGpay();
+  }
+
+  payWithApplePay() {
+    this.saveCustomerOrder();
+    this.makePaymentWithApplePay();
+  }
+
+  payWithCash(){
+    this.saveCustomerOrder();
+  }
+
+//   paywithCard(data){
+//  if(data=='Card'){
+//     this.saveCustomerOrder();
+
+//   }
+//  else if(data=='Gpay'){
+//     this.saveCustomerOrder();
+//   }
+//  else if(data=='ApplePay'){
+//     this.saveCustomerOrder();
+//   }
+//  else if(data=='Cash'){
+//     this.saveCustomerOrder();
+//  }
+//   }
 
   saveCustomerOrder() {
     let obj: any;

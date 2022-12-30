@@ -84,7 +84,7 @@
       lines="none"
       class="ion-margin-bottom"
       detail="true"
-      (click)="payWithCard(Card)"
+      (click)="payWithCard()"
     >
       <ion-avatar slot="start">
         <img src="assets/stripe.png" />
@@ -92,31 +92,32 @@
       <ion-label>Pay via Card</ion-label>
     </ion-item>
 
+  
+      <ion-item
+      lines="none"
+      class="ion-margin-bottom"
+      detail="true"
+      (click)="payWithGpay()"
+    >
+      <ion-avatar slot="start">
+        <img src="../../../assets/Google_Pay-Logo.wine.svg" />
+      </ion-avatar>
+      <ion-label>Pay via Google Pay</ion-label>
+    </ion-item>
+  
     <ion-item
     lines="none"
     class="ion-margin-bottom"
     detail="true"
-    (click)="paywithCard(Gpay)"
+    (click)="payWithApplePay()"
   >
     <ion-avatar slot="start">
-      <img src="../../../assets/Google_Pay-Logo.wine.svg" />
+      <img src="../../../assets/Apple_Pay-Logo.wine.svg" />
     </ion-avatar>
-    <ion-label>Pay via Google Pay</ion-label>
+    <ion-label>Pay via Apple Pay</ion-label>
   </ion-item>
-
-  <ion-item
-  lines="none"
-  class="ion-margin-bottom"
-  detail="true"
-  (click)="paywithCard(ApplePay)"
->
-  <ion-avatar slot="start">
-    <img src="../../../assets/Apple_Pay-Logo.wine.svg" />
-  </ion-avatar>
-  <ion-label>Pay via Apple Pay</ion-label>
-</ion-item>
-
-    <ion-item lines="none" class="ion-margin-bottom" detail="true" (click)="paywithCard(Cash)">
+  
+      <ion-item lines="none" class="ion-margin-bottom" detail="true" (click)="payWithCash()">
       <ion-icon name="cash-outline" slot="start" color="success"></ion-icon>
       <ion-label>Cash on delivery</ion-label>
     </ion-item>
