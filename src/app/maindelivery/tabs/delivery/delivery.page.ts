@@ -266,9 +266,9 @@ export class DeliveryPage implements OnInit {
     }
     console.log(this.tempItem.isOptionMandatory,'-----man');
     
-    if(this.tempItem.isOptionMandatory && this.tempItem.IsSizeApplicable === '1') {
-      let a = this.newValue.find((el)=>el.selected === true);
-      let b = this.newValue1.find((el)=>el.selected === true);
+    if(this.tempItem.isOptionMandatory && this.tempItem.IsSizeApplicable === '1' && this.tempItem.IsoptionApplicable ==='1') {
+      let a = this.newValue?.find((el)=>el.selected === true);
+      let b = this.newValue1?.find((el)=>el.selected === true);
       if(a && b && this.selectedSize) {
         this.isCartValid = false;
       } else {
@@ -278,6 +278,13 @@ export class DeliveryPage implements OnInit {
       let a = this.newValue.find((el)=>el.selected === true);
       let b = this.newValue1.find((el)=>el.selected === true);
       if(a && b) {
+        this.isCartValid = false;
+      } else {
+        this.isCartValid = true;
+      }
+    }
+    else if(this.tempItem.IsoptionApplicable === '0'){
+      if(this.selectedSize) {
         this.isCartValid = false;
       } else {
         this.isCartValid = true;
@@ -332,12 +339,16 @@ export class DeliveryPage implements OnInit {
 
     const notShow = document.getElementById('popup');
     notShow.style.display = 'none';
-    this.newValue.map(x=>{
-      x.selected=false;
-    })
+    if(this.newValue && this.newValue.length>0){
+      this.newValue.map(x=>{
+        x.selected=false;
+      })
+    }
+   if(this.newValue1 && this.newValue1.length>0){
     this.newValue1.map(x=>{
       x.selected=false;
     })
+   }
     this.selectedSize = null;
     
   }
