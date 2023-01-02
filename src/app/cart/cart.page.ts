@@ -170,7 +170,7 @@ export class CartPage implements OnInit {
     let obj;
     if(this.currentRoute=='delivery'){
        obj = {
-        merchant_Id: 4,
+        merchant_Id: 45,
         company_id: 1,
         customer_BillingAddress_id: this.selectedAddress.id,
         billing_addressline1: this.selectedAddress.addressLine1,
@@ -183,7 +183,7 @@ export class CartPage implements OnInit {
     }
     else{
        obj = {
-        merchant_Id: 4,
+        merchant_Id: 45,
         company_id: 1,
         customer_BillingAddress_id: '',
         billing_addressline1: '',

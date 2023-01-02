@@ -86,7 +86,7 @@ export class AuthService {
     return this.http.get(this.url2 + '/profile');
   }
   getVouchers() {
-    const params = new HttpParams().append('merchant_id', '4');
+    const params = new HttpParams().append('merchant_id', '45');
     return this.http.get(this.url2 + '/getvouchers', { params });
   }
   getMyOrders() {
@@ -118,7 +118,7 @@ export class AuthService {
     return this.http.get(this.url2+'/zipCode', { params });
   }
   getworkingHours(){
-    const params = new HttpParams().append('merchant_id', '4');
+    const params = new HttpParams().append('merchant_id', '45');
     return this.http.get(this.url2+'/workingHours',{params});
   }
   getDeliveryCharges(data){

@@ -151,8 +151,9 @@ export class MaindeliveryPage implements OnInit {
     const changePop = document.getElementById('popup');
     changePop.style.display = 'none';
     window.location.reload();
-    window.location.href = '/maindelivery/takeaway';
     this.global.hideLoader();
+    window.location.href = '/maindelivery/takeaway';
+    
   }
 
   changeDn(){
@@ -160,8 +161,9 @@ export class MaindeliveryPage implements OnInit {
     const changePop = document.getElementById('popup');
     changePop.style.display = 'none';
     window.location.reload();
-    window.location.href = '/maindelivery/dinein';
     this.global.hideLoader();
+    window.location.href = '/maindelivery/dinein';
+   
   }
 
   changeDl(){
@@ -169,8 +171,9 @@ export class MaindeliveryPage implements OnInit {
     const changePop = document.getElementById('popup');
     changePop.style.display = 'none';
     window.location.reload();
-    window.location.href = '/maindelivery/delivery';
     this.global.hideLoader();
+    window.location.href = '/maindelivery/delivery';
+   
   }
   
 }

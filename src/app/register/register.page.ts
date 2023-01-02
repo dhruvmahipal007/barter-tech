@@ -68,7 +68,7 @@ export class RegisterPage implements OnInit {
       dateOfBirth: this.dateOfBirth_FormControl.value,
       password: this.password_FormControl.value,
 
-      merchant_id: 4,
+      merchant_id: 45,
       // device_model: this.device_model,
       // device_platform: this.device_platform,
       // device_uuid: this.device_uuid,

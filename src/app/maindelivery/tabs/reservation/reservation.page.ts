@@ -57,7 +57,7 @@ export class ReservationPage implements OnInit {
       guest: this.guests_FormControl.value,
       occasion: this.occasion_FormControl.value,
       note: this.notes_FormControl.value,
-      merchant_id: 4,
+      merchant_id: 45,
       reservation_type:
         this.dining_event_date === 'DINING DATE' ? 'dining' : 'event',
     };
