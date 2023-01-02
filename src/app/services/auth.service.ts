@@ -127,4 +127,16 @@ export class AuthService {
     params=params.append('merchant_id','45')
     return this.http.get(this.url2+'/getMerchantDetails',{params});
   }
+  getCodUpdate(data){
+    return this.http.post(this.url2+'/CODstatusUpdate',data);
+  }
+  getCardUpdate(data){
+    return this.http.post(this.url2+'/CardStatusupdate',data);
+  }
+  getGpayUpdate(data){
+    return this.http.post(this.url2+'/GpayStatusupdate',data);
+  }
+  getApplePayUpdate(data){
+    return this.http.post(this.url2+'/ApplepayStatusupdate',data);
+  }
 }

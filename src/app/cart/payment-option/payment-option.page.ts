@@ -184,42 +184,31 @@ export class PaymentOptionPage implements OnInit {
     id.style.display = 'flex';
   }
 
-  payWithCard() {
-    this.saveCustomerOrder();
-    this.makePaymentWithStripe();
+  // payWithCard() {
+  //   console.log('okk  ');
+  //   this.makePaymentWithStripe();
+  //   this.saveCustomerOrder();
+  // }
+
+  // payWithGpay() {
+  //   this.makePaymentWithGpay();
+  //   this.saveCustomerOrder();
+  // }
+
+  // payWithApplePay() {
+  //   this.makePaymentWithApplePay();
+  //   this.saveCustomerOrder();
+  // }
+
+  // payWithCash(){
+  //   this.saveCustomerOrder();
+  // }
+
+  payVia(data){
+    this.saveCustomerOrder(data);
   }
 
-  payWithGpay() {
-    this.saveCustomerOrder();
-    this.makePaymentWithGpay();
-  }
-
-  payWithApplePay() {
-    this.saveCustomerOrder();
-    this.makePaymentWithApplePay();
-  }
-
-  payWithCash(){
-    this.saveCustomerOrder();
-  }
-
-//   paywithCard(data){
-//  if(data=='Card'){
-//     this.saveCustomerOrder();
-
-//   }
-//  else if(data=='Gpay'){
-//     this.saveCustomerOrder();
-//   }
-//  else if(data=='ApplePay'){
-//     this.saveCustomerOrder();
-//   }
-//  else if(data=='Cash'){
-//     this.saveCustomerOrder();
-//  }
-//   }
-
-  saveCustomerOrder() {
+  saveCustomerOrder(type:any) {
     let obj: any;
     let sizeInfo:any;
     let finalObj: any;
@@ -250,7 +239,7 @@ export class PaymentOptionPage implements OnInit {
     //console.log(this.items);
 
     let sendData = {
-      merchant_Id: this.merchant_Id,
+      merchant_Id: '45',
       company_id: this.company_id,
       billing_addressline1: this.billing_addressline1,
       billing_addressline2: this.billing_addressline2,
@@ -279,17 +268,38 @@ export class PaymentOptionPage implements OnInit {
 
     };
     console.log(sendData);
+    this.global.showLoader('Please wait we are placing your order');
      this.authService.saveCustomerOrder(sendData).subscribe({
-      next:(data)=>{
-          console.log(data);
+      next:(data:any)=>{
+        console.log(data);
+        if(data){
+          if(type=='Card'){
+            this.makePaymentWithStripe(data.data[0].merchOrderId,data.data[0].orderType);
+            
+        
+          }
+         else if(type=='Gpay'){
+          this.makePaymentWithGpay(data.data[0].merchOrderId,data.data[0].orderType);
+            
+          }
+         else if(type=='ApplePay'){
+          this.makePaymentWithApplePay(data.data[0].merchOrderId,data.data[0].orderType);
+           
+          }
+         else if(type=='Cash'){
+          this.codStatusUpdate(data.data[0].merchOrderId,data.data[0].orderType);
+         }
+        }
       },
       error:(err)=>{
+        this.global.hideLoader();
        console.log(err);
       }
      })
   }
 
-  async makePaymentWithStripe() {
+  async makePaymentWithStripe(id,type) {
+    this.items=[];
     console.log('Pay with stripe button hits');
    
     (async () => {
@@ -309,10 +319,11 @@ export class PaymentOptionPage implements OnInit {
           console.log(res);
           this.global.showLoader('Loading Data');
           this.callForStripePayment(res.data.client_secret).then((response) => {
-            this.sendingConfirmation(res.data.id, response);
+            this.sendingConfirmation(res.data.paymentIntent.id, response,id,type);
           });
         })
         .catch((err) => {
+          this.global.hideLoader();
           console.log(err);
         });
     })();
@@ -320,7 +331,7 @@ export class PaymentOptionPage implements OnInit {
 
   async callForStripePayment(client_secret: any) {
     await Stripe.createPaymentSheet({
-      paymentIntentClientSecret: client_secret,
+      setupIntentClientSecret: client_secret,
       merchantDisplayName: 'Barter Tech',
     });
 
@@ -329,23 +340,25 @@ export class PaymentOptionPage implements OnInit {
     this.global.hideLoader();
     const result = await Stripe.presentPaymentSheet();
 
-    if (result.paymentResult === PaymentSheetEventsEnum.Completed) {
-      this.toastService.presentToast('Payment Success');
-      this.router.navigateByUrl('/maindelivery/delivery');
+    // if (result.paymentResult === PaymentSheetEventsEnum.Completed) {
+    //   this.toastService.presentToast('Payment Success');
+    //   localStorage.setItem('cartItems',JSON.stringify([]));
+    //   this.authService.badgeDataSubject.next(0);
+    //   this.router.navigateByUrl('/maindelivery/delivery');
 
-    }
+    // }
 
-    if (result.paymentResult === PaymentSheetEventsEnum.Canceled) {
-      console.log('Retry payment');
-      this.toastService.presentToast('Retry payment');
-      this.router.navigateByUrl('/cart/payment-option');
-    }
+    // if (result.paymentResult === PaymentSheetEventsEnum.Canceled) {
+    //   console.log('Retry payment');
+    //   this.toastService.presentToast('Retry payment');
+    //   this.router.navigateByUrl('/cart/payment-option');
+    // }
 
-    if (result.paymentResult === PaymentSheetEventsEnum.Failed) {
-      console.log('Payment failed redirect to cart');
-      this.toastService.presentToast('Payment Failed');
-      this.router.navigateByUrl('/cart');
-    }
+    // if (result.paymentResult === PaymentSheetEventsEnum.Failed) {
+    //   console.log('Payment failed redirect to cart');
+    //   this.toastService.presentToast('Payment Failed');
+    //   this.router.navigateByUrl('/cart');
+    // }
 
     return new Promise((resolve, reject) => {
       try {
@@ -357,7 +370,7 @@ export class PaymentOptionPage implements OnInit {
     // this.sendingConfirmation();
   }
 
-  async makePaymentWithGpay() {
+  async makePaymentWithGpay(id,type) {
     console.log('Pay with Gpay button hits');
 
     (async () => {
@@ -388,10 +401,11 @@ export class PaymentOptionPage implements OnInit {
           //loader open
           this.global.showLoader('Loading Data');
           this.callForGpayPayment(res.data.client_secret).then((response) => {
-            this.sendingConfirmation(res.data.id, response);
+            this.sendingConfirmationForGpay(res.data.id, response,id,type);
           });
         })
         .catch((err) => {
+          this.global.hideLoader();
           console.log(err);
         });
     })();
@@ -407,22 +421,22 @@ this.global.hideLoader();
     // Present Google Pay
     const result = await Stripe.presentGooglePay();
 
-    if (result.paymentResult === GooglePayEventsEnum.Completed) {
-      this.toastService.presentToast('Payment Success');
-      this.router.navigateByUrl('/maindelivery/delivery');
-    }
+    // if (result.paymentResult === GooglePayEventsEnum.Completed) {
+    //   this.toastService.presentToast('Payment Success');
+    //   this.router.navigateByUrl('/maindelivery/delivery');
+    // }
 
-    if (result.paymentResult === GooglePayEventsEnum.Canceled) {
-      this.toastService.presentToast('Retry payment');
-      console.log('Retry payment');
-      this.router.navigateByUrl('/cart/payment-option');
-    }
+    // if (result.paymentResult === GooglePayEventsEnum.Canceled) {
+    //   this.toastService.presentToast('Retry payment');
+    //   console.log('Retry payment');
+    //   this.router.navigateByUrl('/cart/payment-option');
+    // }
 
-    if (result.paymentResult === GooglePayEventsEnum.Failed) {
-      console.log('Payment failed redirect to cart');
-      this.toastService.presentToast('Payment Failed');
-      this.router.navigateByUrl('/cart');
-    }
+    // if (result.paymentResult === GooglePayEventsEnum.Failed) {
+    //   console.log('Payment failed redirect to cart');
+    //   this.toastService.presentToast('Payment Failed');
+    //   this.router.navigateByUrl('/cart');
+    // }
 
     return new Promise((resolve, reject) => {
       try {
@@ -434,7 +448,7 @@ this.global.hideLoader();
     // this.sendingConfirmation();
   }
 
-  async makePaymentWithApplePay() {
+  async makePaymentWithApplePay(id,type) {
     console.log('Pay with Apple pay button hits');
 
     (async () => {
@@ -465,10 +479,11 @@ this.global.hideLoader();
           //loader start
           this.global.showLoader('Loading Data');
           this.callForApplePayPayment(res.data.client_secret).then((response) => {
-            this.sendingConfirmation(res.data.id, response);
+            this.sendingConfirmationForApplePay(res.data.id, response,id,type);
           });
         })
         .catch((err) => {
+          this.global.hideLoader();
           console.log(err);
         });
     })();
@@ -490,22 +505,22 @@ this.global.hideLoader();
     // Present Google Pay
     const result = await Stripe.presentApplePay();
 
-    if (result.paymentResult === ApplePayEventsEnum.Completed) {
-      this.toastService.presentToast('Payment Success');
-      this.router.navigateByUrl('/maindelivery/delivery');
-    }
+    // if (result.paymentResult === ApplePayEventsEnum.Completed) {
+    //   this.toastService.presentToast('Payment Success');
+    //   this.router.navigateByUrl('/maindelivery/delivery');
+    // }
 
-    if (result.paymentResult === ApplePayEventsEnum.Canceled) {
-      this.toastService.presentToast('Retry payment');
-      console.log('Retry payment');
-      this.router.navigateByUrl('/cart/payment-option');
-    }
+    // if (result.paymentResult === ApplePayEventsEnum.Canceled) {
+    //   this.toastService.presentToast('Retry payment');
+    //   console.log('Retry payment');
+    //   this.router.navigateByUrl('/cart/payment-option');
+    // }
 
-    if (result.paymentResult === ApplePayEventsEnum.Failed) {
-      this.toastService.presentToast('Payment Failed');
-      console.log('Payment failed redirect to cart');
-      this.router.navigateByUrl('/cart');
-    }
+    // if (result.paymentResult === ApplePayEventsEnum.Failed) {
+    //   this.toastService.presentToast('Payment Failed');
+    //   console.log('Payment failed redirect to cart');
+    //   this.router.navigateByUrl('/cart');
+    // }
 
     return new Promise((resolve, reject) => {
       try {
@@ -518,14 +533,169 @@ this.global.hideLoader();
   }
 
   //confirmation API code _ Legacy do not touch
-  sendingConfirmation(responseId: any, paymentResultStatus: any) {
+  sendingConfirmation(responseId: any, paymentResultStatus: any,id:any,type:any) {
     console.log(responseId, paymentResultStatus);
-    return this.http.post<any>(
-      'https://barter-tech.antino.ca/api/Statusupdate',
-      {
-        id: responseId,
-        paymentResult: paymentResultStatus,
-      }
-    );
+    console.log(id,type);
+    let data={
+      paymentid: responseId,
+      paymentResult: paymentResultStatus,
+      id:id,
+      orderType:type
+    }
+    this.authService.getCardUpdate(data).subscribe({
+      next: (data: any) => {
+
+        console.log(data);
+        this.global.hideLoader();
+        if (paymentResultStatus === PaymentSheetEventsEnum.Completed) {
+      this.toastService.presentToast('Payment Success');
+      localStorage.setItem('cartItems',JSON.stringify([]));
+      this.authService.badgeDataSubject.next(0);
+      this.router.navigateByUrl('/maindelivery/delivery');
+
+    }
+
+    if (paymentResultStatus === PaymentSheetEventsEnum.Canceled) {
+      console.log('Retry payment');
+      this.toastService.presentToast('Retry payment');
+      this.router.navigateByUrl('/cart/payment-option');
+    }
+
+    if (paymentResultStatus=== PaymentSheetEventsEnum.Failed) {
+      console.log('Payment failed redirect to cart');
+      this.toastService.presentToast('Payment Failed');
+      this.router.navigateByUrl('/cart');
+    }
+        // this.toastService.presentToast('Order Placed Successfully');
+        // localStorage.setItem('cartItems',JSON.stringify([]));
+        // this.authService.badgeDataSubject.next(0);
+        // this.router.navigateByUrl('/maindelivery/delivery');
+      },
+      error: (err) => {
+       
+        this.toastService.presentToast(err);
+      },
+    });
+    // return this.http.post<any>(
+    //   'https://barter-tech.antino.ca/api/CardStatusupdate',
+    //   {
+    //     paymentid: responseId,
+    //     paymentResult: paymentResultStatus,
+    //     id:id,
+    //     orderType:type
+    //   }
+    // );
+  }
+  sendingConfirmationForGpay(responseId: any, paymentResultStatus: any,id:any,type:any){
+    console.log(responseId, paymentResultStatus);
+    console.log(id,type);
+    let data={
+      paymentid: responseId,
+      paymentResult: paymentResultStatus,
+      id:id,
+      orderType:type
+    }
+    this.authService.getGpayUpdate(data).subscribe({
+      next: (data: any) => {
+
+        console.log(data);
+        this.global.hideLoader();
+        if (paymentResultStatus === PaymentSheetEventsEnum.Completed) {
+      this.toastService.presentToast('Payment Success');
+      localStorage.setItem('cartItems',JSON.stringify([]));
+      this.authService.badgeDataSubject.next(0);
+      this.router.navigateByUrl('/maindelivery/delivery');
+
+    }
+
+    if (paymentResultStatus === PaymentSheetEventsEnum.Canceled) {
+      console.log('Retry payment');
+      this.toastService.presentToast('Retry payment');
+      this.router.navigateByUrl('/cart/payment-option');
+    }
+
+    if (paymentResultStatus=== PaymentSheetEventsEnum.Failed) {
+      console.log('Payment failed redirect to cart');
+      this.toastService.presentToast('Payment Failed');
+      this.router.navigateByUrl('/cart');
+    }
+        // this.toastService.presentToast('Order Placed Successfully');
+        // localStorage.setItem('cartItems',JSON.stringify([]));
+        // this.authService.badgeDataSubject.next(0);
+        // this.router.navigateByUrl('/maindelivery/delivery');
+      },
+      error: (err) => {
+       
+        this.toastService.presentToast(err);
+      },
+    });
+  }
+
+  sendingConfirmationForApplePay(responseId: any, paymentResultStatus: any,id:any,type:any){
+    console.log(responseId, paymentResultStatus);
+    console.log(id,type);
+    let data={
+      paymentid: responseId,
+      paymentResult: paymentResultStatus,
+      id:id,
+      orderType:type
+    }
+    this.authService.getApplePayUpdate(data).subscribe({
+      next: (data: any) => {
+
+        console.log(data);
+        this.global.hideLoader();
+        if (paymentResultStatus === PaymentSheetEventsEnum.Completed) {
+      this.toastService.presentToast('Payment Success');
+      localStorage.setItem('cartItems',JSON.stringify([]));
+      this.authService.badgeDataSubject.next(0);
+      this.router.navigateByUrl('/maindelivery/delivery');
+
+    }
+
+    if (paymentResultStatus === PaymentSheetEventsEnum.Canceled) {
+      console.log('Retry payment');
+      this.toastService.presentToast('Retry payment');
+      this.router.navigateByUrl('/cart/payment-option');
+    }
+
+    if (paymentResultStatus=== PaymentSheetEventsEnum.Failed) {
+      console.log('Payment failed redirect to cart');
+      this.toastService.presentToast('Payment Failed');
+      this.router.navigateByUrl('/cart');
+    }
+        // this.toastService.presentToast('Order Placed Successfully');
+        // localStorage.setItem('cartItems',JSON.stringify([]));
+        // this.authService.badgeDataSubject.next(0);
+        // this.router.navigateByUrl('/maindelivery/delivery');
+      },
+      error: (err) => {
+       
+        this.toastService.presentToast(err);
+      },
+    });
+  }
+  
+
+  codStatusUpdate(id,type){
+    let data={
+      orderType:type,
+      id:id
+    }
+    this.authService.getCodUpdate(data).subscribe({
+      next: (data: any) => {
+
+        console.log(data);
+        this.global.hideLoader();
+        this.toastService.presentToast('Order Placed Successfully');
+        localStorage.setItem('cartItems',JSON.stringify([]));
+        this.authService.badgeDataSubject.next(0);
+        this.router.navigateByUrl('/maindelivery/delivery');
+      },
+      error: (err) => {
+       
+        this.toastService.presentToast(err);
+      },
+    });
   }
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { AlertController } from '@ionic/angular';
 import { ModalController } from '@ionic/angular';
-
+import { GlobalService } from '../services/global.service';
 import { PreorderPage } from '../preorder/preorder.page';
 import { ActivatedRoute, Router } from '@angular/router';
 @Component({
@@ -47,7 +47,7 @@ export class MaindeliveryPage implements OnInit {
     private modalController: ModalController,
     private _activatedRoute: ActivatedRoute,
     private _router: Router,
-   
+    private global: GlobalService,
    ) {
    
   }
@@ -147,25 +147,30 @@ export class MaindeliveryPage implements OnInit {
   // }
 
   changeTk(){
+    this.global.showLoader('Loading Data');
     const changePop = document.getElementById('popup');
     changePop.style.display = 'none';
     window.location.reload();
     window.location.href = '/maindelivery/takeaway';
+    this.global.hideLoader();
   }
 
   changeDn(){
+    this.global.showLoader('Loading Data');
     const changePop = document.getElementById('popup');
     changePop.style.display = 'none';
     window.location.reload();
     window.location.href = '/maindelivery/dinein';
+    this.global.hideLoader();
   }
 
   changeDl(){
+    this.global.showLoader('Loading Data');
     const changePop = document.getElementById('popup');
     changePop.style.display = 'none';
     window.location.reload();
     window.location.href = '/maindelivery/delivery';
-
+    this.global.hideLoader();
   }
   
 }

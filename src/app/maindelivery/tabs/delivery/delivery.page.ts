@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import SwiperCore, {
   Navigation,
   Pagination,
@@ -34,7 +34,7 @@ SwiperCore.use([
   templateUrl: './delivery.page.html',
   styleUrls: ['./delivery.page.scss'],
 })
-export class DeliveryPage implements OnInit {
+export class DeliveryPage implements OnInit,OnDestroy {
   @ViewChild('slides', { static: true }) slider: IonSlides;
   productCategories: ProductCategory[];
   products: Product[] = [];
@@ -119,6 +119,9 @@ export class DeliveryPage implements OnInit {
       this.authService.badgeDataSubject.next(0);
       localStorage.setItem('currentRoute', this.currentRoute);
     }
+  }
+  ngOnDestroy(): void {
+    // document.getElementById('popup').remove();
   }
 
   ngOnInit() {

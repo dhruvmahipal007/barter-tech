@@ -84,7 +84,7 @@
       lines="none"
       class="ion-margin-bottom"
       detail="true"
-      (click)="payWithCard()"
+      (click)="payVia('Card')"
     >
       <ion-avatar slot="start">
         <img src="assets/stripe.png" />
@@ -97,7 +97,7 @@
       lines="none"
       class="ion-margin-bottom"
       detail="true"
-      (click)="payWithGpay()"
+      (click)="payVia('Gpay')"
     >
       <ion-avatar slot="start">
         <img src="../../../assets/Google_Pay-Logo.wine.svg" />
@@ -109,7 +109,7 @@
     lines="none"
     class="ion-margin-bottom"
     detail="true"
-    (click)="payWithApplePay()"
+    (click)="payVia('ApplePay')"
   >
     <ion-avatar slot="start">
       <img src="../../../assets/Apple_Pay-Logo.wine.svg" />
@@ -117,7 +117,7 @@
     <ion-label>Pay via Apple Pay</ion-label>
   </ion-item>
   
-      <ion-item lines="none" class="ion-margin-bottom" detail="true" (click)="payWithCash()">
+      <ion-item lines="none" class="ion-margin-bottom" detail="true" (click)="payVia('Cash')">
       <ion-icon name="cash-outline" slot="start" color="success"></ion-icon>
       <ion-label>Cash on delivery</ion-label>
     </ion-item>
