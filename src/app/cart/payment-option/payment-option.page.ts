@@ -213,9 +213,11 @@ export class PaymentOptionPage implements OnInit {
     let sizeInfo:any;
     let finalObj: any;
     this.cartItems.map((x: any) => {
-      sizeInfo=x.options.size[0];
-      sizeInfo.sizeName=sizeInfo.size_name
-      sizeInfo.additionalCost=sizeInfo.additionalcost
+      sizeInfo=x.options?.size[0];
+      if(sizeInfo){
+        sizeInfo.sizeName=sizeInfo?.size_name
+        sizeInfo.additionalCost=sizeInfo?.additionalcost
+      }
 
       obj = {
         menuItemId: x.menuItemId,
