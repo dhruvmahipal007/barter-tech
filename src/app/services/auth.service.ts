@@ -139,4 +139,7 @@ export class AuthService {
   getApplePayUpdate(data){
     return this.http.post(this.url2+'/ApplepayStatusupdate',data);
   }
+  setProfilePhoto(data){
+    return this.http.post(this.url2+'/profilePic',data);
+  }
 }

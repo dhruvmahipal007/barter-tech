@@ -60,7 +60,7 @@ export class CartPage implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe((res) => {
-      this.cartItems = JSON.parse(localStorage.getItem('cartItems'));
+      this.cartItems = JSON.parse(localStorage.getItem('cartItems')) ?  JSON.parse(localStorage.getItem('cartItems')) : [];
       this.customer_name = JSON.parse(localStorage.getItem('userDetails')).name;
       this.customer_email = JSON.parse(
         localStorage.getItem('userDetails')
@@ -333,6 +333,7 @@ export class CartPage implements OnInit {
   }
 
   getAddress() {
+    
     this.global.showLoader('Loading Data');
     this.authService.getAddress().subscribe({
       next: (data: any) => {
@@ -345,9 +346,11 @@ export class CartPage implements OnInit {
         console.log(err);
       },
     });
+  
   }
 
   getDeliveryCharges(){
+   
     let obj={
       postalcode:this.selectedAddress.zipcode,
       suburb:this.selectedAddress.suburb
@@ -365,6 +368,7 @@ export class CartPage implements OnInit {
       this.global.hideLoader();
       }
     })
+  
   }
 
   onAddressChange(event) {

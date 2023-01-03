@@ -19,7 +19,7 @@
   </div>
 
   <!--============== FIRST GRID ===============-->
-  <div *ngIf="cartItems.length > 0">
+  <div *ngIf="cartItems?.length > 0">
     <ion-grid>
       <ion-row *ngFor="let item of cartItems; let index = index">
         <ion-col size="8" id="first">

@@ -32,7 +32,9 @@
     </div>
     <div style="margin-top: 10px">
       <div class="card-middle" style="justify-content: space-evenly;">
-        <div><img src="assets/account.svg" class="image-header" /></div>
+        <div style="position: relative;"><img src="{{ finalVariable }}"  class="image-header"  />
+        <ion-button (click)="openImagePicker()" fill="clear" class="uploadButton" ><ion-icon name="cloud-upload-outline"></ion-icon></ion-button>
+      </div>
         <div style="    display: flex;
         flex-direction: column;
         width: 50%;">

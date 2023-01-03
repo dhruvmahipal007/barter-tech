@@ -26,6 +26,8 @@ import {
 
 import { PaymentOptionPage } from './cart/payment-option/payment-option.page';
 import { CartPage } from './cart/cart.page';
+import { ImagePicker } from '@awesome-cordova-plugins/image-picker/ngx';
+import { WebView } from '@awesome-cordova-plugins/ionic-webview/ngx';
 
 // const stripe : any = StripeOriginal;
 
@@ -51,6 +53,8 @@ import { CartPage } from './cart/cart.page';
     ConfigGuard,
     File,
     FilePath,
+    ImagePicker,
+    WebView,
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,

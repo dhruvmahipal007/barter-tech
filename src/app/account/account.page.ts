@@ -9,6 +9,11 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Platform } from '@ionic/angular';
 import { Location } from '@angular/common';
 import { App } from '@capacitor/app';
+import { ModalController } from '@ionic/angular';
+import { ProfilephotooptionComponent } from '../components/profilephotooption/profilephotooption.component';
+import { ImagePicker, ImagePickerOptions } from '@awesome-cordova-plugins/image-picker/ngx';
+import { WebView } from '@awesome-cordova-plugins/ionic-webview/ngx';
+import { Capacitor } from '@capacitor/core';
 @Component({
   selector: 'app-account',
   templateUrl: './account.page.html',
@@ -23,6 +28,8 @@ export class AccountPage implements OnInit {
   userData: any;
   isLoading: boolean;
   cartItemsLength:any=0;
+  finalVariable:any="assets/account.svg";
+
 
   constructor(
     private authService: AuthService,
@@ -32,7 +39,11 @@ export class AccountPage implements OnInit {
     private router: Router,
     private _route: ActivatedRoute,
     private platform: Platform,
-    private location: Location
+    private location: Location,
+    private modalController: ModalController,
+    private imagePicker:ImagePicker,
+    private webview:WebView,
+    
   ) {
     this.platform.ready().then(() => {
       this.platform.backButton.subscribeWithPriority(99999, () => {
@@ -168,7 +179,10 @@ export class AccountPage implements OnInit {
     this.global.showLoader('Loading Data');
     this.authService.getProfile().subscribe({
       next: (data: any) => {
+        console.log(data);
         this.userData = data.data;
+        this.finalVariable=data.data.imageUrl;
+        console.log(this.finalVariable);
         this.global.hideLoader();
         console.log(this.userData);
         localStorage.setItem('userNo', JSON.stringify(this.userData.mobileNo));
@@ -185,5 +199,46 @@ export class AccountPage implements OnInit {
     console.log(this.userData.mobileNo);
     this.authService.accountSubject.next(this.userData);
     this.router.navigate(['/profile']);
+  }
+  openImagePicker(){
+    this.imagePicker.hasReadPermission().then(res=>{
+      console.log('permission status = ',res);
+      if(res ==false){
+        this.imagePicker.requestReadPermission().then(res1=>{
+          console.log('requested permission status =',res1);
+        })
+      }
+      else{
+        let options:ImagePickerOptions={
+          maximumImagesCount:1
+        }
+        this.imagePicker.getPictures(options).then(result=>{
+          console.log('selected photos =',result[0])
+
+          if(result!=null){
+            // this.finalVariable=Capacitor.convertFileSrc(result);
+            // console.log(this.finalVariable);
+           this.finalVariable=this.webview.convertFileSrc(result[0]);
+           let obj={
+            imageurl:this.finalVariable
+           }
+           this.authService.setProfilePhoto(obj).subscribe({
+            next:(data)=>{
+             console.log(data);
+            },
+            error:(err)=>{
+             console.log(err);
+            }
+           })
+           localStorage.setItem('finalVariable',JSON.stringify(this.finalVariable));
+          console.log(this.finalVariable);
+          }
+          else{
+            console.log('result is empty');
+          }
+        })
+      }
+    })
+
   }
 }
