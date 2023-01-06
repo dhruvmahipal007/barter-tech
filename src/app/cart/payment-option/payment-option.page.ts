@@ -65,6 +65,7 @@ export class PaymentOptionPage implements OnInit {
     this.authService.totalDataSubject.subscribe((res: any) => {
       console.log(res);
       let preorder=JSON.parse(localStorage.getItem('preorder'));
+      let currentRoute=localStorage.getItem('currentRoute');
       if(preorder){
       this.billing_addressline1 = res.billing_addressline1;
       this.billing_addressline2 = res.billing_addressline2;
@@ -78,7 +79,7 @@ export class PaymentOptionPage implements OnInit {
       this.deliverytime=res.delivery_time;
       this.customercount=res.dinein_Customer_count;
       this.taxAmount=res.taxAmount;
-      this.deliveryCharge=res.deliveryCharge;
+      this.deliveryCharge= (currentRoute == 'takeaway' || currentRoute == 'dinein') ? 0 : res.deliveryCharge;
       }
       else{
         this.billing_addressline1 = res.billing_addressline1;
@@ -93,7 +94,7 @@ export class PaymentOptionPage implements OnInit {
         this.deliverytime='';
         this.customercount='';
         this.taxAmount=res.taxAmount;
-      this.deliveryCharge=res.deliveryCharge;
+      this.deliveryCharge=(currentRoute == 'takeaway' || currentRoute == 'dinein') ? 0 : res.deliveryCharge;
       }
 
     });

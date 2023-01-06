@@ -60,6 +60,7 @@ datePipe = new DatePipe('en-US');
       this.isFormVisible=true;
       this.confirmationForm.controls['selectedDate'].patchValue(this.preOrderobject.selectedDate);
       this.confirmationForm.controls['selectedTime'].patchValue(this.preOrderobject.selectedTime);
+      this.todaydate = this.preOrderobject.selectedDate
       this.confirmationForm.controls['selectedPeople'].patchValue(this.preOrderobject.selectedPeople);
       this.value= this.preOrderobject.type
       if(this.value=='dinein'){
@@ -272,9 +273,17 @@ checkValidity(data,day){
 
 async datetriggered(event)
 {
+  console.log(event);
   let i = 0;
+  let timeselected=moment();
+  timeselected.set('hour', 0);
+  timeselected.set('minute', 0);
+  timeselected.set('second', 0);
+  
+  console.log(timeselected);
+  console.log(moment(event));
   // let todaydate= this.datePipe.transform(new Date() , 'yyyy-MM-dd')
-  if(moment()>moment(event)){
+  if(timeselected>moment(event)){
     const alert = await this.alertController.create({
       header: 'Alert',
       message: 'Pre-Order Date Should Be A Future Date Or Today',
