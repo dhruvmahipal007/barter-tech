@@ -5,8 +5,8 @@
   "bundledWebRuntime": false,
   "npmClient": "npm",
   "server": {
-    "androidScheme": "http",
-    "allowNavigation": ["http://barter-tech.antino.ca/api/*"],
+    "androidScheme": "https",
+    "allowNavigation": ["https://barter-tech.antino.ca/api/*"],
     "cleartext": true
   },
   "plugins": {

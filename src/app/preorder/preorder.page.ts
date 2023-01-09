@@ -49,7 +49,7 @@ datePipe = new DatePipe('en-US');
   }
 
   ngOnInit() {
-    console.log(this.getWorkingHours());
+    //console.log(this.getWorkingHours());
      this.currentRoute=localStorage.getItem('currentRoute');
      this.value=this.currentRoute;
      this.isFormVisible=true;

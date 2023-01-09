@@ -32,7 +32,7 @@ export class AuthService {
     return this.http.post<any>(this.url2 + '/register', data);
   }
   login(data) {
-    return this.http.post<any>(this.url2 + '/login', data);
+    return this.http.post<any>(this.url + '/login', data);
   }
   forgetPass(email: string) {
     let body = { email };
