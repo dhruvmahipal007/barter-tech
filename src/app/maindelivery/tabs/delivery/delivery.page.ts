@@ -52,6 +52,7 @@ export class DeliveryPage implements OnInit,OnDestroy {
   list2=[];
   newSize: any;
   groupName: any;
+  groupName1:any;
   category: any;
   item: [];
   newValue: any;
@@ -61,6 +62,8 @@ export class DeliveryPage implements OnInit,OnDestroy {
   tempArray: any=[];
   selectedSize: any;
   isCartValid = true;
+  bannerImages:any;
+  staticImage:any;
 
 
   // public slideOps = {
@@ -125,6 +128,7 @@ export class DeliveryPage implements OnInit,OnDestroy {
   }
 
   ngOnInit() {
+    
     localStorage.setItem('currentRoute', this.currentRoute);
     this.route.params.subscribe((res) => {
       this.currentRoute = this.route.snapshot['_routerState'].url.split('/')[2];
@@ -169,7 +173,9 @@ export class DeliveryPage implements OnInit,OnDestroy {
 
   listProductCategories() {
     this.global.showLoader('Loading Data');
+    this.getBannerImages();
     this.productService.getProductCategories().subscribe((data) => {
+      
       // console.log('piyush', data);
       this.productCategories = data.data[0].menueGroup;
       this.currentCategoryId = data.data[0].menueGroup[0].menuGroupId;
@@ -242,21 +248,70 @@ export class DeliveryPage implements OnInit,OnDestroy {
   }
 
   openpop(product, item?){
+    product.optionGroups[0]?.optionItems.map((x)=>{
+      x.selected=false;
+    })
+    product.optionGroups[1]?.optionItems.map((y)=>{
+      y.selected=false;
+    })
     // document.getElementById("newpop").onreset();
-    this.tempItem = {};
-    this.singleProduct=product;
-    const pop = document.getElementById('popup');
-    pop.style.display = 'block';
-    this.newValue = product.optionGroups[0]?.optionItems;
-    this.groupName = product.optionGroups[0]?.optionGroupName;
-    this.newSize = product.size[0]?.size_deliveryPrice;
-    this.newValue1 = product.optionGroups[1]?.optionItems;
-    console.log(this.newValue,'lol');
-    console.log(this.newValue1,'hibro');
-    this.tempItem = item;
-    this.tempArray = JSON.parse(localStorage.getItem('cartItems')) ? JSON.parse(localStorage.getItem('cartItems')) : [];
-    console.log(this.tempArray)
     console.log('this.menuItems',product,'-----this.menuItems',this.tempItem);
+    if(product.optionGroups.length>0 || product.size.length>1){
+      this.tempItem = {};
+      this.singleProduct=product;
+      const pop = document.getElementById('popup');
+      pop.style.display = 'block';
+      this.newValue = product.optionGroups[0]?.optionItems
+      this.groupName = product.optionGroups[0]?.optionGroupName;
+      this.newSize = product.size[0]?.size_deliveryPrice;
+      this.groupName1=product.optionGroups[1]?.optionGroupName;
+      console.log(this.groupName1);
+      this.newValue1 = product.optionGroups[1]?.optionItems 
+      console.log(this.newValue,'lol');
+      console.log(this.newValue1,'hibro');
+      this.tempItem = item;
+      this.tempArray = JSON.parse(localStorage.getItem('cartItems')) ? JSON.parse(localStorage.getItem('cartItems')) : [];
+      console.log(this.tempArray)
+    }
+    else{
+      this.tempItem = {};
+      this.singleProduct=product;
+
+      this.tempItem = item;
+      this.tempArray = JSON.parse(localStorage.getItem('cartItems')) ? JSON.parse(localStorage.getItem('cartItems')) : [];
+      this.addToCart()
+  //     let tempTotalMenuItem = localStorage.getItem('cartItems');
+  //   let totalMenuItem = JSON.parse(tempTotalMenuItem);
+   
+  //   // eslint-disable-next-line @typescript-eslint/no-shadow
+  //   if(totalMenuItem && totalMenuItem.length>0){
+  //   totalMenuItem.map((element,index)=> {
+  //     if (element.menuItemId === item.menuItemId) {
+  //       element.product_quantity = element.product_quantity + 1;
+  //       this.authService.badgeDataSubject.next(element.product_quantity);
+  //     }
+  //     else {
+  //       item.product_quantity = item.product_quantity + 1;
+  //       totalMenuItem.push(item);
+  //       let currentCartItems = JSON.parse(localStorage.getItem('cartItems'));
+  //     let productLength = 0;
+  //     currentCartItems.forEach(element => {
+  //       productLength += element.product_quantity;
+  //     });
+  //     this.authService.badgeDataSubject.next(productLength+1);
+  //     }
+  //   }); 
+  // }
+  // else{
+  //   totalMenuItem=[];
+  //   item.product_quantity = item.product_quantity + 1;
+  //   totalMenuItem.push(item);
+  //   this.authService.badgeDataSubject.next(totalMenuItem.length);
+  // }
+ 
+  //   localStorage.setItem('cartItems',JSON.stringify(totalMenuItem));
+  //   return product.product_quantity = product.product_quantity + 1;
+    }
   }
 
   onItemSelect(event) {
@@ -269,20 +324,32 @@ export class DeliveryPage implements OnInit,OnDestroy {
     }
     console.log(this.tempItem.isOptionMandatory,'-----man');
     
-    if(this.tempItem.isOptionMandatory && this.tempItem.IsSizeApplicable === '1' && this.tempItem.IsoptionApplicable ==='1') {
+    if(this.tempItem.isOptionMandatory  && this.tempItem.IsSizeApplicable === '1' && this.tempItem.IsoptionApplicable ==='1') {
       let a = this.newValue?.find((el)=>el.selected === true);
       let b = this.newValue1?.find((el)=>el.selected === true);
       if(a && b && this.selectedSize) {
         this.isCartValid = false;
-      } else {
+      }
+      else if(a && this.selectedSize && (this.newValue1?.length===undefined)){
+        this.isCartValid=false;
+      }
+      else if(b && this.selectedSize && (this.newValue?.length===undefined)){
+        this.isCartValid=false;
+      }
+       else {
         this.isCartValid = true;
       }
     } else if (this.tempItem.IsSizeApplicable === '0') {
-      let a = this.newValue.find((el)=>el.selected === true);
-      let b = this.newValue1.find((el)=>el.selected === true);
-      if(a && b) {
+      let a = this.newValue?.find((el)=>el.selected === true);
+      let b = this.newValue1?.find((el)=>el.selected === true);
+      if(a && b && this.newValue && this.newValue1) {
         this.isCartValid = false;
-      } else {
+      } else if(this.newValue && a && (this.newValue1?.length === undefined)) {
+        this.isCartValid = false;
+      } else if(this.newValue1 && b && (this.newValue?.length === undefined)) {
+        this.isCartValid = false;
+      }
+      else{
         this.isCartValid = true;
       }
     }
@@ -296,13 +363,15 @@ export class DeliveryPage implements OnInit,OnDestroy {
   }
 
   addToCart() {
+    this.isCartValid = true;
       this.tempItem.product_quantity = 1;
-      this.singleProduct.product_quantity = this.singleProduct.product_quantity + 1;
-      console.log('add to cart',this.singleProduct);
+      this.singleProduct.product_quantity = this.singleProduct?.product_quantity + 1;
+      console.log('add to cart',this.tempItem);
       this.singleProduct.options = this.singleProduct.product;
       this.category = this.singleProduct.product;
       this.authService.badgeDataSubject.next(this.menuItems.length);
       // this.tempItem.selectedItems = this.selectedProducts;
+      
       this.tempItem.options.size = [];
       this.tempItem.options.size.push(this.selectedSize);
       this.tempArray.push(this.tempItem);
@@ -332,6 +401,9 @@ export class DeliveryPage implements OnInit,OnDestroy {
           this.tempArray = [];
         }
       });
+      // localStorage.setItem('cartItems',JSON.stringify(this.menuItems));
+      console.log(this.menuItems,'-----');
+      
       this.selectedProducts = [];
       this.selectedSize = null;
 
@@ -339,7 +411,7 @@ export class DeliveryPage implements OnInit,OnDestroy {
 
 
   notShow(){
-
+    this.isCartValid = true;
     const notShow = document.getElementById('popup');
     notShow.style.display = 'none';
     if(this.newValue && this.newValue.length>0){
@@ -426,4 +498,36 @@ export class DeliveryPage implements OnInit,OnDestroy {
       }
     }, 200);
   }
+
+   GetFilename(url)
+{
+   if (url)
+   {
+      var m = url.toString().match(/.*\/(.+?)\./);
+      if (m && m.length > 1)
+      {
+         return m[1];
+      }
+   }
+   return "";
 }
+getBannerImages(){
+  let data={
+    order_type:this.routercurrent,
+  }
+  this.authService.getCarouselImages(data).subscribe({
+    next: (data:any) => {
+      console.log(data.data);
+      this.bannerImages=data.data[0]?.images;
+      console.log(this.bannerImages);
+      this.staticImage=data?.data[0]?.menueGroup[0]?.menuItems[0]?.menuItemimageUrl;
+      console.log(this.staticImage);
+    },
+    error: (err) => {
+      console.log(err);
+    },
+  });
+}
+
+}
+

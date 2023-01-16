@@ -137,4 +137,16 @@ export class SearchPage implements OnInit {
     this.authService.badgeDataSubject.next(this.selectedProducts.length)
     localStorage.setItem('cartItems', JSON.stringify(this.selectedProducts));
   }
+  GetFilename(url)
+  {
+     if (url)
+     {
+        var m = url.toString().match(/.*\/(.+?)\./);
+        if (m && m.length > 1)
+        {
+           return m[1];
+        }
+     }
+     return "";
+  }
 }

@@ -71,18 +71,22 @@ export class AddaddressPage implements OnInit {
       mobile: '91'+this.mobile_FormControl.value,
     };
     console.log(data);
+    this.global.showLoader(' Saving Data');
     this.authService.addAddress(data).subscribe({
       next: (data) => {
         console.log(data);
         if (data.status) {
+          this.global.hideLoader();
           this.toastService.presentToast(data.message);
           this.addAddressForm.reset();
           this.router.navigate(['/manageaddress']);
         } else {
+          this.global.hideLoader();
           this.toastService.presentToast('Error in User Details');
         }
       },
       error: (err) => {
+        this.global.hideLoader();
         console.log(err)
         const {address, landmark, mobile, tag, zipcode} = err.error
         this.toastService.presentToast(tag || address || zipcode || landmark || mobile);

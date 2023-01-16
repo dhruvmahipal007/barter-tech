@@ -8,6 +8,7 @@ import {
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { ToastService } from '../services/toast.service';
+import { GlobalService } from 'src/app/services/global.service';
 @Component({
   selector: 'app-contactus',
   templateUrl: './contactus.page.html',
@@ -20,7 +21,8 @@ export class ContactusPage implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
-    private toastService: ToastService
+    private toastService: ToastService,
+    private global: GlobalService,
   ) {
     this.contactUsForm = this.fb.group({
       firstName: [null, [Validators.required]],
@@ -61,19 +63,23 @@ export class ContactusPage implements OnInit {
       note: this.note_FormControl.value,
     };
     console.log('-----------------data contact us-----------', data);
+    this.global.showLoader(' Saving Data');
     this.authService.contactUs(data).subscribe({
       next: (data) => {
         
         // console.log(data);
         if (data.status) {
+          this.global.hideLoader();
           this.toastService.presentToast(data.message);
           this.contactUsForm.reset();
           this.router.navigate(['/account']);
         } else {
+          this.global.hideLoader();
           this.toastService.presentToast('Error in User Details');
         }
       },
       error: (err) => {
+        this.global.hideLoader();
         console.log(err);
         const {firstName,email  } = err.error
         this.toastService.presentToast(firstName || email);

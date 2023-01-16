@@ -14,6 +14,7 @@ export class OrderfilledPage implements OnInit {
   id: string = '';
   orderNo: string = '';
   finalMoney: any;
+  finalPrice:any;
   userOrderDetails: any;
   // menu: any[] = [
   //   {
@@ -78,6 +79,7 @@ export class OrderfilledPage implements OnInit {
           this.itemTotal(this.userOrderDetails.menu,this.userOrderDetails?.orders.taxAmount,this.userOrderDetails?.orders.deliveryCharge);
           this.global.hideLoader();
           console.log(this.userOrderDetails);
+          console.log(this.userOrderDetails.menu.length);
         } else {
           this.global.hideLoader();
         }
@@ -90,12 +92,40 @@ export class OrderfilledPage implements OnInit {
   }
 
   itemTotal(menu,taxAmount,delivery) {
-    let finalPrice = 0;
+     this.finalPrice = 0;
     menu.map((x) => {
       let calculatedPrice = x.Quantity * x.default_Price;
-      finalPrice += calculatedPrice;
+      this.finalPrice += calculatedPrice;
     });
-    console.log(finalPrice);
-    this.finalMoney = finalPrice+Number(taxAmount)+Number(delivery);
+    console.log(this.finalPrice);
+    this.finalMoney = this.finalPrice+Number(taxAmount)+Number(delivery);
+    console.log(this.finalMoney);
+  }
+
+  emailInvoice(){
+    this.global.showLoader('Sending Invoice');
+    let obj={
+      order_id:this.id,
+      grand_total:this.finalMoney,
+      total_item:this.userOrderDetails.menu.length,
+      item_total:this.finalPrice
+    }
+    console.log(obj);
+    this.authService.sendEmailInvoice(obj).subscribe({
+      next:(data:any)=>{
+        if(data.status){
+          this.global.hideLoader();
+          this.toastService.presentToast('Invoice has been sent successfully');
+        }
+        else{
+          this.global.hideLoader();
+        }
+      },
+      error:(err)=>{
+        this.global.hideLoader();
+        console.log(err);
+      },
+
+    });
   }
 }

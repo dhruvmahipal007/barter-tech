@@ -275,15 +275,19 @@ async datetriggered(event)
 {
   console.log(event);
   let i = 0;
-  let timeselected=moment();
-  timeselected.set('hour', 0);
-  timeselected.set('minute', 0);
-  timeselected.set('second', 0);
-  
-  console.log(timeselected);
-  console.log(moment(event));
+  let currentdate=moment();
+  currentdate.set('hour', 0);
+  currentdate.set('minute', 0);
+  currentdate.set('second', 0);
+  let selectedDate=moment(event);
+  selectedDate.add(1,'days')
+  selectedDate.set('hour', 0);
+  selectedDate.set('minute', 0);
+  selectedDate.set('second', 0);
+  console.log(currentdate);
+  console.log(selectedDate);
   // let todaydate= this.datePipe.transform(new Date() , 'yyyy-MM-dd')
-  if(timeselected>moment(event)){
+  if(currentdate>selectedDate){
     const alert = await this.alertController.create({
       header: 'Alert',
       message: 'Pre-Order Date Should Be A Future Date Or Today',

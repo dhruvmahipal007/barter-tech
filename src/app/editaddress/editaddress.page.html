@@ -64,10 +64,11 @@
     <div>
       <ion-label>Mobile</ion-label>
       <ion-input
-        type="number"
+        type="tel"
+        maxlength="10"
+        onKeyPress="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
         placeholder="Enter Input"
         formControlName="mobile"
-        onKeyPress="if(this.value.length>=10) return false;"
       ></ion-input>
     </div>
     <div>
@@ -77,7 +78,7 @@
         color="white"
         (click)="editAddress()"
         [disabled]="editAddressForm.invalid"
-        >Edit</ion-button
+        >SAVE</ion-button
       >
     </div>
   </form>

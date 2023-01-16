@@ -91,7 +91,9 @@ export class CartPage implements OnInit {
     if(this.preorder){
       this.checkboxBoolean=true
     }
-    this.getAddress();
+   
+      this.getAddress();
+    
     
     this.authService.couponSubject.subscribe((res: any) => {
       if (res != 'invalid' && Object.keys(res).length != 0) {
@@ -333,7 +335,7 @@ export class CartPage implements OnInit {
   }
 
   getAddress() {
-    
+ 
     this.global.showLoader('Loading Data');
     this.authService.getAddress().subscribe({
       next: (data: any) => {
@@ -346,6 +348,7 @@ export class CartPage implements OnInit {
         console.log(err);
       },
     });
+  
   
   }
 
@@ -368,6 +371,7 @@ export class CartPage implements OnInit {
       this.global.hideLoader();
       }
     })
+  
   
   }
 

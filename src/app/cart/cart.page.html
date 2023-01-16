@@ -204,9 +204,9 @@
                 </ion-select>
               </ion-item>
             </ion-list>
-            <p class="ion-text-wrap" style="text-align: right">
-              {{selectedAddress?.addressLine1}}
-              {{selectedAddress?.addressLine2}}
+            <p class="ion-text-wrap" style="text-align:right">
+              {{selectedAddress?.addressLine1}}<br>
+              {{selectedAddress?.suburb}}, {{selectedAddress?.zipcode}}
             </p>
           </div>
         </ion-col>
@@ -229,12 +229,13 @@
       <ion-row>
         <ion-col size="6.5">
           <div class="bottom_design">
+            <ion-text>
+              TOTAL
+                <!-- <ion-icon name="chevron-down-outline"></ion-icon> -->
+              </ion-text>
             <h4>${{totalPayable  | number : '1.2-2'}}</h4>
             <!-- <p>VIEW DETAILED BILL</p> -->
-            <ion-text>
-              VIEW DETAILED BILL
-              <ion-icon name="chevron-down-outline"></ion-icon>
-            </ion-text>
+            
           </div>
         </ion-col>
 

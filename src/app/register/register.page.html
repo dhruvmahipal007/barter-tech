@@ -55,8 +55,9 @@
       <ion-label class="required">Mobile</ion-label>
       <ion-input
         type="tel"
+        maxlength="10"
+        onKeyPress="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
         placeholder="Enter Number"
-        onKeyPress="if(this.value.length>=10) return false;"
         formControlName="mobile"
       ></ion-input>
       <small *ngIf="mobile_FormControl.hasError('required') && mobile_FormControl.touched "><b style="color:red;">Mobile No is required</b></small>
@@ -84,6 +85,7 @@
         placeholder="Enter Input"
         type="date"
         formControlName="dateOfBirth"
+        [max]="getToday()"
       ></ion-input>
       <small *ngIf="dateOfBirth_FormControl.hasError('required') && dateOfBirth_FormControl.touched "><b style="color:red;">DOB is required</b></small>
     </div>

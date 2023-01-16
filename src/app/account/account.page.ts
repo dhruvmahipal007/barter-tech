@@ -23,13 +23,17 @@ export class AccountPage implements OnInit {
   qrCodeString = '';
   // scannedResults:any;
   // content_visibility='hidden';
-  zipped: boolean = true;
-  isBarCodeVisible: boolean = false;
+  zipped: boolean = false;
+  isBarCodeVisible: boolean = true;
   userData: any;
   isLoading: boolean;
   cartItemsLength:any=0;
   finalVariable:any="assets/account.svg";
-
+  temporaryVariable:any="assets/account.svg";
+urldata:any;
+whatson:any;
+aboutus:any;
+legal:any;
 
   constructor(
     private authService: AuthService,
@@ -117,7 +121,7 @@ export class AccountPage implements OnInit {
 
   ngOnInit(): void {
     // this.getData();
-
+    this.getURL();
     this.authService.badgeDataSubject.subscribe(res=>{
       console.log(res,"heelo");
       console.log(Object.keys(res),"byee");
@@ -143,17 +147,20 @@ export class AccountPage implements OnInit {
   }
   async openWhatson() {
     await Browser.open({
-      url: 'https://thestirlingarms.com.au/whats-on/stirling-specials',
+      // url: 'https://thestirlingarms.com.au/whats-on/stirling-specials',
+      url:this.whatson,
     });
   }
   async openAboutUs() {
     await Browser.open({
-      url: 'https://thestirlingarms.com.au/about-us/about-us',
+      // url: 'https://thestirlingarms.com.au/about-us/about-us',
+      url:this.aboutus,
     });
   }
   async openLegal() {
     await Browser.open({
-      url: 'https://thestirlingarms.com.au/stay/terms-conditions',
+      // url: 'https://thestirlingarms.com.au/stay/terms-conditions',
+      url:this.legal,
     });
   }
 
@@ -175,6 +182,22 @@ export class AccountPage implements OnInit {
     });
   }
 
+  getURL(){
+    this.authService.getUrl().subscribe({
+      next:(data:any)=>{
+        // console.log(data);
+        this.urldata=data.data
+        console.log(this.urldata);
+        this.whatson=this.urldata[0].whatson;
+        this.aboutus=this.urldata[0].about;
+        this.legal=this.urldata[0].ltc;
+      },
+      error:(err)=>{
+        console.log(err);
+      }
+    })
+  }
+
   getData() {
     this.global.showLoader('Loading Data');
     this.authService.getProfile().subscribe({
@@ -182,11 +205,14 @@ export class AccountPage implements OnInit {
         console.log(data);
         this.userData = data.data;
         this.finalVariable=data.data.imageUrl;
+        if(this.finalVariable===null){
+          this.finalVariable=this.temporaryVariable
+        }
         console.log(this.finalVariable);
         this.global.hideLoader();
         console.log(this.userData);
         localStorage.setItem('userNo', JSON.stringify(this.userData.mobileNo));
-        this.qrCodeString = this.userData.mobileNo;
+        this.qrCodeString = 'M'+(this.userData.mobileNo.split('').splice(2,12).toString().replaceAll(',',''));
       },
       error: (err) => {
         this.global.hideLoader();

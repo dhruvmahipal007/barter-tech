@@ -32,7 +32,7 @@ export class AuthService {
     return this.http.post<any>(this.url2 + '/register', data);
   }
   login(data) {
-    return this.http.post<any>(this.url + '/login', data);
+    return this.http.post<any>(this.url2 + '/login', data);
   }
   forgetPass(email: string) {
     let body = { email };
@@ -141,5 +141,17 @@ export class AuthService {
   }
   setProfilePhoto(data){
     return this.http.post(this.url2+'/profilePic',data);
+  }
+  getUrl(){
+    const params = new HttpParams().append('Merchant_Id', '45');
+    return this.http.get(this.url2+'/URLS',{params});
+  }
+  getCarouselImages(data){
+    let params=new HttpParams().append('merchant_id','45');
+    params=params.append('order_type',data.order_type);
+    return this.http.get(this.url2+'/CarouselImages',{params});
+  }
+  sendEmailInvoice(data){
+    return this.http.post(this.url2+'/sendInvoice',data);
   }
 }

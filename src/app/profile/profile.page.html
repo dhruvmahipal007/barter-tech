@@ -31,8 +31,9 @@
       <ion-input
         placeholder="Enter Mobile"
         formControlName="mobile"
-        type="number"
-        onKeyPress="if(this.value.length>=10) return false;"
+        type="tel"
+        maxlength="10"
+        onKeyPress="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
       ></ion-input>
       <small *ngIf="mobile_FormControl.hasError('required') && mobile_FormControl.touched "><b style="color:red;">Mobile No is required</b></small>
       <small *ngIf="mobile_FormControl.hasError('maxlength') && mobile_FormControl.touched "><b style="color:red;">Mobile No cannot be greater than 10</b></small>

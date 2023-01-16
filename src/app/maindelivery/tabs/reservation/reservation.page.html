@@ -41,9 +41,10 @@
     <div>
       <ion-label>MOBILE</ion-label>
       <ion-input
-        type="number"
+      type="tel"
+      maxlength="10"
+      onKeyPress="this.value = this.value.replace(/[^0-9]/g, '').replace(/(\..*)\./g, '$1');"
         placeholder="Enter Number"
-        onKeyPress="if(this.value.length>=10) return false;"
         formControlName="mobile"
       ></ion-input>
     </div>

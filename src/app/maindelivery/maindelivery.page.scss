@@ -1,9 +1,9 @@
 .top_tab {
   padding: 0;
   margin: 15px;
-  height: 38px;
+  height: 48px;
   box-shadow: 3px 3px 3px 0px rgb(0 0 0 / 75%);
-  width: 83vw;
+  width: 84vw;
 }
 .one {
   background-color: #fff;
@@ -114,4 +114,7 @@ ion-card-content img {
   z-index: 10;
   right: -3vw;
   color: black;
+}
+.size{
+  font-size: 13px;
 }

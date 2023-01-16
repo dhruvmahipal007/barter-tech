@@ -56,16 +56,42 @@ export class RegisterPage implements OnInit {
       this.device_manufacturer = val.manufacturer;
     });
   }
+  numberOnly(event){
+    console.log(event.target.value);
+  }
+  // numberOnly(event) {
+  //   // Check input length
+  //   if (event.target.value.length <=10) {
+  //     console.log("Input must be at least 10 characters long.");
+  //     return;
+  //   }
+  //   // Remove dots
+  //   event.target.value = event.target.value.replace(/\./g,'');
+  //   // Check if input is a number
+  //   if (!/^\d+$/.test(event.target.value)) {
+  //     console.log("Input must contain only numbers.");
+  //     return;
+  //   }
+  //   console.log("Input is valid.");
+  //   // Update the input field
+  //   let inputField = event.target
+  //   inputField.value = event.target.value;
+  // }
+
+
+  getToday():string{
+     return new Date().toISOString().split('T')[0];
+  }
 
   submitForm() {
     if (!this.validateForm1.valid) return;
     let data = {
-      firstName: this.firstName_FormControl.value,
+      name: this.firstName_FormControl.value,
       lastName: this.lastName_FormControl.value,
       email: this.email_FormControl.value,
-      mobile: '91' + this.mobile_FormControl.value,
+      mobileNo: '91' + this.mobile_FormControl.value,
       gender: this.gender_FormControl.value,
-      dateOfBirth: this.dateOfBirth_FormControl.value,
+      dob: this.dateOfBirth_FormControl.value,
       password: this.password_FormControl.value,
 
       merchant_id: 45,
@@ -94,7 +120,9 @@ export class RegisterPage implements OnInit {
         // }
       },
       (error) => {
-        this.toastService.presentToast(error);
+        console.log(error.error)
+        const {email  } = error.error
+        this.toastService.presentToast(email);
       }
     );
   }

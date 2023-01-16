@@ -19,10 +19,12 @@ ion-title {
 }
 #social_btn {
   display: flex;
-  position: absolute;
-  bottom: 3%;
+  position: fixed;
+  bottom: 0%;
   margin: 0 auto;
+  height: 10vh;
   width: 100%;
+  background-color: white;
 }
 
 // #social_btn .btn2 {

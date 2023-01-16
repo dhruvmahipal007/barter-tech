@@ -277,15 +277,18 @@ export class PaymentOptionPage implements OnInit {
         console.log(data);
         if(data){
           if(type=='Card'){
+            this.global.hideLoader();
             this.makePaymentWithStripe(data.data[0].merchOrderId,data.data[0].orderType);
             
         
           }
          else if(type=='Gpay'){
+          this.global.hideLoader();
           this.makePaymentWithGpay(data.data[0].merchOrderId,data.data[0].orderType);
             
           }
          else if(type=='ApplePay'){
+          this.global.hideLoader();
           this.makePaymentWithApplePay(data.data[0].merchOrderId,data.data[0].orderType);
            
           }
@@ -319,9 +322,10 @@ export class PaymentOptionPage implements OnInit {
         .toPromise(Promise)
         .then((res) => {
           //loader open
-          console.log(res);
+          console.log(res,'testing payment');
           this.global.showLoader('Loading Data');
-          this.callForStripePayment(res.data.client_secret).then((response) => {
+          console.log(res.data.paymentIntent.client_secret,'dhruvvv');
+          this.callForStripePayment(res.data.paymentIntent.client_secret).then((response) => {
             this.sendingConfirmation(res.data.paymentIntent.id, response,id,type);
           });
         })
@@ -334,7 +338,7 @@ export class PaymentOptionPage implements OnInit {
 
   async callForStripePayment(client_secret: any) {
     await Stripe.createPaymentSheet({
-      setupIntentClientSecret: client_secret,
+      paymentIntentClientSecret: client_secret,
       merchantDisplayName: 'Barter Tech',
     });
 
@@ -386,11 +390,11 @@ export class PaymentOptionPage implements OnInit {
           message: 'Please chose another payment method as Gpay is not available on this device',
           buttons: ['OK'],
         });
-        return;
+        return true; 
       }
 
       // Connect to your backend endpoint, and get paymentIntent.
-      this.http.post<{
+      await this.http.post<{
           paymentIntent: string;
           client_secret?: string;
           data?: any;
@@ -403,7 +407,7 @@ export class PaymentOptionPage implements OnInit {
         .then((res) => {
           //loader open
           this.global.showLoader('Loading Data');
-          this.callForGpayPayment(res.data.client_secret).then((response) => {
+          this.callForGpayPayment(res.data.paymentIntent.client_secret).then((response) => {
             this.sendingConfirmationForGpay(res.data.id, response,id,type);
           });
         })
@@ -481,7 +485,7 @@ this.global.hideLoader();
         .then((res) => {
           //loader start
           this.global.showLoader('Loading Data');
-          this.callForApplePayPayment(res.data.client_secret).then((response) => {
+          this.callForApplePayPayment(res.data.paymentIntent.client_secret).then((response) => {
             this.sendingConfirmationForApplePay(res.data.id, response,id,type);
           });
         })

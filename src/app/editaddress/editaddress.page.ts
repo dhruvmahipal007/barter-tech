@@ -91,18 +91,22 @@ export class EditaddressPage implements OnInit {
         suburb:this.editAddressForm.controls['zipcode'].value.suburb
       }
       console.log(obj);
+      this.global.showLoader(' Saving Data');
     this.authService.editAddress(obj).subscribe({
       next: (data) => {
         console.log(data);
         if (data.status) {
+          this.global.hideLoader();
           this.toastService.presentToast(data.message);
           this.editAddressForm.reset();
           this.router.navigate(['/manageaddress']);
         } else {
+          this.global.hideLoader();
           this.toastService.presentToast('Error in User Details');
         }
       },
       error: (err) => {
+        this.global.hideLoader();
         this.toastService.presentToast(err);
       },
     });
