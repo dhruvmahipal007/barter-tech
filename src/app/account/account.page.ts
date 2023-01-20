@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 import { Browser } from '@capacitor/browser';
-import { NavController } from '@ionic/angular';
+import { LoadingController, NavController ,ToastController } from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { GlobalService } from '../services/global.service';
 import { ToastService } from '../services/toast.service';
@@ -14,12 +14,25 @@ import { ProfilephotooptionComponent } from '../components/profilephotooption/pr
 import { ImagePicker, ImagePickerOptions } from '@awesome-cordova-plugins/image-picker/ngx';
 import { WebView } from '@awesome-cordova-plugins/ionic-webview/ngx';
 import { Capacitor } from '@capacitor/core';
+import {Camera,CameraResultType,CameraSource,Photo} from '@capacitor/camera';
+import {Directory, Filesystem} from '@capacitor/filesystem';
+import { read } from 'fs';
+import { finalize } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
+const IMAGE_DIR='stored-images';
+interface LocalFile{
+  name:string;
+  path:string;
+  data:string;
+}
 @Component({
   selector: 'app-account',
   templateUrl: './account.page.html',
   styleUrls: ['./account.page.scss'],
 })
 export class AccountPage implements OnInit {
+  images:LocalFile[]=[];
+
   qrCodeString = '';
   // scannedResults:any;
   // content_visibility='hidden';
@@ -30,10 +43,11 @@ export class AccountPage implements OnInit {
   cartItemsLength:any=0;
   finalVariable:any="assets/account.svg";
   temporaryVariable:any="assets/account.svg";
-urldata:any;
-whatson:any;
-aboutus:any;
-legal:any;
+  urldata:any;
+  whatson:any;
+  aboutus:any;
+  legal:any;
+  photoVariable:any="assets/account.svg";
 
   constructor(
     private authService: AuthService,
@@ -47,6 +61,9 @@ legal:any;
     private modalController: ModalController,
     private imagePicker:ImagePicker,
     private webview:WebView,
+    private loadingCtrl:LoadingController,
+    private toastCtrl: ToastController,
+    private http: HttpClient,
     
   ) {
     this.platform.ready().then(() => {
@@ -121,6 +138,7 @@ legal:any;
 
   ngOnInit(): void {
     // this.getData();
+    this.loadFiles();
     this.getURL();
     this.authService.badgeDataSubject.subscribe(res=>{
       console.log(res,"heelo");
@@ -149,18 +167,21 @@ legal:any;
     await Browser.open({
       // url: 'https://thestirlingarms.com.au/whats-on/stirling-specials',
       url:this.whatson,
+      // url:'http://demo.orderpoint.net.au/l',
     });
   }
   async openAboutUs() {
     await Browser.open({
       // url: 'https://thestirlingarms.com.au/about-us/about-us',
       url:this.aboutus,
+      // url:'http://demo.orderpoint.net.au/about',
     });
   }
   async openLegal() {
     await Browser.open({
       // url: 'https://thestirlingarms.com.au/stay/terms-conditions',
       url:this.legal,
+      // url:'http://demo.orderpoint.net.au/w',
     });
   }
 
@@ -169,7 +190,8 @@ legal:any;
       this.authService
         .logout()
         .then(() => {
-          this.navCtrl.navigateRoot('/login');
+          // this.navCtrl.navigateRoot('/login');
+          this.router.navigate(['/login']);
           this.global.hideLoader();
           this.authService.couponSubject.next({});
         })
@@ -204,11 +226,11 @@ legal:any;
       next: (data: any) => {
         console.log(data);
         this.userData = data.data;
-        this.finalVariable=data.data.imageUrl;
-        if(this.finalVariable===null){
-          this.finalVariable=this.temporaryVariable
-        }
-        console.log(this.finalVariable);
+        // this.photoVariable=data.data.imageUrl;
+        // if(this.photoVariable===null){
+        //   this.photoVariable=this.temporaryVariable
+        // }
+        // console.log(this.photoVariable);
         this.global.hideLoader();
         console.log(this.userData);
         localStorage.setItem('userNo', JSON.stringify(this.userData.mobileNo));
@@ -226,45 +248,184 @@ legal:any;
     this.authService.accountSubject.next(this.userData);
     this.router.navigate(['/profile']);
   }
-  openImagePicker(){
-    this.imagePicker.hasReadPermission().then(res=>{
-      console.log('permission status = ',res);
-      if(res ==false){
-        this.imagePicker.requestReadPermission().then(res1=>{
-          console.log('requested permission status =',res1);
-        })
-      }
-      else{
-        let options:ImagePickerOptions={
-          maximumImagesCount:1
-        }
-        this.imagePicker.getPictures(options).then(result=>{
-          console.log('selected photos =',result[0])
+  // openImagePicker(){
+  //   this.imagePicker.hasReadPermission().then(res=>{
+  //     console.log('permission status = ',res);
+  //     if(res ==false){
+  //       this.imagePicker.requestReadPermission().then(res1=>{
+  //         console.log('requested permission status =',res1);
+  //       })
+  //     }
+  //     else{
+  //       let options:ImagePickerOptions={
+  //         maximumImagesCount:1,
+  //         quality: 32,
+  //         outputType: 1,
+  //         width: 220,
+  //       }
+  //       this.imagePicker.getPictures(options).then(result=>{
+  //         console.log('selected photos =',result[0])
 
-          if(result!=null){
-            // this.finalVariable=Capacitor.convertFileSrc(result);
-            // console.log(this.finalVariable);
-           this.finalVariable=this.webview.convertFileSrc(result[0]);
-           let obj={
-            imageurl:this.finalVariable
-           }
-           this.authService.setProfilePhoto(obj).subscribe({
-            next:(data)=>{
-             console.log(data);
-            },
-            error:(err)=>{
-             console.log(err);
-            }
-           })
-           localStorage.setItem('finalVariable',JSON.stringify(this.finalVariable));
-          console.log(this.finalVariable);
-          }
-          else{
-            console.log('result is empty');
-          }
-        })
-      }
-    })
+  //         if(result!=null){
+  //           // this.finalVariable=Capacitor.convertFileSrc(result);
+  //           // console.log(this.finalVariable);
+  //          this.finalVariable=this.webview.convertFileSrc('data:image/jpeg;base64,'+result[0]);
+  //          console.log(this.finalVariable);
+  //          let obj={
+  //           imageurl:this.finalVariable
+  //          }
+  //          this.authService.setProfilePhoto(obj).subscribe({
+  //           next:(data)=>{
+  //            console.log(data);
+  //           },
+  //           error:(err)=>{
+  //            console.log(err);
+  //           }
+  //          })
+  //          localStorage.setItem('finalVariable',JSON.stringify(this.finalVariable));
+  //         console.log(this.finalVariable);
+  //         }
+  //         else{
+  //           console.log('result is empty');
+  //         }
+  //       })
+  //     }
+  //   })
+
+  // }
+
+  async selectImage(){
+    const image=await Camera.getPhoto({
+      quality:90,
+      allowEditing:false,
+      resultType:CameraResultType.Uri,
+      source:CameraSource.Photos
+    });
+    if(image){
+this.saveImage(image);
+
+
+    }
+  }
+
+  async saveImage(photo:Photo){
+    const base64Data=await this.readAsBase64(photo);
+    console.log(base64Data);
+    const fileName=new Date().getTime() + '.jpeg';
+    const savedFile=await Filesystem.writeFile({
+      directory:Directory.Data,
+      path:`${IMAGE_DIR}/${fileName}`,
+      data:base64Data
+    });
+ console.log('saved: ',savedFile);
+ this.loadFiles();
 
   }
+  async readAsBase64(photo:Photo){
+    if(this.platform.is('hybrid')){
+      const file=await Filesystem.readFile({
+        path:photo.path
+      });
+      return file.data
+    }
+    else{
+      const response=await fetch(photo.webPath);
+      const blob=await response.blob();
+      return await this.convertBlobToBase64(blob) as string;
+    }
+  }
+  convertBlobToBase64=(blob:Blob)=>new Promise((resolve,reject)=>{
+    const reader=new FileReader;
+    reader.onerror=reject;
+    reader.onload=()=>{
+      resolve(reader.result)
+    };
+    reader.readAsDataURL(blob);
+  });
+
+  async loadFiles(){
+  this.images=[];
+  const loading=await this.loadingCtrl.create({
+    message:'Loading data ...'
+  });
+  await loading.present();
+
+  Filesystem.readdir({
+    directory:Directory.Data,
+    path:IMAGE_DIR
+  }).then(result=>{
+    console.log('HERE: ',result);
+   this.loadFileData(result.files)
+  },async err=>{
+    console.log('err: ',err);
+    await Filesystem.mkdir({
+      directory:Directory.Data,
+      path:IMAGE_DIR
+    });
+  }).then(_=>{
+    loading.dismiss();
+  })
+
+  }
+
+  async loadFileData(fileNames:any[]){
+    for (let f of fileNames){
+      console.log(f,'dhruv');
+      const filePath=`${IMAGE_DIR}/${f.name}`;
+      const readFile=await Filesystem.readFile({
+        directory:Directory.Data,
+        path:filePath
+      });
+      console.log('Read: ',readFile);
+      this.images.push({
+        name:f,
+        path:filePath,
+        data:`data:image/jpeg;base64,${readFile.data}`
+      });
+      console.log(this.images);
+      this.photoVariable=this.images[this.images.length-1].data;
+      console.log(this.photoVariable);
+    }
+    // this.startUpload(fileNames[fileNames.length-1]);
+  }
+
+  async startUpload(file: LocalFile) {
+    const response = await fetch(file.data);
+    const blob = await response.blob();
+    const formData = new FormData();
+    formData.append('imageurl', blob, file.name);
+    // this.uploadData(formData);
+}
+async uploadData(formData: FormData) {
+  const loading = await this.loadingCtrl.create({
+      message: 'Uploading image...',
+  });
+  await loading.present();
+
+  // Use your own API!
+  const url = 'https://barter-tech.antino.ca/api/profilePic';
+
+  this.http.post(url, formData)
+      .pipe(
+          finalize(() => {
+              loading.dismiss();
+          })
+      )
+      .subscribe(res => {
+          if (res['success']) {
+              this.presentToast('File upload complete.')
+          } else {
+              this.presentToast('File upload failed.')
+          }
+      });
+}
+async presentToast(text) {
+  const toast = await this.toastCtrl.create({
+    message: text,
+    duration: 3000
+  });
+  toast.present();
+}
+
+
 }

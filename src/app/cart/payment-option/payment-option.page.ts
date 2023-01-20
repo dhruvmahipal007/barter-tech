@@ -398,21 +398,23 @@ export class PaymentOptionPage implements OnInit {
           paymentIntent: string;
           client_secret?: string;
           data?: any;
+          merchantDisplayName?: string;
         }>('https://barter-tech.antino.ca/api/createIntent', {
           amount: this.takeAwayPrice * 100,
           currency: 'inr',
           payment_method_types: ['card'],
+          merchantDisplayName : 'Order Point',
         })
         .toPromise(Promise)
         .then((res) => {
           //loader open
-          this.global.showLoader('Loading Data');
+          // this.global.showLoader('Loading Data');
           this.callForGpayPayment(res.data.paymentIntent.client_secret).then((response) => {
             this.sendingConfirmationForGpay(res.data.id, response,id,type);
           });
         })
         .catch((err) => {
-          this.global.hideLoader();
+          // this.global.hideLoader();
           console.log(err);
         });
     })();
@@ -424,7 +426,7 @@ export class PaymentOptionPage implements OnInit {
       // merchantDisplayName: 'Barter Tech',
     });
 //loader close
-this.global.hideLoader();
+// this.global.hideLoader();
     // Present Google Pay
     const result = await Stripe.presentGooglePay();
 
@@ -503,7 +505,7 @@ this.global.hideLoader();
         label : 'Order',
         amount: this.takeAwayPrice * 100
       }],
-      merchantIdentifier: 'Barter Tech',
+      merchantIdentifier: 'merchant.net.orderpoint.customerapp',
       countryCode: 'IN',
       currency: 'INR'
     });

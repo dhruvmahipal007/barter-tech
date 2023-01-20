@@ -37,6 +37,7 @@
   margin-top: 12px;
   margin-bottom: 12px;
   padding-left: 10px !important;
+  appearance: none;
 }
 
 .button {
@@ -79,4 +80,12 @@ ion-title {
 .required:after {
   content:" *";
   color: red;
+}
+#form ion-input[type="date"]
+{
+    // display:block;
+    // -webkit-appearance: textfield;
+    // -moz-appearance: textfield;
+    // min-height: 1.2em;
+    min-height: 48px;
 }

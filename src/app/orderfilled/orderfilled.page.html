@@ -27,10 +27,10 @@
       <ion-col size="12"><p>BILL DETAILS</p></ion-col>
     </ion-row>
     <hr class="hr" />
-    <ion-row id="second_row" *ngFor="let data of userOrderDetails?.menu">
+    <ion-row id="second_row" *ngFor="let data of userOrderDetails?.menu.OrderData;let i=index">
       <ion-col size="9.5"
         ><p>
-          {{data.menuitem_name}} * {{data.Quantity | number: '0.2-2'}}
+        {{i+1}}){{data.menuitem_name}} * {{data.Quantity | number: '0.2-2'}}
         </p></ion-col
       >
       <ion-col size="2.5"
@@ -38,6 +38,11 @@
           ${{data.default_Price *data.Quantity | number: '0.2-2'}}
         </p></ion-col
       >
+      <ng-container *ngFor="let item of data.menuOptions">
+        <ion-col size="9.5">{{item.optionGroupItemName}}</ion-col>
+        <ion-col size="2.5"> ${{item.AdditionalCost| number: '0.2-2'}}</ion-col>
+      </ng-container>
+
     </ion-row>
     <hr class="hr" />
     <ion-row id="third_row">

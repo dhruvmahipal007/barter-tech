@@ -32,6 +32,7 @@ export class OrdersPage implements OnInit {
     this.global.showLoader('Loading Data');
     this.authService.getMyOrders().subscribe({
       next: (data: any) => {
+        console.log(data);
         if (data.status) {
           this.userOrder = data.data;
           this.global.hideLoader();

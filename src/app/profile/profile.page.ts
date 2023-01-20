@@ -76,7 +76,7 @@ export class ProfilePage implements OnInit {
       name: this.name_FormControl.value,
       gender: this.gender_FormControl.value,
       email: this.email_FormControl.value,
-      anniversary: this.anniversary_FormControl.value,
+      anniversary_date: this.anniversary_FormControl.value,
       mobile: '91'+this.mobile_FormControl.value,
       dateOfbirth: this.dateOfBirth_FormControl.value,
     };

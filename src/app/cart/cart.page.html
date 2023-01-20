@@ -24,7 +24,8 @@
       <ion-row *ngFor="let item of cartItems; let index = index">
         <ion-col size="8" id="first">
           <div id="item_name">
-            <ion-badge color="success">V</ion-badge>
+            <ion-badge color="success" *ngIf="item.vegOrNonVeg=='V'">V</ion-badge>
+            <ion-badge color="danger" *ngIf="item.vegOrNonVeg=='N'">N</ion-badge>
             <h3>{{item.menuItemName}}</h3>
           </div>
           <p>${{item.unitPrice}}</p>

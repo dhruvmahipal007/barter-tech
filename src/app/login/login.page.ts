@@ -5,7 +5,7 @@ import {
   Validators,
   FormControl,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Device } from '@capacitor/device';
 import { AuthService } from '../services/auth.service';
 import { StorageService } from '../services/storage.service';
@@ -46,8 +46,14 @@ export class LoginPage implements OnInit {
     private router: Router,
     private toastService: ToastService,
     private storage: StorageService,
-    private http: HttpClient
+    private http: HttpClient,
+    private _route: ActivatedRoute,
   ) {
+    // this._route.params.subscribe((res) => {
+    //   // console.log(res);
+    //   // console.log(this.router.url);
+    //   this.authService.getFCMTOKEN();
+    // });
     this.validateForm = this.fb.group({
       email: [
         null,
@@ -114,13 +120,20 @@ export class LoginPage implements OnInit {
   ngOnInit() {
     this.isLoggedIn();
     this.getDeviceInfo();
+    this.authService.getFCMTOKEN();
   }
   getDeviceInfo() {
     Device.getInfo().then((val: any) => {
       this.device_model = val.model;
       this.device_platform = val.platform;
       this.device_uuid = val.uuid;
+      if(this.device_uuid==undefined){
+        this.device_uuid='ND'
+      }
       this.device_version = val.appVersion;
+      if(this.device_version==undefined){
+        this.device_version='ND'
+      }
       this.device_manufacturer = val.manufacturer;
     });
   }

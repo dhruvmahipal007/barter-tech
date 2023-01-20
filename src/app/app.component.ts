@@ -153,67 +153,67 @@ export class AppComponent implements OnInit {
     // Request permission to use push notifications
     // iOS will prompt user and return if they granted permission or not
     // Android will just grant without prompting
-    PushNotifications.requestPermissions().then((result) => {
-      console.log('starting', result);
-      if (result.receive === 'granted') {
-        // Register with Apple / Google to receive push via APNS/FCM
-        PushNotifications.register();
-      } else {
-        // Show some error
-      }
-    });
+  //   PushNotifications.requestPermissions().then((result) => {
+  //     console.log('starting', result);
+  //     if (result.receive === 'granted') {
+  //       // Register with Apple / Google to receive push via APNS/FCM
+  //       PushNotifications.register();
+  //     } else {
+  //       // Show some error
+  //     }
+  //   });
 
-    PushNotifications.addListener('registration', (token: Token) => {
-      this.token = token.value;
-      console.log(this.token + 'token value');
-      localStorage.setItem('fcm_token', JSON.stringify(this.token));
-      //alert('Push registration success, token: ' + token.value);
-    });
+  //   PushNotifications.addListener('registration', (token: Token) => {
+  //     this.token = token.value;
+  //     console.log(this.token + 'token value');
+  //     localStorage.setItem('fcm_token', JSON.stringify(this.token));
+  //     //alert('Push registration success, token: ' + token.value);
+  //   });
 
-    PushNotifications.addListener('registrationError', (error: any) => {
-     // alert('Error on registration: ' + JSON.stringify(error));
-    });
+  //   PushNotifications.addListener('registrationError', (error: any) => {
+  //    // alert('Error on registration: ' + JSON.stringify(error));
+  //   });
 
 
-    PushNotifications.addListener('pushNotificationReceived', async (notification: PushNotificationSchema) => {
-      await (
-          await this._alertController.create({
-              header: notification.title,
-              message: notification.body,
-              buttons: ['Close']
-          })
-      ).present();
-  });
+  //   PushNotifications.addListener('pushNotificationReceived', async (notification: PushNotificationSchema) => {
+  //     await (
+  //         await this._alertController.create({
+  //             header: notification.title,
+  //             message: notification.body,
+  //             buttons: ['Close']
+  //         })
+  //     ).present();
+  // });
 
-    // PushNotifications.addListener(
-    //   'pushNotificationReceived',
-    //   (notification: PushNotificationSchema) => {
-    //     alert('Push received: ' + JSON.stringify(notification));
-    //   }
-    // );
-    // PushNotifications.addListener(
-    //   'pushNotificationReceived',
-    //   async (notification: PushNotificationSchema) => {
-    //     let not: ScheduleOptions = {
-    //       notifications: [
-    //         {
-    //           id: Date.now(),
-    //           body: notification.body,
-    //           title: notification.title,
-    //           ongoing: false,
-    //         },
-    //       ],
-    //     };
-    //     const result = await LocalNotifications.schedule(not);
-    //     console.log(result);
-    //   }
-    // );
+  //   // PushNotifications.addListener(
+  //   //   'pushNotificationReceived',
+  //   //   (notification: PushNotificationSchema) => {
+  //   //     alert('Push received: ' + JSON.stringify(notification));
+  //   //   }
+  //   // );
+  //   // PushNotifications.addListener(
+  //   //   'pushNotificationReceived',
+  //   //   async (notification: PushNotificationSchema) => {
+  //   //     let not: ScheduleOptions = {
+  //   //       notifications: [
+  //   //         {
+  //   //           id: Date.now(),
+  //   //           body: notification.body,
+  //   //           title: notification.title,
+  //   //           ongoing: false,
+  //   //         },
+  //   //       ],
+  //   //     };
+  //   //     const result = await LocalNotifications.schedule(not);
+  //   //     console.log(result);
+  //   //   }
+  //   // );
 
-    PushNotifications.addListener(
-      'pushNotificationActionPerformed',
-      (notification: ActionPerformed) => {
-       // alert('Push action performed: ' + JSON.stringify(notification));
-      }
-    );
+  //   PushNotifications.addListener(
+  //     'pushNotificationActionPerformed',
+  //     (notification: ActionPerformed) => {
+  //      // alert('Push action performed: ' + JSON.stringify(notification));
+  //     }
+  //   );
   }
 }

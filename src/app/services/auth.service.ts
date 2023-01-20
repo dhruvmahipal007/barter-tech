@@ -5,11 +5,19 @@ import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { StorageService } from './storage.service';
 import { BehaviorSubject } from 'rxjs';
-
+import {
+  ActionPerformed,
+  PushNotificationSchema,
+  PushNotifications,
+  Token,
+  
+} from '@capacitor/push-notifications';
+import { AlertController } from '@ionic/angular';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  token: string = '';
   url: string = environment.serverUrl;
   url2: string = 'https://barter-tech.antino.ca/api';
   // url3: string =
@@ -25,7 +33,8 @@ export class AuthService {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private storage: StorageService
+    private storage: StorageService,
+    private _alertController: AlertController,
   ) {}
 
   registerUser(data): Observable<any> {
@@ -153,5 +162,70 @@ export class AuthService {
   }
   sendEmailInvoice(data){
     return this.http.post(this.url2+'/sendInvoice',data);
+  }
+
+  getFCMTOKEN(){
+    PushNotifications.requestPermissions().then((result) => {
+      console.log('starting', result);
+      if (result.receive === 'granted') {
+        // Register with Apple / Google to receive push via APNS/FCM
+        PushNotifications.register();
+      } else {
+        // Show some error
+      }
+    });
+
+    PushNotifications.addListener('registration', (token: Token) => {
+      this.token = token.value;
+      console.log(this.token + 'token value');
+      localStorage.setItem('fcm_token', JSON.stringify(this.token));
+      //alert('Push registration success, token: ' + token.value);
+    });
+
+    PushNotifications.addListener('registrationError', (error: any) => {
+     // alert('Error on registration: ' + JSON.stringify(error));
+    });
+
+
+    PushNotifications.addListener('pushNotificationReceived', async (notification: PushNotificationSchema) => {
+      await (
+          await this._alertController.create({
+              header: notification.title,
+              message: notification.body,
+              buttons: ['Close']
+          })
+      ).present();
+  });
+
+    // PushNotifications.addListener(
+    //   'pushNotificationReceived',
+    //   (notification: PushNotificationSchema) => {
+    //     alert('Push received: ' + JSON.stringify(notification));
+    //   }
+    // );
+    // PushNotifications.addListener(
+    //   'pushNotificationReceived',
+    //   async (notification: PushNotificationSchema) => {
+    //     let not: ScheduleOptions = {
+    //       notifications: [
+    //         {
+    //           id: Date.now(),
+    //           body: notification.body,
+    //           title: notification.title,
+    //           ongoing: false,
+    //         },
+    //       ],
+    //     };
+    //     const result = await LocalNotifications.schedule(not);
+    //     console.log(result);
+    //   }
+    // );
+
+    PushNotifications.addListener(
+      'pushNotificationActionPerformed',
+      (notification: ActionPerformed) => {
+       // alert('Push action performed: ' + JSON.stringify(notification));
+      }
+    );
   }
 }

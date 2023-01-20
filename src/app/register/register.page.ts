@@ -11,11 +11,14 @@ import { AuthService } from '../services/auth.service';
 import { Device } from '@capacitor/device';
 import { StorageService } from '../services/storage.service';
 import { ToastService } from '../services/toast.service';
+import { AlertController } from '@ionic/angular';
+import { GlobalService } from 'src/app/services/global.service';
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
   styleUrls: ['./register.page.scss'],
 })
+
 export class RegisterPage implements OnInit {
   device_model: any;
   device_platform: any;
@@ -31,13 +34,15 @@ export class RegisterPage implements OnInit {
     private fb: FormBuilder,
     private toastService: ToastService,
     private storage: StorageService,
-    private router: Router
+    private router: Router,
+    private _alertController: AlertController,
+    private global: GlobalService,
   ) {
     this.validateForm1 = this.fb.group({
       firstName: [null, [Validators.required]],
       lastName: [null, [Validators.required]],
       email: [null, [Validators.required, Validators.pattern(this.emailPattern)],],
-      password: [null, [Validators.required]],
+      password: [null, [Validators.required,Validators.minLength(6)]],
       gender: [null],
       mobile: [null, [Validators.required,Validators.maxLength(10)]],
       dateOfBirth: [null, [Validators.required]],
@@ -46,13 +51,20 @@ export class RegisterPage implements OnInit {
 
   ngOnInit() {
     this.getDeviceInfo();
+    this.authService.getFCMTOKEN();
   }
   getDeviceInfo() {
     Device.getInfo().then((val: any) => {
       this.device_model = val.model;
       this.device_platform = val.platform;
       this.device_uuid = val.uuid;
+      if(this.device_uuid==undefined){
+        this.device_uuid='ND'
+      }
       this.device_version = val.appVersion;
+      if(this.device_version==undefined){
+        this.device_version='ND'
+      }
       this.device_manufacturer = val.manufacturer;
     });
   }
@@ -95,18 +107,20 @@ export class RegisterPage implements OnInit {
       password: this.password_FormControl.value,
 
       merchant_id: 45,
-      // device_model: this.device_model,
-      // device_platform: this.device_platform,
-      // device_uuid: this.device_uuid,
-      // device_version: this.device_version,
-      // device_manufacturer: this.device_manufacturer,
-      // registration_token: JSON.parse(localStorage.getItem('fcm_token')),
+      device_model: this.device_model,
+      device_platform: this.device_platform,
+      device_uuid: this.device_uuid,
+      device_version: this.device_version,
+      device_manufacturer: this.device_manufacturer,
+      registration_token: JSON.parse(localStorage.getItem('fcm_token')),
     };
 
     console.log('-----------------data signup-----------', data);
+    this.global.showLoader('Registering');
     this.authService.registerUser(data).subscribe(
       (res) => {
         if (res.status) {
+          this.global.hideLoader();
           // this.storage.store('token', res.data[0].data.token);
           // this.storage.store('userDetails', res.data[0].data);
           localStorage.setItem('token', res.data[0].data.token);
@@ -120,6 +134,7 @@ export class RegisterPage implements OnInit {
         // }
       },
       (error) => {
+        this.global.hideLoader();
         console.log(error.error)
         const {email  } = error.error
         this.toastService.presentToast(email);
