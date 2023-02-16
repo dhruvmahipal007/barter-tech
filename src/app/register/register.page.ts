@@ -13,6 +13,7 @@ import { StorageService } from '../services/storage.service';
 import { ToastService } from '../services/toast.service';
 import { AlertController } from '@ionic/angular';
 import { GlobalService } from 'src/app/services/global.service';
+import { matchValidator } from '../validators/match.validator';
 @Component({
   selector: 'app-register',
   templateUrl: './register.page.html',
@@ -42,11 +43,13 @@ export class RegisterPage implements OnInit {
       firstName: [null, [Validators.required]],
       lastName: [null, [Validators.required]],
       email: [null, [Validators.required, Validators.pattern(this.emailPattern)],],
-      password: [null, [Validators.required,Validators.minLength(6)]],
+      password: ['', [Validators.required,Validators.minLength(6)]],
+      confirmPassword: ['', [Validators.required,Validators.minLength(6)]],
       gender: [null],
       mobile: [null, [Validators.required,Validators.maxLength(10)]],
       dateOfBirth: [null, [Validators.required]],
-    });
+    },
+    { validators: matchValidator('password', 'confirmPassword') });
   }
 
   ngOnInit() {
@@ -101,12 +104,12 @@ export class RegisterPage implements OnInit {
       name: this.firstName_FormControl.value,
       lastName: this.lastName_FormControl.value,
       email: this.email_FormControl.value,
-      mobileNo: '91' + this.mobile_FormControl.value,
+      mobileNo: '+61' + this.mobile_FormControl.value,
       gender: this.gender_FormControl.value,
       dob: this.dateOfBirth_FormControl.value,
       password: this.password_FormControl.value,
 
-      merchant_id: 45,
+      merchant_id: 68,
       device_model: this.device_model,
       device_platform: this.device_platform,
       device_uuid: this.device_uuid,
@@ -164,5 +167,8 @@ export class RegisterPage implements OnInit {
   }
   get gender_FormControl(): FormControl | null {
     return (this.validateForm1?.get('gender') as FormControl) ?? null;
+  }
+  get confirmpassword_FormControl(): FormControl | null {
+    return (this.validateForm1?.get('confirmPassword') as FormControl) ?? null;
   }
 }

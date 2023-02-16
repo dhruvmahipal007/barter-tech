@@ -33,7 +33,7 @@
     <div style="margin-top: 10px">
       <div class="card-middle" style="justify-content: space-evenly;">
         <div style="position: relative;"><img src="{{ photoVariable }}"  class="image-header"  />
-        <ion-button (click)="selectImage()" fill="clear" class="uploadButton" ><ion-icon name="cloud-upload-outline"></ion-icon></ion-button>
+        <ion-button (click)="selectImage()" fill="clear" [ngClass]="this.images.length==1?'hideuploadButton':'uploadButton'" ><ion-icon name="cloud-upload-outline"></ion-icon></ion-button>
       </div>
         <div style="display: flex;
         flex-direction: column;
@@ -157,7 +157,7 @@
       </ion-button>
     </div>
     <hr class="hr" />
-    <div class="card-middle" routerLink="/contactus">
+    <div class="card-middle" (click)="openContactUs(userData)">
       <h4 style="margin-left: 10px">Contact Us</h4>
       <ion-button class="button-arrow" fill="clear" >
         <!-- <span class="font-bold text-sm">></span> -->
@@ -173,6 +173,13 @@
           style="transform: rotate(90deg); font-size: 16px"
           >></span
         > -->
+        <ion-icon name="chevron-forward"></ion-icon>
+      </ion-button>
+    </div>
+    <hr class="hr" />
+    <div class="card-middle" (click)="openAccountPrivacy()">
+      <h4 style="margin-left: 10px">Account Privacy</h4>
+      <ion-button class="button-arrow" fill="clear" >
         <ion-icon name="chevron-forward"></ion-icon>
       </ion-button>
     </div>

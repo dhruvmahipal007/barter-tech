@@ -19,6 +19,8 @@ import {
 import { Plugins, registerWebPlugin } from '@capacitor/core';
 import { HTTP } from '@awesome-cordova-plugins/http/ngx';
 import { HttpClient } from '@angular/common/http';
+import {SignInWithApple, SignInWithAppleOptions, SignInWithAppleResponse} from '@capacitor-community/apple-sign-in'
+import { AlertController } from '@ionic/angular';
 
 
 @Component({
@@ -29,6 +31,7 @@ import { HttpClient } from '@angular/common/http';
 export class LoginPage implements OnInit {
   token: any;
   user = null;
+  userData:any;
   device_model: any;
   device_platform: any;
   device_uuid: any;
@@ -38,7 +41,7 @@ export class LoginPage implements OnInit {
   registration_id: any;
   validateForm: FormGroup;
   emailPattern = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-z]{2,4}$';
-  
+  showAppleSignIn:any;
 
   constructor(
     private fb: FormBuilder,
@@ -48,6 +51,7 @@ export class LoginPage implements OnInit {
     private storage: StorageService,
     private http: HttpClient,
     private _route: ActivatedRoute,
+    private alertController: AlertController
   ) {
     // this._route.params.subscribe((res) => {
     //   // console.log(res);
@@ -124,6 +128,7 @@ export class LoginPage implements OnInit {
   }
   getDeviceInfo() {
     Device.getInfo().then((val: any) => {
+      this.showAppleSignIn = val.platform === 'ios';
       this.device_model = val.model;
       this.device_platform = val.platform;
       this.device_uuid = val.uuid;
@@ -174,6 +179,79 @@ export class LoginPage implements OnInit {
     
 
     
+  }
+  loginwithapple(){
+    // const firebaseConfig = {
+    //   apiKey: "AIzaSyCHZgwYrB8VAgwGe4C7DkRT0P8yGDXUIPk",
+    //   authDomain: "barter-tech.firebaseapp.com",
+    //   projectId: "barter-tech",
+    //   storageBucket: "barter-tech.appspot.com",
+    //   messagingSenderId: "737194284758",
+    //   appId: "1:737194284758:web:41f0e720a9da6cd7ef5b77",
+    //   measurementId: "G-CDJZC6XDGS"
+    // };
+    this.router.navigate(['/signinapple']);
+    // this.signInWithAppleNative();
+    
+  }
+  signInWithAppleNative(){
+    let options:SignInWithAppleOptions={
+      clientId: 'com.bartertech.app ',
+      redirectURI: 'https://barter-tech.firebaseapp.com/__/auth/handler',
+      scopes:'email',
+      state:'12345'
+    };
+    SignInWithApple.authorize(options).then((result:SignInWithAppleResponse)=>{
+      console.log('RESULT: ',result);
+      if (result.response && result.response.identityToken) {
+        this.userData = result.response;
+        const obj = {
+          login_type: 'social',
+          email: this.userData.email,
+          social_id: this.userData.identityToken,
+          name: this.userData.givenName,
+        };
+        console.log(obj);
+    this.authService.login(obj).subscribe({
+      next: (data) => {
+        console.log(data);
+        if (data.status) {
+          localStorage.setItem(
+            'token',
+            data.data.userToken.original.access_token
+          );
+          localStorage.setItem(
+            'userDetails',
+            JSON.stringify(data.data.UserData)
+          );
+          // this.storage.store('userDetails', data.data.UserData);
+          this.toastService.presentToast(data.message);
+          this.router.navigate(['/account']);
+        } else {
+          this.toastService.presentToast('something went wrong');
+        }
+      },
+      error: (err) => {
+        this.toastService.presentToast(err);
+        console.log(err.statusText);
+      },
+    });
+
+      } else {
+        this.presentAlert();
+      }
+    }).catch((response)=>{
+      this.presentAlert();
+    })
+  }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      header: 'Login Failed',
+      message: 'Please try again later',
+      buttons: ['OK'],
+    });
+    await alert.present();
   }
 
   async getCurrentToken(){
@@ -285,7 +363,7 @@ console.log(obj);
           this.router.navigate(['/account']);
           this.validateForm.reset();
         } else {
-          this.toastService.presentToast('Credentials are Incorrect');
+          this.toastService.presentToast(data.message);
         }
       },
       error: (err) => {

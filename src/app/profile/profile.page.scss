@@ -33,6 +33,14 @@
   padding-left: 10px !important;
 }
 
+#form ion-datetime{
+  border: 2px solid #000;
+  margin: 0;
+  margin-top: 12px;
+  margin-bottom: 12px;
+  padding-left: 10px !important;
+}
+
 #form ion-select {
   border: 2px solid #000;
   margin: 0;
@@ -71,3 +79,15 @@ ion-title {
   content:" *";
   color: red;
 }
+// ion-modal {
+//   &.center {
+//     --width: calc(100% - 2em);
+//     align-items: center;
+//     --height: auto;
+//     .ion-page {
+//       position: relative;
+//       display: block;
+//       contain: content;
+//     }
+//   }
+// }

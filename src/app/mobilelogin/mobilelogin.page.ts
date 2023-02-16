@@ -38,7 +38,7 @@ export class MobileloginPage implements OnInit {
       this.isLoading = true;
       this.mobileLoginForm.get('mobile').disable();
       let obj = {
-        mobileNo: '91' + this.mobile_FormControl.value,
+        mobileNo: '+61' + this.mobile_FormControl.value,
       };
       console.log(obj);
       this.authService.requestOtp(obj).subscribe({

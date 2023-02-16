@@ -1,19 +1,19 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Barter</string>
-    <string name="title_activity_main">Barter</string>
-    <string name="package_name">io.ionic.starter</string>
-    <string name="custom_url_scheme">io.ionic.starter</string>
+    <string name="app_name">Stirling Arms Hotel App</string>
+    <string name="title_activity_main">Stirling Arms Hotel App</string>
+    <string name="package_name">com.bartertech.app</string>
+    <string name="custom_url_scheme">com.bartertech.app</string>
 
     <string name="server_client_id">737194284758-c9eutvgthupd9qhjoqa350vhj95n3aka.apps.googleusercontent.com</string>
-    <string name="publishable_key">pk_test_51MBdEcSF30jh4yGpir3CLpJIEJvWnNJuqmTwVuxahkANEYzXRzgx8iveT6mI9BK7wMbrfO8oAexXkBohQdN7L7Xx00GQ0s32Nm</string>
+    <string name="publishable_key">pk_test_HQcvhQfP6gImSm0PUpGA1xSf</string>
     <bool name="enable_google_pay">true</bool>
     <string name="country_code">IN</string>
     <string name="merchant_display_name">Order Point</string>
     <bool name="google_pay_is_testing">true</bool>
 
 
-    <string name="facebook_app_id">918488829083347</string>
-    <string name="fb_login_protocol_scheme">fb918488829083347</string>
-    <string name="facebook_client_token">2913d3266432985900e5edb371db129d</string>
+    <string name="facebook_app_id">1929065910569319</string>
+    <string name="fb_login_protocol_scheme">fb1929065910569319</string>
+    <string name="facebook_client_token">479fbb87831ee2598a468ba65116ef7c</string>
 </resources>

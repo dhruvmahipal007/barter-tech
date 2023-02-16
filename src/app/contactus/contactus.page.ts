@@ -26,14 +26,26 @@ export class ContactusPage implements OnInit {
   ) {
     this.contactUsForm = this.fb.group({
       firstName: [null, [Validators.required]],
-      lastName: [null, [Validators.required]],
+      lastName: [null],
       mobile: [null, [Validators.required]],
       email: [null, [Validators.required, Validators.pattern(this.emailPattern)],],
       note: [null, [Validators.required]],
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.getProfileData();
+  }
+  getProfileData() {
+    this.authService.accountSubject.subscribe((res: any) => {
+      console.log(res);
+      if (res) {
+        this.contactUsForm.patchValue(res);
+        this.contactUsForm.controls['mobile'].patchValue(res.mobileNo);
+        this.contactUsForm.controls['firstName'].patchValue(res.name);
+      }
+    });
+  }
   submitForm() {
 
     for (const i in this.contactUsForm.controls) {
@@ -59,18 +71,19 @@ export class ContactusPage implements OnInit {
       firstName: this.firstName_FormControl.value,
       lastName: this.lastName_FormControl.value,
       email: this.email_FormControl.value,
-      mobile: '91'+ this.mobile_FormControl.value,
+      mobile: '+61'+ this.mobile_FormControl.value,
       note: this.note_FormControl.value,
+      merchant_id:68
     };
     console.log('-----------------data contact us-----------', data);
-    this.global.showLoader(' Saving Data');
+    this.global.showLoader(' Sending Message');
     this.authService.contactUs(data).subscribe({
       next: (data) => {
         
         // console.log(data);
         if (data.status) {
           this.global.hideLoader();
-          this.toastService.presentToast(data.message);
+          this.toastService.presentToast('Message sent successfully');
           this.contactUsForm.reset();
           this.router.navigate(['/account']);
         } else {

@@ -32,6 +32,8 @@ export class CartPage implements OnInit {
   checkboxBoolean:boolean=false;
   preorder:any;
   customValuesPrice:number = 0;
+  tempdata:any;
+  distance:any;
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -61,6 +63,35 @@ export class CartPage implements OnInit {
   ngOnInit() {
     this.route.params.subscribe((res) => {
       this.cartItems = JSON.parse(localStorage.getItem('cartItems')) ?  JSON.parse(localStorage.getItem('cartItems')) : [];
+      this.cartItems.map(x=>{
+        if(this.currentRoute == 'delivery'){
+          if(x.options.size[0]==null){
+            x.displaySizeValue=x.deliveryPrice;
+          }
+          else{
+            x.displaySizeValue =  x.options.size[0].size_deliveryPrice;
+          }
+         
+        }
+        else if(this.currentRoute == 'takeaway'){
+          if(x.options.size[0]==null){
+            x.displaySizeValue=x.takeAwayPrice;
+          }
+          else{
+            x.displaySizeValue =  x.options.size[0].size_takeawayPrice 
+          }
+        }
+        else if(this.currentRoute == 'dinein'){
+          if(x.options.size[0]==null){
+            x.displaySizeValue=x.dineInPrice;
+          }
+          else{
+            x.displaySizeValue =  x.options.size[0].size_dineInPrice;
+          }
+        }
+        x.taxdisplayAmount=x.displaySizeValue*x.taxrate/100;
+        console.log(x.taxdisplayAmount);
+      })
       this.customer_name = JSON.parse(localStorage.getItem('userDetails')).name;
       this.customer_email = JSON.parse(
         localStorage.getItem('userDetails')
@@ -109,6 +140,9 @@ export class CartPage implements OnInit {
       }
       console.log(res);
     });
+    setTimeout(() => {
+      this.presentAlert();
+    }, 7000)
   }
 
   changeRoute() {
@@ -119,6 +153,7 @@ export class CartPage implements OnInit {
   subQty(product, index) {
     let removeItems = [];
     let remainingItems = [];
+    localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
     if (product.product_quantity < 2) {
       product.product_quantity = product.product_quantity - 1;
       let latestCartItems = JSON.parse(localStorage.getItem('cartItems'));
@@ -158,12 +193,12 @@ export class CartPage implements OnInit {
   addQty(product, index) {
     product.product_quantity = product.product_quantity + 1;
     this.customPriceValidate(product)
-    this.getItemTotal();
     localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
     let productLength = 0;
     this.cartItems.forEach(element => {
       productLength += element.product_quantity;
     });
+    this.getItemTotal();
     this.authService.badgeDataSubject.next(productLength);
 
   }
@@ -172,7 +207,7 @@ export class CartPage implements OnInit {
     let obj;
     if(this.currentRoute=='delivery'){
        obj = {
-        merchant_Id: 45,
+        merchant_Id: 68,
         company_id: 1,
         customer_BillingAddress_id: this.selectedAddress.id,
         billing_addressline1: this.selectedAddress.addressLine1,
@@ -185,7 +220,7 @@ export class CartPage implements OnInit {
     }
     else{
        obj = {
-        merchant_Id: 45,
+        merchant_Id: 68,
         company_id: 1,
         customer_BillingAddress_id: '',
         billing_addressline1: '',
@@ -256,11 +291,17 @@ export class CartPage implements OnInit {
         if(z.selected){
           if(this.currentRoute == 'delivery'){
             this.customValuesPrice = this.customValuesPrice + z.deliveryPrice
+            z.displayValue =  z.deliveryPrice;
+            z.displayOptionValue =  z.deliveryPrice;
           }
           else if(this.currentRoute == 'takeaway'){
+            z.displayValue =  z.takeawayPrice;
+            z.displayOptionValue =  z.takeawayPrice;
             this.customValuesPrice = this.customValuesPrice + z.takeawayPrice
           }
           else if(this.currentRoute == 'dinein'){
+            z.displayValue =  z.dineinPrice;
+            z.displayOptionValue =  z.dineinPrice;
             this.customValuesPrice = this.customValuesPrice + z.dineinPrice
           }
         }
@@ -286,7 +327,7 @@ export class CartPage implements OnInit {
     })
     // this.router.navigate([this.router.url, 'payment-option']);
     // let obj = {
-    //   merchant_Id: 45,
+    //   merchant_Id: 68,
     //   company_id: 1,
     //   customer_BillingAddress_id: this.selectedAddress.id,
     //   billing_addressline1: this.selectedAddress.addressLine1,
@@ -298,6 +339,7 @@ export class CartPage implements OnInit {
 
   getItemTotal() {
     this.itemTotal = 0;
+    this.gst=0;
     // if(this.currentRoute=='delivery'){
     //   this.cartItems.map((ele) => {
     //     this.itemTotal = this.itemTotal + ele.deliveryPrice * ele.product_quantity;
@@ -315,15 +357,25 @@ export class CartPage implements OnInit {
     // }
     
     this.cartItems.map((ele) => {
-          this.itemTotal = this.itemTotal + Number(ele.unitPrice) * ele.product_quantity;
+          this.itemTotal = this.itemTotal + Number(ele.displaySizeValue) * ele.product_quantity;
+          this.gst=(ele.taxdisplayAmount+this.gst) * ele.product_quantity;
         });
+        console.log(this.customValuesPrice);
         this.itemTotal = this.itemTotal + this.customValuesPrice
-    this.gst=this.itemTotal*10/100;
-    this.totalPayable =
+    if(this.currentRoute=='dinein' || this.currentRoute == 'takeaway'){
+      this.totalPayable =
+      this.itemTotal  +
+      this.gst -
+      (this.appliedCoupon ? this.appliedCoupon.couponValue : 0);
+    }
+    else{
+      this.totalPayable =
       this.itemTotal +
       this.deliveryCharges +
       this.gst -
       (this.appliedCoupon ? this.appliedCoupon.couponValue : 0);
+    }
+    
   }
 
   remove() {
@@ -336,7 +388,7 @@ export class CartPage implements OnInit {
 
   getAddress() {
  
-    this.global.showLoader('Loading Data');
+    this.global.showLoader('Loading Data'); 
     this.authService.getAddress().subscribe({
       next: (data: any) => {
         this.userAddress = data.data;
@@ -345,6 +397,7 @@ export class CartPage implements OnInit {
         this.getDeliveryCharges();
       },
       error: (err) => {
+        this.global.hideLoader()
         console.log(err);
       },
     });
@@ -353,10 +406,15 @@ export class CartPage implements OnInit {
   }
 
   getDeliveryCharges(){
-   
-    let obj={
-      postalcode:this.selectedAddress.zipcode,
-      suburb:this.selectedAddress.suburb
+    this.authService.getZipCode().subscribe({
+      next:(data:any)=>{
+         console.log(data.data);
+        this.tempdata=data.data;
+        this.tempdata.map(x=>{
+          if(x.delivery_suburb==this.selectedAddress.suburb){
+            this.distance=x.distance_in_km
+           let obj={
+      distance:this.distance,  
     }
     console.log(obj);
     this.authService.getDeliveryCharges(obj).subscribe({
@@ -371,8 +429,14 @@ export class CartPage implements OnInit {
       this.global.hideLoader();
       }
     })
-  
-  
+          }
+        })
+      },
+      error:(err)=>{
+        this.global.hideLoader();
+         console.log(err);
+      }
+    })
   }
 
   onAddressChange(event) {
@@ -380,7 +444,13 @@ export class CartPage implements OnInit {
     this.selectedAddress = event.target.value;
     this.getDeliveryCharges();
   }
-
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      message: 'Please reconfirm your address',
+      buttons: ['OK'],
+    });
+    await alert.present();
+  }
   // saveCustomerOrder() {
   //   let obj = {
   //     merchant_Id: 4,

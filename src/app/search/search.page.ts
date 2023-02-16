@@ -78,13 +78,13 @@ export class SearchPage implements OnInit {
           this.searchItems.map((x) => {
             x.buttonTitle = 'ADD'
             if(this.routercurrent == 'delivery' && x.isAvailableDelivery == 0){
-              x.buttonTitle = 'NotAvailable'
+              x.buttonTitle = 'Not Avail'
             }
             else if(this.routercurrent == 'takeaway' && x.isAvailableTakeAway == 0){
-              x.buttonTitle = 'NotAvailable'
+              x.buttonTitle = 'Not Avail'
             }
             else if(this.routercurrent == 'dinein' && x.isAvailableDinein == 0){
-              x.buttonTitle = 'NotAvailable' 
+              x.buttonTitle = 'Not Avail' 
             }
 
             x.product_quantity = 0;

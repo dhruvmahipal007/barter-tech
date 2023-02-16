@@ -7,6 +7,58 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:737194284758:android:767c6e08e2952a28ef5b77",
+        "android_client_info": {
+          "package_name": "com.bartertech.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "737194284758-2446if7kckc1j30rckqiipm4v2iek1vg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bartertech.app",
+            "certificate_hash": "b2bf01a0b7c605f5b99a9584d80d329748a3c34e"
+          }
+        },
+        {
+          "client_id": "737194284758-ud4q6h8h54j8grvf9k8p630rp2kp5r2t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bartertech.app",
+            "certificate_hash": "10fac2466769a15309cc7f6848f7db0aaa9d8607"
+          }
+        },
+        {
+          "client_id": "737194284758-c9eutvgthupd9qhjoqa350vhj95n3aka.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAq2lMXH-Vk__g67KzB_SFbbxnkGv-dyMQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "737194284758-c9eutvgthupd9qhjoqa350vhj95n3aka.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "737194284758-00sv0i932rulsd37udvl32skjjvrv40b.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "io.ionic.starter"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:737194284758:android:adcff92b0aa20a14ef5b77",
         "android_client_info": {
           "package_name": "io.ionic.starter"

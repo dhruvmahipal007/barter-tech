@@ -30,7 +30,7 @@ export class ProfilePage implements OnInit {
       email: [null, [Validators.required, Validators.pattern(this.emailPattern)],],
       mobile: [null, [Validators.required, Validators.maxLength(10)]],
       dateOfBirth: [null, [Validators.required]],
-      gender: [null, [Validators.required]],
+      gender: [null],
       anniversary: [null, [Validators.required]],
     });
   }
@@ -50,6 +50,8 @@ export class ProfilePage implements OnInit {
         this.profileForm.controls['dateOfBirth'].patchValue(
           this.formatDate(res.dateOfbirth)
         );
+        // this.profileForm.controls['dateOfBirth'].patchValue(new Date("2016-04-19T18:03:40.887").toISOString());
+        
         this.profileForm.controls['anniversary'].patchValue(
           this.formatDate(res.anniversary_date)
         );
@@ -77,7 +79,7 @@ export class ProfilePage implements OnInit {
       gender: this.gender_FormControl.value,
       email: this.email_FormControl.value,
       anniversary_date: this.anniversary_FormControl.value,
-      mobile: '91'+this.mobile_FormControl.value,
+      mobile: '+61'+this.mobile_FormControl.value,
       dateOfbirth: this.dateOfBirth_FormControl.value,
     };
 

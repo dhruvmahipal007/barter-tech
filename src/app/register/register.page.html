@@ -99,6 +99,22 @@
       <small *ngIf="password_FormControl.hasError('required') && password_FormControl.touched "><b style="color:red;">Password is required</b></small>
       <small *ngIf="password_FormControl.hasError('minlength') && password_FormControl.touched "><b style="color:red;">Password must be of 6 characters</b></small>
     </div>
+    <div>
+      <ion-label class="required">Confirm Password</ion-label>
+      <ion-input
+        type="password"
+        placeholder="Enter Password"
+        formControlName="confirmPassword"
+      ></ion-input>
+      <small *ngIf="confirmpassword_FormControl.hasError('required') && confirmpassword_FormControl.touched "><b style="color:red;">Password is required</b></small>
+      <small *ngIf="confirmpassword_FormControl.hasError('minlength') && confirmpassword_FormControl.touched "><b style="color:red;">Password must be of 6 characters</b></small>
+    </div>
+    <div
+      style="color: red"
+      *ngIf="validateForm1.hasError('notEquivalent') && validateForm1.get('confirmPassword').touched"
+    >
+      New Password & Confirm New Password do not match
+    </div>
     <div id="register">
       <ion-button
         class="button1"

@@ -22,6 +22,7 @@ export class AuthService {
   url2: string = 'https://barter-tech.antino.ca/api';
   // url3: string =
   //   'https://op-au-uat-cusapp-api.azurewebsites.net/api/sendresponse';
+  url4:string='https://merchantapi.orderpoint.net.au/api/v1'
   addressSubject = new BehaviorSubject({});
   accountSubject = new BehaviorSubject({});
   couponSubject = new BehaviorSubject({});
@@ -95,7 +96,7 @@ export class AuthService {
     return this.http.get(this.url2 + '/profile');
   }
   getVouchers() {
-    const params = new HttpParams().append('merchant_id', '45');
+    const params = new HttpParams().append('merchant_id', '68');
     return this.http.get(this.url2 + '/getvouchers', { params });
   }
   getMyOrders() {
@@ -112,7 +113,7 @@ export class AuthService {
   //   return this.http.get(this.url3);
   // }
   searchData(keyword) {
-    let params = new HttpParams().append('merchant_id', '45');
+    let params = new HttpParams().append('merchant_id', '68');
     params = params.append('keyword', keyword);
     return this.http.get(this.url2 + '/searchItems', { params });
   }
@@ -123,18 +124,17 @@ export class AuthService {
     return this.http.post(this.url2 + '/Deleteaddress',data)
   }
   getZipCode(){
-    const params = new HttpParams().append('merchant_id', '45');
+    const params = new HttpParams().append('merchant_id', '68');
     return this.http.get(this.url2+'/zipCode', { params });
   }
   getworkingHours(){
-    const params = new HttpParams().append('merchant_id', '45');
+    const params = new HttpParams().append('merchant_id', '68');
     return this.http.get(this.url2+'/workingHours',{params});
   }
   getDeliveryCharges(data){
-    let params = new HttpParams().append('postalcode', data.postalcode);
-    params = params.append('suburb', data.suburb);
-    params=params.append('merchant_id','45')
-    return this.http.get(this.url2+'/getMerchantDetails',{params});
+    let params = new HttpParams().append('distance', data.distance);
+    params=params.append('merchant_id','68')
+    return this.http.get(this.url2+'/DeliveryCharges',{params});
   }
   getCodUpdate(data){
     return this.http.post(this.url2+'/CODstatusUpdate',data);
@@ -152,16 +152,22 @@ export class AuthService {
     return this.http.post(this.url2+'/profilePic',data);
   }
   getUrl(){
-    const params = new HttpParams().append('Merchant_Id', '45');
+    const params = new HttpParams().append('Merchant_Id', '68');
     return this.http.get(this.url2+'/URLS',{params});
   }
   getCarouselImages(data){
-    let params=new HttpParams().append('merchant_id','45');
+    let params=new HttpParams().append('merchant_id','68');
     params=params.append('order_type',data.order_type);
     return this.http.get(this.url2+'/CarouselImages',{params});
   }
   sendEmailInvoice(data){
     return this.http.post(this.url2+'/sendInvoice',data);
+  }
+  appleLogin(data){
+    return this.http.post(this.url2+'/LoginwithApple',data)
+  }
+  accountDelete(obj){
+    return this.http.post(this.url2+'/DeleteAccoutStatus',obj);
   }
 
   getFCMTOKEN(){

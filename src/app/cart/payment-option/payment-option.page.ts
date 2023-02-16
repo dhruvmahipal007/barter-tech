@@ -55,9 +55,9 @@ export class PaymentOptionPage implements OnInit {
     private toastService: ToastService,
   ) {
     Stripe.initialize({
-      // publishableKey: 'pk_test_HQcvhQfP6gImSm0PUpGA1xSf', //clients
-      publishableKey:
-        'pk_test_51MBdEcSF30jh4yGpir3CLpJIEJvWnNJuqmTwVuxahkANEYzXRzgx8iveT6mI9BK7wMbrfO8oAexXkBohQdN7L7Xx00GQ0s32Nm', //test personal
+      publishableKey: 'pk_test_HQcvhQfP6gImSm0PUpGA1xSf', //clients
+      // publishableKey:
+      //   'pk_test_51MBdEcSF30jh4yGpir3CLpJIEJvWnNJuqmTwVuxahkANEYzXRzgx8iveT6mI9BK7wMbrfO8oAexXkBohQdN7L7Xx00GQ0s32Nm', //test personal
     });
   }
 
@@ -73,13 +73,13 @@ export class PaymentOptionPage implements OnInit {
       this.customer_DeliveryAddress_Id = res.customer_BillingAddress_id;
       this.company_id = res.company_id;
       this.merchant_Id = res.merchant_Id;
-      this.takeAwayPrice = res.takeAwayPrice;
+      this.takeAwayPrice = parseFloat(res.takeAwayPrice).toFixed(2);
       this.ispreeorder=res.isPreorder;
       this.deliverydate=res.delivery_date;
       this.deliverytime=res.delivery_time;
       this.customercount=res.dinein_Customer_count;
       this.taxAmount=res.taxAmount;
-      this.deliveryCharge= (currentRoute == 'takeaway' || currentRoute == 'dinein') ? 0 : res.deliveryCharge;
+      this.deliveryCharge= (currentRoute == 'takeaway' || currentRoute == 'dinein') ? '0.00' : res.deliveryCharge;
       }
       else{
         this.billing_addressline1 = res.billing_addressline1;
@@ -88,13 +88,13 @@ export class PaymentOptionPage implements OnInit {
         this.customer_DeliveryAddress_Id = res.customer_BillingAddress_id;
         this.company_id = res.company_id;
         this.merchant_Id = res.merchant_Id;
-        this.takeAwayPrice = res.takeAwayPrice;
+        this.takeAwayPrice = parseFloat(res.takeAwayPrice).toFixed(2);
         this.ispreeorder='';
         this.deliverydate='';
         this.deliverytime='';
         this.customercount='';
         this.taxAmount=res.taxAmount;
-      this.deliveryCharge=(currentRoute == 'takeaway' || currentRoute == 'dinein') ? 0 : res.deliveryCharge;
+      this.deliveryCharge=(currentRoute == 'takeaway' || currentRoute == 'dinein') ? '0.00' : res.deliveryCharge;
       }
 
     });
@@ -242,7 +242,7 @@ export class PaymentOptionPage implements OnInit {
     //console.log(this.items);
 
     let sendData = {
-      merchant_Id: '45',
+      merchant_Id: '68',
       company_id: this.company_id,
       billing_addressline1: this.billing_addressline1,
       billing_addressline2: this.billing_addressline2,
@@ -268,7 +268,6 @@ export class PaymentOptionPage implements OnInit {
       dinein_Customer_count:this.customercount,
       taxAmount:this.taxAmount,
       deliveryCharge:this.deliveryCharge
-
     };
     console.log(sendData);
     this.global.showLoader('Please wait we are placing your order');
@@ -316,7 +315,7 @@ export class PaymentOptionPage implements OnInit {
           data?: any;
         }>('https://barter-tech.antino.ca/api/createIntent', {
           amount: this.takeAwayPrice * 100,
-          currency: 'inr',
+          currency: 'AUD',
           payment_method_types: ['card'],
         })
         .toPromise(Promise)
@@ -339,7 +338,7 @@ export class PaymentOptionPage implements OnInit {
   async callForStripePayment(client_secret: any) {
     await Stripe.createPaymentSheet({
       paymentIntentClientSecret: client_secret,
-      merchantDisplayName: 'Barter Tech',
+      merchantDisplayName: 'Stirling Arms Hotel App',
     });
 
     // present PaymentSheet and get result.
@@ -423,7 +422,7 @@ export class PaymentOptionPage implements OnInit {
   async callForGpayPayment(client_secret: any) {
     await Stripe.createGooglePay({
       paymentIntentClientSecret: client_secret,
-      // merchantDisplayName: 'Barter Tech',
+      // merchantDisplayName: 'Stirling Arms Hotel App',
     });
 //loader close
 // this.global.hideLoader();

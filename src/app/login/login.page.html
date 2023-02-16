@@ -63,6 +63,12 @@
       <ion-button color="danger" class="btn3" (click)="loginwithgoogle()">
         <ion-icon name="logo-google"></ion-icon>Google
       </ion-button>
+      
+    </div>
+    <div id="social">
+      <ion-button color="dark" class="btn4" (click)="loginwithapple()" *ngIf="showAppleSignIn">
+        <ion-icon name="logo-apple"></ion-icon>Apple
+      </ion-button>
     </div>
 
     <div id="create_acc">

@@ -28,15 +28,18 @@
             <ion-badge color="danger" *ngIf="item.vegOrNonVeg=='N'">N</ion-badge>
             <h3>{{item.menuItemName}}</h3>
           </div>
-          <p>${{item.unitPrice}}</p>
+          <p>${{item.displaySizeValue}}</p>
           <ng-container *ngFor="let nm of item?.options?.optionGroups[0]?.optionItems" >
-            <p *ngIf="nm.selected">{{nm?.optionitemname}}</p>
+            <p *ngIf="nm.selected">{{nm?.optionitemname}}&nbsp;-&nbsp; <span>${{nm.displayValue}}</span></p>
           </ng-container>
           <ng-container *ngFor="let subItem of item?.options?.optionGroups[1]?.optionItems" >
-            <p *ngIf="subItem.selected">{{subItem?.optionitemname}}</p>
+            <p *ngIf="subItem.selected">{{subItem?.optionitemname}}&nbsp;-&nbsp; <span>${{subItem.displayOptionValue}}</span></p>
           </ng-container>
           <ng-container *ngFor="let sz of item?.options.size">
-            <p *ngIf="sz?.size_name"> <span>{{sz?.size_name}}</span> <small> &nbsp; ${{sz?.size_deliveryPrice}}</small></p>
+            <p *ngIf="sz?.size_name"> <span>{{sz?.size_name}}</span> <small> &nbsp; ${{sz?.displaySizeValue}}</small></p>
+          </ng-container>
+          <ng-container >
+            <p><span>GST</span><small>&nbsp; ${{item.taxdisplayAmount*item.product_quantity | number : '1.2-2'}}</small></p>
           </ng-container>
         </ion-col>
         <ion-col id="second" size="4">
@@ -49,7 +52,7 @@
               ><ion-icon class="icon" name="add"></ion-icon>
             </ion-button>
           </div>
-          <p>${{item.unitPrice*item.product_quantity | number : '1.2-2'}}</p>
+          <p>${{item.displaySizeValue*item.product_quantity | number : '1.2-2'}}</p>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -159,7 +162,7 @@
           <p>GST</p>
         </ion-col>
         <ion-col>
-          <p>${{gst}}</p>
+          <p>${{gst | number : '1.2-2'}}</p>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -226,7 +229,7 @@
 
     <hr class="hr" />
 
-    <ion-grid style="position:sticky;bottom:0;background-color: white;">
+    <ion-grid style="position:sticky;bottom:0;background-color: white;z-index: 999;">
       <ion-row>
         <ion-col size="6.5">
           <div class="bottom_design">

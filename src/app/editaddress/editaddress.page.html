@@ -22,6 +22,7 @@
           >
             <ion-select-option value="home">Home</ion-select-option>
             <ion-select-option value="office">Office</ion-select-option>
+            <ion-select-option value="other">Other</ion-select-option>
           </ion-select>
         </ion-item>
       </ion-list>
@@ -32,18 +33,18 @@
     </div>
     <div>
 
-      <ion-label>Pincode</ion-label>
+      <ion-label>SUBURB</ion-label>
       <ion-list class="tag" lines="none">
         <ion-item>
           <ion-select
-            interface="popover"
+            interface="action-sheet"
             placeholder="Enter Input"
             formControlName="zipcode"
           >
             <ion-select-option
               *ngFor="let data of userAddress"
               [value]="data"
-              >{{data.suburb}}-{{data.postcode}}<br />
+              >{{data.delivery_suburb}}-{{data.delivery_postcode}}<br />
             </ion-select-option>
           </ion-select>
         </ion-item>

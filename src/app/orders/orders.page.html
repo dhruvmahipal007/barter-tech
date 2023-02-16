@@ -44,7 +44,7 @@
         <p class="segment">{{data?.TotalItems}} items</p>
       </ion-col>
       <ion-col size="9">
-        <p class="segments">${{data?.TotalItems*data?.default_price}}</p>
+        <p class="segments">${{data?.totalAmount | number: '0.2-2'}}</p>
       </ion-col>
     </ion-row>
   </ion-grid>

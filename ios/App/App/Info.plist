@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>Barter</string>
+	<string>Stirling Arms Hotel App</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -23,7 +23,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb918488829083347</string>
+				<string>fb1929065910569319</string>
 			</array>
 		</dict>
 		<dict>
@@ -40,11 +40,11 @@
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FacebookAppID</key>
-	<string>918488829083347</string>
+	<string>1929065910569319</string>
 	<key>FacebookClientToken</key>
-	<string>2913d3266432985900e5edb371db129d</string>
+	<string>479fbb87831ee2598a468ba65116ef7c</string>
 	<key>FacebookDisplayName</key>
-	<string>Barter</string>
+	<string>Stirling Arms Hotel App</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbapi</string>
@@ -95,9 +95,9 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<true/>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Allow Access for library</string>
+	<string>Allow Access for library for photo upload</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Your location is required for xyz benefits for you</string>
+	<string>Your location is required for delivering food to you.</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
     <string> photos add description.</string>
 	<key>NSCameraUsageDescription</key>

@@ -1,5 +1,5 @@
 {
-  "name": "Barter",
+  "name": "Stirling Arms Hotel App",
   "version": "0.0.1",
   "author": "Ionic Framework",
   "homepage": "https://ionicframework.com/",
@@ -25,6 +25,7 @@
     "@awesome-cordova-plugins/image-picker": "^6.3.0",
     "@awesome-cordova-plugins/ionic-webview": "^6.3.0",
     "@awesome-cordova-plugins/native-geocoder": "^6.2.0",
+    "@capacitor-community/apple-sign-in": "^4.0.0",
     "@capacitor-community/barcode-scanner": "^3.0.0",
     "@capacitor-community/facebook-login": "^4.0.0",
     "@capacitor-community/stripe": "^4.1.0",
@@ -57,6 +58,7 @@
     "cordova-plugin-nativegeocoder": "^3.4.1",
     "cordova-plugin-telerik-imagepicker": "^2.3.6",
     "font-awesome": "^4.7.0",
+    "ionic-tooltips": "^3.1.0",
     "ionicons": "^6.0.3",
     "jquery": "^3.6.2",
     "moment": "^2.29.4",

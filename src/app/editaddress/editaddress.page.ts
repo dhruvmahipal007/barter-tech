@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -11,14 +11,16 @@ import { AuthService } from '../services/auth.service';
 import { StorageService } from '../services/storage.service';
 import { ToastService } from '../services/toast.service';
 import { GlobalService } from 'src/app/services/global.service';
+import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-editaddress',
   templateUrl: './editaddress.page.html',
   styleUrls: ['./editaddress.page.scss'],
 })
-export class EditaddressPage implements OnInit {
+export class EditaddressPage implements OnInit,OnDestroy {
   editAddressForm: FormGroup;
   userAddress:any;
+  subscribeObject=new Subscription();
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
@@ -35,14 +37,16 @@ export class EditaddressPage implements OnInit {
       address_id: [null],
     });
   }
+  ngOnDestroy(): void {
+  this.subscribeObject.unsubscribe();
+  }
 
   ngOnInit() {
-    this.global.showLoader('Loading Data');
     this.geteditTable();
   }
 
   geteditTable() {
-    this.authService.addressSubject.subscribe((res: any) => {
+    this.subscribeObject=this.authService.addressSubject.subscribe((res: any) => {
       console.log(res);
       this.getzipCode(res);
       if (res) {
@@ -55,12 +59,13 @@ export class EditaddressPage implements OnInit {
     });
   }
   getzipCode(res){
+    this.global.showLoader('Loading Data');
     this.authService.getZipCode().subscribe({
       next:(data:any)=>{
         this.userAddress=data.data;
          console.log(this.userAddress);
          let obj = this.userAddress.find(x=>{
-          return x.suburb === res.suburb
+          return x.delivery_suburb === res.suburb
         })
          console.log(obj)
          this.editAddressForm.controls['zipcode'].patchValue(obj);
@@ -85,10 +90,10 @@ export class EditaddressPage implements OnInit {
         address_id : this.editAddressForm.controls['address_id'].value,
         address: this.address_FormControl.value,
         landmark:this.landmark_FormControl.value,
-        mobile: '91'+ this.mobile_FormControl.value,
+        mobile: '+61'+ this.mobile_FormControl.value,
         tag:this.tag_FormControl.value,
-        zipcode:this.editAddressForm.controls['zipcode'].value.postcode,
-        suburb:this.editAddressForm.controls['zipcode'].value.suburb
+        zipcode:this.editAddressForm.controls['zipcode'].value.delivery_postcode,
+        suburb:this.editAddressForm.controls['zipcode'].value.delivery_suburb
       }
       console.log(obj);
       this.global.showLoader(' Saving Data');

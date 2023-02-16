@@ -105,6 +105,10 @@ h3:after {
   display: flex;
   margin-top: 35px;
 }
+#social{
+  display: flex;
+  margin-top: 16px;
+}
 
 #social_btn .btn2 {
   flex-direction: column;
@@ -132,7 +136,18 @@ h3:after {
   background-color: #eb445a;
   width: 90%;
 }
-
+#social .btn4 {
+  flex-direction: column;
+  justify-content: center;
+  font-weight: bold;
+  margin: auto;
+  color: #fff;
+  border: none;
+  outline: none;
+  border-radius: 0;
+  background-color: #080707 !important;
+  width: 60%;
+}
 #create_acc {
   // position: absolute;
   // bottom: 4%;

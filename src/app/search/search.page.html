@@ -44,7 +44,7 @@
             <div id="mid_sec">
               <h4>{{item.menuItemName}}</h4>
               <p>${{item.unitPrice}}</p>
-              <p>White chocolate ganache,ice cream</p>
+              <p>{{item.MenuItemNote}}</p>
             </div>
           </ion-col>
           <ion-col size="4">
@@ -88,7 +88,7 @@
                 (click)="add(item)"
                 class="btn-apply"
                 color="warning"
-                [disabled]="item.buttonTitle=='NotAvailable'"
+                [disabled]="item.buttonTitle=='Not Avail'"
                 >{{item.buttonTitle}}
               </ion-button>
               <ion-button

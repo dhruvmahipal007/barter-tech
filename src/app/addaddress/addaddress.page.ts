@@ -35,10 +35,10 @@ export class AddaddressPage implements OnInit {
   }
 
   ngOnInit() {
-    this.global.showLoader('Loading Data');
     this.getzipCode();
   }
   getzipCode(){
+    this.global.showLoader('Loading Data');
     this.authService.getZipCode().subscribe({
       next:(data:any)=>{
         this.userAddress=data.data;
@@ -61,14 +61,14 @@ export class AddaddressPage implements OnInit {
     else{
 
     
-    console.log(this.pincode_FormControl.value.postcode);
+    console.log(this.pincode_FormControl.value.delivery_postcode);
     let data = {
       tag: this.tag_FormControl.value,
       address: this.address_FormControl.value,
-      zipcode: this.pincode_FormControl.value.postcode.trim(),
-      suburb:this.pincode_FormControl.value.suburb,
+      zipcode: this.pincode_FormControl.value.delivery_postcode.trim(),
+      suburb:this.pincode_FormControl.value.delivery_suburb,
       landmark: this.landmark_FormControl.value,
-      mobile: '91'+this.mobile_FormControl.value,
+      mobile: '+61'+this.mobile_FormControl.value,
     };
     console.log(data);
     this.global.showLoader(' Saving Data');
@@ -93,6 +93,11 @@ export class AddaddressPage implements OnInit {
       },
     });
   }
+  }
+
+  changeRoute(){
+    this.addAddressForm.reset();
+    this.router.navigate(['/manageaddress']);
   }
 
   // onChangeOfOptions(event){

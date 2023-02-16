@@ -57,7 +57,7 @@ export class AppComponent implements OnInit {
     this.fetchLocation();
     Stripe.initialize({
       publishableKey:
-        'pk_test_51MBdEcSF30jh4yGpir3CLpJIEJvWnNJuqmTwVuxahkANEYzXRzgx8iveT6mI9BK7wMbrfO8oAexXkBohQdN7L7Xx00GQ0s32Nm',
+        'pk_test_HQcvhQfP6gImSm0PUpGA1xSf',
     });
   }
 
@@ -74,7 +74,7 @@ export class AppComponent implements OnInit {
 
   initializeFacebook() {
     this.platform.ready().then(() => {
-      FacebookLogin.initialize({ appId: '918488829083347' });
+      FacebookLogin.initialize({ appId: '1929065910569319' });
     });
   }
 

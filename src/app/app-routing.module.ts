@@ -179,6 +179,14 @@ const routes: Routes = [
     path: 'preorder',
     loadChildren: () => import('./preorder/preorder.module').then( m => m.PreorderPageModule)
   },
+  {
+    path: 'accountprivacy',
+    loadChildren: () => import('./accountprivacy/accountprivacy.module').then( m => m.AccountprivacyPageModule)
+  },
+  {
+    path: 'signinapple',
+    loadChildren: () => import('./signinapple/signinapple.module').then( m => m.SigninapplePageModule)
+  },
 ];
 
 @NgModule({

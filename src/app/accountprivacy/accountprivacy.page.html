@@ -1,0 +1,36 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button routerLink="/account" id="arrow">
+        <ion-icon slot="icon-only" name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title> Account privacy </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<h3 style="margin-left: 10px"> Account privacy and policy</h3>
+<p class="design" >
+  Orderpoint ("us", "we", or "our") operates the website and the Orderpoint mobile application (the "Service").
+  </p>
+  <p class="design">
+    This page informs you of our policies regarding the collection, use, and disclosure of personal data when you use our Service and the choices you have associated with that data. Our Privacy Policy for Orderpoint is managed through Free Privacy Policy.
+  </p>
+  <p class="design">
+    We use your data to provide and improve the Service. By using the Service, you agree to the collection and use of information in accordance with this policy. Unless otherwise defined in this Privacy Policy, terms used in this Privacy Policy have the same meanings as in our Terms and Conditions.
+</p>
+<p class="design">
+  The security of your data is important to us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While we strive to use commercially acceptable means to protect your Personal Data, we cannot guarantee its absolute security.
+</p>
+<p class="design">
+  Should you have any clarifications regarding this privacy policy, please write to us at support@orderpoint.net.au
+</p>
+<div class="card-middle" (click)="presentAlert()">
+  <h4 style="margin-left: 10px"> <ion-icon name="trash"></ion-icon>&nbsp;Request to delete account</h4>
+  <ion-button class="button-arrow" fill="clear" >
+    <ion-icon name="chevron-forward"></ion-icon>
+  </ion-button>
+</div>
+
+</ion-content>

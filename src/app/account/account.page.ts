@@ -186,6 +186,7 @@ export class AccountPage implements OnInit {
   }
 
   logout() {
+    this.images=[];
     this.global.showLoader().then(() => {
       this.authService
         .logout()
@@ -234,7 +235,7 @@ export class AccountPage implements OnInit {
         this.global.hideLoader();
         console.log(this.userData);
         localStorage.setItem('userNo', JSON.stringify(this.userData.mobileNo));
-        this.qrCodeString = 'M'+(this.userData.mobileNo.split('').splice(2,12).toString().replaceAll(',',''));
+        this.qrCodeString = 'M'+(this.userData.mobileNo.split('').splice(3,13).toString().replaceAll(',',''));
       },
       error: (err) => {
         this.global.hideLoader();
@@ -243,10 +244,20 @@ export class AccountPage implements OnInit {
     });
   }
   editProfile(userData) {
-    this.userData.mobileNo = (this.userData.mobileNo.split('').splice(2,12).toString().replaceAll(',',''));
+    this.userData.mobileNo = (this.userData.mobileNo.split('').splice(3,13).toString().replaceAll(',',''));
     console.log(this.userData.mobileNo);
     this.authService.accountSubject.next(this.userData);
     this.router.navigate(['/profile']);
+  }
+  openContactUs(userData){
+    this.userData.mobileNo = (this.userData.mobileNo.split('').splice(3,13).toString().replaceAll(',',''));
+    console.log(this.userData.mobileNo);
+    this.authService.accountSubject.next(this.userData);
+    this.router.navigate(['/contactus']);
+
+  }
+  openAccountPrivacy(){
+    this.router.navigate(['/accountprivacy']);
   }
   // openImagePicker(){
   //   this.imagePicker.hasReadPermission().then(res=>{
@@ -310,7 +321,7 @@ this.saveImage(image);
 
   async saveImage(photo:Photo){
     const base64Data=await this.readAsBase64(photo);
-    console.log(base64Data);
+   // console.log(base64Data);
     const fileName=new Date().getTime() + '.jpeg';
     const savedFile=await Filesystem.writeFile({
       directory:Directory.Data,
@@ -354,8 +365,8 @@ this.saveImage(image);
     directory:Directory.Data,
     path:IMAGE_DIR
   }).then(result=>{
-    console.log('HERE: ',result);
-   this.loadFileData(result.files)
+    console.log('HERE: ',result?.files[result.files.length-1]);
+   this.loadFileData(result.files[result.files.length-1])
   },async err=>{
     console.log('err: ',err);
     await Filesystem.mkdir({
@@ -368,15 +379,16 @@ this.saveImage(image);
 
   }
 
-  async loadFileData(fileNames:any[]){
-    for (let f of fileNames){
-      console.log(f,'dhruv');
+  async loadFileData(f){
+    // for (let f of fileNames){
+      //console.log(f,'dhruv');
       const filePath=`${IMAGE_DIR}/${f.name}`;
       const readFile=await Filesystem.readFile({
         directory:Directory.Data,
         path:filePath
       });
-      console.log('Read: ',readFile);
+      //console.log('Read: ',readFile);
+      this.images=[];
       this.images.push({
         name:f,
         path:filePath,
@@ -384,8 +396,8 @@ this.saveImage(image);
       });
       console.log(this.images);
       this.photoVariable=this.images[this.images.length-1].data;
-      console.log(this.photoVariable);
-    }
+      //console.log(this.photoVariable);
+    // }
     // this.startUpload(fileNames[fileNames.length-1]);
   }
 

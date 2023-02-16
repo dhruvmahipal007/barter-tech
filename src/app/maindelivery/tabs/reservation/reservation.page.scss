@@ -87,3 +87,7 @@
   box-sizing: border-box;
   box-shadow: 5px 5px grey;
 }
+.required:after {
+  content:" *";
+  color: red;
+}

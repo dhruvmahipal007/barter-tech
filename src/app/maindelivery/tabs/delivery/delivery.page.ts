@@ -64,6 +64,9 @@ export class DeliveryPage implements OnInit,OnDestroy {
   isCartValid = true;
   bannerImages:any;
   staticImage:any;
+  categoryName:any;
+  displayValue:any;
+  displayOptionValue:any;
 
 
   // public slideOps = {
@@ -176,7 +179,7 @@ export class DeliveryPage implements OnInit,OnDestroy {
     this.getBannerImages();
     this.productService.getProductCategories().subscribe((data) => {
       
-      // console.log('piyush', data);
+      // console.log('dhruvvvvvv', data);
       this.productCategories = data.data[0].menueGroup;
       this.currentCategoryId = data.data[0].menueGroup[0].menuGroupId;
       this.selected = data.data[0].menueGroup[0].groupName;
@@ -267,6 +270,48 @@ export class DeliveryPage implements OnInit,OnDestroy {
       this.groupName1=product.optionGroups[1]?.optionGroupName;
       console.log(this.groupName1);
       this.newValue1 = product.optionGroups[1]?.optionItems 
+      if(this.newValue){
+        this.newValue.map(x=>{
+          if(this.currentRoute == 'delivery'){
+            x.displayValue =  x.deliveryPrice;
+          }
+          else if(this.currentRoute == 'takeaway'){
+            x.displayValue =  x.takeawayPrice 
+          }
+          else if(this.currentRoute == 'dinein'){
+            x.displayValue =  x.dineinPrice;
+          }
+         })
+      }
+     if(this.newValue1){
+      this.newValue1.map(x=>{
+        if(this.currentRoute == 'delivery'){
+          x.displayOptionValue =  x.deliveryPrice;
+        }
+        else if(this.currentRoute == 'takeaway'){
+          x.displayOptionValue =  x.takeawayPrice 
+        }
+        else if(this.currentRoute == 'dinein'){
+          x.displayOptionValue =  x.dineinPrice;
+        }
+       })
+     }
+     if(product.size.length>0){
+      product.size.map(x=>{
+        if(this.currentRoute == 'delivery'){
+          x.displaySizeValue =  x.size_deliveryPrice;
+        }
+        else if(this.currentRoute == 'takeaway'){
+          x.displaySizeValue =  x.size_takeawayPrice 
+        }
+        else if(this.currentRoute == 'dinein'){
+          x.displaySizeValue =  x.size_dineInPrice;
+        }
+       })
+     }
+      
+       
+      
       console.log(this.newValue,'lol');
       console.log(this.newValue1,'hibro');
       this.tempItem = item;
@@ -429,6 +474,8 @@ export class DeliveryPage implements OnInit,OnDestroy {
   }
 
   getDataBymenuGroupId(id: any, name: any) {
+    this.categoryName=name;
+    // console.log(name,'please give name');
     console.log('1111111')
     this.menuItems = this.productCategories.find(
       (x) => Number(x.menuGroupId) == Number(id)
@@ -436,13 +483,13 @@ export class DeliveryPage implements OnInit,OnDestroy {
     this.menuItems.map((x) => {
       x.buttonTitle = 'ADD'
       if(this.routercurrent == 'delivery' && x.isAvailableDelivery == 0){
-        x.buttonTitle = 'NotAvailable'
+        x.buttonTitle = 'Not Avail'
       }
       else if(this.routercurrent == 'takeaway' && x.isAvailableTakeAway == 0){
-        x.buttonTitle = 'NotAvailable'
+        x.buttonTitle = 'Not Avail'
       }
       else if(this.routercurrent == 'dinein' && x.isAvailableDinein == 0){
-        x.buttonTitle = 'NotAvailable' 
+        x.buttonTitle = 'Not Avail' 
       }
       x.product_quantity = 0;
       this.tempArray = JSON.parse(localStorage.getItem('cartItems'));
@@ -478,6 +525,7 @@ export class DeliveryPage implements OnInit,OnDestroy {
     this.currentItem = this.productCategories[0].menuGroupId;
     this.selected = this.productCategories[0].groupName;
     this.productCategories = this.productCategories;
+    this.categoryName=this.productCategories[0].groupName;
   }
 
   segmentChanged(e) {

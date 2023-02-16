@@ -23,7 +23,7 @@
 
   <form id="form" [formGroup]="reservationForm">
     <div>
-      <ion-label>FIRST NAME</ion-label>
+      <ion-label class="required">FIRST NAME</ion-label>
       <ion-input
         type="text"
         placeholder="Enter First Name"
@@ -39,7 +39,7 @@
       ></ion-input>
     </div>
     <div>
-      <ion-label>MOBILE</ion-label>
+      <ion-label class="required">MOBILE</ion-label>
       <ion-input
       type="tel"
       maxlength="10"
@@ -49,7 +49,7 @@
       ></ion-input>
     </div>
     <div>
-      <ion-label>EMAIL</ion-label>
+      <ion-label class="required">EMAIL</ion-label>
       <ion-input
         type="text"
         placeholder="Enter Email"
@@ -62,7 +62,7 @@
       </div>
     </div>
     <div>
-      <ion-label>{{dining_event_date}}</ion-label>
+      <ion-label class="required">{{dining_event_date}}</ion-label>
       <ion-input
         placeholder="Enter Input"
         type="date"
@@ -70,7 +70,7 @@
       ></ion-input>
     </div>
     <div>
-      <ion-label>{{dining_event_time}}</ion-label>
+      <ion-label class="required">{{dining_event_time}}</ion-label>
       <ion-input
         placeholder="Enter Input"
         type="time"
@@ -78,7 +78,7 @@
       ></ion-input>
     </div>
     <div>
-      <ion-label>GUESTS</ion-label>
+      <ion-label class="required">GUESTS</ion-label>
       <ion-input
         type="number"
         placeholder="Enter Number"
@@ -86,7 +86,7 @@
       ></ion-input>
     </div>
     <div>
-      <ion-label>OCCASION</ion-label>
+      <ion-label class="required">OCCASION</ion-label>
       <ion-input
         type="text"
         placeholder="Enter Occasion"
@@ -94,7 +94,7 @@
       ></ion-input>
     </div>
     <div>
-      <ion-label position="floating">NOTES</ion-label>
+      <ion-label position="floating" class="required">NOTES</ion-label>
       <ion-textarea rows="4" formControlName="notes"></ion-textarea>
     </div>
     <div id="bottom">

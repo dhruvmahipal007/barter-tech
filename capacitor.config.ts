@@ -14,8 +14,8 @@ const config: CapacitorConfig = {
       sound: 'beep.wav',
     },
   },
-  appId: 'io.ionic.starter',
-  appName: 'Barter',
+  appId: 'com.bartertech.app',
+  appName: 'Stirling Arms Hotel App',
   webDir: 'www',
   bundledWebRuntime: false,
 };
