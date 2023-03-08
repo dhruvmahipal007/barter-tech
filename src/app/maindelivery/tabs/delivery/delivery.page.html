@@ -32,16 +32,17 @@
       </div>
     </ion-slide>
   </ion-slides> -->
+  <!-- <div style="position: sticky; top: 0; background-color: white; z-index: 99"> -->
   <swiper [slidesPerView]="3" [loop]="true" class="borderBottom">
     <ng-template swiperSlide *ngFor="let data of bannerImages">
       <div class="box" *ngIf="GetFilename(data)=='noitemimage'">
         <img src="assets/img/No-Image-Placeholder.svg" class="heightp" alt="" />
       </div>
       <div class="box" *ngIf="GetFilename(data)!='noitemimage'">
-        <img src="{{data}}"class="heightp" alt="" />
+        <img src="{{data}}" class="heightp" alt="" />
       </div>
     </ng-template>
-     <ng-template swiperSlide>
+    <ng-template swiperSlide>
       <div class="box" *ngIf="GetFilename(staticImage)=='noitemimage'">
         <img src="assets/img/No-Image-Placeholder.svg" class="heightp" alt="" />
       </div>
@@ -85,14 +86,15 @@
   >
     <h2>Categories</h2>
 
-    <ion-segment 
+    <ion-segment
       #slides
       (ionChange)="segmentChanged($event)"
       [(ngModel)]="selected"
       mode="md"
       scrollable
     >
-      <ion-segment-button mode="md"
+      <ion-segment-button
+        mode="md"
         *ngFor="let productCategory of productCategories"
         (click)="getDataBymenuGroupId(productCategory.menuGroupId,productCategory.groupName)"
         [value]="productCategory.groupName"
@@ -117,6 +119,8 @@
       </ion-segment-button>
     </ion-segment>
   </div>
+  <!-- </div> -->
+
   <div class="animate__animated animate__slideInUp animate__fast new">
     <ion-grid>
       <ion-row style="display: flex; align-items: center">
@@ -146,19 +150,26 @@
           justify-content: space-between;
           flex-wrap: nowrap;
         "
-      > 
-      <div>
-        <ion-badge color="success" *ngIf="item.vegOrNonVeg=='V'">V</ion-badge> &nbsp;
-        <ion-badge color="danger" *ngIf="item.vegOrNonVeg=='N'" >N</ion-badge> &nbsp;
-      </div>
+      >
+        <div>
+          <ion-badge color="success" *ngIf="item.vegOrNonVeg=='V'">V</ion-badge>
+          &nbsp;
+          <ion-badge color="danger" *ngIf="item.vegOrNonVeg=='N'">N</ion-badge>
+          &nbsp;
+        </div>
         <div style="width: 70%">
-          
           <h2 style="font-size: 20px; font-weight: 700">
             {{item.menuItemName}}
           </h2>
-          <span style="font-size: 17px" *ngIf="routercurrent=='delivery'">$ {{item.deliveryPrice | number: '0.2-2'}}</span>
-          <span style="font-size: 17px" *ngIf="routercurrent=='dinein'">$ {{item.dineInPrice | number: '0.2-2'}}</span>
-          <span style="font-size: 17px" *ngIf="routercurrent=='takeaway'">$ {{item.takeAwayPrice | number: '0.2-2'}}</span>
+          <span style="font-size: 17px" *ngIf="routercurrent=='delivery'"
+            >$ {{item.deliveryPrice | number: '0.2-2'}}</span
+          >
+          <span style="font-size: 17px" *ngIf="routercurrent=='dinein'"
+            >$ {{item.dineInPrice | number: '0.2-2'}}</span
+          >
+          <span style="font-size: 17px" *ngIf="routercurrent=='takeaway'"
+            >$ {{item.takeAwayPrice | number: '0.2-2'}}</span
+          >
           <p>{{item.MenuItemNote}}</p>
         </div>
 
@@ -172,22 +183,27 @@
             align-items: center;
           "
         >
-        <div class="image_section" *ngIf="GetFilename(item.menuItemimageUrl)=='noitemimage'">
-          <img
-          src="assets/img/No-Image-Placeholder.svg"
-          alt=""
-          style="width: unset; position: unset"
-        />
-        </div>
+          <div
+            class="image_section"
+            *ngIf="GetFilename(item.menuItemimageUrl)=='noitemimage'"
+          >
+            <img
+              src="assets/img/No-Image-Placeholder.svg"
+              alt=""
+              style="width: unset; position: unset"
+            />
+          </div>
 
-        <div class="image_section" *ngIf="GetFilename(item.menuItemimageUrl)!='noitemimage'">
-          <img
-          src="{{item.menuItemimageUrl}}"
-          alt=""
-          style="width: unset; position: unset"
-        />
-        </div>
-          
+          <div
+            class="image_section"
+            *ngIf="GetFilename(item.menuItemimageUrl)!='noitemimage'"
+          >
+            <img
+              src="{{item.menuItemimageUrl}}"
+              alt=""
+              style="width: unset; position: unset"
+            />
+          </div>
 
           <div
             class="cart_card_control_span"
@@ -230,51 +246,102 @@
             [disabled]="true"
             >NO STOCK
           </ion-button>
-          <p *ngIf="item.options.optionGroups.length>0 || item.options.size.length>1">Customisable</p>
+          <p
+            *ngIf="item.options.optionGroups.length>0 || item.options.size.length>1"
+          >
+            Customisable
+          </p>
         </div>
       </ion-card-content>
-
     </ion-card>
-
-    
-
   </div>
 
-  <div id="popup" class="pppp" style="display: none;">
-    <div id="close" (click)="notShow()">x</div><br>
+  <div id="popup" class="pppp" style="display: none">
+    <div id="close" (click)="notShow()">x</div>
+    <br />
     <form id="newpop">
       <div id="content">
         <ng-container *ngIf="this.tempItem.IsSizeApplicable == '1'">
-          <label class="main" [ngClass]="{'required':this.tempItem.isOptionMandatory =='1'}">Size</label>
-          <ion-radio-group [allowEmptySelection]="true" [(ngModel)]="selectedSize" (ngModelChange)="onItemSelect(null)" name="productSize">
+          <label
+            class="main"
+            [ngClass]="{'required':this.tempItem.isOptionMandatory =='1'}"
+            >Size</label
+          >
+          <ion-radio-group
+            [allowEmptySelection]="true"
+            [(ngModel)]="selectedSize"
+            (ngModelChange)="onItemSelect(null)"
+            name="productSize"
+          >
             <ion-item *ngFor="let item of tempItem.options.size">
-              <ion-label>{{ item?.size_name }} <span> &nbsp; - &nbsp; $ {{ item?.displaySizeValue }}</span></ion-label>
-              <ion-radio slot="end" [value]="item" ></ion-radio>
+              <ion-label
+                >{{ item?.size_name }}
+                <span>
+                  &nbsp; - &nbsp; $ {{ item?.displaySizeValue }}</span
+                ></ion-label
+              >
+              <ion-radio slot="end" [value]="item"></ion-radio>
             </ion-item>
           </ion-radio-group>
         </ng-container>
         <ng-container *ngIf="this.tempItem.IsoptionApplicable == '1'">
-          <label class="main" [ngClass]="{'required':this.tempItem.isOptionMandatory =='1'}">{{this.groupName}}</label>
+          <label
+            class="main"
+            [ngClass]="{'required':this.tempItem.isOptionMandatory =='1'}"
+            >{{this.groupName}}</label
+          >
           <div class="form-check" *ngFor="let ls of newValue; let index=index">
-            <input class="form-check-input" name="checkbox{{index}}" type="checkbox" value={{ls.optionitemname}} [(ngModel)]="ls.selected" (change)="onItemSelect(ls)" id="flexCheckDefault{{index}}" />
-            <label class="form-check-label" for="flexCheckDefault{{index}}">{{ls.optionitemname}} &nbsp;-&nbsp; <span>${{ls.displayValue}}</span></label>
-          </div>
-          </ng-container>
-          <ng-container *ngIf="newValue1?.length>0">
-          <label class="main" [ngClass]="{'required':this.tempItem.isOptionMandatory =='1'}">{{groupName1}}</label>
-          <div class="form-check" *ngFor="let ls of newValue1 let index = index" >
-            <input class="form-check-input" type="checkbox" name="checkbox{{index}}" value={{ls.optionitemname}} [(ngModel)]="ls.selected" (change)="onItemSelect(ls)" id="flexCheckDefaultt{{index}}" />
-            <label class="form-check-label" for="flexCheckDefaultt{{index}}">{{ls.optionitemname}} &nbsp;-&nbsp; <span>${{ls.displayOptionValue}}</span></label>
+            <input
+              class="form-check-input"
+              name="checkbox{{index}}"
+              type="checkbox"
+              value="{{ls.optionitemname}}"
+              [(ngModel)]="ls.selected"
+              (change)="onItemSelect(ls)"
+              id="flexCheckDefault{{index}}"
+            />
+            <label class="form-check-label" for="flexCheckDefault{{index}}"
+              >{{ls.optionitemname}} &nbsp;-&nbsp;
+              <span>${{ls.displayValue}}</span></label
+            >
           </div>
         </ng-container>
-        <ion-button type="submit" class="neww" color="warning" [disabled]="this.tempItem.isOptionMandatory ? isCartValid: false" (click)= "addToCart()" >ADD TO CART</ion-button>
+        <ng-container *ngIf="newValue1?.length>0">
+          <label
+            class="main"
+            [ngClass]="{'required':this.tempItem.isOptionMandatory =='1'}"
+            >{{groupName1}}</label
+          >
+          <div
+            class="form-check"
+            *ngFor="let ls of newValue1 let index = index"
+          >
+            <input
+              class="form-check-input"
+              type="checkbox"
+              name="checkbox{{index}}"
+              value="{{ls.optionitemname}}"
+              [(ngModel)]="ls.selected"
+              (change)="onItemSelect(ls)"
+              id="flexCheckDefaultt{{index}}"
+            />
+            <label class="form-check-label" for="flexCheckDefaultt{{index}}"
+              >{{ls.optionitemname}} &nbsp;-&nbsp;
+              <span>${{ls.displayOptionValue}}</span></label
+            >
+          </div>
+        </ng-container>
+        <ion-button
+          type="submit"
+          class="neww"
+          color="warning"
+          [disabled]="this.tempItem.isOptionMandatory ? isCartValid: false"
+          (click)="addToCart()"
+          >ADD TO CART</ion-button
+        >
       </div>
     </form>
-
   </div>
-
-
-
 
   <!-- Modal -->
 

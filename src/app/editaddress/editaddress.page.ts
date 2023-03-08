@@ -17,28 +17,28 @@ import { Subscription } from 'rxjs';
   templateUrl: './editaddress.page.html',
   styleUrls: ['./editaddress.page.scss'],
 })
-export class EditaddressPage implements OnInit,OnDestroy {
+export class EditaddressPage implements OnInit, OnDestroy {
   editAddressForm: FormGroup;
-  userAddress:any;
-  subscribeObject=new Subscription();
+  userAddress: any;
+  subscribeObject = new Subscription();
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
     private toastService: ToastService,
     private router: Router,
-    private global: GlobalService,
+    private global: GlobalService
   ) {
     this.editAddressForm = this.fb.group({
       tag: [null, [Validators.required]],
       address: [null, [Validators.required]],
       zipcode: [null, [Validators.required]],
       landmark: [null, [Validators.required]],
-      mobile: [null, [Validators.required,Validators.maxLength(10)]],
+      mobile: [null, [Validators.required, Validators.maxLength(10)]],
       address_id: [null],
     });
   }
   ngOnDestroy(): void {
-  this.subscribeObject.unsubscribe();
+    this.subscribeObject.unsubscribe();
   }
 
   ngOnInit() {
@@ -46,36 +46,42 @@ export class EditaddressPage implements OnInit,OnDestroy {
   }
 
   geteditTable() {
-    this.subscribeObject=this.authService.addressSubject.subscribe((res: any) => {
-      console.log(res);
-      this.getzipCode(res);
-      if (res) {
-        this.editAddressForm.controls['address'].patchValue(res.addressLine1);
-        this.editAddressForm.controls['landmark'].patchValue(res.addressLine2);
-        this.editAddressForm.controls['mobile'].patchValue(res.address_mobile);
-        this.editAddressForm.controls['address_id'].patchValue(res.id);
-        this.editAddressForm.patchValue(res);
+    this.subscribeObject = this.authService.addressSubject.subscribe(
+      (res: any) => {
+        console.log(res);
+        this.getzipCode(res);
+        if (res) {
+          this.editAddressForm.controls['address'].patchValue(res.addressLine1);
+          this.editAddressForm.controls['landmark'].patchValue(
+            res.addressLine2
+          );
+          this.editAddressForm.controls['mobile'].patchValue(
+            res.address_mobile
+          );
+          this.editAddressForm.controls['address_id'].patchValue(res.id);
+          this.editAddressForm.patchValue(res);
+        }
       }
-    });
+    );
   }
-  getzipCode(res){
+  getzipCode(res) {
     this.global.showLoader('Loading Data');
     this.authService.getZipCode().subscribe({
-      next:(data:any)=>{
-        this.userAddress=data.data;
-         console.log(this.userAddress);
-         let obj = this.userAddress.find(x=>{
-          return x.delivery_suburb === res.suburb
-        })
-         console.log(obj)
-         this.editAddressForm.controls['zipcode'].patchValue(obj);
-         this.global.hideLoader();
+      next: (data: any) => {
+        this.userAddress = data.data;
+        console.log(this.userAddress);
+        let obj = this.userAddress.find((x) => {
+          return x.delivery_suburb === res.suburb;
+        });
+        console.log(obj);
+        this.editAddressForm.controls['zipcode'].patchValue(obj);
+        this.global.hideLoader();
       },
-      error:(err)=>{
-         console.log(err);
-         this.global.hideLoader();
-      }
-    })
+      error: (err) => {
+        console.log(err);
+        this.global.hideLoader();
+      },
+    });
   }
   editAddress() {
     if (
@@ -83,38 +89,38 @@ export class EditaddressPage implements OnInit,OnDestroy {
       this.mobile_FormControl.value.toString().length > 10
     ) {
       this.toastService.presentToast('Please enter a valid no');
-    }
-    else{
+    } else {
       // console.log(this.editAddressForm.value);
-      let obj={
-        address_id : this.editAddressForm.controls['address_id'].value,
+      let obj = {
+        address_id: this.editAddressForm.controls['address_id'].value,
         address: this.address_FormControl.value,
-        landmark:this.landmark_FormControl.value,
-        mobile: '+61'+ this.mobile_FormControl.value,
-        tag:this.tag_FormControl.value,
-        zipcode:this.editAddressForm.controls['zipcode'].value.delivery_postcode,
-        suburb:this.editAddressForm.controls['zipcode'].value.delivery_suburb
-      }
+        landmark: this.landmark_FormControl.value,
+        mobile: '+61' + this.mobile_FormControl.value,
+        tag: this.tag_FormControl.value,
+        zipcode:
+          this.editAddressForm.controls['zipcode'].value.delivery_postcode,
+        suburb: this.editAddressForm.controls['zipcode'].value.delivery_suburb,
+      };
       console.log(obj);
       this.global.showLoader(' Saving Data');
-    this.authService.editAddress(obj).subscribe({
-      next: (data) => {
-        console.log(data);
-        if (data.status) {
+      this.authService.editAddress(obj).subscribe({
+        next: (data) => {
+          console.log(data);
+          if (data.status) {
+            this.global.hideLoader();
+            this.toastService.presentToast(data.message);
+            this.editAddressForm.reset();
+            this.router.navigate(['/manageaddress']);
+          } else {
+            this.global.hideLoader();
+            this.toastService.presentToast('Error in User Details');
+          }
+        },
+        error: (err) => {
           this.global.hideLoader();
-          this.toastService.presentToast(data.message);
-          this.editAddressForm.reset();
-          this.router.navigate(['/manageaddress']);
-        } else {
-          this.global.hideLoader();
-          this.toastService.presentToast('Error in User Details');
-        }
-      },
-      error: (err) => {
-        this.global.hideLoader();
-        this.toastService.presentToast(err);
-      },
-    });
+          this.toastService.presentToast(err.message);
+        },
+      });
     }
   }
   get tag_FormControl(): FormControl | null {

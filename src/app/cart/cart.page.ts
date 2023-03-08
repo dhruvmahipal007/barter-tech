@@ -24,16 +24,16 @@ export class CartPage implements OnInit {
   optionSelected: any;
   cartItems: any[] = [];
   itemTotal: any = 0;
-  deliveryCharges :number=0;
+  deliveryCharges: number = 0;
   gst = 0;
   totalPayable = 0;
   currentRoute: any;
-  preorderCheckbox:boolean=false;
-  checkboxBoolean:boolean=false;
-  preorder:any;
-  customValuesPrice:number = 0;
-  tempdata:any;
-  distance:any;
+  preorderCheckbox: boolean = false;
+  checkboxBoolean: boolean = false;
+  preorder: any;
+  customValuesPrice: number = 0;
+  tempdata: any;
+  distance: any;
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -52,8 +52,11 @@ export class CartPage implements OnInit {
       ).email;
       this.customer_mobile = JSON.parse(localStorage.getItem('userNo'));
       // console.log(this.cartItems);
-     
+
       this.currentRoute = localStorage.getItem('currentRoute');
+      // if (this.cartItems?.length > 0 && this.currentRoute == 'delivery') {
+      //   this.getAddress();
+      // }
     });
     // this.cartItems.map(x =>{
     //   this.customPriceValidate(x);
@@ -62,70 +65,62 @@ export class CartPage implements OnInit {
 
   ngOnInit() {
     this.route.params.subscribe((res) => {
-      this.cartItems = JSON.parse(localStorage.getItem('cartItems')) ?  JSON.parse(localStorage.getItem('cartItems')) : [];
-      this.cartItems.map(x=>{
-        if(this.currentRoute == 'delivery'){
-          if(x.options.size[0]==null){
-            x.displaySizeValue=x.deliveryPrice;
+      this.cartItems = JSON.parse(localStorage.getItem('cartItems'))
+        ? JSON.parse(localStorage.getItem('cartItems'))
+        : [];
+      this.cartItems.map((x) => {
+        if (this.currentRoute == 'delivery') {
+          if (x.options.size[0] == null) {
+            x.displaySizeValue = x.deliveryPrice;
+          } else {
+            x.displaySizeValue = x.options.size[0].size_deliveryPrice;
           }
-          else{
-            x.displaySizeValue =  x.options.size[0].size_deliveryPrice;
+        } else if (this.currentRoute == 'takeaway') {
+          if (x.options.size[0] == null) {
+            x.displaySizeValue = x.takeAwayPrice;
+          } else {
+            x.displaySizeValue = x.options.size[0].size_takeawayPrice;
           }
-         
-        }
-        else if(this.currentRoute == 'takeaway'){
-          if(x.options.size[0]==null){
-            x.displaySizeValue=x.takeAwayPrice;
-          }
-          else{
-            x.displaySizeValue =  x.options.size[0].size_takeawayPrice 
-          }
-        }
-        else if(this.currentRoute == 'dinein'){
-          if(x.options.size[0]==null){
-            x.displaySizeValue=x.dineInPrice;
-          }
-          else{
-            x.displaySizeValue =  x.options.size[0].size_dineInPrice;
+        } else if (this.currentRoute == 'dinein') {
+          if (x.options.size[0] == null) {
+            x.displaySizeValue = x.dineInPrice;
+          } else {
+            x.displaySizeValue = x.options.size[0].size_dineInPrice;
           }
         }
-        x.taxdisplayAmount=x.displaySizeValue*x.taxrate/100;
+        x.taxdisplayAmount = (x.displaySizeValue * x.taxrate) / 100;
         console.log(x.taxdisplayAmount);
-      })
+      });
       this.customer_name = JSON.parse(localStorage.getItem('userDetails')).name;
       this.customer_email = JSON.parse(
         localStorage.getItem('userDetails')
       ).email;
       this.customer_mobile = JSON.parse(localStorage.getItem('userNo'));
       console.log(this.cartItems);
-      
+
       this.currentRoute = localStorage.getItem('currentRoute');
-      this.cartItems.map(x =>{
+      this.cartItems.map((x) => {
         this.customPriceValidate(x);
-      })
+      });
       if (this.cartItems) {
         this.getItemTotal();
       } else {
         this.cartItems = [];
       }
-      for (var key in localStorage){
-        if(key=='preorder'){
-          this.preorder=JSON.parse(localStorage.getItem('preorder'));
+      for (var key in localStorage) {
+        if (key == 'preorder') {
+          this.preorder = JSON.parse(localStorage.getItem('preorder'));
           console.log(this.preorder);
-        }else{
-          this.checkboxBoolean = false
+        } else {
+          this.checkboxBoolean = false;
         }
-       }
+      }
     });
 
-   
-    if(this.preorder){
-      this.checkboxBoolean=true
+    if (this.preorder) {
+      this.checkboxBoolean = true;
     }
-   
-      this.getAddress();
-    
-    
+
     this.authService.couponSubject.subscribe((res: any) => {
       if (res != 'invalid' && Object.keys(res).length != 0) {
         this.isCouponApplied = true;
@@ -140,9 +135,12 @@ export class CartPage implements OnInit {
       }
       console.log(res);
     });
+    this.getAddress();
     setTimeout(() => {
-      this.presentAlert();
-    }, 7000)
+      if (this.currentRoute == 'delivery' && this.cartItems.length > 0) {
+        this.presentAlert();
+      }
+    }, 7000);
   }
 
   changeRoute() {
@@ -157,7 +155,7 @@ export class CartPage implements OnInit {
     if (product.product_quantity < 2) {
       product.product_quantity = product.product_quantity - 1;
       let latestCartItems = JSON.parse(localStorage.getItem('cartItems'));
-      latestCartItems.forEach(element => {
+      latestCartItems.forEach((element) => {
         if (element.menuItemId == product.menuItemId) {
           removeItems.push(element);
         } else {
@@ -169,7 +167,7 @@ export class CartPage implements OnInit {
       this.cartItems = latestCartItems;
       localStorage.setItem('cartItems', JSON.stringify(latestCartItems));
       let productLength = 0;
-      latestCartItems.forEach(element => {
+      latestCartItems.forEach((element) => {
         productLength += element.product_quantity;
       });
       this.authService.badgeDataSubject.next(productLength);
@@ -178,13 +176,13 @@ export class CartPage implements OnInit {
       product.product_quantity = product.product_quantity - 1;
       localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
       let productLength = 0;
-      this.cartItems.forEach(element => {
+      this.cartItems.forEach((element) => {
         productLength += element.product_quantity;
       });
       this.authService.badgeDataSubject.next(productLength);
     }
-      this.customPriceValidateForSub(product);
-      this.getItemTotal();
+    this.customPriceValidateForSub(product);
+    this.getItemTotal();
     if (this.cartItems.length == 0) {
       this.authService.couponSubject.next({});
     }
@@ -192,57 +190,52 @@ export class CartPage implements OnInit {
 
   addQty(product, index) {
     product.product_quantity = product.product_quantity + 1;
-    this.customPriceValidate(product)
+    this.customPriceValidate(product);
     localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
     let productLength = 0;
-    this.cartItems.forEach(element => {
+    this.cartItems.forEach((element) => {
       productLength += element.product_quantity;
     });
     this.getItemTotal();
     this.authService.badgeDataSubject.next(productLength);
-
   }
 
   async makePayment() {
     let obj;
-    if(this.currentRoute=='delivery'){
-       obj = {
+    if (this.currentRoute == 'delivery') {
+      obj = {
         merchant_Id: 68,
         company_id: 1,
         customer_BillingAddress_id: this.selectedAddress.id,
         billing_addressline1: this.selectedAddress.addressLine1,
         billing_addressline2: this.selectedAddress.addressLine2,
         takeAwayPrice: this.totalPayable,
-        taxAmount:this.gst,
-        deliveryCharge:this.deliveryCharges
+        taxAmount: this.gst,
+        deliveryCharge: this.deliveryCharges,
       };
-     
-    }
-    else{
-       obj = {
+    } else {
+      obj = {
         merchant_Id: 68,
         company_id: 1,
         customer_BillingAddress_id: '',
         billing_addressline1: '',
         billing_addressline2: '',
         takeAwayPrice: this.totalPayable,
-        taxAmount:this.gst,
-        deliveryCharge:this.deliveryCharges
+        taxAmount: this.gst,
+        deliveryCharge: this.deliveryCharges,
       };
-     
     }
-    if(!this.preorderCheckbox && this.preorder) {
+    if (!this.preorderCheckbox && this.preorder) {
       const alert = await this.alertController.create({
-        
-        message: 'Do you want preorder service as you have already added that?Press Confirm for preorder',
+        message: 'Confirm to place Preorder',
         buttons: [
           {
             text: 'Cancel',
             role: 'cancel',
             handler: () => {
               this.authService.totalDataSubject.next(obj);
-              
-              localStorage.removeItem("preorder");
+
+              localStorage.removeItem('preorder');
               this.router.navigate([this.router.url, 'payment-option']);
             },
           },
@@ -250,81 +243,72 @@ export class CartPage implements OnInit {
             text: 'OK',
             role: 'confirm',
             handler: () => {
-          this.preorderCheckbox=true;
-          obj.isPreorder="1";
-          obj.delivery_date=this.preorder.selectedDate;
-          obj.delivery_time=this.preorder.selectedTime;
-          if(this.preorder.type="dinein"){
-            obj.dinein_Customer_count=this.preorder.selectedPeople
-          }
-          this.authService.totalDataSubject.next(obj);
-          this.router.navigate([this.router.url, 'payment-option']);
+              this.preorderCheckbox = true;
+              obj.isPreorder = '1';
+              obj.delivery_date = this.preorder.selectedDate;
+              obj.delivery_time = this.preorder.selectedTime;
+              if ((this.preorder.type = 'dinein')) {
+                obj.dinein_Customer_count = this.preorder.selectedPeople;
+              }
+              this.authService.totalDataSubject.next(obj);
+              this.router.navigate([this.router.url, 'payment-option']);
             },
           },
         ],
       });
-    
+
       await alert.present();
-    }
-    else if(this.preorderCheckbox &&this.preorder)
-    { 
-      obj.isPreorder="1";
-          obj.delivery_date=this.preorder.selectedDate;
-          obj.delivery_time=this.preorder.selectedTime;
-          if(this.preorder.type="dinein"){
-            obj.dinein_Customer_count=this.preorder.selectedPeople
-          }
+    } else if (this.preorderCheckbox && this.preorder) {
+      obj.isPreorder = '1';
+      obj.delivery_date = this.preorder.selectedDate;
+      obj.delivery_time = this.preorder.selectedTime;
+      if ((this.preorder.type = 'dinein')) {
+        obj.dinein_Customer_count = this.preorder.selectedPeople;
+      }
       this.authService.totalDataSubject.next(obj);
       this.router.navigate([this.router.url, 'payment-option']);
-
-    }
-    else{
+    } else {
       this.authService.totalDataSubject.next(obj);
-      this.router.navigate([this.router.url, 'payment-option'])
+      this.router.navigate([this.router.url, 'payment-option']);
     }
-    
   }
 
-  customPriceValidate(product){
-    product.options.optionGroups.map(y =>{
-      y.optionItems.map(z =>{
-        if(z.selected){
-          if(this.currentRoute == 'delivery'){
-            this.customValuesPrice = this.customValuesPrice + z.deliveryPrice
-            z.displayValue =  z.deliveryPrice;
-            z.displayOptionValue =  z.deliveryPrice;
-          }
-          else if(this.currentRoute == 'takeaway'){
-            z.displayValue =  z.takeawayPrice;
-            z.displayOptionValue =  z.takeawayPrice;
-            this.customValuesPrice = this.customValuesPrice + z.takeawayPrice
-          }
-          else if(this.currentRoute == 'dinein'){
-            z.displayValue =  z.dineinPrice;
-            z.displayOptionValue =  z.dineinPrice;
-            this.customValuesPrice = this.customValuesPrice + z.dineinPrice
+  customPriceValidate(product) {
+    product.options.optionGroups.map((y) => {
+      y.optionItems.map((z) => {
+        if (z.selected) {
+          if (this.currentRoute == 'delivery') {
+            this.customValuesPrice = this.customValuesPrice + z.deliveryPrice;
+            z.displayValue = z.deliveryPrice;
+            z.displayOptionValue = z.deliveryPrice;
+          } else if (this.currentRoute == 'takeaway') {
+            z.displayValue = z.takeawayPrice;
+            z.displayOptionValue = z.takeawayPrice;
+            this.customValuesPrice = this.customValuesPrice + z.takeawayPrice;
+          } else if (this.currentRoute == 'dinein') {
+            z.displayValue = z.dineinPrice;
+            z.displayOptionValue = z.dineinPrice;
+            this.customValuesPrice = this.customValuesPrice + z.dineinPrice;
           }
         }
-      })
-    })
+      });
+    });
   }
 
-  customPriceValidateForSub(product){
-    product.options.optionGroups.map(y =>{
-      y.optionItems.map(z =>{
-        if(z.selected){
-          if(this.currentRoute == 'delivery'){
-            this.customValuesPrice = this.customValuesPrice - z.deliveryPrice
-          }
-          else if(this.currentRoute == 'takeaway'){
-            this.customValuesPrice = this.customValuesPrice - z.takeawayPrice
-          }
-          else if(this.currentRoute == 'dinein'){
-            this.customValuesPrice = this.customValuesPrice - z.dineinPrice
+  customPriceValidateForSub(product) {
+    product.options.optionGroups.map((y) => {
+      y.optionItems.map((z) => {
+        if (z.selected) {
+          if (this.currentRoute == 'delivery') {
+            this.customValuesPrice = this.customValuesPrice - z.deliveryPrice;
+          } else if (this.currentRoute == 'takeaway') {
+            this.customValuesPrice = this.customValuesPrice - z.takeawayPrice;
+          } else if (this.currentRoute == 'dinein') {
+            this.customValuesPrice = this.customValuesPrice - z.dineinPrice;
           }
         }
-      })
-    })
+      });
+    });
     // this.router.navigate([this.router.url, 'payment-option']);
     // let obj = {
     //   merchant_Id: 68,
@@ -339,7 +323,7 @@ export class CartPage implements OnInit {
 
   getItemTotal() {
     this.itemTotal = 0;
-    this.gst=0;
+    this.gst = 0;
     // if(this.currentRoute=='delivery'){
     //   this.cartItems.map((ele) => {
     //     this.itemTotal = this.itemTotal + ele.deliveryPrice * ele.product_quantity;
@@ -355,27 +339,26 @@ export class CartPage implements OnInit {
     //     this.itemTotal = this.itemTotal + ele.dineInPrice * ele.product_quantity;
     //   });
     // }
-    
+
     this.cartItems.map((ele) => {
-          this.itemTotal = this.itemTotal + Number(ele.displaySizeValue) * ele.product_quantity;
-          this.gst=(ele.taxdisplayAmount+this.gst) * ele.product_quantity;
-        });
-        console.log(this.customValuesPrice);
-        this.itemTotal = this.itemTotal + this.customValuesPrice
-    if(this.currentRoute=='dinein' || this.currentRoute == 'takeaway'){
+      this.itemTotal =
+        this.itemTotal + Number(ele.displaySizeValue) * ele.product_quantity;
+      this.gst = (ele.taxdisplayAmount + this.gst) * ele.product_quantity;
+    });
+    console.log(this.customValuesPrice);
+    this.itemTotal = this.itemTotal + this.customValuesPrice;
+    if (this.currentRoute == 'dinein' || this.currentRoute == 'takeaway') {
       this.totalPayable =
-      this.itemTotal  +
-      this.gst -
-      (this.appliedCoupon ? this.appliedCoupon.couponValue : 0);
-    }
-    else{
+        this.itemTotal +
+        this.gst -
+        (this.appliedCoupon ? this.appliedCoupon.couponValue : 0);
+    } else {
       this.totalPayable =
-      this.itemTotal +
-      this.deliveryCharges +
-      this.gst -
-      (this.appliedCoupon ? this.appliedCoupon.couponValue : 0);
+        this.itemTotal +
+        this.deliveryCharges +
+        this.gst -
+        (this.appliedCoupon ? this.appliedCoupon.couponValue : 0);
     }
-    
   }
 
   remove() {
@@ -387,8 +370,7 @@ export class CartPage implements OnInit {
   }
 
   getAddress() {
- 
-    this.global.showLoader('Loading Data'); 
+    this.global.showLoader('Loading Data');
     this.authService.getAddress().subscribe({
       next: (data: any) => {
         this.userAddress = data.data;
@@ -397,46 +379,44 @@ export class CartPage implements OnInit {
         this.getDeliveryCharges();
       },
       error: (err) => {
-        this.global.hideLoader()
+        this.global.hideLoader();
         console.log(err);
       },
     });
-  
-  
   }
 
-  getDeliveryCharges(){
+  getDeliveryCharges() {
     this.authService.getZipCode().subscribe({
-      next:(data:any)=>{
-         console.log(data.data);
-        this.tempdata=data.data;
-        this.tempdata.map(x=>{
-          if(x.delivery_suburb==this.selectedAddress.suburb){
-            this.distance=x.distance_in_km
-           let obj={
-      distance:this.distance,  
-    }
-    console.log(obj);
-    this.authService.getDeliveryCharges(obj).subscribe({
-      next:(data:any)=>{
-       this.deliveryCharges=Number(data.data) ;
-       console.log(this.deliveryCharges);
-       this.getItemTotal();
-       this.global.hideLoader()
-      },
-      error:(err)=>{
-      console.log(err);
-      this.global.hideLoader();
-      }
-    })
+      next: (data: any) => {
+        console.log(data.data);
+        this.tempdata = data.data;
+        this.tempdata.map((x) => {
+          if (x.delivery_suburb == this.selectedAddress.suburb) {
+            this.distance = x.distance_in_km;
+            let obj = {
+              distance: this.distance,
+            };
+            console.log(obj);
+            this.authService.getDeliveryCharges(obj).subscribe({
+              next: (data: any) => {
+                this.deliveryCharges = Number(data.data);
+                console.log(this.deliveryCharges);
+                this.getItemTotal();
+                this.global.hideLoader();
+              },
+              error: (err) => {
+                console.log(err);
+                this.global.hideLoader();
+              },
+            });
           }
-        })
+        });
       },
-      error:(err)=>{
+      error: (err) => {
         this.global.hideLoader();
-         console.log(err);
-      }
-    })
+        console.log(err);
+      },
+    });
   }
 
   onAddressChange(event) {
@@ -446,7 +426,7 @@ export class CartPage implements OnInit {
   }
   async presentAlert() {
     const alert = await this.alertController.create({
-      message: 'Please reconfirm your address',
+      message: 'Please reconfirm your delivery address',
       buttons: ['OK'],
     });
     await alert.present();

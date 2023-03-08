@@ -10,7 +10,6 @@ import {
   PushNotificationSchema,
   PushNotifications,
   Token,
-  
 } from '@capacitor/push-notifications';
 import { AlertController } from '@ionic/angular';
 @Injectable({
@@ -22,20 +21,20 @@ export class AuthService {
   url2: string = 'https://barter-tech.antino.ca/api';
   // url3: string =
   //   'https://op-au-uat-cusapp-api.azurewebsites.net/api/sendresponse';
-  url4:string='https://merchantapi.orderpoint.net.au/api/v1'
+  url4: string = 'https://merchantapi.orderpoint.net.au/api/v1';
   addressSubject = new BehaviorSubject({});
   accountSubject = new BehaviorSubject({});
   couponSubject = new BehaviorSubject({});
   mobileNumberSubject = new BehaviorSubject({});
   totalDataSubject = new BehaviorSubject({});
-  badgeDataSubject=new BehaviorSubject(0);
-  routeSubject=new BehaviorSubject({});
+  badgeDataSubject = new BehaviorSubject(0);
+  routeSubject = new BehaviorSubject({});
 
   constructor(
     private http: HttpClient,
     private router: Router,
     private storage: StorageService,
-    private _alertController: AlertController,
+    private _alertController: AlertController
   ) {}
 
   registerUser(data): Observable<any> {
@@ -83,6 +82,10 @@ export class AuthService {
   requestOtp(data) {
     return this.http.post<any>(this.url2 + '/requestOtp', data);
   }
+  getBalance() {
+    let params = new HttpParams().append('merchant_id', '45');
+    return this.http.get(this.url2 + '/balance-details', { params });
+  }
   async logout() {
     try {
       // await this.storage.clear();
@@ -120,57 +123,57 @@ export class AuthService {
   saveCustomerOrder(data) {
     return this.http.post(this.url2 + '/saveCustomerOrder', data);
   }
-  deleteAddress(data){
-    return this.http.post(this.url2 + '/Deleteaddress',data)
+  deleteAddress(data) {
+    return this.http.post(this.url2 + '/Deleteaddress', data);
   }
-  getZipCode(){
+  getZipCode() {
     const params = new HttpParams().append('merchant_id', '68');
-    return this.http.get(this.url2+'/zipCode', { params });
+    return this.http.get(this.url2 + '/zipCode', { params });
   }
-  getworkingHours(){
+  getworkingHours() {
     const params = new HttpParams().append('merchant_id', '68');
-    return this.http.get(this.url2+'/workingHours',{params});
+    return this.http.get(this.url2 + '/workingHours', { params });
   }
-  getDeliveryCharges(data){
+  getDeliveryCharges(data) {
     let params = new HttpParams().append('distance', data.distance);
-    params=params.append('merchant_id','68')
-    return this.http.get(this.url2+'/DeliveryCharges',{params});
+    params = params.append('merchant_id', '68');
+    return this.http.get(this.url2 + '/DeliveryCharges', { params });
   }
-  getCodUpdate(data){
-    return this.http.post(this.url2+'/CODstatusUpdate',data);
+  getCodUpdate(data) {
+    return this.http.post(this.url2 + '/CODstatusUpdate', data);
   }
-  getCardUpdate(data){
-    return this.http.post(this.url2+'/CardStatusupdate',data);
+  getCardUpdate(data) {
+    return this.http.post(this.url2 + '/CardStatusupdate', data);
   }
-  getGpayUpdate(data){
-    return this.http.post(this.url2+'/GpayStatusupdate',data);
+  getGpayUpdate(data) {
+    return this.http.post(this.url2 + '/GpayStatusupdate', data);
   }
-  getApplePayUpdate(data){
-    return this.http.post(this.url2+'/ApplepayStatusupdate',data);
+  getApplePayUpdate(data) {
+    return this.http.post(this.url2 + '/ApplepayStatusupdate', data);
   }
-  setProfilePhoto(data){
-    return this.http.post(this.url2+'/profilePic',data);
+  setProfilePhoto(data) {
+    return this.http.post(this.url2 + '/profilePic', data);
   }
-  getUrl(){
+  getUrl() {
     const params = new HttpParams().append('Merchant_Id', '68');
-    return this.http.get(this.url2+'/URLS',{params});
+    return this.http.get(this.url2 + '/URLS', { params });
   }
-  getCarouselImages(data){
-    let params=new HttpParams().append('merchant_id','68');
-    params=params.append('order_type',data.order_type);
-    return this.http.get(this.url2+'/CarouselImages',{params});
+  getCarouselImages(data) {
+    let params = new HttpParams().append('merchant_id', '68');
+    params = params.append('order_type', data.order_type);
+    return this.http.get(this.url2 + '/CarouselImages', { params });
   }
-  sendEmailInvoice(data){
-    return this.http.post(this.url2+'/sendInvoice',data);
+  sendEmailInvoice(data) {
+    return this.http.post(this.url2 + '/sendInvoice', data);
   }
-  appleLogin(data){
-    return this.http.post(this.url2+'/LoginwithApple',data)
+  appleLogin(data) {
+    return this.http.post(this.url2 + '/LoginwithApple', data);
   }
-  accountDelete(obj){
-    return this.http.post(this.url2+'/DeleteAccoutStatus',obj);
+  accountDelete(obj) {
+    return this.http.post(this.url2 + '/DeleteAccoutStatus', obj);
   }
 
-  getFCMTOKEN(){
+  getFCMTOKEN() {
     PushNotifications.requestPermissions().then((result) => {
       console.log('starting', result);
       if (result.receive === 'granted') {
@@ -189,19 +192,21 @@ export class AuthService {
     });
 
     PushNotifications.addListener('registrationError', (error: any) => {
-     // alert('Error on registration: ' + JSON.stringify(error));
+      // alert('Error on registration: ' + JSON.stringify(error));
     });
 
-
-    PushNotifications.addListener('pushNotificationReceived', async (notification: PushNotificationSchema) => {
-      await (
+    PushNotifications.addListener(
+      'pushNotificationReceived',
+      async (notification: PushNotificationSchema) => {
+        await (
           await this._alertController.create({
-              header: notification.title,
-              message: notification.body,
-              buttons: ['Close']
+            header: notification.title,
+            message: notification.body,
+            buttons: ['Close'],
           })
-      ).present();
-  });
+        ).present();
+      }
+    );
 
     // PushNotifications.addListener(
     //   'pushNotificationReceived',
@@ -230,7 +235,7 @@ export class AuthService {
     PushNotifications.addListener(
       'pushNotificationActionPerformed',
       (notification: ActionPerformed) => {
-       // alert('Push action performed: ' + JSON.stringify(notification));
+        // alert('Push action performed: ' + JSON.stringify(notification));
       }
     );
   }

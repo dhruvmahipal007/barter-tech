@@ -19,9 +19,12 @@ import {
 import { Plugins, registerWebPlugin } from '@capacitor/core';
 import { HTTP } from '@awesome-cordova-plugins/http/ngx';
 import { HttpClient } from '@angular/common/http';
-import {SignInWithApple, SignInWithAppleOptions, SignInWithAppleResponse} from '@capacitor-community/apple-sign-in'
+import {
+  SignInWithApple,
+  SignInWithAppleOptions,
+  SignInWithAppleResponse,
+} from '@capacitor-community/apple-sign-in';
 import { AlertController } from '@ionic/angular';
-
 
 @Component({
   selector: 'app-login',
@@ -31,7 +34,7 @@ import { AlertController } from '@ionic/angular';
 export class LoginPage implements OnInit {
   token: any;
   user = null;
-  userData:any;
+  userData: any;
   device_model: any;
   device_platform: any;
   device_uuid: any;
@@ -41,7 +44,7 @@ export class LoginPage implements OnInit {
   registration_id: any;
   validateForm: FormGroup;
   emailPattern = '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-z]{2,4}$';
-  showAppleSignIn:any;
+  showAppleSignIn: any;
 
   constructor(
     private fb: FormBuilder,
@@ -65,7 +68,7 @@ export class LoginPage implements OnInit {
       ],
       password: [null, [Validators.required]],
     });
-   
+
     // this.authService.testData().subscribe({
     //   next: (data) => {
     //     console.log(data);
@@ -113,13 +116,11 @@ export class LoginPage implements OnInit {
         }
       },
       error: (err) => {
-        this.toastService.presentToast("Something Went wrong!Try Again Later");
+        this.toastService.presentToast('Something Went wrong!Try Again Later');
         console.log(err.error.statusText);
       },
     });
   }
-
- 
 
   ngOnInit() {
     this.isLoggedIn();
@@ -132,12 +133,12 @@ export class LoginPage implements OnInit {
       this.device_model = val.model;
       this.device_platform = val.platform;
       this.device_uuid = val.uuid;
-      if(this.device_uuid==undefined){
-        this.device_uuid='ND'
+      if (this.device_uuid == undefined) {
+        this.device_uuid = 'ND';
       }
       this.device_version = val.appVersion;
-      if(this.device_version==undefined){
-        this.device_version='ND'
+      if (this.device_version == undefined) {
+        this.device_version = 'ND';
       }
       this.device_manufacturer = val.manufacturer;
     });
@@ -165,22 +166,17 @@ export class LoginPage implements OnInit {
     });
     console.log('result=', result);
     if (result.accessToken && result.accessToken.userId) {
-      this.token=result.accessToken;
+      this.token = result.accessToken;
       this.loadUserData();
       console.log(`Facebook access token is ${result.accessToken.token}`);
-      console.log(`Facebook access token is ${result.accessToken.userId}`)
-    }
-    else if(result.accessToken && !result.accessToken.userId){
+      console.log(`Facebook access token is ${result.accessToken.userId}`);
+    } else if (result.accessToken && !result.accessToken.userId) {
       this.getCurrentToken();
-    }
-    else{
+    } else {
       this.toastService.presentToast('Login Failed');
     }
-    
-
-    
   }
-  loginwithapple(){
+  loginwithapple() {
     // const firebaseConfig = {
     //   apiKey: "AIzaSyCHZgwYrB8VAgwGe4C7DkRT0P8yGDXUIPk",
     //   authDomain: "barter-tech.firebaseapp.com",
@@ -192,57 +188,57 @@ export class LoginPage implements OnInit {
     // };
     this.router.navigate(['/signinapple']);
     // this.signInWithAppleNative();
-    
   }
-  signInWithAppleNative(){
-    let options:SignInWithAppleOptions={
+  signInWithAppleNative() {
+    let options: SignInWithAppleOptions = {
       clientId: 'com.bartertech.app ',
       redirectURI: 'https://barter-tech.firebaseapp.com/__/auth/handler',
-      scopes:'email',
-      state:'12345'
+      scopes: 'email',
+      state: '12345',
     };
-    SignInWithApple.authorize(options).then((result:SignInWithAppleResponse)=>{
-      console.log('RESULT: ',result);
-      if (result.response && result.response.identityToken) {
-        this.userData = result.response;
-        const obj = {
-          login_type: 'social',
-          email: this.userData.email,
-          social_id: this.userData.identityToken,
-          name: this.userData.givenName,
-        };
-        console.log(obj);
-    this.authService.login(obj).subscribe({
-      next: (data) => {
-        console.log(data);
-        if (data.status) {
-          localStorage.setItem(
-            'token',
-            data.data.userToken.original.access_token
-          );
-          localStorage.setItem(
-            'userDetails',
-            JSON.stringify(data.data.UserData)
-          );
-          // this.storage.store('userDetails', data.data.UserData);
-          this.toastService.presentToast(data.message);
-          this.router.navigate(['/account']);
+    SignInWithApple.authorize(options)
+      .then((result: SignInWithAppleResponse) => {
+        console.log('RESULT: ', result);
+        if (result.response && result.response.identityToken) {
+          this.userData = result.response;
+          const obj = {
+            login_type: 'social',
+            email: this.userData.email,
+            social_id: this.userData.identityToken,
+            name: this.userData.givenName,
+          };
+          console.log(obj);
+          this.authService.login(obj).subscribe({
+            next: (data) => {
+              console.log(data);
+              if (data.status) {
+                localStorage.setItem(
+                  'token',
+                  data.data.userToken.original.access_token
+                );
+                localStorage.setItem(
+                  'userDetails',
+                  JSON.stringify(data.data.UserData)
+                );
+                // this.storage.store('userDetails', data.data.UserData);
+                this.toastService.presentToast(data.message);
+                this.router.navigate(['/account']);
+              } else {
+                this.toastService.presentToast('something went wrong');
+              }
+            },
+            error: (err) => {
+              this.toastService.presentToast(err);
+              console.log(err.statusText);
+            },
+          });
         } else {
-          this.toastService.presentToast('something went wrong');
+          this.presentAlert();
         }
-      },
-      error: (err) => {
-        this.toastService.presentToast(err);
-        console.log(err.statusText);
-      },
-    });
-
-      } else {
+      })
+      .catch((response) => {
         this.presentAlert();
-      }
-    }).catch((response)=>{
-      this.presentAlert();
-    })
+      });
   }
 
   async presentAlert() {
@@ -254,27 +250,24 @@ export class LoginPage implements OnInit {
     await alert.present();
   }
 
-  async getCurrentToken(){
-    const result=await FacebookLogin.getCurrentAccessToken();
+  async getCurrentToken() {
+    const result = await FacebookLogin.getCurrentAccessToken();
 
-      if(result.accessToken){
-        this.token=result.accessToken;
-        this.loadUserData();
-      }
-      else{
-        this.toastService.presentToast('Not Logged In');
-      }
+    if (result.accessToken) {
+      this.token = result.accessToken;
+      this.loadUserData();
+    } else {
+      this.toastService.presentToast('Not Logged In');
+    }
   }
 
-  async loadUserData(){
-    const url=`https://graph.facebook.com/${this.token.userId}?fields=id,name,gender,link,picture&type=large&access_token=${this.token.token}`;
-   this.http.get(url).subscribe(res=>{
-    console.log('user: ',res);
-    this.user=res;
-
-
-   });
-   const UserFacebookData = await FacebookLogin.getProfile<{
+  async loadUserData() {
+    const url = `https://graph.facebook.com/${this.token.userId}?fields=id,name,gender,link,picture&type=large&access_token=${this.token.token}`;
+    this.http.get(url).subscribe((res) => {
+      console.log('user: ', res);
+      this.user = res;
+    });
+    const UserFacebookData = await FacebookLogin.getProfile<{
       email: string;
     }>({ fields: ['email'] });
 
@@ -287,7 +280,7 @@ export class LoginPage implements OnInit {
       name: this.user.name,
       // "registration_token": JSON.parse(localStorage.getItem('fcm_token')),
     };
-console.log(obj);
+    console.log(obj);
     this.authService.login(obj).subscribe({
       next: (data) => {
         console.log(data);
@@ -316,7 +309,6 @@ console.log(obj);
         console.log(err.statusText);
       },
     });
-   
   }
 
   submitForm(): void {
@@ -367,7 +359,7 @@ console.log(obj);
         }
       },
       error: (err) => {
-        this.toastService.presentToast(err);
+        this.toastService.presentToast(err.message);
         console.log(err);
       },
     });

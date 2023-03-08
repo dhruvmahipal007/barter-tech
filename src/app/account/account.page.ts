@@ -1,7 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { BarcodeScanner } from '@capacitor-community/barcode-scanner';
 import { Browser } from '@capacitor/browser';
-import { LoadingController, NavController ,ToastController } from '@ionic/angular';
+import {
+  LoadingController,
+  NavController,
+  ToastController,
+} from '@ionic/angular';
 import { AuthService } from '../services/auth.service';
 import { GlobalService } from '../services/global.service';
 import { ToastService } from '../services/toast.service';
@@ -11,19 +15,28 @@ import { Location } from '@angular/common';
 import { App } from '@capacitor/app';
 import { ModalController } from '@ionic/angular';
 import { ProfilephotooptionComponent } from '../components/profilephotooption/profilephotooption.component';
-import { ImagePicker, ImagePickerOptions } from '@awesome-cordova-plugins/image-picker/ngx';
+import {
+  ImagePicker,
+  ImagePickerOptions,
+} from '@awesome-cordova-plugins/image-picker/ngx';
 import { WebView } from '@awesome-cordova-plugins/ionic-webview/ngx';
 import { Capacitor } from '@capacitor/core';
-import {Camera,CameraResultType,CameraSource,Photo} from '@capacitor/camera';
-import {Directory, Filesystem} from '@capacitor/filesystem';
+import {
+  Camera,
+  CameraResultType,
+  CameraSource,
+  Photo,
+} from '@capacitor/camera';
+import { Directory, Filesystem } from '@capacitor/filesystem';
 import { read } from 'fs';
 import { finalize } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
-const IMAGE_DIR='stored-images';
-interface LocalFile{
-  name:string;
-  path:string;
-  data:string;
+import { AlertController } from '@ionic/angular';
+const IMAGE_DIR = 'stored-images';
+interface LocalFile {
+  name: string;
+  path: string;
+  data: string;
 }
 @Component({
   selector: 'app-account',
@@ -31,7 +44,7 @@ interface LocalFile{
   styleUrls: ['./account.page.scss'],
 })
 export class AccountPage implements OnInit {
-  images:LocalFile[]=[];
+  images: LocalFile[] = [];
 
   qrCodeString = '';
   // scannedResults:any;
@@ -40,16 +53,19 @@ export class AccountPage implements OnInit {
   isBarCodeVisible: boolean = true;
   userData: any;
   isLoading: boolean;
-  cartItemsLength:any=0;
-  finalVariable:any="assets/account.svg";
-  temporaryVariable:any="assets/account.svg";
-  urldata:any;
-  whatson:any;
-  aboutus:any;
-  legal:any;
-  photoVariable:any="assets/account.svg";
+  cartItemsLength: any = 0;
+  finalVariable: any = 'assets/account.svg';
+  temporaryVariable: any = 'assets/account.svg';
+  urldata: any;
+  whatson: any;
+  aboutus: any;
+  legal: any;
+  getBalance: any;
+  userAddress: any;
+  photoVariable: any = 'assets/account.svg';
 
   constructor(
+    private alertController: AlertController,
     private authService: AuthService,
     private navCtrl: NavController,
     private toastService: ToastService,
@@ -59,12 +75,11 @@ export class AccountPage implements OnInit {
     private platform: Platform,
     private location: Location,
     private modalController: ModalController,
-    private imagePicker:ImagePicker,
-    private webview:WebView,
-    private loadingCtrl:LoadingController,
+    private imagePicker: ImagePicker,
+    private webview: WebView,
+    private loadingCtrl: LoadingController,
     private toastCtrl: ToastController,
-    private http: HttpClient,
-    
+    private http: HttpClient
   ) {
     this.platform.ready().then(() => {
       this.platform.backButton.subscribeWithPriority(99999, () => {
@@ -138,22 +153,19 @@ export class AccountPage implements OnInit {
 
   ngOnInit(): void {
     // this.getData();
+    this.getAddress();
     this.loadFiles();
     this.getURL();
-    this.authService.badgeDataSubject.subscribe(res=>{
-      console.log(res,"heelo");
-      console.log(Object.keys(res),"byee");
-      if(res==0){
-       
-       let data=JSON.parse(localStorage.getItem('cartItems'));
-       this.cartItemsLength=data?data.length:0
-       
+    this.authService.badgeDataSubject.subscribe((res) => {
+      console.log(res, 'heelo');
+      console.log(Object.keys(res), 'byee');
+      if (res == 0) {
+        let data = JSON.parse(localStorage.getItem('cartItems'));
+        this.cartItemsLength = data ? data.length : 0;
+      } else {
+        this.cartItemsLength = res;
       }
-      else{
-       this.cartItemsLength=res;
-      }
-   
-     })
+    });
   }
   qrbtn() {
     this.zipped = !this.zipped;
@@ -166,27 +178,27 @@ export class AccountPage implements OnInit {
   async openWhatson() {
     await Browser.open({
       // url: 'https://thestirlingarms.com.au/whats-on/stirling-specials',
-      url:this.whatson,
+      url: this.whatson,
       // url:'http://demo.orderpoint.net.au/l',
     });
   }
   async openAboutUs() {
     await Browser.open({
       // url: 'https://thestirlingarms.com.au/about-us/about-us',
-      url:this.aboutus,
+      url: this.aboutus,
       // url:'http://demo.orderpoint.net.au/about',
     });
   }
   async openLegal() {
     await Browser.open({
       // url: 'https://thestirlingarms.com.au/stay/terms-conditions',
-      url:this.legal,
+      url: this.legal,
       // url:'http://demo.orderpoint.net.au/w',
     });
   }
 
   logout() {
-    this.images=[];
+    this.images = [];
     this.global.showLoader().then(() => {
       this.authService
         .logout()
@@ -205,37 +217,45 @@ export class AccountPage implements OnInit {
     });
   }
 
-  getURL(){
+  getURL() {
     this.authService.getUrl().subscribe({
-      next:(data:any)=>{
+      next: (data: any) => {
         // console.log(data);
-        this.urldata=data.data
+        this.urldata = data.data;
         console.log(this.urldata);
-        this.whatson=this.urldata[0].whatson;
-        this.aboutus=this.urldata[0].about;
-        this.legal=this.urldata[0].ltc;
+        this.whatson = this.urldata[0].whatson;
+        this.aboutus = this.urldata[0].about;
+        this.legal = this.urldata[0].ltc;
       },
-      error:(err)=>{
+      error: (err) => {
         console.log(err);
-      }
-    })
+      },
+    });
   }
 
   getData() {
+    this.getBalanceData();
     this.global.showLoader('Loading Data');
     this.authService.getProfile().subscribe({
       next: (data: any) => {
         console.log(data);
         this.userData = data.data;
+        this.global.hideLoader();
         // this.photoVariable=data.data.imageUrl;
         // if(this.photoVariable===null){
         //   this.photoVariable=this.temporaryVariable
         // }
         // console.log(this.photoVariable);
-        this.global.hideLoader();
+
         console.log(this.userData);
         localStorage.setItem('userNo', JSON.stringify(this.userData.mobileNo));
-        this.qrCodeString = 'M'+(this.userData.mobileNo.split('').splice(3,13).toString().replaceAll(',',''));
+        this.qrCodeString =
+          'M' +
+          this.userData.mobileNo
+            .split('')
+            .splice(3, 13)
+            .toString()
+            .replaceAll(',', '');
       },
       error: (err) => {
         this.global.hideLoader();
@@ -243,20 +263,39 @@ export class AccountPage implements OnInit {
       },
     });
   }
+  getBalanceData() {
+    this.authService.getBalance().subscribe({
+      next: (data: any) => {
+        this.getBalance = data.data;
+        console.log(this.getBalance);
+      },
+      error: (err) => {
+        this.global.hideLoader();
+        console.log(err);
+      },
+    });
+  }
   editProfile(userData) {
-    this.userData.mobileNo = (this.userData.mobileNo.split('').splice(3,13).toString().replaceAll(',',''));
+    this.userData.mobileNo = this.userData.mobileNo
+      .split('')
+      .splice(3, 13)
+      .toString()
+      .replaceAll(',', '');
     console.log(this.userData.mobileNo);
     this.authService.accountSubject.next(this.userData);
     this.router.navigate(['/profile']);
   }
-  openContactUs(userData){
-    this.userData.mobileNo = (this.userData.mobileNo.split('').splice(3,13).toString().replaceAll(',',''));
+  openContactUs(userData) {
+    this.userData.mobileNo = this.userData.mobileNo
+      .split('')
+      .splice(3, 13)
+      .toString()
+      .replaceAll(',', '');
     console.log(this.userData.mobileNo);
     this.authService.accountSubject.next(this.userData);
     this.router.navigate(['/contactus']);
-
   }
-  openAccountPrivacy(){
+  openAccountPrivacy() {
     this.router.navigate(['/accountprivacy']);
   }
   // openImagePicker(){
@@ -305,98 +344,99 @@ export class AccountPage implements OnInit {
 
   // }
 
-  async selectImage(){
-    const image=await Camera.getPhoto({
-      quality:90,
-      allowEditing:false,
-      resultType:CameraResultType.Uri,
-      source:CameraSource.Photos
+  async selectImage() {
+    const image = await Camera.getPhoto({
+      quality: 90,
+      allowEditing: false,
+      resultType: CameraResultType.Uri,
+      source: CameraSource.Photos,
     });
-    if(image){
-this.saveImage(image);
-
-
+    if (image) {
+      this.saveImage(image);
     }
   }
 
-  async saveImage(photo:Photo){
-    const base64Data=await this.readAsBase64(photo);
-   // console.log(base64Data);
-    const fileName=new Date().getTime() + '.jpeg';
-    const savedFile=await Filesystem.writeFile({
-      directory:Directory.Data,
-      path:`${IMAGE_DIR}/${fileName}`,
-      data:base64Data
+  async saveImage(photo: Photo) {
+    const base64Data = await this.readAsBase64(photo);
+    // console.log(base64Data);
+    const fileName = new Date().getTime() + '.jpeg';
+    const savedFile = await Filesystem.writeFile({
+      directory: Directory.Data,
+      path: `${IMAGE_DIR}/${fileName}`,
+      data: base64Data,
     });
- console.log('saved: ',savedFile);
- this.loadFiles();
-
+    console.log('saved: ', savedFile);
+    this.loadFiles();
   }
-  async readAsBase64(photo:Photo){
-    if(this.platform.is('hybrid')){
-      const file=await Filesystem.readFile({
-        path:photo.path
+  async readAsBase64(photo: Photo) {
+    if (this.platform.is('hybrid')) {
+      const file = await Filesystem.readFile({
+        path: photo.path,
       });
-      return file.data
-    }
-    else{
-      const response=await fetch(photo.webPath);
-      const blob=await response.blob();
-      return await this.convertBlobToBase64(blob) as string;
+      return file.data;
+    } else {
+      const response = await fetch(photo.webPath);
+      const blob = await response.blob();
+      return (await this.convertBlobToBase64(blob)) as string;
     }
   }
-  convertBlobToBase64=(blob:Blob)=>new Promise((resolve,reject)=>{
-    const reader=new FileReader;
-    reader.onerror=reject;
-    reader.onload=()=>{
-      resolve(reader.result)
-    };
-    reader.readAsDataURL(blob);
-  });
-
-  async loadFiles(){
-  this.images=[];
-  const loading=await this.loadingCtrl.create({
-    message:'Loading data ...'
-  });
-  await loading.present();
-
-  Filesystem.readdir({
-    directory:Directory.Data,
-    path:IMAGE_DIR
-  }).then(result=>{
-    console.log('HERE: ',result?.files[result.files.length-1]);
-   this.loadFileData(result.files[result.files.length-1])
-  },async err=>{
-    console.log('err: ',err);
-    await Filesystem.mkdir({
-      directory:Directory.Data,
-      path:IMAGE_DIR
+  convertBlobToBase64 = (blob: Blob) =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onerror = reject;
+      reader.onload = () => {
+        resolve(reader.result);
+      };
+      reader.readAsDataURL(blob);
     });
-  }).then(_=>{
-    loading.dismiss();
-  })
 
+  async loadFiles() {
+    this.images = [];
+    const loading = await this.loadingCtrl.create({
+      message: 'Loading data ...',
+    });
+    await loading.present();
+
+    Filesystem.readdir({
+      directory: Directory.Data,
+      path: IMAGE_DIR,
+    })
+      .then(
+        (result) => {
+          console.log('HERE: ', result?.files[result.files.length - 1]);
+          this.loadFileData(result.files[result.files.length - 1]);
+        },
+        async (err) => {
+          console.log('err: ', err);
+          await Filesystem.mkdir({
+            directory: Directory.Data,
+            path: IMAGE_DIR,
+          });
+        }
+      )
+      .then((_) => {
+        loading.dismiss();
+      });
   }
 
-  async loadFileData(f){
+  async loadFileData(f) {
     // for (let f of fileNames){
-      //console.log(f,'dhruv');
-      const filePath=`${IMAGE_DIR}/${f.name}`;
-      const readFile=await Filesystem.readFile({
-        directory:Directory.Data,
-        path:filePath
-      });
-      //console.log('Read: ',readFile);
-      this.images=[];
-      this.images.push({
-        name:f,
-        path:filePath,
-        data:`data:image/jpeg;base64,${readFile.data}`
-      });
-      console.log(this.images);
-      this.photoVariable=this.images[this.images.length-1].data;
-      //console.log(this.photoVariable);
+    //console.log(f,'dhruv');
+    const filePath = `${IMAGE_DIR}/${f.name}`;
+    const readFile = await Filesystem.readFile({
+      directory: Directory.Data,
+      path: filePath,
+    });
+    //console.log('Read: ',readFile);
+    this.images = [];
+    this.images.push({
+      name: f,
+      path: filePath,
+      data: `data:image/jpeg;base64,${readFile.data}`,
+    });
+    console.log(this.images);
+    this.photoVariable = this.images[this.images.length - 1].data;
+    //console.log(this.photoVariable);
     // }
     // this.startUpload(fileNames[fileNames.length-1]);
   }
@@ -407,37 +447,64 @@ this.saveImage(image);
     const formData = new FormData();
     formData.append('imageurl', blob, file.name);
     // this.uploadData(formData);
-}
-async uploadData(formData: FormData) {
-  const loading = await this.loadingCtrl.create({
+  }
+  async uploadData(formData: FormData) {
+    const loading = await this.loadingCtrl.create({
       message: 'Uploading image...',
-  });
-  await loading.present();
+    });
+    await loading.present();
 
-  // Use your own API!
-  const url = 'https://barter-tech.antino.ca/api/profilePic';
+    // Use your own API!
+    const url = 'https://barter-tech.antino.ca/api/profilePic';
 
-  this.http.post(url, formData)
+    this.http
+      .post(url, formData)
       .pipe(
-          finalize(() => {
-              loading.dismiss();
-          })
+        finalize(() => {
+          loading.dismiss();
+        })
       )
-      .subscribe(res => {
-          if (res['success']) {
-              this.presentToast('File upload complete.')
-          } else {
-              this.presentToast('File upload failed.')
-          }
+      .subscribe((res) => {
+        if (res['success']) {
+          this.presentToast('File upload complete.');
+        } else {
+          this.presentToast('File upload failed.');
+        }
       });
-}
-async presentToast(text) {
-  const toast = await this.toastCtrl.create({
-    message: text,
-    duration: 3000
-  });
-  toast.present();
-}
+  }
+  async presentToast(text) {
+    const toast = await this.toastCtrl.create({
+      message: text,
+      duration: 3000,
+    });
+    toast.present();
+  }
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      message: 'Please Add Adress first before adding items to cart',
+      buttons: ['OK'],
+    });
+    setTimeout(() => {
+      this.router.navigate(['/addaddress']);
+    }, 3000);
 
-
+    await alert.present();
+  }
+  getAddress() {
+    this.authService.getAddress().subscribe({
+      next: (data: any) => {
+        console.log(data);
+        this.userAddress = data.status;
+        if (data.status == false) {
+          setTimeout(() => {
+            this.presentAlert();
+          }, 2000);
+        }
+        console.log(data);
+      },
+      error: (err) => {
+        this.toastService.presentToast(err);
+      },
+    });
+  }
 }

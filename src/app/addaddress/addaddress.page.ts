@@ -5,7 +5,7 @@ import {
   Validators,
   FormControl,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { AuthService } from '../services/auth.service';
 import { ToastService } from '../services/toast.service';
@@ -17,85 +17,96 @@ import { GlobalService } from 'src/app/services/global.service';
 })
 export class AddaddressPage implements OnInit {
   addAddressForm: FormGroup;
-  userAddress:any;
+  userAddress: any;
+  mobileNo: any;
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
     private global: GlobalService,
     private toastService: ToastService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.addAddressForm = this.fb.group({
       tag: [null, [Validators.required]],
       address: [null, [Validators.required]],
       pincode: [null, [Validators.required]],
       landmark: [null, [Validators.required]],
-      mobile: [null, [Validators.required,Validators.maxLength(10)]],
+      mobile: [null, [Validators.required, Validators.maxLength(10)]],
+    });
+    this.route.params.subscribe((res) => {
+      this.mobileNo = JSON.parse(localStorage.getItem('userNo'));
+      this.mobileNo = this.mobileNo
+        .split('')
+        .splice(3, 13)
+        .toString()
+        .replaceAll(',', '');
+      console.log(this.mobileNo);
+      this.addAddressForm.controls['mobile'].patchValue(this.mobileNo);
     });
   }
 
   ngOnInit() {
     this.getzipCode();
   }
-  getzipCode(){
+  getzipCode() {
     this.global.showLoader('Loading Data');
     this.authService.getZipCode().subscribe({
-      next:(data:any)=>{
-        this.userAddress=data.data;
-         console.log(this.userAddress);
+      next: (data: any) => {
+        this.userAddress = data.data;
+        console.log(this.userAddress);
       },
-      error:(err)=>{
-         console.log(err);
-      }
-    })
+      error: (err) => {
+        console.log(err);
+      },
+    });
     this.global.hideLoader();
   }
-  
+
   addAddress() {
     if (
       this.mobile_FormControl.value.toString().length < 10 ||
       this.mobile_FormControl.value.toString().length > 10
     ) {
       this.toastService.presentToast('Please enter a valid no');
+    } else {
+      console.log(this.pincode_FormControl.value.delivery_postcode);
+      let data = {
+        tag: this.tag_FormControl.value,
+        address: this.address_FormControl.value,
+        zipcode: this.pincode_FormControl.value.delivery_postcode.trim(),
+        suburb: this.pincode_FormControl.value.delivery_suburb,
+        landmark: this.landmark_FormControl.value,
+        mobile: '+61' + this.mobile_FormControl.value,
+      };
+      console.log(data);
+      this.global.showLoader(' Saving Data');
+      this.authService.addAddress(data).subscribe({
+        next: (data) => {
+          console.log(data);
+          if (data.status) {
+            this.global.hideLoader();
+            this.toastService.presentToast(data.message);
+            this.addAddressForm.reset();
+            this.router.navigate(['/manageaddress']);
+          } else {
+            this.global.hideLoader();
+            this.toastService.presentToast('Error in User Details');
+          }
+        },
+        error: (err) => {
+          this.global.hideLoader();
+          console.log(err);
+          const { address, landmark, mobile, tag, zipcode } = err.error;
+          this.toastService.presentToast(
+            tag || address || zipcode || landmark || mobile
+          );
+        },
+      });
     }
-    else{
-
-    
-    console.log(this.pincode_FormControl.value.delivery_postcode);
-    let data = {
-      tag: this.tag_FormControl.value,
-      address: this.address_FormControl.value,
-      zipcode: this.pincode_FormControl.value.delivery_postcode.trim(),
-      suburb:this.pincode_FormControl.value.delivery_suburb,
-      landmark: this.landmark_FormControl.value,
-      mobile: '+61'+this.mobile_FormControl.value,
-    };
-    console.log(data);
-    this.global.showLoader(' Saving Data');
-    this.authService.addAddress(data).subscribe({
-      next: (data) => {
-        console.log(data);
-        if (data.status) {
-          this.global.hideLoader();
-          this.toastService.presentToast(data.message);
-          this.addAddressForm.reset();
-          this.router.navigate(['/manageaddress']);
-        } else {
-          this.global.hideLoader();
-          this.toastService.presentToast('Error in User Details');
-        }
-      },
-      error: (err) => {
-        this.global.hideLoader();
-        console.log(err)
-        const {address, landmark, mobile, tag, zipcode} = err.error
-        this.toastService.presentToast(tag || address || zipcode || landmark || mobile);
-      },
-    });
-  }
   }
 
-  changeRoute(){
+  changeRoute() {
     this.addAddressForm.reset();
     this.router.navigate(['/manageaddress']);
   }
@@ -103,16 +114,16 @@ export class AddaddressPage implements OnInit {
   // onChangeOfOptions(event){
   //   if(!event){
   //     this.items = this.origItems;
-  // } // when nothing has typed*/   
+  // } // when nothing has typed*/
   // if (typeof event === 'string') {
   //     console.log(event);
   //     this.userAddress = this.userAddress.filter(a => a.toLowerCase()
-  //                                        .startsWith(event.toLowerCase())); 
+  //                                        .startsWith(event.toLowerCase()));
   // }
   // console.log(this.userAddress.length);
- 
+
   // }
-  
+
   get tag_FormControl(): FormControl | null {
     return (this.addAddressForm?.get('tag') as FormControl) ?? null;
   }

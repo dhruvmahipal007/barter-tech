@@ -40,9 +40,10 @@
     </div>
     <div>
       <ion-label class="required">Gender</ion-label>
-      <ion-list lines="none">
+      <ion-list class="maleList"lines="none">
         <ion-item>
           <ion-select
+          class="gender"
             interface="popover"
             placeholder="Male"
             formControlName="gender"
@@ -56,16 +57,56 @@
     </div>
     <div>
       <ion-label class="required">Date of Birth</ion-label>
+      <div class="dateOf">
+        <ion-list class="tag" lines="none">
+        <ion-item>
+          <ion-select
+           class="month"
+            interface="action-sheet"
+            placeholder="Enter Month"
+            formControlName="monthOfBirth"
+          >
+          <ion-select-option value="January">January</ion-select-option>
+          <ion-select-option value="February">February</ion-select-option>
+          <ion-select-option value="March">March</ion-select-option>
+          <ion-select-option value="April">April</ion-select-option>
+          <ion-select-option value="May">May</ion-select-option>
+          <ion-select-option value="June">June</ion-select-option>
+          <ion-select-option value="July">July</ion-select-option>
+          <ion-select-option value="August">August</ion-select-option>
+          <ion-select-option value="September">September</ion-select-option>
+          <ion-select-option value="October">October</ion-select-option>
+          <ion-select-option value="November">November</ion-select-option>
+          <ion-select-option value="December">December</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-list>
+        <ion-list class="tag" lines="none">
+          <ion-item>
+            <ion-select
+             class="date"
+              interface="action-sheet"
+              placeholder="Enter Date"
+              formControlName="dateOfBirth"
+            >
+            <ion-select-option *ngFor="let data of array"
+            [value]="data">{{data}}</ion-select-option>
+            </ion-select>
+          </ion-item>
+        </ion-list>
+        
+      </div>
       <!-- <ion-datetime formControlName="dateOfBirth" displayFormat="DD.MM.YYYY"  presentation="date"></ion-datetime> -->
-      <ion-input
+      <!-- <ion-input
         placeholder="Enter Date of Birth"
         type="date"
         formControlName="dateOfBirth"
-      ></ion-input>
+      ></ion-input> -->
+      <small *ngIf="monthOfBirth_FormControl.hasError('required') && monthOfBirth_FormControl.touched "><b style="color:red;">Month is required</b></small>&nbsp;&nbsp;
       <small *ngIf="dateOfBirth_FormControl.hasError('required') && dateOfBirth_FormControl.touched "><b style="color:red;">DOB is required</b></small>
     </div>
     <div>
-      <ion-label class="required">Anniversary</ion-label>
+      <ion-label>Anniversary</ion-label>
       <ion-input
         placeholder="Enter Anniversary"
         type="date"

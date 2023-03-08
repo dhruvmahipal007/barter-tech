@@ -64,17 +64,40 @@ ion-title {
   margin-left: -20px;
   font-weight: bold;
 }
-#form ion-list {
+// #form ion-list {
+//   width: 90vw;
+//   margin-left: -24px;
+//   padding-left: 10px !important;
+// }
+.maleList{
   width: 90vw;
-  margin-left: -24px;
-  padding-left: 10px !important;
+margin-left: -20px;
+padding-left: 6px !important;
 }
-#form ion-select {
+.gender {
   border: 2px solid #000;
   margin: 0;
   margin-top: 12px;
   width: 100%;
   margin-bottom: 12px;
+  padding-left: 10px !important;
+}
+.date {
+  border: 2px solid #000;
+  margin: 0;
+  margin-top: 12px;
+  // width: 50%;
+  width: 100%;
+  // margin-bottom: 12px;
+  padding-left: 10px !important;
+}
+.month {
+  border: 2px solid #000;
+  margin: 0;
+  margin-top: 12px;
+  // width: 50%;
+  width: 100%;
+  // margin-bottom: 12px;
   padding-left: 10px !important;
 }
 .required:after {
@@ -88,4 +111,12 @@ ion-title {
     // -moz-appearance: textfield;
     // min-height: 1.2em;
     min-height: 48px;
+}
+.tag {
+  margin-left: -16px;
+  width: 100%;
+}
+.dateOf{
+  display: flex;
+    justify-content: space-evenly;
 }

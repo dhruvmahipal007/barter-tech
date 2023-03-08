@@ -32,7 +32,6 @@
       <ion-textarea rows="3" formControlName="address"></ion-textarea>
     </div>
     <div>
-
       <ion-label>SUBURB</ion-label>
       <ion-list class="tag" lines="none">
         <ion-item>
@@ -41,9 +40,7 @@
             placeholder="Enter Input"
             formControlName="zipcode"
           >
-            <ion-select-option
-              *ngFor="let data of userAddress"
-              [value]="data"
+            <ion-select-option *ngFor="let data of userAddress" [value]="data"
               >{{data.delivery_suburb}}-{{data.delivery_postcode}}<br />
             </ion-select-option>
           </ion-select>

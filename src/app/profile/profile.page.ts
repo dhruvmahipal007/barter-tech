@@ -19,6 +19,40 @@ export class ProfilePage implements OnInit {
   profileForm: FormGroup;
   datePipe = new DatePipe('es-US');
   emailPattern = '^[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,4}$';
+  // array=[1,2,3,4,5,6,7,8,8,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
+  array = [
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10',
+    '11',
+    '12',
+    '13',
+    '14',
+    '15',
+    '16',
+    '17',
+    '18',
+    '19',
+    '20',
+    '21',
+    '22',
+    '23',
+    '24',
+    '25',
+    '26',
+    '27',
+    '28',
+    '29',
+    '30',
+    '31',
+  ];
   constructor(
     private authService: AuthService,
     private fb: FormBuilder,
@@ -27,11 +61,15 @@ export class ProfilePage implements OnInit {
   ) {
     this.profileForm = this.fb.group({
       name: [null, [Validators.required]],
-      email: [null, [Validators.required, Validators.pattern(this.emailPattern)],],
+      email: [
+        null,
+        [Validators.required, Validators.pattern(this.emailPattern)],
+      ],
       mobile: [null, [Validators.required, Validators.maxLength(10)]],
       dateOfBirth: [null, [Validators.required]],
+      monthOfBirth: [null, [Validators.required]],
       gender: [null],
-      anniversary: [null, [Validators.required]],
+      anniversary: [null],
     });
   }
 
@@ -47,11 +85,12 @@ export class ProfilePage implements OnInit {
       if (res) {
         this.profileForm.patchValue(res);
         this.profileForm.controls['mobile'].patchValue(res.mobileNo);
-        this.profileForm.controls['dateOfBirth'].patchValue(
-          this.formatDate(res.dateOfbirth)
-        );
+        // this.profileForm.controls['dateOfBirth'].patchValue(
+        //   this.formatDate(res.dateOfbirth)
+        // );
         // this.profileForm.controls['dateOfBirth'].patchValue(new Date("2016-04-19T18:03:40.887").toISOString());
-        
+        this.profileForm.controls['dateOfBirth'].patchValue(res.date);
+        this.profileForm.controls['monthOfBirth'].patchValue(res.month);
         this.profileForm.controls['anniversary'].patchValue(
           this.formatDate(res.anniversary_date)
         );
@@ -79,8 +118,11 @@ export class ProfilePage implements OnInit {
       gender: this.gender_FormControl.value,
       email: this.email_FormControl.value,
       anniversary_date: this.anniversary_FormControl.value,
-      mobile: '+61'+this.mobile_FormControl.value,
-      dateOfbirth: this.dateOfBirth_FormControl.value,
+      mobile: '+61' + this.mobile_FormControl.value,
+      dateOfbirth:
+        this.monthOfBirth_FormControl.value +
+        '-' +
+        this.dateOfBirth_FormControl.value,
     };
 
     console.log(data);
@@ -120,5 +162,8 @@ export class ProfilePage implements OnInit {
   }
   get dateOfBirth_FormControl(): FormControl | null {
     return (this.profileForm?.get('dateOfBirth') as FormControl) ?? null;
+  }
+  get monthOfBirth_FormControl(): FormControl | null {
+    return (this.profileForm?.get('monthOfBirth') as FormControl) ?? null;
   }
 }

@@ -41,12 +41,38 @@
   padding-left: 10px !important;
 }
 
-#form ion-select {
+// #form ion-select {
+//   border: 2px solid #000;
+//   margin: 0;
+//   margin-top: 12px;
+//   width: 100%;
+//   margin-bottom: 12px;
+//   padding-left: 10px !important;
+// }
+.gender {
   border: 2px solid #000;
   margin: 0;
   margin-top: 12px;
   width: 100%;
   margin-bottom: 12px;
+  padding-left: 10px !important;
+}
+.date {
+  border: 2px solid #000;
+  margin: 0;
+  margin-top: 12px;
+  // width: 50%;
+  width: 100%;
+  // margin-bottom: 12px;
+  padding-left: 10px !important;
+}
+.month {
+  border: 2px solid #000;
+  margin: 0;
+  margin-top: 12px;
+  // width: 50%;
+  width: 100%;
+  // margin-bottom: 12px;
   padding-left: 10px !important;
 }
 
@@ -70,14 +96,32 @@ ion-title {
   font-weight: bold;
 }
 
-#form ion-list {
-  width: 90vw;
+// #form ion-list {
+//   width: 90vw;
+//   margin-left: -20px;
+//   padding-left: 6px !important;
+// }
+.maleList{
+    width: 90vw;
   margin-left: -20px;
   padding-left: 6px !important;
+}
+// .maleList{
+
+// margin-left: -20px;
+// padding-left: 6px !important;
+// }
+.tag {
+  margin-left: -16px;
+  width: 100%;
 }
 .required:after {
   content:" *";
   color: red;
+}
+.dateOf{
+  display: flex;
+    justify-content: space-between;
 }
 // ion-modal {
 //   &.center {
