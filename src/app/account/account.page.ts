@@ -45,7 +45,7 @@ interface LocalFile {
 })
 export class AccountPage implements OnInit {
   images: LocalFile[] = [];
-
+  percentage = 0;
   qrCodeString = '';
   // scannedResults:any;
   // content_visibility='hidden';
@@ -241,6 +241,12 @@ export class AccountPage implements OnInit {
       next: (data: any) => {
         console.log(data);
         this.userData = data.data;
+        this.percentage = this.calculateProfilePer(this.userData);
+        // console.log(this.photoVariable, 'dhruv');
+        if (this.photoVariable != 'assets/account.svg') {
+          this.percentage = this.percentage + 10;
+        }
+        console.log(this.percentage);
         this.global.hideLoader();
         // this.photoVariable=data.data.imageUrl;
         // if(this.photoVariable===null){
@@ -438,7 +444,8 @@ export class AccountPage implements OnInit {
     console.log(this.images);
     this.photoVariable = this.images[this.images.length - 1].data;
     this.userData.percentage = this.userData.percentage + 10;
-    //console.log(this.photoVariable);
+    this.percentage = this.percentage + 10;
+    console.log(this.photoVariable);
     // }
     // this.startUpload(fileNames[fileNames.length-1]);
   }
@@ -508,5 +515,23 @@ export class AccountPage implements OnInit {
         this.toastService.presentToast(err);
       },
     });
+  }
+  calculateProfilePer(object) {
+    let profilePer = 50;
+    let skipKey = [
+      'lastName',
+      'name',
+      'anniversary_date',
+      'gender',
+      'imageUrl',
+      'percentage',
+      'month',
+    ];
+    Object.keys(object).forEach((item) => {
+      if (!skipKey.includes(item)) {
+        profilePer = profilePer + 10;
+      }
+    });
+    return profilePer;
   }
 }

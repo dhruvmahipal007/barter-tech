@@ -24,22 +24,45 @@
       <ion-row *ngFor="let item of cartItems; let index = index">
         <ion-col size="8" id="first">
           <div id="item_name">
-            <ion-badge color="success" *ngIf="item.vegOrNonVeg=='V'">V</ion-badge>
-            <ion-badge color="danger" *ngIf="item.vegOrNonVeg=='N'">N</ion-badge>
+            <ion-badge color="success" *ngIf="item.vegOrNonVeg=='V'"
+              >V</ion-badge
+            >
+            <ion-badge color="danger" *ngIf="item.vegOrNonVeg=='N'"
+              >N</ion-badge
+            >
             <h3>{{item.menuItemName}}</h3>
           </div>
           <p>${{item.displaySizeValue}}</p>
-          <ng-container *ngFor="let nm of item?.options?.optionGroups[0]?.optionItems" >
-            <p *ngIf="nm.selected">{{nm?.optionitemname}}&nbsp;-&nbsp; <span>${{nm.displayValue}}</span></p>
+          <ng-container
+            *ngFor="let nm of item?.options?.optionGroups[0]?.optionItems"
+          >
+            <p *ngIf="nm.selected">
+              {{nm?.optionitemname}}&nbsp;-&nbsp;
+              <span>${{nm.displayValue}}</span>
+            </p>
           </ng-container>
-          <ng-container *ngFor="let subItem of item?.options?.optionGroups[1]?.optionItems" >
-            <p *ngIf="subItem.selected">{{subItem?.optionitemname}}&nbsp;-&nbsp; <span>${{subItem.displayOptionValue}}</span></p>
+          <ng-container
+            *ngFor="let subItem of item?.options?.optionGroups[1]?.optionItems"
+          >
+            <p *ngIf="subItem.selected">
+              {{subItem?.optionitemname}}&nbsp;-&nbsp;
+              <span>${{subItem.displayOptionValue}}</span>
+            </p>
           </ng-container>
           <ng-container *ngFor="let sz of item?.options.size">
-            <p *ngIf="sz?.size_name"> <span>{{sz?.size_name}}</span> <small> &nbsp; ${{sz?.displaySizeValue}}</small></p>
+            <p *ngIf="sz?.size_name">
+              <span>{{sz?.size_name}}</span>
+              <small> &nbsp; ${{sz?.displaySizeValue}}</small>
+            </p>
           </ng-container>
-          <ng-container >
-            <p><span>GST</span><small>&nbsp; ${{item.taxdisplayAmount*item.product_quantity | number : '1.2-2'}}</small></p>
+          <ng-container>
+            <p>
+              <span>GST</span
+              ><small
+                >&nbsp; ${{item.taxdisplayAmount*item.product_quantity | number
+                : '1.2-2'}}</small
+              >
+            </p>
           </ng-container>
         </ion-col>
         <ion-col id="second" size="4">
@@ -52,7 +75,9 @@
               ><ion-icon class="icon" name="add"></ion-icon>
             </ion-button>
           </div>
-          <p>${{item.displaySizeValue*item.product_quantity | number : '1.2-2'}}</p>
+          <p>
+            ${{item.displaySizeValue*item.product_quantity | number : '1.2-2'}}
+          </p>
         </ion-col>
       </ion-row>
     </ion-grid>
@@ -94,7 +119,9 @@
         </ion-col>
 
         <ion-col size="8">
-          <h4 *ngIf="!isCouponApplied"  routerLink="/applyvoucher">Apply Vouchers/Points</h4>
+          <h4 *ngIf="!isCouponApplied" routerLink="/applyvoucher">
+            Apply Vouchers/Points
+          </h4>
           <h4 style="color: red" *ngIf="!isCouponApplied && isCouponUsed">
             Coupon is invalid
           </h4>
@@ -175,13 +202,22 @@
           <p>To Pay</p>
         </ion-col>
         <ion-col size="2.5">
-          <p>${{totalPayable  | number : '1.2-2'}}</p>
+          <p>${{totalPayable | number : '1.2-2'}}</p>
         </ion-col>
       </ion-row>
 
-      <ion-row style="display: flex; align-items: center" *ngIf="currentRoute=='delivery'" >
+      <ion-row
+        style="display: flex; align-items: center"
+        *ngIf="currentRoute=='delivery'"
+      >
         <ion-col size="6">
-          <p>Deliver To</p>
+          <p>
+            Deliver To&nbsp;&nbsp;<ion-icon
+              name="add-outline"
+              routerLink="/addaddress"
+              style="background-color: lightsteelblue"
+            ></ion-icon>
+          </p>
         </ion-col>
         <ion-col size="6">
           <div class="upperbottom_design">
@@ -208,18 +244,21 @@
                 </ion-select>
               </ion-item>
             </ion-list>
-            <p class="ion-text-wrap" style="text-align:right">
-              {{selectedAddress?.addressLine1}}<br>
+            <p class="ion-text-wrap" style="text-align: right">
+              {{selectedAddress?.addressLine1}}<br />
               {{selectedAddress?.suburb}}, {{selectedAddress?.zipcode}}
             </p>
           </div>
         </ion-col>
       </ion-row>
-      <ion-row style="display: flex; align-items: center" *ngIf="checkboxBoolean">
+      <ion-row
+        style="display: flex; align-items: center"
+        *ngIf="checkboxBoolean"
+      >
         <ion-col size="10">
           <p>PreOrder</p>
         </ion-col>
-        <ion-col size="2" style="z-index: 0;">
+        <ion-col size="2" style="z-index: 0">
           <ion-item lines="none">
             <ion-checkbox [(ngModel)]="preorderCheckbox"></ion-checkbox>
           </ion-item>
@@ -229,17 +268,18 @@
 
     <hr class="hr" />
 
-    <ion-grid style="position:sticky;bottom:0;background-color: white;z-index: 999;">
+    <ion-grid
+      style="position: sticky; bottom: 0; background-color: white; z-index: 999"
+    >
       <ion-row>
         <ion-col size="6.5">
           <div class="bottom_design">
             <ion-text>
               TOTAL
-                <!-- <ion-icon name="chevron-down-outline"></ion-icon> -->
-              </ion-text>
-            <h4>${{totalPayable  | number : '1.2-2'}}</h4>
+              <!-- <ion-icon name="chevron-down-outline"></ion-icon> -->
+            </ion-text>
+            <h4>${{totalPayable | number : '1.2-2'}}</h4>
             <!-- <p>VIEW DETAILED BILL</p> -->
-            
           </div>
         </ion-col>
 

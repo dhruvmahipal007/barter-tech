@@ -54,6 +54,7 @@ export class CartPage implements OnInit {
       // console.log(this.cartItems);
 
       this.currentRoute = localStorage.getItem('currentRoute');
+      this.getAddress();
       // if (this.cartItems?.length > 0 && this.currentRoute == 'delivery') {
       //   this.getAddress();
       // }
@@ -135,7 +136,7 @@ export class CartPage implements OnInit {
       }
       console.log(res);
     });
-    this.getAddress();
+    // this.getAddress();
     setTimeout(() => {
       if (this.currentRoute == 'delivery' && this.cartItems.length > 0) {
         this.presentAlert();
