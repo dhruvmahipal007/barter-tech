@@ -202,6 +202,7 @@ export class CartPage implements OnInit {
 
   async makePayment() {
     let obj;
+    this.preorder = JSON.parse(localStorage.getItem('preorder'));
     if (this.currentRoute == 'delivery') {
       obj = {
         merchant_Id: 68,

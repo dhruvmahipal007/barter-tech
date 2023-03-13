@@ -53,11 +53,14 @@
               position: relative;
             "
           >
-            <div style="height: 100%; width: 60%; background-color: gray"></div>
+            <div
+              style="height: 100%; background-color: gray"
+              [ngStyle]="{'width':userData?.percentage+'%'}"
+            ></div>
             <div style="position: absolute; top: 0px">
               <ion-text
                 style="color: black; font-size: 14px; font-weight: bolder"
-                >Profile Completeness 60%</ion-text
+                >Profile Completeness {{userData?.percentage}}%</ion-text
               >
             </div>
           </div>

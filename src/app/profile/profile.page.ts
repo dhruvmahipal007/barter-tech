@@ -60,7 +60,8 @@ export class ProfilePage implements OnInit {
     private router: Router
   ) {
     this.profileForm = this.fb.group({
-      name: [null, [Validators.required]],
+      fname: [null, [Validators.required]],
+      lname: [null, [Validators.required]],
       email: [
         null,
         [Validators.required, Validators.pattern(this.emailPattern)],
@@ -85,6 +86,8 @@ export class ProfilePage implements OnInit {
       if (res) {
         this.profileForm.patchValue(res);
         this.profileForm.controls['mobile'].patchValue(res.mobileNo);
+        this.profileForm.controls['fname'].patchValue(res.name);
+        this.profileForm.controls['lname'].patchValue(res.lastName);
         // this.profileForm.controls['dateOfBirth'].patchValue(
         //   this.formatDate(res.dateOfbirth)
         // );
@@ -114,7 +117,8 @@ export class ProfilePage implements OnInit {
       return;
     }
     let data = {
-      name: this.name_FormControl.value,
+      name: this.fname_FormControl.value,
+      lastName: this.lname_FormControl.value,
       gender: this.gender_FormControl.value,
       email: this.email_FormControl.value,
       anniversary_date: this.anniversary_FormControl.value,
@@ -145,8 +149,11 @@ export class ProfilePage implements OnInit {
   get officialEmail() {
     return this.profileForm.get('email');
   }
-  get name_FormControl(): FormControl | null {
-    return (this.profileForm?.get('name') as FormControl) ?? null;
+  get fname_FormControl(): FormControl | null {
+    return (this.profileForm?.get('fname') as FormControl) ?? null;
+  }
+  get lname_FormControl(): FormControl | null {
+    return (this.profileForm?.get('lname') as FormControl) ?? null;
   }
   get gender_FormControl(): FormControl | null {
     return (this.profileForm?.get('gender') as FormControl) ?? null;

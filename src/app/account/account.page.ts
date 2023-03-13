@@ -97,6 +97,7 @@ export class AccountPage implements OnInit {
       // console.log(res);
       // console.log(this.router.url);
       this.getData();
+      this.getAddress();
     });
   }
 
@@ -436,6 +437,7 @@ export class AccountPage implements OnInit {
     });
     console.log(this.images);
     this.photoVariable = this.images[this.images.length - 1].data;
+    this.userData.percentage = this.userData.percentage + 10;
     //console.log(this.photoVariable);
     // }
     // this.startUpload(fileNames[fileNames.length-1]);
