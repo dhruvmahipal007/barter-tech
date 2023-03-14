@@ -69,9 +69,28 @@ export class CartPage implements OnInit {
       this.cartItems = JSON.parse(localStorage.getItem('cartItems'))
         ? JSON.parse(localStorage.getItem('cartItems'))
         : [];
+      let showFoodItems = {};
+      for (let i = 0; i < this.cartItems.length; i++) {
+        const elem = this.cartItems[i];
+        if (showFoodItems[elem.menuItemId]) {
+          if (elem?.options?.optionGroups?.length == 0) {
+            showFoodItems[elem.menuItemId]['product_quantity'] =
+              showFoodItems[elem.menuItemId]['product_quantity'] + 1;
+          } else {
+            showFoodItems[`${elem.menuItemId}-${i}`] = elem;
+          }
+        } else if (!showFoodItems[elem.menuItemId]) {
+          showFoodItems[elem.menuItemId] = elem;
+        }
+      }
+      localStorage.removeItem('cartItems');
+      this.cartItems = Object.values(showFoodItems);
+      console.log(this.cartItems);
+      localStorage.setItem('cartItems', JSON.stringify(this.cartItems));
+
       this.cartItems.map((x) => {
         if (this.currentRoute == 'delivery') {
-          if (x.options.size[0] == null) {
+          if (x?.options?.size[0] == null) {
             x.displaySizeValue = x.deliveryPrice;
           } else {
             x.displaySizeValue = x.options.size[0].size_deliveryPrice;
@@ -89,6 +108,8 @@ export class CartPage implements OnInit {
             x.displaySizeValue = x.options.size[0].size_dineInPrice;
           }
         }
+        // console.log(x.displaySizeValue);
+        // console.log(x.taxrate);
         x.taxdisplayAmount = (x.displaySizeValue * x.taxrate) / 100;
         console.log(x.taxdisplayAmount);
       });

@@ -1,4 +1,10 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import SwiperCore, {
   Navigation,
   Pagination,
@@ -8,7 +14,7 @@ import SwiperCore, {
   SwiperOptions,
   Thumbs,
 } from 'swiper';
-import { IonicSlides , IonSlides } from '@ionic/angular';
+import { IonicSlides, IonSlides } from '@ionic/angular';
 import { ProductCategory } from 'src/app/common/product-category';
 import { ProductService } from 'src/app/services/product.service';
 import { Product } from 'src/app/common/product';
@@ -17,7 +23,6 @@ import { GlobalService } from 'src/app/services/global.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { AlertController } from '@ionic/angular';
 import { element } from 'protractor';
-
 
 // install Swiper modules
 SwiperCore.use([
@@ -34,7 +39,7 @@ SwiperCore.use([
   templateUrl: './delivery.page.html',
   styleUrls: ['./delivery.page.scss'],
 })
-export class DeliveryPage implements OnInit,OnDestroy {
+export class DeliveryPage implements OnInit, OnDestroy {
   @ViewChild('slides', { static: true }) slider: IonSlides;
   productCategories: ProductCategory[];
   products: Product[] = [];
@@ -44,30 +49,35 @@ export class DeliveryPage implements OnInit,OnDestroy {
   selected: any;
   // eslint-disable-next-line @typescript-eslint/naming-convention
   product_quantity = 0;
-  selectedProducts: any= [];
+  selectedProducts: any = [];
   currentRoute: any;
   quantity: number = 1;
-  routercurrent:any;
-  list=[];
-  list2=[];
+  routercurrent: any;
+  list = [];
+  list2 = [];
   newSize: any;
   groupName: any;
-  groupName1:any;
+  groupName1: any;
   category: any;
   item: [];
   newValue: any;
   newValue1: any;
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  tempItem: any = { selectedItems: [], IsSizeApplicable: '0', IsoptionApplicable: '0', product_quantity:0, options:{ size: []}};
-  tempArray: any=[];
+  tempItem: any = {
+    selectedItems: [],
+    IsSizeApplicable: '0',
+    IsoptionApplicable: '0',
+    product_quantity: 0,
+    options: { size: [] },
+  };
+  tempArray: any = [];
   selectedSize: any;
   isCartValid = true;
-  bannerImages:any;
-  staticImage:any;
-  categoryName:any;
-  displayValue:any;
-  displayOptionValue:any;
-
+  bannerImages: any;
+  staticImage: any;
+  categoryName: any;
+  displayValue: any;
+  displayOptionValue: any;
 
   // public slideOps = {
   //   loop: true,
@@ -118,8 +128,11 @@ export class DeliveryPage implements OnInit,OnDestroy {
     private alertController: AlertController
   ) {
     this.currentRoute = this.route.snapshot['_routerState'].url.split('/')[2];
+    this.route.params.subscribe((res) => {
+      localStorage.setItem('currentRoute', this.currentRoute);
+    });
     let staticRoute = localStorage.getItem('currentRoute');
-    this.routercurrent=staticRoute;
+    this.routercurrent = staticRoute;
     if (staticRoute && staticRoute != this.currentRoute) {
       localStorage.setItem('cartItems', JSON.stringify([]));
       this.authService.badgeDataSubject.next(0);
@@ -131,13 +144,12 @@ export class DeliveryPage implements OnInit,OnDestroy {
   }
 
   ngOnInit() {
-    
     localStorage.setItem('currentRoute', this.currentRoute);
     this.route.params.subscribe((res) => {
       this.currentRoute = this.route.snapshot['_routerState'].url.split('/')[2];
       console.log(this.currentRoute, 'lkjhgfxz');
       let staticRoute = localStorage.getItem('currentRoute');
-      this.routercurrent=localStorage.getItem('currentRoute');
+      this.routercurrent = localStorage.getItem('currentRoute');
       if (staticRoute && staticRoute != this.currentRoute) {
         localStorage.setItem('cartItems', JSON.stringify([]));
         this.authService.badgeDataSubject.next(0);
@@ -159,13 +171,11 @@ export class DeliveryPage implements OnInit,OnDestroy {
     // setTimeout(this.getTime(), 60000);
   }
 
-//   ngDoCheck() {
-//     this.authService.routeSubject.pipe(first()).subscribe(res=>{
-//       console.log(res);
-//     })
-// }
-
-  
+  //   ngDoCheck() {
+  //     this.authService.routeSubject.pipe(first()).subscribe(res=>{
+  //       console.log(res);
+  //     })
+  // }
 
   getTime() {
     // let getLocalStorageOrderTime = localStorage.getItem('latestOrder');
@@ -178,7 +188,6 @@ export class DeliveryPage implements OnInit,OnDestroy {
     this.global.showLoader('Loading Data');
     this.getBannerImages();
     this.productService.getProductCategories().subscribe((data) => {
-      
       // console.log('dhruvvvvvv', data);
       this.productCategories = data.data[0].menueGroup;
       this.currentCategoryId = data.data[0].menueGroup[0].menuGroupId;
@@ -209,7 +218,7 @@ export class DeliveryPage implements OnInit,OnDestroy {
     let remainingItems = [];
     product.product_quantity = product.product_quantity - 1;
     let latestCartItems = JSON.parse(localStorage.getItem('cartItems'));
-    latestCartItems.forEach(element => {
+    latestCartItems.forEach((element) => {
       if (element.menuItemId == product.menuItemId) {
         removeItems.push(element);
       } else {
@@ -220,186 +229,194 @@ export class DeliveryPage implements OnInit,OnDestroy {
     latestCartItems = removeItems.concat(remainingItems);
     localStorage.setItem('cartItems', JSON.stringify(latestCartItems));
     let productLength = 0;
-    latestCartItems.forEach(element => {
+    latestCartItems.forEach((element) => {
       productLength += element.product_quantity;
     });
     this.authService.badgeDataSubject.next(productLength);
-    console.log(latestCartItems,'-----latestCartItems');
+    console.log(latestCartItems, '-----latestCartItems');
   }
 
   addQty(product, index) {
     const tempTotalMenuItem = localStorage.getItem('cartItems');
     const totalMenuItem = JSON.parse(tempTotalMenuItem);
     // eslint-disable-next-line @typescript-eslint/no-shadow
-    totalMenuItem.map((element)=> {
+    totalMenuItem.map((element) => {
       if (element.menuItemId === product.menuItemId) {
         element.product_quantity = element.product_quantity + 1;
       }
     });
     localStorage.removeItem('cartItems');
-    localStorage.setItem('cartItems',JSON.stringify(totalMenuItem));
-    return product.product_quantity = product.product_quantity + 1;
+    localStorage.setItem('cartItems', JSON.stringify(totalMenuItem));
+    return (product.product_quantity = product.product_quantity + 1);
   }
 
   add(product) {
     product.product_quantity = product.product_quantity + 1;
 
     this.selectedProducts.push(product);
-    console.log("selected prods",this.selectedProducts);
+    console.log('selected prods', this.selectedProducts);
     this.authService.badgeDataSubject.next(this.selectedProducts.length);
     localStorage.setItem('cartItems', JSON.stringify(this.selectedProducts));
   }
 
-  openpop(product, item?){
-    product.optionGroups[0]?.optionItems.map((x)=>{
-      x.selected=false;
-    })
-    product.optionGroups[1]?.optionItems.map((y)=>{
-      y.selected=false;
-    })
+  openpop(product, item?) {
+    product.optionGroups[0]?.optionItems.map((x) => {
+      x.selected = false;
+    });
+    product.optionGroups[1]?.optionItems.map((y) => {
+      y.selected = false;
+    });
     // document.getElementById("newpop").onreset();
-    console.log('this.menuItems',product,'-----this.menuItems',this.tempItem);
-    if(product.optionGroups.length>0 || product.size.length>1){
+    console.log(
+      'this.menuItems',
+      product,
+      '-----this.menuItems',
+      this.tempItem
+    );
+    if (product.optionGroups.length > 0 || product.size.length > 1) {
       this.tempItem = {};
-      this.singleProduct=product;
+      this.singleProduct = product;
       const pop = document.getElementById('popup');
       pop.style.display = 'block';
-      this.newValue = product.optionGroups[0]?.optionItems
+      this.newValue = product.optionGroups[0]?.optionItems;
       this.groupName = product.optionGroups[0]?.optionGroupName;
       this.newSize = product.size[0]?.size_deliveryPrice;
-      this.groupName1=product.optionGroups[1]?.optionGroupName;
+      this.groupName1 = product.optionGroups[1]?.optionGroupName;
       console.log(this.groupName1);
-      this.newValue1 = product.optionGroups[1]?.optionItems 
-      if(this.newValue){
-        this.newValue.map(x=>{
-          if(this.currentRoute == 'delivery'){
-            x.displayValue =  x.deliveryPrice;
+      this.newValue1 = product.optionGroups[1]?.optionItems;
+      if (this.newValue) {
+        this.newValue.map((x) => {
+          if (this.currentRoute == 'delivery') {
+            x.displayValue = x.deliveryPrice;
+          } else if (this.currentRoute == 'takeaway') {
+            x.displayValue = x.takeawayPrice;
+          } else if (this.currentRoute == 'dinein') {
+            x.displayValue = x.dineinPrice;
           }
-          else if(this.currentRoute == 'takeaway'){
-            x.displayValue =  x.takeawayPrice 
-          }
-          else if(this.currentRoute == 'dinein'){
-            x.displayValue =  x.dineinPrice;
-          }
-         })
+        });
       }
-     if(this.newValue1){
-      this.newValue1.map(x=>{
-        if(this.currentRoute == 'delivery'){
-          x.displayOptionValue =  x.deliveryPrice;
-        }
-        else if(this.currentRoute == 'takeaway'){
-          x.displayOptionValue =  x.takeawayPrice 
-        }
-        else if(this.currentRoute == 'dinein'){
-          x.displayOptionValue =  x.dineinPrice;
-        }
-       })
-     }
-     if(product.size.length>0){
-      product.size.map(x=>{
-        if(this.currentRoute == 'delivery'){
-          x.displaySizeValue =  x.size_deliveryPrice;
-        }
-        else if(this.currentRoute == 'takeaway'){
-          x.displaySizeValue =  x.size_takeawayPrice 
-        }
-        else if(this.currentRoute == 'dinein'){
-          x.displaySizeValue =  x.size_dineInPrice;
-        }
-       })
-     }
-      
-       
-      
-      console.log(this.newValue,'lol');
-      console.log(this.newValue1,'hibro');
+      if (this.newValue1) {
+        this.newValue1.map((x) => {
+          if (this.currentRoute == 'delivery') {
+            x.displayOptionValue = x.deliveryPrice;
+          } else if (this.currentRoute == 'takeaway') {
+            x.displayOptionValue = x.takeawayPrice;
+          } else if (this.currentRoute == 'dinein') {
+            x.displayOptionValue = x.dineinPrice;
+          }
+        });
+      }
+      if (product.size.length > 1) {
+        product.size.map((x) => {
+          if (this.currentRoute == 'delivery') {
+            x.displaySizeValue = x.size_deliveryPrice;
+          } else if (this.currentRoute == 'takeaway') {
+            x.displaySizeValue = x.size_takeawayPrice;
+          } else if (this.currentRoute == 'dinein') {
+            x.displaySizeValue = x.size_dineInPrice;
+          }
+        });
+      }
+
+      console.log(this.newValue, 'lol');
+      console.log(this.newValue1, 'hibro');
       this.tempItem = item;
-      this.tempArray = JSON.parse(localStorage.getItem('cartItems')) ? JSON.parse(localStorage.getItem('cartItems')) : [];
-      console.log(this.tempArray)
-    }
-    else{
+      this.tempArray = JSON.parse(localStorage.getItem('cartItems'))
+        ? JSON.parse(localStorage.getItem('cartItems'))
+        : [];
+      console.log(this.tempArray);
+    } else {
       this.tempItem = {};
-      this.singleProduct=product;
+      this.singleProduct = product;
 
       this.tempItem = item;
-      this.tempArray = JSON.parse(localStorage.getItem('cartItems')) ? JSON.parse(localStorage.getItem('cartItems')) : [];
-      this.addToCart()
-  //     let tempTotalMenuItem = localStorage.getItem('cartItems');
-  //   let totalMenuItem = JSON.parse(tempTotalMenuItem);
-   
-  //   // eslint-disable-next-line @typescript-eslint/no-shadow
-  //   if(totalMenuItem && totalMenuItem.length>0){
-  //   totalMenuItem.map((element,index)=> {
-  //     if (element.menuItemId === item.menuItemId) {
-  //       element.product_quantity = element.product_quantity + 1;
-  //       this.authService.badgeDataSubject.next(element.product_quantity);
-  //     }
-  //     else {
-  //       item.product_quantity = item.product_quantity + 1;
-  //       totalMenuItem.push(item);
-  //       let currentCartItems = JSON.parse(localStorage.getItem('cartItems'));
-  //     let productLength = 0;
-  //     currentCartItems.forEach(element => {
-  //       productLength += element.product_quantity;
-  //     });
-  //     this.authService.badgeDataSubject.next(productLength+1);
-  //     }
-  //   }); 
-  // }
-  // else{
-  //   totalMenuItem=[];
-  //   item.product_quantity = item.product_quantity + 1;
-  //   totalMenuItem.push(item);
-  //   this.authService.badgeDataSubject.next(totalMenuItem.length);
-  // }
- 
-  //   localStorage.setItem('cartItems',JSON.stringify(totalMenuItem));
-  //   return product.product_quantity = product.product_quantity + 1;
+      this.tempArray = JSON.parse(localStorage.getItem('cartItems'))
+        ? JSON.parse(localStorage.getItem('cartItems'))
+        : [];
+      this.addToCart();
+      //     let tempTotalMenuItem = localStorage.getItem('cartItems');
+      //   let totalMenuItem = JSON.parse(tempTotalMenuItem);
+
+      //   // eslint-disable-next-line @typescript-eslint/no-shadow
+      //   if(totalMenuItem && totalMenuItem.length>0){
+      //   totalMenuItem.map((element,index)=> {
+      //     if (element.menuItemId === item.menuItemId) {
+      //       element.product_quantity = element.product_quantity + 1;
+      //       this.authService.badgeDataSubject.next(element.product_quantity);
+      //     }
+      //     else {
+      //       item.product_quantity = item.product_quantity + 1;
+      //       totalMenuItem.push(item);
+      //       let currentCartItems = JSON.parse(localStorage.getItem('cartItems'));
+      //     let productLength = 0;
+      //     currentCartItems.forEach(element => {
+      //       productLength += element.product_quantity;
+      //     });
+      //     this.authService.badgeDataSubject.next(productLength+1);
+      //     }
+      //   });
+      // }
+      // else{
+      //   totalMenuItem=[];
+      //   item.product_quantity = item.product_quantity + 1;
+      //   totalMenuItem.push(item);
+      //   this.authService.badgeDataSubject.next(totalMenuItem.length);
+      // }
+
+      //   localStorage.setItem('cartItems',JSON.stringify(totalMenuItem));
+      //   return product.product_quantity = product.product_quantity + 1;
     }
   }
 
   onItemSelect(event) {
     if (event?.selected === true) {
       this.selectedProducts.push(event);
-
     } else {
-      const newArray = this.selectedProducts.filter((el)=>el?.selected !== event?.selected);
+      const newArray = this.selectedProducts.filter(
+        (el) => el?.selected !== event?.selected
+      );
       this.selectedProducts = newArray;
     }
-    console.log(this.tempItem.isOptionMandatory,'-----man');
-    
-    if(this.tempItem.isOptionMandatory  && this.tempItem.IsSizeApplicable === '1' && this.tempItem.IsoptionApplicable ==='1') {
-      let a = this.newValue?.find((el)=>el.selected === true);
-      let b = this.newValue1?.find((el)=>el.selected === true);
-      if(a && b && this.selectedSize) {
+    console.log(this.tempItem.isOptionMandatory, '-----man');
+
+    if (
+      this.tempItem.isOptionMandatory &&
+      this.tempItem.IsSizeApplicable === '1' &&
+      this.tempItem.IsoptionApplicable === '1'
+    ) {
+      let a = this.newValue?.find((el) => el.selected === true);
+      let b = this.newValue1?.find((el) => el.selected === true);
+      if (a && b && this.selectedSize) {
         this.isCartValid = false;
-      }
-      else if(a && this.selectedSize && (this.newValue1?.length===undefined)){
-        this.isCartValid=false;
-      }
-      else if(b && this.selectedSize && (this.newValue?.length===undefined)){
-        this.isCartValid=false;
-      }
-       else {
+      } else if (
+        a &&
+        this.selectedSize &&
+        this.newValue1?.length === undefined
+      ) {
+        this.isCartValid = false;
+      } else if (
+        b &&
+        this.selectedSize &&
+        this.newValue?.length === undefined
+      ) {
+        this.isCartValid = false;
+      } else {
         this.isCartValid = true;
       }
     } else if (this.tempItem.IsSizeApplicable === '0') {
-      let a = this.newValue?.find((el)=>el.selected === true);
-      let b = this.newValue1?.find((el)=>el.selected === true);
-      if(a && b && this.newValue && this.newValue1) {
+      let a = this.newValue?.find((el) => el.selected === true);
+      let b = this.newValue1?.find((el) => el.selected === true);
+      if (a && b && this.newValue && this.newValue1) {
         this.isCartValid = false;
-      } else if(this.newValue && a && (this.newValue1?.length === undefined)) {
+      } else if (this.newValue && a && this.newValue1?.length === undefined) {
         this.isCartValid = false;
-      } else if(this.newValue1 && b && (this.newValue?.length === undefined)) {
+      } else if (this.newValue1 && b && this.newValue?.length === undefined) {
         this.isCartValid = false;
-      }
-      else{
+      } else {
         this.isCartValid = true;
       }
-    }
-    else if(this.tempItem.IsoptionApplicable === '0'){
-      if(this.selectedSize) {
+    } else if (this.tempItem.IsoptionApplicable === '0') {
+      if (this.selectedSize) {
         this.isCartValid = false;
       } else {
         this.isCartValid = true;
@@ -409,87 +426,83 @@ export class DeliveryPage implements OnInit,OnDestroy {
 
   addToCart() {
     this.isCartValid = true;
-      this.tempItem.product_quantity = 1;
-      this.singleProduct.product_quantity = this.singleProduct?.product_quantity + 1;
-      console.log('add to cart',this.tempItem);
-      this.singleProduct.options = this.singleProduct.product;
-      this.category = this.singleProduct.product;
-      this.authService.badgeDataSubject.next(this.menuItems.length);
-      // this.tempItem.selectedItems = this.selectedProducts;
-      
-      this.tempItem.options.size = [];
-      this.tempItem.options.size.push(this.selectedSize);
-      this.tempArray.push(this.tempItem);
+    this.tempItem.product_quantity = 1;
+    this.singleProduct.product_quantity =
+      this.singleProduct?.product_quantity + 1;
+    console.log('add to cart', this.tempItem);
+    this.singleProduct.options = this.singleProduct.product;
+    this.category = this.singleProduct.product;
+    this.authService.badgeDataSubject.next(this.menuItems.length);
+    // this.tempItem.selectedItems = this.selectedProducts;
 
-      localStorage.setItem(
-        'cartItems',
-        JSON.stringify(this.tempArray)
-      );
-      const notShow = document.getElementById('popup');
-      notShow.style.display = 'none';
-      const currentCartItems = JSON.parse(localStorage.getItem('cartItems'));
-      let productLength = 0;
-      currentCartItems.forEach(element => {
-        productLength += element.product_quantity;
-      });
-      this.authService.badgeDataSubject.next(productLength);
-      this.menuItems.map((x) => {
-        x.product_quantity = 0;
-        this.tempArray = JSON.parse(localStorage.getItem('cartItems'));
-        if (this.tempArray && this.tempArray.length > 0) {
-          this.tempArray.map((y: any) => {
-            if (x.menuItemId == y.menuItemId) {
-              x.product_quantity = x.product_quantity + y.product_quantity;
-            }
-          });
-        } else {
-          this.tempArray = [];
-        }
-      });
-      // localStorage.setItem('cartItems',JSON.stringify(this.menuItems));
-      console.log(this.menuItems,'-----');
-      
-      this.selectedProducts = [];
-      this.selectedSize = null;
+    this.tempItem.options.size = [];
+    this.tempItem.options.size.push(this.selectedSize);
+    this.tempArray.push(this.tempItem);
 
+    localStorage.setItem('cartItems', JSON.stringify(this.tempArray));
+    const notShow = document.getElementById('popup');
+    notShow.style.display = 'none';
+    const currentCartItems = JSON.parse(localStorage.getItem('cartItems'));
+    let productLength = 0;
+    currentCartItems.forEach((element) => {
+      productLength += element.product_quantity;
+    });
+    this.authService.badgeDataSubject.next(productLength);
+    this.menuItems.map((x) => {
+      x.product_quantity = 0;
+      this.tempArray = JSON.parse(localStorage.getItem('cartItems'));
+      if (this.tempArray && this.tempArray.length > 0) {
+        this.tempArray.map((y: any) => {
+          if (x.menuItemId == y.menuItemId) {
+            x.product_quantity = x.product_quantity + y.product_quantity;
+          }
+        });
+      } else {
+        this.tempArray = [];
+      }
+    });
+    // localStorage.setItem('cartItems',JSON.stringify(this.menuItems));
+    console.log(this.menuItems, '-----');
+
+    this.selectedProducts = [];
+    this.selectedSize = null;
   }
 
-
-  notShow(){
+  notShow() {
     this.isCartValid = true;
     const notShow = document.getElementById('popup');
     notShow.style.display = 'none';
-    if(this.newValue && this.newValue.length>0){
-      this.newValue.map(x=>{
-        x.selected=false;
-      })
+    if (this.newValue && this.newValue.length > 0) {
+      this.newValue.map((x) => {
+        x.selected = false;
+      });
     }
-   if(this.newValue1 && this.newValue1.length>0){
-    this.newValue1.map(x=>{
-      x.selected=false;
-    })
-   }
+    if (this.newValue1 && this.newValue1.length > 0) {
+      this.newValue1.map((x) => {
+        x.selected = false;
+      });
+    }
     this.selectedSize = null;
-    
   }
 
   getDataBymenuGroupId(id: any, name: any) {
-    this.categoryName=name;
+    this.categoryName = name;
     // console.log(name,'please give name');
-    console.log('1111111')
+    console.log('1111111');
     this.menuItems = this.productCategories.find(
       (x) => Number(x.menuGroupId) == Number(id)
     ).menuItems;
     this.menuItems.map((x) => {
-      x.buttonTitle = 'ADD'
-      if(this.routercurrent == 'delivery' && x.isAvailableDelivery == 0){
-        x.buttonTitle = 'Not Avail'
-      }
-      else if(this.routercurrent == 'takeaway' && x.isAvailableTakeAway == 0){
-        x.buttonTitle = 'Not Avail'
-      }
-      else if(this.routercurrent == 'dinein' && x.isAvailableDinein == 0){
-        x.buttonTitle = 'Not Avail' 
+      x.buttonTitle = 'ADD';
+      if (this.routercurrent == 'delivery' && x.isAvailableDelivery == 0) {
+        x.buttonTitle = 'Not Avail';
+      } else if (
+        this.routercurrent == 'takeaway' &&
+        x.isAvailableTakeAway == 0
+      ) {
+        x.buttonTitle = 'Not Avail';
+      } else if (this.routercurrent == 'dinein' && x.isAvailableDinein == 0) {
+        x.buttonTitle = 'Not Avail';
       }
       x.product_quantity = 0;
       this.tempArray = JSON.parse(localStorage.getItem('cartItems'));
@@ -525,7 +538,7 @@ export class DeliveryPage implements OnInit,OnDestroy {
     this.currentItem = this.productCategories[0].menuGroupId;
     this.selected = this.productCategories[0].groupName;
     this.productCategories = this.productCategories;
-    this.categoryName=this.productCategories[0].groupName;
+    this.categoryName = this.productCategories[0].groupName;
   }
 
   segmentChanged(e) {
@@ -547,35 +560,31 @@ export class DeliveryPage implements OnInit,OnDestroy {
     }, 200);
   }
 
-   GetFilename(url)
-{
-   if (url)
-   {
+  GetFilename(url) {
+    if (url) {
       var m = url.toString().match(/.*\/(.+?)\./);
-      if (m && m.length > 1)
-      {
-         return m[1];
+      if (m && m.length > 1) {
+        return m[1];
       }
-   }
-   return "";
-}
-getBannerImages(){
-  let data={
-    order_type:this.routercurrent,
+    }
+    return '';
   }
-  this.authService.getCarouselImages(data).subscribe({
-    next: (data:any) => {
-      console.log(data.data);
-      this.bannerImages=data.data[0]?.images;
-      console.log(this.bannerImages);
-      this.staticImage=data?.data[0]?.menueGroup[0]?.menuItems[0]?.menuItemimageUrl;
-      console.log(this.staticImage);
-    },
-    error: (err) => {
-      console.log(err);
-    },
-  });
+  getBannerImages() {
+    let data = {
+      order_type: this.routercurrent,
+    };
+    this.authService.getCarouselImages(data).subscribe({
+      next: (data: any) => {
+        console.log(data.data);
+        this.bannerImages = data.data[0]?.images;
+        console.log(this.bannerImages);
+        this.staticImage =
+          data?.data[0]?.menueGroup[0]?.menuItems[0]?.menuItemimageUrl;
+        console.log(this.staticImage);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
 }
-
-}
-

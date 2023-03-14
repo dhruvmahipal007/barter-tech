@@ -83,7 +83,7 @@ export class AuthService {
     return this.http.post<any>(this.url2 + '/requestOtp', data);
   }
   getBalance() {
-    let params = new HttpParams().append('merchant_id', '45');
+    let params = new HttpParams().append('merchant_id', '68');
     return this.http.get(this.url2 + '/balance-details', { params });
   }
   async logout() {

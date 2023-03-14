@@ -200,6 +200,7 @@ export class AccountPage implements OnInit {
 
   logout() {
     this.images = [];
+    this.percentage = this.percentage - 10;
     this.global.showLoader().then(() => {
       this.authService
         .logout()
@@ -444,7 +445,10 @@ export class AccountPage implements OnInit {
     console.log(this.images);
     this.photoVariable = this.images[this.images.length - 1].data;
     this.userData.percentage = this.userData.percentage + 10;
-    this.percentage = this.percentage + 10;
+    if (this.percentage !== 100) {
+      this.percentage = this.percentage + 10;
+    }
+
     console.log(this.photoVariable);
     // }
     // this.startUpload(fileNames[fileNames.length-1]);
@@ -524,7 +528,6 @@ export class AccountPage implements OnInit {
       'anniversary_date',
       'gender',
       'imageUrl',
-      'percentage',
       'month',
     ];
     Object.keys(object).forEach((item) => {
