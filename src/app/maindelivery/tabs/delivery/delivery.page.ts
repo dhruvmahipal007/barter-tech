@@ -23,6 +23,7 @@ import { GlobalService } from 'src/app/services/global.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { AlertController } from '@ionic/angular';
 import { element } from 'protractor';
+import { IonModal } from '@ionic/angular';
 
 // install Swiper modules
 SwiperCore.use([
@@ -41,12 +42,14 @@ SwiperCore.use([
 })
 export class DeliveryPage implements OnInit, OnDestroy {
   @ViewChild('slides', { static: true }) slider: IonSlides;
+  @ViewChild(IonModal) modal: IonModal;
   productCategories: ProductCategory[];
   products: Product[] = [];
   currentCategoryId!: number;
   menuItems: any[] = [];
   currentItem: any;
   selected: any;
+  isModalOpen: boolean = false;
   // eslint-disable-next-line @typescript-eslint/naming-convention
   product_quantity = 0;
   selectedProducts: any = [];
@@ -187,15 +190,20 @@ export class DeliveryPage implements OnInit, OnDestroy {
   listProductCategories() {
     this.global.showLoader('Loading Data');
     this.getBannerImages();
-    this.productService.getProductCategories().subscribe((data) => {
-      // console.log('dhruvvvvvv', data);
-      this.productCategories = data.data[0].menueGroup;
-      this.currentCategoryId = data.data[0].menueGroup[0].menuGroupId;
-      this.selected = data.data[0].menueGroup[0].groupName;
-      this.global.hideLoader();
-      this.getDataBymenuGroupId(this.currentCategoryId, this.selected);
-      // console.log(this.productCategories,"API DATA");
-    });
+    this.productService.getProductCategories().subscribe(
+      (data) => {
+        // console.log('dhruvvvvvv', data);
+        this.productCategories = data?.data[0]?.menueGroup;
+        this.currentCategoryId = data?.data[0]?.menueGroup[0]?.menuGroupId;
+        this.selected = data?.data[0]?.menueGroup[0]?.groupName;
+        this.global.hideLoader();
+        this.getDataBymenuGroupId(this.currentCategoryId, this.selected);
+        // console.log(this.productCategories,"API DATA");
+      },
+      (err) => {
+        this.global.hideLoader();
+      }
+    );
   }
 
   // i = 1;
@@ -586,5 +594,12 @@ export class DeliveryPage implements OnInit, OnDestroy {
         console.log(err);
       },
     });
+  }
+  setOpen(value: any) {
+    this.isModalOpen = value;
+  }
+  cancel() {
+    this.modal.dismiss(null, 'cancel');
+    this.isModalOpen = false;
   }
 }

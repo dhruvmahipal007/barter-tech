@@ -118,7 +118,9 @@ export class EditaddressPage implements OnInit, OnDestroy {
         },
         error: (err) => {
           this.global.hideLoader();
-          this.toastService.presentToast(err.message);
+          this.toastService.presentToast(
+            'Something Went Wrong Please Try Again Later!'
+          );
         },
       });
     }

@@ -27,10 +27,13 @@
       <ion-col size="12"><p>BILL DETAILS</p></ion-col>
     </ion-row>
     <hr class="hr" />
-    <ion-row id="second_row" *ngFor="let data of userOrderDetails?.menu.OrderData;let i=index">
+    <ion-row
+      id="second_row"
+      *ngFor="let data of userOrderDetails?.menu.OrderData;let i=index"
+    >
       <ion-col size="9.5"
         ><p>
-        {{i+1}}){{data.menuitem_name}} * {{data.Quantity | number: '0.2-2'}}
+          {{i+1}}){{data.menuitem_name}} * {{data.Quantity | number: '0.2-2'}}
         </p></ion-col
       >
       <ion-col size="2.5"
@@ -42,39 +45,47 @@
         <ion-col size="9.5">{{item.optionGroupItemName}}</ion-col>
         <ion-col size="2.5"> ${{item.AdditionalCost| number: '0.2-2'}}</ion-col>
       </ng-container>
-
     </ion-row>
     <hr class="hr" />
     <ion-row id="third_row">
-      <ion-col size="9.5"><h4>Item total</h4></ion-col>
+      <ion-col size="9.5"
+        ><h4>Item total</h4>
+        <p>(Gst Inclusive)</p></ion-col
+      >
       <ion-col size="2.5"><h4>${{finalPrice | number: '0.2-2'}}</h4></ion-col>
-      <ion-col size="9.5" *ngIf="userOrderDetails?.orders.deliveryCharge!=null"><h4>Delivery</h4></ion-col>
-      <ion-col size="2.5" *ngIf="userOrderDetails?.orders.deliveryCharge!=null"><h4>${{userOrderDetails?.orders.deliveryCharge}}</h4></ion-col>
-      <ion-col size="9.5"><h4>GST</h4></ion-col>
-      <ion-col size="2.5"><h4>${{userOrderDetails?.orders.taxAmount}}</h4></ion-col>
+      <ion-col size="9.5" *ngIf="userOrderDetails?.orders.deliveryCharge!=null"
+        ><h4>Delivery</h4></ion-col
+      >
+      <ion-col size="2.5" *ngIf="userOrderDetails?.orders.deliveryCharge!=null"
+        ><h4>${{userOrderDetails?.orders.deliveryCharge}}</h4></ion-col
+      >
+      <!-- <ion-col size="9.5"><h4>GST</h4></ion-col>
+      <ion-col size="2.5"><h4>${{userOrderDetails?.orders.taxAmount}}</h4></ion-col> -->
     </ion-row>
     <hr class="hr" />
     <ion-row id="fourth_row">
-      <ion-col size="9.5"><h4>Grand Total</h4></ion-col>
-      <ion-col size="2.5"
-        ><h4>${{finalMoney | number: '0.2-2'}}</h4></ion-col
-      >
+      <ion-col size="9.2"><h4>Grand Total</h4></ion-col>
+      <ion-col size="2.8"><h4>${{finalMoney | number: '0.2-2'}}</h4></ion-col>
     </ion-row>
   </ion-grid>
 
   <hr class="hrbottom" />
-    <div id="social_btn">
-      &nbsp;
-      <ion-button class="button1" expand="block" color="white" (click)="emailInvoice()"
-        >EMAIL INVOICE</ion-button
-      >&nbsp;
-      <ion-button
-        class="button1"
-        expand="block"
-        color="white"
-        (click)="presentAlert()"
-        >RATE ORDER</ion-button
-      >
-      &nbsp;
+  <div id="social_btn">
+    &nbsp;
+    <ion-button
+      class="button1"
+      expand="block"
+      color="white"
+      (click)="emailInvoice()"
+      >EMAIL INVOICE</ion-button
+    >&nbsp;
+    <ion-button
+      class="button1"
+      expand="block"
+      color="white"
+      (click)="presentAlert()"
+      >RATE ORDER</ion-button
+    >
+    &nbsp;
   </div>
 </ion-content>

@@ -25,7 +25,8 @@
     <ion-row
       *ngFor="let data of userOrder"
       style="border-bottom: 1px solid grey"
-    >
+      class="order"
+      ><div class="status"><p>{{data?.orderType | titlecase}}</p></div>
       <ion-col size="12" id="first"
         ><p>{{data?.Orderdate | date: 'MMM- dd- YYYY h:mm: a'}}</p></ion-col
       >

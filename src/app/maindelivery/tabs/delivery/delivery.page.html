@@ -183,10 +183,7 @@
             align-items: center;
           "
         >
-          <div
-            class="image_section"
-            *ngIf="GetFilename(item.menuItemimageUrl)=='noitemimage'"
-          >
+          <div *ngIf="GetFilename(item.menuItemimageUrl)=='noitemimage'">
             <img
               src="assets/img/No-Image-Placeholder.svg"
               alt=""
@@ -195,8 +192,8 @@
           </div>
 
           <div
-            class="image_section"
             *ngIf="GetFilename(item.menuItemimageUrl)!='noitemimage'"
+            (click)="setOpen(true)"
           >
             <img
               src="{{item.menuItemimageUrl}}"
@@ -204,6 +201,27 @@
               style="width: unset; position: unset"
             />
           </div>
+          <ion-modal
+            trigger="open-modal"
+            *ngIf="GetFilename(item.menuItemimageUrl)!='noitemimage'"
+            [isOpen]="isModalOpen"
+          >
+            <ng-template>
+              <ion-header>
+                <ion-toolbar>
+                  <ion-buttons slot="start">
+                    <ion-button (click)="cancel()">Back</ion-button>
+                  </ion-buttons>
+                  <ion-buttons slot="end"> </ion-buttons>
+                </ion-toolbar>
+              </ion-header>
+              <ion-content class="ion-padding">
+                <ion-item class="image_section">
+                  <img src="{{item.menuItemimageUrl}}" alt="" />
+                </ion-item>
+              </ion-content>
+            </ng-template>
+          </ion-modal>
 
           <div
             class="cart_card_control_span"

@@ -146,6 +146,7 @@
         placeholder="Enter Anniversary"
         type="date"
         formControlName="anniversary"
+        disabled
       ></ion-input>
       <small
         *ngIf="anniversary_FormControl.hasError('required') && anniversary_FormControl.touched "

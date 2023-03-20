@@ -14,9 +14,9 @@ export class OrderfilledPage implements OnInit {
   id: string = '';
   orderNo: string = '';
   finalMoney: any;
-  finalPrice:any;
+  finalPrice: any;
   userOrderDetails: any;
-  additionalPrice:any;
+  additionalPrice: any;
   // menu: any[] = [
   //   {
   //     menuitem_name: 'Hara bhara Kabab(6 Pieces)',
@@ -77,7 +77,11 @@ export class OrderfilledPage implements OnInit {
       next: (data: any) => {
         if (data.status) {
           this.userOrderDetails = data.data.order_details;
-          this.itemTotal(this.userOrderDetails.menu.OrderData,this.userOrderDetails?.orders.taxAmount,this.userOrderDetails?.orders.deliveryCharge);
+          this.itemTotal(
+            this.userOrderDetails.menu.OrderData,
+            this.userOrderDetails?.orders.taxAmount,
+            this.userOrderDetails?.orders.deliveryCharge
+          );
           this.global.hideLoader();
           console.log(this.userOrderDetails);
           console.log(this.userOrderDetails.menu.length);
@@ -92,46 +96,48 @@ export class OrderfilledPage implements OnInit {
     });
   }
 
-  itemTotal(menu,taxAmount,delivery) {
-     this.finalPrice = 0;
+  itemTotal(menu, taxAmount, delivery) {
+    this.finalPrice = 0;
     menu.map((x) => {
-      console.log("itemss",x);
+      console.log('itemss', x);
       let calculatedPrice = x.Quantity * x.default_Price;
-      this.additionalPrice=0;
-      x.menuOptions.map((y)=>{
-         this.additionalPrice=this.additionalPrice+Number(y.AdditionalCost)
-      })
-      this.finalPrice = this.finalPrice+calculatedPrice+ this.additionalPrice;
+      this.additionalPrice = 0;
+      x.menuOptions.map((y) => {
+        this.additionalPrice = this.additionalPrice + Number(y.AdditionalCost);
+      });
+      this.finalPrice =
+        this.finalPrice +
+        calculatedPrice +
+        this.additionalPrice +
+        Number(taxAmount);
     });
     console.log(this.finalPrice);
-    this.finalMoney = this.finalPrice+Number(taxAmount)+Number(delivery);
+    this.finalMoney = this.finalPrice + Number(delivery);
     console.log(this.finalMoney);
   }
 
-  emailInvoice(){
+  emailInvoice() {
     this.global.showLoader('Sending Invoice');
-    let obj={
-      order_id:this.id,
-      grand_total:this.finalMoney,
-      total_item:this.userOrderDetails.menu.length,
-      item_total:this.finalPrice
-    }
+    let obj = {
+      order_id: this.id,
+      grand_total: this.finalMoney,
+      total_item: this.userOrderDetails.menu.length,
+      item_total: this.finalPrice,
+    };
     console.log(obj);
     this.authService.sendEmailInvoice(obj).subscribe({
-      next:(data:any)=>{
-        if(data.status){
+      next: (data: any) => {
+        if (data.status) {
           this.global.hideLoader();
           this.toastService.presentToast('Invoice has been sent successfully');
-        }
-        else{
+        } else {
           this.global.hideLoader();
         }
       },
-      error:(err)=>{
+      error: (err) => {
         this.global.hideLoader();
         console.log(err);
       },
-
     });
   }
 }

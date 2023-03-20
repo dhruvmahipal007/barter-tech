@@ -158,11 +158,11 @@ export class CartPage implements OnInit {
       console.log(res);
     });
     // this.getAddress();
-    setTimeout(() => {
-      if (this.currentRoute == 'delivery' && this.cartItems.length > 0) {
-        this.presentAlert();
-      }
-    }, 7000);
+    // setTimeout(() => {
+    //   if (this.currentRoute == 'delivery' && this.cartItems.length > 0) {
+    //     this.presentAlert();
+    //   }
+    // }, 7000);
   }
 
   changeRoute() {
@@ -365,21 +365,21 @@ export class CartPage implements OnInit {
 
     this.cartItems.map((ele) => {
       this.itemTotal =
-        this.itemTotal + Number(ele.displaySizeValue) * ele.product_quantity;
+        this.itemTotal +
+        Number(ele.displaySizeValue) * ele.product_quantity +
+        (ele.taxdisplayAmount + this.gst) * ele.product_quantity;
       this.gst = (ele.taxdisplayAmount + this.gst) * ele.product_quantity;
     });
     console.log(this.customValuesPrice);
     this.itemTotal = this.itemTotal + this.customValuesPrice;
     if (this.currentRoute == 'dinein' || this.currentRoute == 'takeaway') {
       this.totalPayable =
-        this.itemTotal +
-        this.gst -
+        this.itemTotal -
         (this.appliedCoupon ? this.appliedCoupon.couponValue : 0);
     } else {
       this.totalPayable =
         this.itemTotal +
-        this.deliveryCharges +
-        this.gst -
+        this.deliveryCharges -
         (this.appliedCoupon ? this.appliedCoupon.couponValue : 0);
     }
   }
@@ -447,13 +447,13 @@ export class CartPage implements OnInit {
     this.selectedAddress = event.target.value;
     this.getDeliveryCharges();
   }
-  async presentAlert() {
-    const alert = await this.alertController.create({
-      message: 'Please reconfirm your delivery address',
-      buttons: ['OK'],
-    });
-    await alert.present();
-  }
+  // async presentAlert() {
+  //   const alert = await this.alertController.create({
+  //     message: 'Please reconfirm your delivery address',
+  //     buttons: ['OK'],
+  //   });
+  //   await alert.present();
+  // }
   // saveCustomerOrder() {
   //   let obj = {
   //     merchant_Id: 4,
