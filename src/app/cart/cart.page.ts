@@ -34,6 +34,8 @@ export class CartPage implements OnInit {
   customValuesPrice: number = 0;
   tempdata: any;
   distance: any;
+  suburb_name: any;
+  showWarning: boolean = false;
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -414,15 +416,22 @@ export class CartPage implements OnInit {
         console.log(data.data);
         this.tempdata = data.data;
         this.tempdata.map((x) => {
-          if (x.delivery_suburb == this.selectedAddress.suburb) {
-            this.distance = x.distance_in_km;
+          if (x.suburb_name == this.selectedAddress.suburb) {
+            this.suburb_name = x.suburb_name;
+            // this.distance = x.distance_in_km;
             let obj = {
-              distance: this.distance,
+              suburb_name: this.suburb_name,
             };
             console.log(obj);
             this.authService.getDeliveryCharges(obj).subscribe({
               next: (data: any) => {
                 this.deliveryCharges = Number(data.data);
+                if (this.deliveryCharges == 0) {
+                  this.showWarning = true;
+                  console.log(this.showWarning);
+                } else {
+                  this.showWarning = false;
+                }
                 console.log(this.deliveryCharges);
                 this.getItemTotal();
                 this.global.hideLoader();
@@ -443,9 +452,13 @@ export class CartPage implements OnInit {
   }
 
   onAddressChange(event) {
+    this.global.showLoader('Loading Data');
     console.log(event.target.value);
     this.selectedAddress = event.target.value;
     this.getDeliveryCharges();
+    setTimeout(() => {
+      this.global.hideLoader();
+    }, 5000);
   }
   // async presentAlert() {
   //   const alert = await this.alertController.create({

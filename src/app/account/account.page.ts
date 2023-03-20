@@ -514,7 +514,6 @@ export class AccountPage implements OnInit {
           }, 2000);
         }
         this.global.hideLoader();
-        console.log(data);
       },
       error: (err) => {
         this.global.hideLoader();

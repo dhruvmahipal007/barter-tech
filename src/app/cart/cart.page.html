@@ -224,6 +224,10 @@
               style="background-color: lightsteelblue"
             ></ion-icon>
           </p>
+          <br />
+          <p style="color: red" *ngIf="showWarning">
+            We are not yet delivering to this selected address
+          </p>
         </ion-col>
         <ion-col size="6">
           <div class="upperbottom_design">
@@ -290,7 +294,11 @@
         </ion-col>
 
         <ion-col size="5.5" (click)="makePayment()">
-          <ion-button class="button1" expand="block" color="white"
+          <ion-button
+            class="button1"
+            expand="block"
+            color="white"
+            [disabled]="showWarning"
             >MAKE PAYMENT</ion-button
           >
         </ion-col>

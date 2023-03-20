@@ -71,7 +71,7 @@ export class EditaddressPage implements OnInit, OnDestroy {
         this.userAddress = data.data;
         console.log(this.userAddress);
         let obj = this.userAddress.find((x) => {
-          return x.delivery_suburb === res.suburb;
+          return x.suburb_name === res.suburb;
         });
         console.log(obj);
         this.editAddressForm.controls['zipcode'].patchValue(obj);
@@ -98,8 +98,9 @@ export class EditaddressPage implements OnInit, OnDestroy {
         mobile: '+61' + this.mobile_FormControl.value,
         tag: this.tag_FormControl.value,
         zipcode:
-          this.editAddressForm.controls['zipcode'].value.delivery_postcode,
-        suburb: this.editAddressForm.controls['zipcode'].value.delivery_suburb,
+          this.editAddressForm.controls['zipcode'].value.postal_code
+            .postal_code,
+        suburb: this.editAddressForm.controls['zipcode'].value.suburb_name,
       };
       console.log(obj);
       this.global.showLoader(' Saving Data');

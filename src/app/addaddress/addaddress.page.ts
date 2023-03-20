@@ -55,12 +55,13 @@ export class AddaddressPage implements OnInit {
       next: (data: any) => {
         this.userAddress = data.data;
         console.log(this.userAddress);
+        this.global.hideLoader();
       },
       error: (err) => {
+        this.global.hideLoader();
         console.log(err);
       },
     });
-    this.global.hideLoader();
   }
 
   addAddress() {
@@ -70,12 +71,11 @@ export class AddaddressPage implements OnInit {
     ) {
       this.toastService.presentToast('Please enter a valid no');
     } else {
-      console.log(this.pincode_FormControl.value.delivery_postcode);
       let data = {
         tag: this.tag_FormControl.value,
         address: this.address_FormControl.value,
-        zipcode: this.pincode_FormControl.value.delivery_postcode.trim(),
-        suburb: this.pincode_FormControl.value.delivery_suburb,
+        zipcode: this.pincode_FormControl.value.postal_code.postal_code,
+        suburb: this.pincode_FormControl.value.suburb_name,
         landmark: this.landmark_FormControl.value,
         mobile: '+61' + this.mobile_FormControl.value,
       };

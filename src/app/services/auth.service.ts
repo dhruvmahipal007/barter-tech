@@ -127,7 +127,8 @@ export class AuthService {
     return this.http.post(this.url2 + '/Deleteaddress', data);
   }
   getZipCode() {
-    const params = new HttpParams().append('merchant_id', '68');
+    let params = new HttpParams().append('merchant_id', '68');
+    params = params.append('country_id', '1');
     return this.http.get(this.url2 + '/zipCode', { params });
   }
   getworkingHours() {
@@ -135,7 +136,7 @@ export class AuthService {
     return this.http.get(this.url2 + '/workingHours', { params });
   }
   getDeliveryCharges(data) {
-    let params = new HttpParams().append('distance', data.distance);
+    let params = new HttpParams().append('suburb_name', data.suburb_name);
     params = params.append('merchant_id', '68');
     return this.http.get(this.url2 + '/DeliveryCharges', { params });
   }
@@ -153,6 +154,9 @@ export class AuthService {
   }
   setProfilePhoto(data) {
     return this.http.post(this.url2 + '/profilePic', data);
+  }
+  searchSuburb(data) {
+    return this.http.get(this.url2 + '/search_suburb', data);
   }
   getUrl() {
     const params = new HttpParams().append('Merchant_Id', '68');

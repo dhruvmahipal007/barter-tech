@@ -53,8 +53,9 @@
             placeholder="Enter Input"
             formControlName="pincode"
           >
+            >
             <ion-select-option *ngFor="let data of userAddress" [value]="data"
-              >{{data.delivery_suburb}}-{{data.delivery_postcode}}<br />
+              >{{data?.suburb_name}}-{{data?.postal_code?.postal_code}}<br />
             </ion-select-option>
           </ion-select>
         </ion-item>
