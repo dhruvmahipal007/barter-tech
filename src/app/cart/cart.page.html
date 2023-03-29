@@ -32,7 +32,7 @@
             >
             <h3>{{item.menuItemName}}</h3>
           </div>
-          <p>${{item.displaySizeValue}}</p>
+          <p>${{item.displaySizeValue| number : '1.2-2'}}</p>
           <ng-container
             *ngFor="let nm of item?.options?.optionGroups[0]?.optionItems"
           >
@@ -76,9 +76,10 @@
             </ion-button>
           </div>
           <p>
-            ${{item.displaySizeValue*item.product_quantity +
-            item.taxdisplayAmount*item.product_quantity | number : '1.2-2'}}
-            <br /><span>(Gst Inclusive)</span>
+            ${{item.displaySizeValue*item.product_quantity | number : '1.2-2'}}
+            <br /><span *ngIf="item.IsPriceTaxInclusive==1"
+              >(Gst Inclusive)</span
+            >
           </p>
         </ion-col>
       </ion-row>
@@ -165,6 +166,14 @@
         </ion-col>
         <ion-col>
           <p>${{itemTotal | number : '1.2-2'}}</p>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="9.5">
+          <p>(GST Inclusive)</p>
+        </ion-col>
+        <ion-col>
+          <p>$({{gst | number : '1.2-2'}})</p>
         </ion-col>
       </ion-row>
 

@@ -7,7 +7,7 @@ import { IonicModule } from '@ionic/angular';
 import { EditaddressPageRoutingModule } from './editaddress-routing.module';
 
 import { EditaddressPage } from './editaddress.page';
-
+import { IonicSelectableModule } from 'ionic-selectable';
 @NgModule({
   imports: [
     CommonModule,
@@ -15,6 +15,7 @@ import { EditaddressPage } from './editaddress.page';
     IonicModule,
     EditaddressPageRoutingModule,
     ReactiveFormsModule,
+    IonicSelectableModule,
   ],
   declarations: [EditaddressPage],
 })

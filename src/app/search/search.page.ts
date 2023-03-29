@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class SearchPage implements OnInit {
   @ViewChild('searchInput') sInput;
-  cartItemsLength:any=0;
+  cartItemsLength: any = 0;
   searchItems: any[] = [];
   itemsFound: number;
   product_quantity = 0;
@@ -19,39 +19,39 @@ export class SearchPage implements OnInit {
   };
   query: any;
   isLoading: boolean = false;
-  routercurrent:any;
+  routercurrent: any;
 
   selectedProducts: any[] = [];
   constructor(
     private authService: AuthService,
     private global: GlobalService,
     private route: ActivatedRoute
-  ) {}
+  ) {
+    this.route.params.subscribe((res) => {
+      this.ngOnInit();
+    });
+  }
 
   ngOnInit() {
     setTimeout(() => {
       this.sInput.setFocus();
     }, 500);
-    this.routercurrent=localStorage.getItem('currentRoute');
+    this.routercurrent = localStorage.getItem('currentRoute');
     this.route.params.subscribe((res) => {
       if (JSON.parse(localStorage.getItem('cartItems'))) {
         this.selectedProducts = JSON.parse(localStorage.getItem('cartItems'));
       }
     });
-    this.authService.badgeDataSubject.subscribe(res=>{
-      console.log(res,"heelo");
-      console.log(Object.keys(res),"byee");
-      if(res==0){
-       
-       let data=JSON.parse(localStorage.getItem('cartItems'));
-       this.cartItemsLength=data?data.length:0
-       
+    this.authService.badgeDataSubject.subscribe((res) => {
+      console.log(res, 'heelo');
+      console.log(Object.keys(res), 'byee');
+      if (res == 0) {
+        let data = JSON.parse(localStorage.getItem('cartItems'));
+        this.cartItemsLength = data ? data.length : 0;
+      } else {
+        this.cartItemsLength = res;
       }
-      else{
-       this.cartItemsLength=res;
-      }
-   
-     })
+    });
   }
 
   async onSearchChange(event) {
@@ -66,25 +66,30 @@ export class SearchPage implements OnInit {
       this.global.showLoader('Loading Data');
       this.authService.searchData(this.query).subscribe({
         next: (data: any) => {
-          if(data.data==""){
-            this.searchItems=[]
-          }
-          else{
-
+          if (data.data == '') {
+            this.searchItems = [];
+          } else {
             this.searchItems = data.data;
           }
-          
+
           console.log(data);
           this.searchItems.map((x) => {
-            x.buttonTitle = 'ADD'
-            if(this.routercurrent == 'delivery' && x.isAvailableDelivery == 0){
-              x.buttonTitle = 'Not Avail'
-            }
-            else if(this.routercurrent == 'takeaway' && x.isAvailableTakeAway == 0){
-              x.buttonTitle = 'Not Avail'
-            }
-            else if(this.routercurrent == 'dinein' && x.isAvailableDinein == 0){
-              x.buttonTitle = 'Not Avail' 
+            x.buttonTitle = 'ADD';
+            if (
+              this.routercurrent == 'delivery' &&
+              x.isAvailableDelivery == 0
+            ) {
+              x.buttonTitle = 'Not Avail';
+            } else if (
+              this.routercurrent == 'takeaway' &&
+              x.isAvailableTakeAway == 0
+            ) {
+              x.buttonTitle = 'Not Avail';
+            } else if (
+              this.routercurrent == 'dinein' &&
+              x.isAvailableDinein == 0
+            ) {
+              x.buttonTitle = 'Not Avail';
             }
 
             x.product_quantity = 0;
@@ -115,38 +120,80 @@ export class SearchPage implements OnInit {
   }
 
   subQty(product, index) {
-    product.product_quantity = product.product_quantity - 1;
-    if (product.product_quantity == 0) {
-      this.selectedProducts = this.selectedProducts.filter(
-        (ele) => ele.menuItemId != product.menuItemId
-      );
-    }
-    localStorage.setItem('cartItems', JSON.stringify(this.selectedProducts));
-    this.authService.badgeDataSubject.next(this.selectedProducts.length)
+    let tempTotalMenuItem = localStorage.getItem('cartItems');
+    let totalMenuItem = JSON.parse(tempTotalMenuItem);
+    totalMenuItem.map((element) => {
+      if (element.menuItemId === product.menuItemId) {
+        element.product_quantity = element.product_quantity - 1;
+      }
+      if (element.product_quantity == 0) {
+        totalMenuItem = totalMenuItem.filter(
+          (ele) => ele.menuItemId != product.menuItemId
+        );
+      }
+    });
+    localStorage.removeItem('cartItems');
+    localStorage.setItem('cartItems', JSON.stringify(totalMenuItem));
+    let productLength = 0;
+    totalMenuItem.forEach((element) => {
+      productLength += element.product_quantity;
+    });
+    console.log(productLength);
+    this.authService.badgeDataSubject.next(productLength);
+    return (product.product_quantity = product.product_quantity - 1);
+    // product.product_quantity = product.product_quantity - 1;
+    // if (product.product_quantity == 0) {
+    //   this.selectedProducts = this.selectedProducts.filter(
+    //     (ele) => ele.menuItemId != product.menuItemId
+    //   );
+    // }
+    // localStorage.setItem('cartItems', JSON.stringify(this.selectedProducts));
+    // this.authService.badgeDataSubject.next(this.selectedProducts.length);
   }
 
   addQty(product, index) {
-    console.log(this.selectedProducts);
-    product.product_quantity = product.product_quantity + 1;
-    localStorage.setItem('cartItems', JSON.stringify(this.selectedProducts));
+    const tempTotalMenuItem = localStorage.getItem('cartItems');
+    const totalMenuItem = JSON.parse(tempTotalMenuItem);
+    totalMenuItem.map((element) => {
+      if (element.menuItemId === product.menuItemId) {
+        element.product_quantity = element.product_quantity + 1;
+      }
+    });
+    localStorage.removeItem('cartItems');
+    localStorage.setItem('cartItems', JSON.stringify(totalMenuItem));
+    let productLength = 0;
+    totalMenuItem.forEach((element) => {
+      productLength += element.product_quantity;
+    });
+    console.log(productLength);
+    this.authService.badgeDataSubject.next(productLength);
+    return (product.product_quantity = product.product_quantity + 1);
+    // console.log(this.selectedProducts);
+    // product.product_quantity = product.product_quantity + 1;
+    // localStorage.setItem('cartItems', JSON.stringify(this.selectedProducts));
   }
 
   add(product) {
     product.product_quantity = product.product_quantity + 1;
+    this.selectedProducts = JSON.parse(localStorage.getItem('cartItems'))
+      ? JSON.parse(localStorage.getItem('cartItems'))
+      : [];
     this.selectedProducts.push(product);
-    this.authService.badgeDataSubject.next(this.selectedProducts.length)
+    let productLength = 0;
+    this.selectedProducts.forEach((element) => {
+      productLength += element.product_quantity;
+    });
+    console.log(productLength);
+    this.authService.badgeDataSubject.next(productLength);
     localStorage.setItem('cartItems', JSON.stringify(this.selectedProducts));
   }
-  GetFilename(url)
-  {
-     if (url)
-     {
-        var m = url.toString().match(/.*\/(.+?)\./);
-        if (m && m.length > 1)
-        {
-           return m[1];
-        }
-     }
-     return "";
+  GetFilename(url) {
+    if (url) {
+      var m = url.toString().match(/.*\/(.+?)\./);
+      if (m && m.length > 1) {
+        return m[1];
+      }
+    }
+    return '';
   }
 }

@@ -54,6 +54,11 @@ export class AddaddressPage implements OnInit {
     this.authService.getZipCode().subscribe({
       next: (data: any) => {
         this.userAddress = data.data;
+        let address = this.userAddress.map((x) => {
+          x.namewithpostal = x.suburb_name + '-' + x?.postal_code?.postal_code;
+          return x;
+        });
+        this.userAddress = address;
         console.log(this.userAddress);
         this.global.hideLoader();
       },
@@ -109,6 +114,9 @@ export class AddaddressPage implements OnInit {
   changeRoute() {
     this.addAddressForm.reset();
     this.router.navigate(['/manageaddress']);
+  }
+  portChange(event) {
+    console.log(event, '--event-');
   }
 
   // onChangeOfOptions(event){

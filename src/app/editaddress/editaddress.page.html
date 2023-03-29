@@ -33,7 +33,19 @@
     </div>
     <div>
       <ion-label>SUBURB</ion-label>
-      <ion-list class="tag" lines="none">
+      <ion-item class="suburb_">
+        <ionic-selectable
+          item-content
+          formControlName="zipcode"
+          [itemValueField]="'suburb_id'"
+          [itemTextField]="'namewithpostal' "
+          [items]="userAddress"
+          [canSearch]="true"
+          (onChange)="portChange($event)"
+        >
+        </ionic-selectable>
+      </ion-item>
+      <!-- <ion-list class="tag" lines="none">
         <ion-item>
           <ion-select
             interface="action-sheet"
@@ -45,7 +57,7 @@
             </ion-select-option>
           </ion-select>
         </ion-item>
-      </ion-list>
+      </ion-list> -->
       <!-- <ion-input
         type="number"
         placeholder="Enter Input"

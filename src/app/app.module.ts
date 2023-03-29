@@ -28,6 +28,7 @@ import { PaymentOptionPage } from './cart/payment-option/payment-option.page';
 import { CartPage } from './cart/cart.page';
 import { ImagePicker } from '@awesome-cordova-plugins/image-picker/ngx';
 import { WebView } from '@awesome-cordova-plugins/ionic-webview/ngx';
+import { IonicSelectableModule } from 'ionic-selectable';
 
 // const stripe : any = StripeOriginal;
 
@@ -40,6 +41,7 @@ import { WebView } from '@awesome-cordova-plugins/ionic-webview/ngx';
     IonicModule,
     HttpClientModule,
     IonicStorageModule.forRoot(),
+    IonicSelectableModule,
   ],
   providers: [
     // stripe,

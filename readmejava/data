@@ -1,0 +1,3 @@
+These Imagepicker.java and MultiImageChooserActivity.java files are the files that need to be replaced everytime we do
+ionic cap sync android because of some verison issues so in android folder capacitor-cordova-android-plugins and then src then 
+java then com then synconset replace these two files with the same files in that folder

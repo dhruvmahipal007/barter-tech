@@ -112,8 +112,13 @@ export class CartPage implements OnInit {
         }
         // console.log(x.displaySizeValue);
         // console.log(x.taxrate);
-        x.taxdisplayAmount = (x.displaySizeValue * x.taxrate) / 100;
-        console.log(x.taxdisplayAmount);
+        if (x.taxvalue_type === 'P' && x.IsPriceTaxInclusive === '1') {
+          x.taxdisplayAmount = (x.displaySizeValue * x.taxrate) / 100;
+          console.log(x.taxdisplayAmount);
+        } else {
+          x.taxdisplayAmount = 0;
+          console.log(x.taxdisplayAmount);
+        }
       });
       this.customer_name = JSON.parse(localStorage.getItem('userDetails')).name;
       this.customer_email = JSON.parse(
@@ -367,10 +372,10 @@ export class CartPage implements OnInit {
 
     this.cartItems.map((ele) => {
       this.itemTotal =
-        this.itemTotal +
-        Number(ele.displaySizeValue) * ele.product_quantity +
-        (ele.taxdisplayAmount + this.gst) * ele.product_quantity;
-      this.gst = (ele.taxdisplayAmount + this.gst) * ele.product_quantity;
+        this.itemTotal + Number(ele.displaySizeValue) * ele.product_quantity;
+      // (ele.taxdisplayAmount + this.gst) * ele.product_quantity;
+      this.gst = this.gst + ele.taxdisplayAmount * ele.product_quantity;
+      console.log(this.gst);
     });
     console.log(this.customValuesPrice);
     this.itemTotal = this.itemTotal + this.customValuesPrice;
@@ -458,7 +463,7 @@ export class CartPage implements OnInit {
     this.getDeliveryCharges();
     setTimeout(() => {
       this.global.hideLoader();
-    }, 5000);
+    }, 6000);
   }
   // async presentAlert() {
   //   const alert = await this.alertController.create({

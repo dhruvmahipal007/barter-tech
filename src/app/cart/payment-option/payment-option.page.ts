@@ -614,7 +614,7 @@ export class PaymentOptionPage implements OnInit {
         // this.router.navigateByUrl('/maindelivery/delivery');
       },
       error: (err) => {
-        this.toastService.presentToast(err);
+        // this.toastService.presentToast(err);
       },
     });
     // return this.http.post<any>(

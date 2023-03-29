@@ -8,7 +8,6 @@ import {
 import { Router } from '@angular/router';
 
 import { AuthService } from '../services/auth.service';
-import { StorageService } from '../services/storage.service';
 import { ToastService } from '../services/toast.service';
 import { GlobalService } from 'src/app/services/global.service';
 import { Subscription } from 'rxjs';
@@ -69,6 +68,11 @@ export class EditaddressPage implements OnInit, OnDestroy {
     this.authService.getZipCode().subscribe({
       next: (data: any) => {
         this.userAddress = data.data;
+        let address = this.userAddress.map((x) => {
+          x.namewithpostal = x.suburb_name + '-' + x?.postal_code?.postal_code;
+          return x;
+        });
+        this.userAddress = address;
         console.log(this.userAddress);
         let obj = this.userAddress.find((x) => {
           return x.suburb_name === res.suburb;
